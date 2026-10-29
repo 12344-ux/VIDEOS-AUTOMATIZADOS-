@@ -9,14 +9,16 @@ instalar.sh.
 
 Se ejecuta con el Python del entorno de FastSD:
   $HERRAMIENTAS/fastsdcpu/env/bin/python imagen/servidor.py PUERTO
-Escucha solo en 127.0.0.1 y atiende una petición cada vez (la CPU no da para más).
+Escucha solo en 127.0.0.1 y genera una imagen cada vez (la CPU no da para más), pero contesta a
+/estado mientras genera: si no, generar.py --parar no lo encontraba y lo dejaba encendido con 8–12 GB.
 """
 import json
 import os
 import sys
+import threading
 import time
 import traceback
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 FASTSD = os.environ['FASTSD']
 sys.path.insert(0, os.path.join(FASTSD, 'src'))
@@ -30,6 +32,7 @@ from state import get_settings  # noqa: E402
 ajustes_app = get_settings()
 contexto = Context(InterfaceType.API_SERVER)
 modelo_cargado = None
+una_a_una = threading.Lock()
 
 
 class Manejador(BaseHTTPRequestHandler):
@@ -48,10 +51,14 @@ class Manejador(BaseHTTPRequestHandler):
             self.responder(404, {'error': 'ruta desconocida'})
 
     def do_POST(self):
-        global modelo_cargado
         if self.path != '/generar':
             self.responder(404, {'error': 'ruta desconocida'})
             return
+        with una_a_una:
+            self.generar()
+
+    def generar(self):
+        global modelo_cargado
         try:
             pedido = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
             ajustes_app.settings.lcm_diffusion_setting = LCMDiffusionSetting(
@@ -90,4 +97,4 @@ class Manejador(BaseHTTPRequestHandler):
         pass
 
 
-HTTPServer(('127.0.0.1', int(sys.argv[1])), Manejador).serve_forever()
+ThreadingHTTPServer(('127.0.0.1', int(sys.argv[1])), Manejador).serve_forever()

@@ -6,6 +6,7 @@ Sirve para cualquier voz; Piper da sus tiempos por su cuenta, Supertonic no.
 Se ejecuta con el Python del entorno de FastSD (trae torch y transformers):
   PY=$HERRAMIENTAS/fastsdcpu/env/bin/python
   $PY voz/alinear.py narracion.wav "El texto exacto que dice la voz." -o tiempos.json
+  $PY voz/alinear.py narracion.wav --frases frases.json -o tiempos.json   # narración larga, frase a frase
 
 Medido contra la alineación exacta de Piper (19 palabras): ver docs/bitacora.md. Whisper con DTW
 quedó a 135 ms de media y llegaba siempre tarde.
@@ -87,13 +88,19 @@ def ctc_forzado(logp, fichas, vacio):
     return [(min(c), max(c)) if c else None for c in cuadros]
 
 
-def alinear(x, sr, texto):
-    """[{"texto", "inicio", "fin"}] para cada palabra del texto, en segundos."""
-    import torch
+def cargar():
     from transformers import Wav2Vec2ForCTC
 
     vocab = json.load(open(os.path.join(MODELO, 'vocab.json')))
-    modelo = Wav2Vec2ForCTC.from_pretrained(MODELO).eval()
+    return Wav2Vec2ForCTC.from_pretrained(MODELO).eval(), vocab
+
+
+def alinear(x, sr, texto, modelo=None, vocab=None):
+    """[{"texto", "inicio", "fin"}] para cada palabra del texto, en segundos."""
+    import torch
+
+    if modelo is None:
+        modelo, vocab = cargar()
     audio = a_16k(x, sr)
     audio = (audio - audio.mean()) / (audio.std() + 1e-7)
     with torch.inference_mode():
@@ -125,14 +132,37 @@ def alinear(x, sr, texto):
     return [{'texto': p, 'inicio': round(a, 3), 'fin': round(b, 3)} for p, (a, b) in zip(palabras, tiempos)]
 
 
+def alinear_frases(x, sr, frases, margen=0.15):
+    """Como alinear(), pero frase a frase, cada una en su tramo de la pista ({"texto", "inicio", "fin"} en
+    segundos) y con el modelo cargado una sola vez. Es lo que vale para una narración larga: la atención de
+    wav2vec2 crece con el cuadrado de la duración, y 9 minutos de una vez no caben en la RAM."""
+    modelo, vocab = cargar()
+    palabras = []
+    for k, f in enumerate(frases):
+        # Un poco de silencio a cada lado, sin llegar a la frase vecina.
+        antes = frases[k - 1]['fin'] if k else 0.0
+        despues = frases[k + 1]['inicio'] if k + 1 < len(frases) else len(x) / sr
+        a = max((antes + f['inicio']) / 2, f['inicio'] - margen)
+        b = min((f['fin'] + despues) / 2, f['fin'] + margen)
+        for p in alinear(x[int(a * sr):int(b * sr)], sr, f['texto'], modelo, vocab):
+            palabras.append({'texto': p['texto'], 'inicio': round(p['inicio'] + a, 3), 'fin': round(p['fin'] + a, 3)})
+    return palabras
+
+
 def main():
     p = argparse.ArgumentParser(description='Tiempo de cada palabra por alineación forzada.')
     p.add_argument('audio')
-    p.add_argument('texto')
+    p.add_argument('texto', nargs='?')
+    p.add_argument('--frases', help='JSON con [{"texto", "inicio", "fin"}]: alinea cada frase en su tramo')
     p.add_argument('-o', '--salida')
     args = p.parse_args()
     x, sr = leer_wav(args.audio)
-    resultado = alinear(x, sr, args.texto)
+    if args.frases:
+        resultado = alinear_frases(x, sr, json.load(open(args.frases, encoding='utf-8')))
+    elif args.texto:
+        resultado = alinear(x, sr, args.texto)
+    else:
+        p.error('falta el texto o --frases')
     texto = json.dumps(resultado, ensure_ascii=False, indent=1)
     if args.salida:
         open(args.salida, 'w', encoding='utf-8').write(texto)

@@ -12,6 +12,7 @@
 #   ./instalar.sh imagen-extra   además FLUX.2 klein 4B (licencia Apache 2.0)
 #   ./instalar.sh sdcpp          stable-diffusion.cpp y sus modelos (opcional; aquí es lento)
 #   ./instalar.sh comprobar      dice qué hay y qué falta, sin instalar nada
+#   ./instalar.sh precargar      lee todas las herramientas una vez (en segundo plano al reanudar una sesión)
 #
 # Versiones fijadas: son las que se probaron y midieron el 29 de octubre de 2026.
 set -euo pipefail
@@ -219,18 +220,33 @@ comprobar() {
   echo "Disco libre: $(df -h --output=avail "$HOME" | tail -1 | tr -d ' ')"
 }
 
+# Al reanudar una sesión, la máquina vuelve de una copia guardada y la primera lectura de cada archivo va a
+# 10–40 MB/s: el servidor de imágenes tardó 11 min en cargar FLUX (5,4 GB), leyéndolo a trozos. Leído antes, en
+# bloques grandes y varios archivos a la vez, queda en local (después se lee a más de 200 MB/s). Primero, lo
+# que antes se usa.
+precargar() {
+  local d
+  for d in "$H/hf/hub" "$H/extra" "$H/supertonic-3" "$H/voces" "$H/fastsdcpu" "$H/supertonic" "$H/piper" \
+           "$H/hyperframes"; do
+    [ -d "$d" ] || continue
+    find "$d" -type f -size +64k -print0 | xargs -0 -r -P 4 -I{} dd if={} of=/dev/null bs=16M status=none
+  done
+  printf 'Precarga terminada en %d min %d s.\n' $((SECONDS / 60)) $((SECONDS % 60))
+}
+
 mkdir -p "$H"
 componentes=("${@:-voz imagen edicion}")
 read -r -a componentes <<< "${componentes[*]}"
 for c in "${componentes[@]}"; do
   case "$c" in
     comprobar) comprobar; exit 0 ;;
+    precargar) precargar; exit 0 ;;
     voz) comprobar_red; instalar_voz ;;
     imagen) comprobar_red; instalar_imagen ;;
     imagen-extra) comprobar_red; [ -x "$H/fastsdcpu/env/bin/python" ] || instalar_imagen; instalar_imagen_extra ;;
     edicion) comprobar_red; instalar_edicion ;;
     sdcpp) comprobar_red; instalar_sdcpp ;;
-    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, imagen-extra, sdcpp o comprobar)" ;;
+    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, imagen-extra, sdcpp, comprobar o precargar)" ;;
   esac
 done
 printf '\nListo en %d min %d s.\n' $((SECONDS / 60)) $((SECONDS % 60))

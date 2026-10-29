@@ -7,7 +7,11 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 ## Estado (29 de octubre de 2026)
 
 Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, uno por estilo
-([estilos/](estilos/README.md)). El estilo elegido es el A, editorial cinematográfico. Falta unir todo en el flujo de vídeos largos.
+([estilos/](estilos/README.md)). El estilo elegido es el A, editorial cinematográfico. Nicho del primer
+canal: historia y misterios; primer vídeo, «El mecanismo de Anticitera» (8–10 min). Antes de empezarlo se
+aceleró el proceso: el render del estilo A tarda la mitad y la entrega ya no recomprime (ver la
+[bitácora](docs/bitacora.md#2-velocidad-dónde-se-va-el-tiempo-y-qué-se-ganó)). Falta unir todo en el
+flujo de vídeos largos.
 
 | Pieza | Herramienta | Estado |
 | --- | --- | --- |
@@ -32,6 +36,7 @@ instalador las deja fuera del repositorio, en `~/herramientas-videos`, porque pe
 ```bash
 ./instalar.sh              # voz + imagen + edición (HyperFrames y modelos de apoyo)
 ./instalar.sh comprobar    # qué hay y qué falta
+./instalar.sh precargar    # sesión reanudada: lee las herramientas en segundo plano (unos 6 min)
 ```
 
 En una sesión nueva tarda unos 5–10 minutos (estimado por las velocidades de descarga medidas:
@@ -63,8 +68,8 @@ node video/renderizar_canvas.mjs video/plantilla_titulo.html titulo.mp4 --duraci
 
 # Edición con HyperFrames (desde la carpeta de un proyecto, ver estilos/)
 ../../video/hf.sh check --json
-../../video/hf.sh render -o video.mp4
-video/entregar.sh video.mp4 entrega.mp4          # −15 LUFS y archivo más ligero
+../../video/hf.sh render -o video.mp4 --crf 20  # ya con la calidad de entrega
+video/entregar.sh video.mp4 entrega.mp4 -15 copiar   # −15 LUFS; el vídeo se copia sin recomprimir
 
 # Apoyo a la edición (con el Python del entorno de FastSD)
 PY=~/herramientas-videos/fastsdcpu/env/bin/python
@@ -80,23 +85,25 @@ Los prompts de imagen funcionan mejor en inglés y descriptivos: sujeto, lugar, 
 
 ## Rendimiento medido aquí
 
-Máquina: Intel Xeon de 4 núcleos a 2,1 GHz con AMX, 15 GB de RAM, sin GPU.
+La máquina cambia entre sesiones: siempre 4 núcleos, 15 GB de RAM y sin GPU, pero en la sesión 1 fue un
+Xeon a 2,1 GHz con AMX y en la 2 un Cascade Lake a 2,8 GHz sin AMX.
 
-| Tarea | Tiempo | RAM |
-| --- | --- | --- |
-| Imagen FLUX.3 Image Klein, 512 × 512 | 37–39 s (73 s la primera) | 8,2 GB |
-| Imagen FLUX.3 Image Klein, 768 × 432 (16:9) | 53 s (95 s la primera) | 8,2 GB |
-| Imagen FLUX.2 klein 4B, 512 × 512 | 39–43 s | 9,3 GB |
-| Imagen SDXS, 512 × 512 | 0,5 s (8–17 s la primera) | 5,0 GB |
-| Voz Piper: 10 s de narración | 14,5 s, incluida la carga | — |
-| Voz Supertonic-3: 7 s de narración con tiempos de palabras | 14 s (síntesis 3 s, alineación el resto) | 2 GB |
-| Música: 14 s | 1,9 s | — |
-| Título animado: 4 s a 720p30 | 14 s | — |
-| Imagen FLUX.3 Image Klein, 1280 × 720 | 138–211 s | 8,2 GB |
-| Profundidad (Depth Anything V2 Small) | 3 s por imagen | — |
-| Recorte (BiRefNet lite), 768 × 768 | 27 s | — |
-| Música MusicGen estéreo: 12 s | 50–55 s | 3 GB |
-| Render HyperFrames: 10 s a 1080p30 | 2 min–3 min 14 s, según el estilo | — |
+| Tarea | Sesión 1 (con AMX) | Sesión 2 (sin AMX) | RAM |
+| --- | --- | --- | --- |
+| Imagen FLUX.3 Image Klein, 512 × 512 | 37–39 s (73 s la primera) | 85 s (18,5 s por paso; 104 s la primera) | 8,2 GB |
+| Imagen FLUX.3 Image Klein, 768 × 432 (16:9) | 53 s (95 s la primera) | — | 8,2 GB |
+| Imagen FLUX.3 Image Klein, 1280 × 720 | 138–211 s | 328 s (246 s con 3 pasos) | 8,2–12 GB |
+| Imagen FLUX.2 klein 4B, 512 × 512 | 39–43 s | — | 9,3 GB |
+| Imagen SDXS, 512 × 512 | 0,5 s (8–17 s la primera) | — | 5,0 GB |
+| Voz Piper: 10 s de narración | 14,5 s, incluida la carga | — | — |
+| Voz Supertonic-3 con tiempos de palabras | 7 s en 14 s | 58 s en 61 s (síntesis 41 s) | 2 GB |
+| Música sintetizada: 14 s | 1,9 s | — | — |
+| Música MusicGen estéreo: 12 s | 50–55 s | 69–96 s; en lote de 4, 31 s por cada 10 s | 3 GB |
+| Título animado: 4 s a 720p30 | 14 s | — | — |
+| Profundidad (Depth Anything V2 Small) | 3 s por imagen | 5 s | — |
+| Recorte (BiRefNet lite), 768 × 768 | 27 s | — | — |
+| Render HyperFrames: 10 s a 1080p30 | 2 min–3 min 14 s, según el estilo | estilo A: 100 s (195 s antes de aligerar el shader) | — |
+| Entrega de 10 s de vídeo | — | 2,2 s copiando; 47 s recomprimiendo con preset slow | — |
 
 «La primera» incluye cargar el modelo en memoria. La comparativa completa, con imágenes, está en
 [docs/investigacion-imagenes.md](docs/investigacion-imagenes.md).

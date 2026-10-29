@@ -19,7 +19,9 @@ Para trabajar con HyperFrames, leer antes sus guías en
 
 1. Lee `README.md` y `docs/bitacora.md`.
 2. Ejecuta `./instalar.sh comprobar`. Si falta algo, lanza `./instalar.sh` en segundo plano
-   (5–10 min en una máquina nueva) y avanza mientras con lo que no dependa de él.
+   (5–10 min en una máquina nueva) y avanza mientras con lo que no dependa de él. Si ya está todo (la
+   sesión se ha reanudado), lanza `./instalar.sh precargar` en segundo plano (unos 6 min): la primera
+   lectura de cada archivo va a 10–40 MB/s y, sin precargar, FLUX tardó 11 min en cargar.
 3. Retoma por «Siguiente paso» de la bitácora, salvo que el usuario pida otra cosa. Si abre un chat
    nuevo para seguir, confirma en pocas líneas dónde lo dejamos antes de empezar.
 4. Al terminar algo importante, añádelo a la bitácora: fecha, qué se hizo, qué se midió, qué se decidió.
@@ -45,7 +47,9 @@ Para trabajar con HyperFrames, leer antes sus guías en
 
 ## El entorno (comprobado el 29-oct-2026)
 
-- Intel Xeon de 4 núcleos a 2,1 GHz con AMX y AVX-512, 15 GB de RAM, unos 30 GB de disco, sin GPU.
+- 4 núcleos, 15 GB de RAM, unos 30 GB de disco, sin GPU. **La CPU cambia entre sesiones**: en la 1, un
+  Xeon a 2,1 GHz con AMX; en la 2, un Cascade Lake a 2,8 GHz sin AMX, con FLUX 2,4 veces más lento
+  (328 s por imagen a 1280 × 720). Mira `lscpu` al empezar y no compares tiempos entre máquinas distintas.
 - **OpenVINO aprovecha esta CPU**: el mismo FLUX.2 klein fue 8 veces más rápido con FastSD CPU
   (OpenVINO) que con stable-diffusion.cpp. Para imágenes, FastSD CPU.
 - Red: Hugging Face (y su CDN `*.hf.co`), PyPI, download.pytorch.org, storage.openvinotoolkit.org,
@@ -65,7 +69,7 @@ Para trabajar con HyperFrames, leer antes sus guías en
 ## Trampas conocidas
 
 - La API propia de FastSD devuelve JPEG con pérdida. Por eso existe `imagen/servidor.py`, que guarda PNG.
-- El servidor de imágenes escucha en `127.0.0.1:8124` y ocupa 5–9 GB de RAM con el modelo cargado.
+- El servidor de imágenes escucha en `127.0.0.1:8124` y ocupa 5–12 GB de RAM con el modelo cargado (12 GB con FLUX.3 en la CPU sin AMX).
   `python3 imagen/generar.py --parar` lo apaga.
 - Cambiar de modelo en el servidor obliga a cargarlo otra vez (8–95 s).
 - SDXS solo da buen resultado a 512 × 512. FLUX acepta cualquier múltiplo de 16.
@@ -84,6 +88,14 @@ Para trabajar con HyperFrames, leer antes sus guías en
   ejecuciones. Generar la narración una vez y cronometrar la composición sobre ese archivo.
 - Un render en segundo plano se lanza con el binario de HyperFrames directamente; con `nohup` a través de
   `video/hf.sh` se canceló (`render_cancelled_parent_exited`).
+- El WebGL del render va por software (SwiftShader): cada muestra de textura cuesta. El shader de las
+  planchas tomaba 16 muestras por píxel también sin desenfoque y el render tardaba el doble.
+- No recomprimir lo renderizado: render con `--crf 20` y `video/entregar.sh … copiar`. Recomprimir 9 min
+  con preset slow eran unos 40 min, y con peor calidad.
+- Una narración larga se alinea frase a frase (`voz/alinear.py --frases`, lo hace `narrar.py`): entera,
+  la atención de wav2vec2 no cabe en la RAM.
+- MusicGen rinde más en lote: varias piezas en una sola llamada (4 a la vez, 1,7 veces más rápido).
+- Cargar cada modelo una vez por trabajo: voz y música antes que FLUX, o después de todo el lote de planchas.
 
 ## Cómo decidir
 

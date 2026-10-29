@@ -121,8 +121,9 @@ cp -f "$X/CREDITOS.md" "$TRABAJO/CREDITOS-sonido.md" 2>/dev/null || true
 if [ "${1:-}" = "--render" ]; then
   for e in a b c; do
     paso "Render del estilo $e"
-    (cd "$REPO/estilos/estilo-$e" && "$REPO/video/hf.sh" render -o "$TRABAJO/estilo-$e.mp4" --workers auto --quiet)
-    "$REPO/video/entregar.sh" "$TRABAJO/estilo-$e.mp4" "$TRABAJO/estilo-$e-entrega.mp4"
+    # Ya con la calidad de entrega (CRF 20): entregar.sh solo trata el sonido y copia el vídeo.
+    (cd "$REPO/estilos/estilo-$e" && "$REPO/video/hf.sh" render -o "$TRABAJO/estilo-$e.mp4" --crf 20 --workers auto --quiet)
+    "$REPO/video/entregar.sh" "$TRABAJO/estilo-$e.mp4" "$TRABAJO/estilo-$e-entrega.mp4" -15 copiar
   done
 fi
 printf '\nListo en %d min %d s. Recursos en %s\n' $((SECONDS / 60)) $((SECONDS % 60)) "$TRABAJO"

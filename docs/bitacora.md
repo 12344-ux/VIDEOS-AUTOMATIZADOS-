@@ -179,21 +179,114 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 ### Pendiente
 
-- Definir el nicho de los vídeos y la forma de trabajar (el usuario lo hará en el chat siguiente).
+- ~~Definir el nicho de los vídeos y la forma de trabajar~~ (hecho en la sesión 2).
 - Idea del usuario para más adelante: con el sistema montado, varios canales de nichos distintos, cada uno
   con su voz (y quizá su modo de estilo). Ahora se elige la voz del nicho principal; el sistema debe dejar
   elegir la voz por canal.
 
+## Sesión 2 — 29 de octubre de 2026, noche
+
+### 1. Nicho y primer vídeo
+
+- Nicho del primer canal: **historia y misterios**. Lo eligió el usuario entre cuatro (con historias de
+  negocios, ciencia y casos sin resolver): encaja con el estilo A y FLUX dibuja bien épocas, lugares y
+  objetos sin depender de caras ni de fotos reales.
+- Primer vídeo: **el mecanismo de Anticitera**, de 8–10 min, porque deja animar engranajes y diales con
+  gráficos vectoriales, no solo con imágenes. Fuentes reunidas: Wikipedia (inglés y español), el modelo
+  de la UCL de 2021 (Scientific Reports: 30 engranajes en 82 fragmentos, un tercio del aparato), el anillo
+  de 354–355 agujeros de Glasgow (2024; Freeth lo discute) y el preprint de Mar del Plata de 2025 sobre
+  atascos (sin revisar; sus autores piden cautela).
+
+### 2. Velocidad: dónde se va el tiempo y qué se ganó
+
+El usuario pidió, antes de empezar, hacer el proceso más rápido sin bajar la calidad y sin cambiar la
+forma de trabajar. Todo se midió aquí con la prueba de 10 s del estilo A.
+
+- **La máquina cambia entre sesiones.** Esta era un Xeon Cascade Lake a 2,8 GHz (4 núcleos, AVX-512 VNNI,
+  **sin AMX**); la de la sesión 1 tenía AMX. FLUX.3 a 1280 × 720 tardó aquí 328 s por imagen (4 pasos de
+  ~75 s, el texto 16 s y el VAE unos 10 s), frente a 138–211 s en la sesión 1. MusicGen, 69–96 s por 12 s.
+- **Disco al reanudar.** La sesión volvió de una copia guardada: la primera lectura de cada archivo iba a
+  10–40 MB/s, y el servidor tardó 17 min en dar la primera imagen (11 de ellos esperando al disco). Un
+  archivo ya leído se lee después a 2,2 GB/s. `./instalar.sh precargar` lee las herramientas (15 GB) en
+  bloques grandes, cuatro archivos a la vez: 5 min 51 s, en segundo plano.
+- **Render del estilo A: de 195 s a 100 s por cada 10 s de vídeo, con la misma imagen** (en PNG sin
+  comprimir, un 0,001 % de los píxeles cambia en 1 nivel). El shader de las planchas tomaba 16 muestras
+  por píxel también sin desenfoque; ahora toma una. Con el cuadro más barato, HyperFrames pasa solo de 1
+  a 2 Chromium (calibra el número según lo que tarda un cuadro): el shader viejo con 2 a la fuerza, 168 s.
+  - 3 y 4 Chromium no mejoran (105 y 104 s): con 2, la CPU ya va llena.
+  - Sin las planchas, el texto solo tarda 25 s: el WebGL por software (SwiftShader) sigue siendo unas tres
+    cuartas partes del coste.
+  - A 24 fps, 87 s (−14 %). `--quality draft`, para revisar: 72 s. `high` (preset fast) y las texturas en
+    RGBA no cambian nada.
+- **Entrega sin recomprimir.** Renderizar ya con `--crf 20` y entregar con `entregar.sh … copiar`:
+  2,2 s por cada 10 s, frente a 47 s con la recompresión en preset slow (unos 40 min para 9 min de
+  vídeo). Contra una referencia sin pérdida (`--crf 0`), la calidad sube: PSNR 41,3 dB y SSIM 0,949
+  frente a 40,5 dB y 0,941 de render a CRF 16 más recompresión. Pesa algo más: 30 MB frente a 23 por
+  cada 10 s. Si hay que recomprimir, preset medium: 27 s con la misma calidad que slow. Las pasadas de
+  volumen ya no decodifican la imagen (`-vn`).
+- **FLUX.3** (la misma semilla y el mismo prompt que `faro.png`, comparados a tamaño real):
+  - 3 pasos: 246 s en vez de 328, muy parecida, con algo menos de textura en el cielo y el mar. 2 pasos:
+    175 s, claramente más plana y blanda. Se queda en 4 salvo que el usuario decida otra cosa.
+  - Caché de compilación de OpenVINO (FastSD la desactiva): la carga baja de 69 s a 14 s, pero ocupa
+    5,1 GB de disco. No se activa: basta con no recargar el modelo a mitad de un trabajo.
+  - La cuantización dinámica de OpenVINO ya está activa con el mejor valor (grupo 32: 19 s por paso a
+    512 px; sin ella, 29 s; con 128, 31 s).
+  - El coste crece más que los píxeles: 18,5 s por paso a 512 × 512 y 72 s a 1280 × 720 (3,5 veces los
+    píxeles, 4 veces el tiempo). Generar a 960 × 544 y ampliar ×2 con el EDSR de FastSD saldría por unos
+    180 s por imagen; falta el permiso del usuario para bajar el modelo (5,5 MB) y compararlo.
+- **Música**: MusicGen en lote, 4 pistas de 10 s a la vez en 123 s (31 s cada una) frente a 53,5 s una
+  sola. Conviene generar todas las piezas de un vídeo juntas: `audio/musica_ia.py` ya las agrupa en lotes
+  de 4 (`--lote`). Las pistas cambian respecto a generarlas sueltas con la misma semilla.
+- **Voz**: Supertonic M1 dijo 58 s de narración en 41 s. La alineación pasaba la pista entera de una vez
+  por wav2vec2, cuya atención crece con el cuadrado de la duración: 9 min pedirían unos 46 GB de RAM.
+  Ahora va frase a frase (`alinear.py --frases`, que usa `narrar.py`): 20 s frente a 28 s en 1 min, con
+  los mismos tiempos (inicios a 6 ms de media, 17 ms como máximo) y mejor el final de la última palabra.
+- **Servidor de imágenes**: `generar.py --parar` no lo apagaba mientras generaba (atendía una petición
+  cada vez y no contestaba a `/estado`) y se quedó encendido con 12 GB mientras arrancaban otros modelos.
+  Ahora contesta siempre y sigue generando de una en una.
+- Visto y no probado: renderizar en la nube de HeyGen o en Lambda (sacaría el proyecto de la máquina),
+  MusicGen convertido a OpenVINO (otro modelo que bajar, sin cifras publicadas) y Mesa llvmpipe en lugar
+  de SwiftShader (pide instalar `libegl-mesa0`; pendiente de permiso).
+
+| 9 min de vídeo en esta máquina (35 planchas, 6 piezas de música de 30 s) | Antes | Ahora |
+| --- | --- | --- |
+| Cargar FLUX en una sesión reanudada | 11 min | en segundo plano (precarga) |
+| Planchas FLUX.3, 4 pasos | 191 min | 191 min (143 con 3 pasos) |
+| Voz y tiempos de palabras | no cabía en la RAM | ~9 min |
+| Música | 17 min | ~9 min |
+| Render a 30 fps | 175 min | ~88 min (~76 a 24 fps) |
+| Entrega | ~40 min | ~2 min |
+| **Total de máquina** | **~7,5 h** | **~5 h** (~4 h con 3 pasos y 24 fps) |
+
+Las planchas son ya el 60 % del tiempo. Mientras se generan, Claude escribe las composiciones, así que
+ese tiempo no se suma al suyo. En una máquina con AMX, como la de la sesión 1, todo baja a unas 3 h.
+
+### Decisiones (sesión 2)
+
+- Nicho: historia y misterios. Primer vídeo: Anticitera, de 8–10 min.
+- Render: el shader de una muestra sin desenfoque, los Chromium en automático, el render final con
+  `--crf 20` y la entrega copiando el vídeo.
+- Al reanudar una sesión, `./instalar.sh precargar` en segundo plano.
+- Orden de un vídeo largo, cargando cada modelo una sola vez: guion → voz y tiempos → música (todas las
+  piezas en un lote) → planchas de FLUX en un lote, en segundo plano mientras Claude escribe las
+  composiciones → profundidad y capas → render por capítulos → entrega.
+
+### Pendiente (sesión 2)
+
+- Que el usuario decida: 3 o 4 pasos en FLUX (comparación hecha) y 24 o 30 fps.
+- Permisos para probar: el EDSR de FastSD (generar a 960 × 544 y ampliar) y `libegl-mesa0` (WebGL con
+  llvmpipe de Mesa, que en otros casos ha ido hasta 4 veces más rápido que SwiftShader).
+- Un kit de componentes del estilo A (plancha 2.5D, rótulos, capítulos, subtítulos, datos) que se rellene
+  desde el guion, para escribir 9 minutos de composiciones sin hacerlas a mano una a una; y, si el usuario
+  quiere, subagentes en paralelo por capítulos (la guía de HyperFrames lo recomienda a partir de 6 escenas).
+
 ## Siguiente paso
 
-1. El usuario define el nicho de los vídeos y cómo se hará. Lo dirá al abrir un chat nuevo, que sirve
-   también para comprobar que este repositorio basta para continuar.
-2. Un tráiler de 20–30 s en el estilo A, con la voz M1 y en el nicho elegido, partiendo de
-   `estilos/estilo-a` (sus tiempos están hechos para la narración de daniela: rehacerlos con los de M1),
-   de principio a fin, revisado con el método de HyperFrames (P0, P1, P2) y su `snapshot --review`.
-3. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
-   tiempos por palabra → composición en HyperFrames por capítulos → revisión → render. Medir cuánto tarda
-   un minuto completo (en estas pruebas, 12–19 s de render por segundo de vídeo).
+1. Las decisiones y permisos de arriba.
+2. La apertura de 30 s de «El mecanismo de Anticitera» en el estilo A, con la voz M1, de principio a fin y
+   revisada con el método de HyperFrames (P0, P1, P2) y `snapshot --review`: sirve de tráiler y de primer
+   bloque del vídeo.
+3. El vídeo completo por capítulos, en el orden de arriba, midiendo cada paso.
 4. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)

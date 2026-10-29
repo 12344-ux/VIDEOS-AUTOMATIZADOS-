@@ -58,6 +58,9 @@ Volumen de entrega igualado a −15 LUFS con `video/entregar.sh` (pico real entr
   primera foto empieza en el aire.
 - `media-treatment --apply` añade atributos `data-hf-id` a todo el HTML: al editar después, buscar
   por `id` con expresiones regulares, no por la etiqueta exacta.
+- **Velocidad** (sesión 2): el WebGL va por software, así que cada muestra de textura cuenta. El shader
+  de A tomaba 16 muestras por píxel también sin desenfoque; con una sola, el render de los 10 s pasó de
+  195 s a 100 s en la misma máquina y con la misma imagen. Medido en `docs/bitacora.md` (sesión 2).
 - Para lanzar un render en segundo plano, llamar al binario de HyperFrames directamente. Lanzado con
   `nohup` a través de `video/hf.sh`, se canceló con `render_cancelled_parent_exited`; en primer plano
   el atajo funciona.

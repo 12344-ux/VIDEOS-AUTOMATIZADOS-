@@ -9,6 +9,10 @@ Se ejecuta con el Python del entorno de FastSD (trae torch y transformers):
 Consejos medidos aquí: describir sensación, instrumentos y tempo, no el tema del vídeo;
 pedir 1–2 s más de lo necesario porque el final suele cortarse en seco. No cargarlo a
 la vez que el servidor de imágenes: entre los dos se acaba la RAM.
+
+Varias descripciones salen en lotes (--lote, 4 por defecto): cuatro pistas de 10 s a la vez
+tardaron 123 s, frente a 53,5 s una sola (1,7 veces más rápido por pista). Por eso conviene
+pedir todas las piezas de un vídeo en la misma llamada.
 """
 import argparse
 import os
@@ -31,6 +35,7 @@ def main():
     p.add_argument('--duracion', type=float, default=12)
     p.add_argument('--semilla', type=int, default=1)
     p.add_argument('--guia', type=float, default=3.0, help='cuánto se ciñe a la descripción')
+    p.add_argument('--lote', type=int, default=4, help='pistas que se generan a la vez')
     args = p.parse_args()
 
     torch.set_num_threads(os.cpu_count())
@@ -40,25 +45,29 @@ def main():
     carga = time.time() - inicio
     sr = modelo.config.audio_encoder.sampling_rate
 
-    for i, descripcion in enumerate(args.descripcion):
-        salida = args.salida
-        if len(args.descripcion) > 1:
-            base, ext = os.path.splitext(args.salida)
-            salida = f'{base}_{i + 1}{ext}'
-        torch.manual_seed(args.semilla)
+    for desde in range(0, len(args.descripcion), args.lote):
+        grupo = args.descripcion[desde:desde + args.lote]
+        torch.manual_seed(args.semilla + desde)
         t = time.time()
-        entrada = procesador(text=[descripcion], padding=True, return_tensors='pt')
+        entrada = procesador(text=grupo, padding=True, return_tensors='pt')
         with torch.inference_mode():
             audio = modelo.generate(**entrada, do_sample=True, guidance_scale=args.guia,
                                     max_new_tokens=int(args.duracion * TOKENS_POR_SEGUNDO))
-        x = audio[0].float().numpy()            # (canales, muestras)
-        x = x / max(np.max(np.abs(x)), 1e-6) * 0.89  # pico a −1 dBFS
-        with wave.open(salida, 'wb') as w:
-            w.setnchannels(x.shape[0])
-            w.setsampwidth(2)
-            w.setframerate(sr)
-            w.writeframes((x.T * 32767).astype('<i2').tobytes())
-        print(f'{salida}  {x.shape[1] / sr:.1f} s de audio en {time.time() - t:.0f} s (carga {carga:.0f} s)')
+        segundos = time.time() - t
+        for j in range(len(grupo)):
+            salida = args.salida
+            if len(args.descripcion) > 1:
+                base, ext = os.path.splitext(args.salida)
+                salida = f'{base}_{desde + j + 1}{ext}'
+            x = audio[j].float().numpy()            # (canales, muestras)
+            x = x / max(np.max(np.abs(x)), 1e-6) * 0.89  # pico a −1 dBFS
+            with wave.open(salida, 'wb') as w:
+                w.setnchannels(x.shape[0])
+                w.setsampwidth(2)
+                w.setframerate(sr)
+                w.writeframes((x.T * 32767).astype('<i2').tobytes())
+            print(f'{salida}  {x.shape[1] / sr:.1f} s de audio, {len(grupo)} a la vez en {segundos:.0f} s '
+                  f'(carga {carga:.0f} s)')
 
 
 if __name__ == '__main__':

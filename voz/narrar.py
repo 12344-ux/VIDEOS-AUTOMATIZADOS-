@@ -147,11 +147,16 @@ def sintetizar_supertonic(nombre, lista, velocidad):
 
 
 def alinear_pista(ruta_wav, tiempos):
-    """Pone los tiempos de cada palabra con voz/alinear.py (alineación forzada sobre la pista final)."""
-    texto = ' '.join(f['texto'] for f in tiempos)
-    with tempfile.NamedTemporaryFile(suffix='.json') as tmp:
+    """Pone los tiempos de cada palabra con voz/alinear.py (alineación forzada sobre la pista final, frase a
+    frase en su tramo: de una vez, una narración larga no cabe en la RAM)."""
+    frases_json = [{'texto': f['texto'], 'inicio': f['inicio'], 'fin': f['fin']} for f in tiempos]
+    with tempfile.NamedTemporaryFile(suffix='.json') as tmp, \
+            tempfile.NamedTemporaryFile('w', suffix='.json', encoding='utf-8') as pedido:
+        json.dump(frases_json, pedido, ensure_ascii=False)
+        pedido.flush()
         entorno = dict(os.environ, HF_HUB_OFFLINE='1', TRANSFORMERS_VERBOSITY='error', TQDM_DISABLE='1')
-        r = subprocess.run([PY_ALINEADOR, os.path.join(AQUI, 'alinear.py'), ruta_wav, texto, '-o', tmp.name],
+        r = subprocess.run([PY_ALINEADOR, os.path.join(AQUI, 'alinear.py'), ruta_wav, '--frases', pedido.name,
+                            '-o', tmp.name],
                            capture_output=True, text=True, env=entorno) if os.path.exists(PY_ALINEADOR) else None
         if r is None or r.returncode != 0:
             print('Aviso: sin alineador (./instalar.sh imagen edicion); tiempos de palabras aproximados.', file=sys.stderr)
