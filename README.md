@@ -7,7 +7,7 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 ## Estado (29 de octubre de 2026)
 
 Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, uno por estilo
-([estilos/](estilos/README.md)). Falta elegir el estilo y unir todo en el flujo de vídeos largos.
+([estilos/](estilos/README.md)). El estilo elegido es el A, editorial cinematográfico. Falta unir todo en el flujo de vídeos largos.
 
 | Pieza | Herramienta | Estado |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, 
 | Motor de edición y motion | HyperFrames 0.8.216 + GSAP | ✅ instalado y medido, `video/hf.sh` |
 | 2.5D y recortes | Depth Anything V2 Small, capas con OpenCV, BiRefNet lite | ✅ `imagen/profundidad.py`, `capas25d.py`, `recortar.py` |
 | Volumen de entrega | loudnorm en dos pasadas a −15 LUFS | ✅ `video/entregar.sh` |
-| Estilo de animación | Tres estilos probados en vídeos de 10 s ([estilos/](estilos/README.md)) | ⏳ pendiente de elegir |
+| Estilo de animación | A, editorial cinematográfico, elegido tras probar tres ([estilos/](estilos/README.md)) | ✅ elegido |
 | Guion a partir del prompt | Lo escribe Claude en la sesión | ⏳ por diseñar |
 
 ## Empezar en una sesión nueva
@@ -128,7 +128,7 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Elegir estilo con las tres pruebas delante y hacer un tráiler de 20–30 s de principio a fin. El plan
+Un tráiler de 20–30 s de principio a fin en el estilo A. El plan
 está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso); la investigación, en
 [docs/investigacion-edicion.md](docs/investigacion-edicion.md).
 

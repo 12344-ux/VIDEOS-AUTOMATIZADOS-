@@ -137,6 +137,8 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 - Imagen: FastSD CPU con OpenVINO. Calidad: FLUX.3 Image Klein. Bocetos: SDXS. Si el uso pasa a ser
   comercial: FLUX.2 klein 4B (Apache 2.0).
+- **Estilo de la casa: A, editorial cinematográfico.** Lo eligió el usuario al ver las pruebas: «le diste
+  vida a las imágenes». B y C quedan en `estilos/` por si un tramo los pide como modos.
 - Edición: HyperFrames + GSAP. Apoyo: Depth Anything V2 Small (2.5D), BiRefNet lite (recortes),
   MusicGen estéreo small (música, no comercial) y BigSoundBank (efectos CC0).
 - Todo en local, sin APIs externas.
@@ -145,12 +147,11 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 ### Pendiente
 
 - Elegir la voz.
-- Elegir el estilo, con los tres vídeos de prueba delante.
 
 ## Siguiente paso
 
-1. Que el usuario elija estilo viendo las tres pruebas (`estilos/`) y la voz.
-2. Un tráiler de 20–30 s de «El faro» en el estilo elegido, de principio a fin, revisado con el método de
+1. Que el usuario elija la voz (daniela, la de las pruebas, o claude).
+2. Un tráiler de 20–30 s de «El faro» en el estilo A, partiendo de `estilos/estilo-a`, de principio a fin, revisado con el método de
    HyperFrames (P0, P1, P2) y su `snapshot --review`.
 3. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
    tiempos por palabra → composición en HyperFrames por capítulos → revisión → render. Medir cuánto tarda

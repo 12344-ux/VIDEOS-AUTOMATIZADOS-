@@ -9,7 +9,8 @@ README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 **Edición de nivel agencia, no «imagen + voz».** Lo que pasa en pantalla (cuándo, dónde, cómo, efectos,
 gráficos, ritmo, sonido) tiene que ser de agencia de branding. Las imágenes generadas son material de
 apoyo. Motor: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`), ya instalado y medido. Estilo:
-tres probados en vídeos de 10 s (`estilos/`, `docs/estilo.md`), pendiente de que el usuario elija.
+**A, editorial cinematográfico**, elegido por el usuario tras ver las tres pruebas (`estilos/`,
+`docs/estilo.md`); el punto de partida es `estilos/estilo-a`.
 Para trabajar con HyperFrames, leer antes sus guías en
 `~/herramientas-videos/hyperframes/node_modules/hyperframes/dist/skills/` (`hyperframes/SKILL.md` y
 `references/`: motion, sound, look, review, format, runtimes) y `estilos/README.md`.

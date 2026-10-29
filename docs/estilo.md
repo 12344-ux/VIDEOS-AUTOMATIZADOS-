@@ -1,9 +1,9 @@
 # Estilo de animación
 
-Estado: **probados en tres vídeos de 10 s ([estilos/](../estilos/README.md)), pendiente de que el
-usuario elija.** Tres estilos completos, hechos con HyperFrames + GSAP y con imágenes de FLUX.3 como
-material. La recomendación sigue siendo el A como estilo de la casa, con los otros dos como «modos» que
-comparten su paleta y su tipografía.
+Estado: **elegido el A, editorial cinematográfico**, después de probar los tres en vídeos de 10 s
+([estilos/](../estilos/README.md)). Tres estilos completos, hechos con HyperFrames + GSAP y con imágenes de FLUX.3 como
+material. El A es el estilo de la casa; los otros dos quedan como «modos» posibles que
+compartirían su paleta y su tipografía.
 
 Las tablas recogen la versión probada. Respecto a la primera propuesta cambiaron las tipografías: la guía
 de HyperFrames avisa de que Instrument Serif, Inter y JetBrains Mono son donde acaba el diseño hecho por
@@ -14,7 +14,7 @@ al aterrizar, transiciones con causa, lectura de 0,5 s + 0,3 s por palabra y son
 
 ![Las tres pruebas](resultados/comparativa-estilos.jpg)
 
-## A. Editorial cinematográfico (recomendado)
+## A. Editorial cinematográfico (el elegido)
 
 Un documental de marca: la imagen es cine y la tipografía es de revista. Sirve para vídeos largos
 porque aguanta minutos sin cansar y admite datos, archivo y emoción.
