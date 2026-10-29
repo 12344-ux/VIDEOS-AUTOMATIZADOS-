@@ -1,0 +1,5 @@
+# Lo generado no se versiona; las herramientas viven en ~/herramientas-videos.
+salidas/
+resultados.jsonl
+__pycache__/
+*.pyc

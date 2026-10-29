@@ -1,0 +1,61 @@
+# Contexto para Claude
+
+Proyecto: **vídeos largos a partir de un prompt**, generados en local en la CPU de la sesión (voz,
+imágenes, música y montaje), sin GPU ni servicios externos. El estado de cada pieza está en el
+README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
+
+## Al empezar una sesión
+
+1. Lee `README.md` y `docs/bitacora.md`.
+2. Ejecuta `./instalar.sh comprobar`. Si falta algo, lanza `./instalar.sh` en segundo plano
+   (5–10 min en una máquina nueva) y avanza mientras con lo que no dependa de él.
+3. Retoma por «Siguiente paso» de la bitácora, salvo que el usuario pida otra cosa.
+4. Al terminar algo importante, añádelo a la bitácora: fecha, qué se hizo, qué se midió, qué se decidió.
+
+## Preferencias del usuario
+
+- Escribe en español. Prefiere resultados probados a listas de opciones: prueba, mide y enseña.
+- Lo que se crea se queda en la sesión salvo que diga otra cosa: no publicar artefactos ni subir
+  nada a otros sitios. Commits y push, solo a este repositorio y cuando lo pida.
+- **Este repositorio es público.** Nada de otros proyectos suyos ni datos personales aquí.
+- Uso no comercial, de momento. Si cambia, preferir modelos Apache 2.0 (FLUX.2 klein 4B).
+- Imágenes: busca «representaciones bastante asemejadas a lo real y que se entienda lo que son»;
+  no hace falta fotorrealismo.
+- Voz: todavía no ha elegido entre `es_AR-daniela-high` (la predeterminada, ritmo natural) y
+  `es_MX-claude-high` (va lenta: usar `--velocidad 0.8`). Preguntar en el primer vídeo.
+- Le gustó descubrir herramientas investigando repositorios públicos de GitHub y Hugging Face.
+  Ante un problema nuevo, buscar primero qué existe y qué está al día.
+
+## El entorno (comprobado el 29-oct-2026)
+
+- Intel Xeon de 4 núcleos a 2,1 GHz con AMX y AVX-512, 15 GB de RAM, unos 30 GB de disco, sin GPU.
+- **OpenVINO aprovecha esta CPU**: el mismo FLUX.2 klein fue 8 veces más rápido con FastSD CPU
+  (OpenVINO) que con stable-diffusion.cpp. Para imágenes, FastSD CPU.
+- Red: Hugging Face (y su CDN `*.hf.co`), PyPI, download.pytorch.org, storage.openvinotoolkit.org,
+  `raw.githubusercontent.com`, git de GitHub y npm/jsDelivr. La web de github.com devuelve 403:
+  los README se leen con `curl` a `raw.githubusercontent.com`. WebFetch no llega a sitios fuera de
+  la lista permitida; WebSearch sí funciona.
+- Instalado de serie: python3.11 (lo necesita FastSD), python3.13, uv, gcc y cmake, ffmpeg, Node 22,
+  Playwright con Chromium y fuentes Inter.
+- El control de seguridad bloquea descargar y ejecutar código de terceros que el usuario no haya
+  pedido explícitamente. Autorizó FastSD CPU, stable-diffusion.cpp y Piper, que es lo que instala
+  `instalar.sh`. Para cualquier herramienta nueva, pedirle permiso antes.
+- Cada sesión es una máquina nueva: lo que no esté en este repositorio se pierde.
+
+## Trampas conocidas
+
+- La API propia de FastSD devuelve JPEG con pérdida. Por eso existe `imagen/servidor.py`, que guarda PNG.
+- El servidor de imágenes escucha en `127.0.0.1:8124` y ocupa 5–9 GB de RAM con el modelo cargado.
+  `python3 imagen/generar.py --parar` lo apaga.
+- Cambiar de modelo en el servidor obliga a cargarlo otra vez (8–95 s).
+- SDXS solo da buen resultado a 512 × 512. FLUX acepta cualquier múltiplo de 16.
+- FLUX toma los prompts al pie de la letra: «small gold rings» llenó un bolso de anillas.
+- Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
+- La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
+- Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`.
+
+## Cómo decidir
+
+- Antes de recomendar una herramienta o un modelo, probarlo aquí y medir tiempo y RAM. En la primera
+  sesión las estimaciones fallaron en los dos sentidos.
+- El banco de pruebas está en `imagen/pruebas/`: `comparar.py`, `sdcpp.py` y `hoja.py`.
