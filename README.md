@@ -128,7 +128,8 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Un tráiler de 20–30 s de principio a fin en el estilo A. El plan
+Definir el nicho de los vídeos, elegir una voz masculina de español latinoamericano neutro y hacer un
+tráiler de 20–30 s de principio a fin en el estilo A. El plan
 está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso); la investigación, en
 [docs/investigacion-edicion.md](docs/investigacion-edicion.md).
 

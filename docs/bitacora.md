@@ -146,18 +146,28 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 ### Pendiente
 
-- Elegir la voz.
+- Definir el nicho de los vídeos y la forma de trabajar (el usuario lo hará en el chat siguiente).
+- Elegir una voz masculina de español latinoamericano neutro (ver «Siguiente paso»).
 
 ## Siguiente paso
 
-1. Que el usuario elija la voz (daniela, la de las pruebas, o claude).
-2. Un tráiler de 20–30 s de «El faro» en el estilo A, partiendo de `estilos/estilo-a`, de principio a fin, revisado con el método de
-   HyperFrames (P0, P1, P2) y su `snapshot --review`.
-3. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
+1. El usuario define el nicho de los vídeos y cómo se hará. Lo dirá al abrir un chat nuevo, que sirve
+   también para comprobar que este repositorio basta para continuar.
+2. Cambiar de voz: quiere una **voz masculina de español latinoamericano neutro**, sin acento marcado.
+   Probar con el mismo texto y comparar naturalidad, acento y velocidad en esta CPU:
+   - Piper `es_MX-claude-high` (ya instalada; va lenta, `--velocidad 0.8`) y `es_MX-ald-medium`. El
+     catálogo de Piper no tiene voces masculinas de otros países de Latinoamérica (solo España, México y
+     Argentina).
+   - Kokoro-82M (Apache 2.0): sus voces masculinas en español (`em_alex`, `em_santa`).
+   - Buscar modelos de 2026 en Hugging Face y GitHub, incluidos los de clonación (Chatterbox Multilingual,
+     F5-TTS en español) a partir de una voz con licencia libre y permiso de su dueño. Medir tiempo y RAM.
+   - Comprobar que la voz elegida da los tiempos de cada palabra (hoy salen de la alineación de Piper).
+3. Un tráiler de 20–30 s en el estilo A y en el nicho elegido, partiendo de `estilos/estilo-a`, de
+   principio a fin, revisado con el método de HyperFrames (P0, P1, P2) y su `snapshot --review`.
+4. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
    tiempos por palabra → composición en HyperFrames por capítulos → revisión → render. Medir cuánto tarda
    un minuto completo (en estas pruebas, 12–19 s de render por segundo de vídeo).
-4. Pendiente de probar: Kokoro frente a Piper en español, `remove-background` de HyperFrames frente a
-   BiRefNet, y MusicGen medium.
+5. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)
 

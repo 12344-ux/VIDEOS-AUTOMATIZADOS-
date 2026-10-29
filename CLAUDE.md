@@ -20,7 +20,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
 1. Lee `README.md` y `docs/bitacora.md`.
 2. Ejecuta `./instalar.sh comprobar`. Si falta algo, lanza `./instalar.sh` en segundo plano
    (5–10 min en una máquina nueva) y avanza mientras con lo que no dependa de él.
-3. Retoma por «Siguiente paso» de la bitácora, salvo que el usuario pida otra cosa.
+3. Retoma por «Siguiente paso» de la bitácora, salvo que el usuario pida otra cosa. Si abre un chat
+   nuevo para seguir, confirma en pocas líneas dónde lo dejamos antes de empezar.
 4. Al terminar algo importante, añádelo a la bitácora: fecha, qué se hizo, qué se midió, qué se decidió.
 
 ## Preferencias del usuario
@@ -34,8 +35,9 @@ Para trabajar con HyperFrames, leer antes sus guías en
   no hace falta fotorrealismo.
 - Quiere edición «de élite»: aplicar el oficio de `docs/investigacion-edicion.md` (curvas según el papel,
   títulos quietos al aterrizar, transiciones con causa, tiempos de lectura) y revisar como un director exigente.
-- Voz: todavía no ha elegido entre `es_AR-daniela-high` (la predeterminada, ritmo natural) y
-  `es_MX-claude-high` (va lenta: usar `--velocidad 0.8`). Preguntar en el primer vídeo.
+- Voz: quiere una **voz masculina de español latinoamericano neutro**, sin acento marcado. Descartó
+  `es_AR-daniela-high` (acento argentino), que es la de las pruebas y la predeterminada de `voz/narrar.py`
+  hasta que se elija otra. Candidatas en la bitácora («Siguiente paso»).
 - Le gustó descubrir herramientas investigando repositorios públicos de GitHub y Hugging Face.
   Ante un problema nuevo, buscar primero qué existe y qué está al día.
 
