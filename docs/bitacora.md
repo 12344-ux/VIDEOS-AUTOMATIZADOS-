@@ -148,6 +148,9 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 - Definir el nicho de los vídeos y la forma de trabajar (el usuario lo hará en el chat siguiente).
 - Elegir una voz masculina de español latinoamericano neutro (ver «Siguiente paso»).
+- Idea del usuario para más adelante: con el sistema montado, varios canales de nichos distintos, cada uno
+  con su voz (y quizá su modo de estilo). Ahora se elige la voz del nicho principal; el sistema debe dejar
+  elegir la voz por canal.
 
 ## Siguiente paso
 
