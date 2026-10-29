@@ -4,6 +4,13 @@ Proyecto: **vídeos largos a partir de un prompt**, generados en local en la CPU
 imágenes, música y montaje), sin GPU ni servicios externos. El estado de cada pieza está en el
 README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 
+## Rumbo actual
+
+**Edición de nivel agencia, no «imagen + voz».** Lo que pasa en pantalla (cuándo, dónde, cómo, efectos,
+gráficos, ritmo, sonido) tiene que ser de agencia de branding. Las imágenes generadas son material de
+apoyo. Motor elegido: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`). Estilo: propuesta en
+`docs/estilo.md`, pendiente de que el usuario elija.
+
 ## Al empezar una sesión
 
 1. Lee `README.md` y `docs/bitacora.md`.
@@ -21,6 +28,8 @@ README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 - Uso no comercial, de momento. Si cambia, preferir modelos Apache 2.0 (FLUX.2 klein 4B).
 - Imágenes: busca «representaciones bastante asemejadas a lo real y que se entienda lo que son»;
   no hace falta fotorrealismo.
+- Quiere edición «de élite»: aplicar el oficio de `docs/investigacion-edicion.md` (curvas según el papel,
+  títulos quietos al aterrizar, transiciones con causa, tiempos de lectura) y revisar como un director exigente.
 - Voz: todavía no ha elegido entre `es_AR-daniela-high` (la predeterminada, ritmo natural) y
   `es_MX-claude-high` (va lenta: usar `--velocidad 0.8`). Preguntar en el primer vídeo.
 - Le gustó descubrir herramientas investigando repositorios públicos de GitHub y Hugging Face.
@@ -59,3 +68,5 @@ README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 - Antes de recomendar una herramienta o un modelo, probarlo aquí y medir tiempo y RAM. En la primera
   sesión las estimaciones fallaron en los dos sentidos.
 - El banco de pruebas está en `imagen/pruebas/`: `comparar.py`, `sdcpp.py` y `hoja.py`.
+- En los prompts de imagen, pedir también la composición (dónde va el sujeto y dónde queda espacio para
+  el texto), con el mismo sufijo de dirección de arte en todo el vídeo.

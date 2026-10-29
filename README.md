@@ -1,7 +1,8 @@
 # Vídeos automatizados
 
-Crear **vídeos largos a partir de un prompt**, en local: sin GPU, sin servicios de pago y sin que el
-texto salga de la máquina. Todo funciona en la CPU de una sesión en la nube de Claude Code.
+Crear **vídeos largos a partir de un prompt**, con **edición de nivel agencia**, en local: sin GPU,
+sin servicios de pago y sin que el texto salga de la máquina. Todo funciona en la CPU de una sesión en
+la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo lo hace la edición.
 
 ## Estado (29 de octubre de 2026)
 
@@ -14,8 +15,9 @@ Las piezas ya funcionan y están medidas. Falta unirlas en el montaje final.
 | Música de fondo | Síntesis con numpy, sin derechos | ✅ `audio/musica.py` |
 | Mezcla de audio | Agache de la música bajo la voz, −14 LUFS | ✅ `audio/mezclar.py` |
 | Animaciones y títulos | Canvas en Chromium → MP4 con desenfoque de movimiento | ✅ `video/renderizar_canvas.mjs` |
+| Motor de edición y motion | HyperFrames + GSAP | 🔎 elegido, falta instalar y medir |
+| Estilo de animación | Tres propuestas en [docs/estilo.md](docs/estilo.md) | ⏳ pendiente de elegir |
 | Guion a partir del prompt | Lo escribe Claude en la sesión | ⏳ por diseñar |
-| Montaje (escenas → vídeo) | ffmpeg | ⏳ siguiente paso |
 
 ## Empezar en una sesión nueva
 
@@ -87,15 +89,15 @@ audio/musica.py             música de fondo sintetizada, de cualquier duración
 audio/mezclar.py            voz + música con agache y volumen estándar
 video/renderizar_canvas.mjs escena HTML animada → MP4
 video/plantilla_titulo.html plantilla de título animado
-docs/                       bitácora, investigación, entorno y resultados
+docs/                       bitácora, investigaciones (imagen y edición), estilo, entorno y resultados
 CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 ```
 
 ## Siguiente paso
 
-El montaje: un `montar.py` que, a partir de un guion en JSON, encadene narración, imágenes,
-música, títulos y subtítulos en un solo MP4. El diseño propuesto está en
-[docs/bitacora.md](docs/bitacora.md#siguiente-paso-el-montaje).
+Elegir estilo, instalar HyperFrames y hacer un tráiler de 20–30 s de principio a fin. El plan está en
+[docs/bitacora.md](docs/bitacora.md#siguiente-paso); la investigación, en
+[docs/investigacion-edicion.md](docs/investigacion-edicion.md).
 
 ## Licencias
 

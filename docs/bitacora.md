@@ -69,6 +69,26 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 ![Ejemplos 16:9](resultados/ejemplos-16x9.jpg)
 
+### 7. Nuevo rumbo: edición de nivel agencia
+
+- El usuario no quiere vídeos de «imagen + voz»: quiere edición profesional, de agencia de branding.
+  Las imágenes son un recurso del montaje; lo que manda es qué pasa en pantalla, cuándo, dónde y cómo.
+- Investigación (web y repositorios públicos) en [investigacion-edicion.md](investigacion-edicion.md).
+  Hallazgo principal: **HyperFrames** (HeyGen, Apache 2.0, 2026): vídeo como HTML + GSAP, render
+  determinista, ~450 bloques, y guías de motion medidas cuadro a cuadro en películas profesionales.
+- Comprobado sin instalar: funciona con nuestro Chromium (`HYPERFRAMES_BROWSER_PATH`), la telemetría
+  se apaga con `HYPERFRAMES_NO_TELEMETRY=1`, y Node 22 y FFmpeg ya están.
+- Imagen: FLUX.3 Image Klein sigue siendo el mejor viable. Qwen-Image-2.1 e Ideogram 4 lideran los
+  rankings pero aquí no caben o tardarían unos 20 min por imagen.
+- Tres estilos propuestos en [estilo.md](estilo.md), con fotogramas de estilo hechos aquí. Recomendado:
+  **A. Editorial cinematográfico**, con B (suizo) y C (collage) como modos. Pendiente de que el usuario elija.
+- Aprendido al hacer los fotogramas:
+  - La composición se pide en el prompt de la imagen («sujeto en el tercio derecho, espacio negativo a la
+    izquierda»), no se fuerza después recortando: escalar una plancha de 1024 px para encuadrarla la ablanda.
+  - Un objeto sin recortar deja su fondo como un rectángulo: para el collage hacen falta recortes reales (BiRefNet).
+  - Revisar cada fotograma buscando choques de texto con imágenes y frases destacadas partidas.
+  - FLUX.3 a 1024 × 576 tarda unos 90 s por imagen con el modelo cargado.
+
 ### Decisiones
 
 - Imagen: FastSD CPU con OpenVINO. Calidad: FLUX.3 Image Klein. Bocetos: SDXS. Si el uso pasa a ser
@@ -79,11 +99,23 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 ### Pendiente
 
 - Elegir la voz.
-- Subir el repositorio a GitHub: la app de Claude todavía no tiene permiso de escritura.
+- Elegir el estilo.
 
-## Siguiente paso: el montaje
+## Siguiente paso
 
-Propuesta para un `montar.py`:
+1. Que el usuario elija estilo (`docs/estilo.md`).
+2. Con su permiso, instalar HyperFrames y sus skills (en `.claude/skills/` de este repositorio, para que
+   estén en cada sesión), apuntándolo a nuestro Chromium y sin telemetría. Medir el render aquí.
+3. Comparar Piper y Kokoro en español; probar BiRefNet (recortes) y Depth Anything V2 Small (2.5D).
+4. Un tráiler de 20–30 s de «El faro» en el estilo elegido, de principio a fin, y revisarlo con el método
+   de HyperFrames (P0, P1, P2).
+5. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración →
+   composición en HyperFrames → revisión → render.
+
+## Primera idea de montaje (sustituida)
+
+Antes del nuevo rumbo se pensó en montar con ffmpeg (movimiento lento sobre cada imagen, fundidos y
+subtítulos). Se queda como referencia; el montaje se hará con HyperFrames. Propuesta original para un `montar.py`:
 
 1. **Guion.** Claude lo escribe a partir del prompt, en un `guion.json` con el título y las escenas:
    `{"narracion": "...", "imagen": "prompt en inglés", "pausa": 0.8}`.
