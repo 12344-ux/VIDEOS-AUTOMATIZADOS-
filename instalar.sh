@@ -3,9 +3,11 @@
 # (por defecto ~/herramientas-videos), porque pesan varios GB y no caben en git.
 # Se puede repetir sin miedo: salta lo que ya está instalado.
 #
-#   ./instalar.sh                voz + imagen: lo necesario para hacer vídeos
+#   ./instalar.sh                voz + imagen + edicion: lo necesario para hacer vídeos
 #   ./instalar.sh voz            Piper y las voces en español
 #   ./instalar.sh imagen         FastSD CPU (OpenVINO) con FLUX.3 Image Klein y SDXS
+#   ./instalar.sh edicion        HyperFrames y los modelos de apoyo: profundidad (2.5D),
+#                                recortes y música (necesita voz e imagen)
 #   ./instalar.sh imagen-extra   además FLUX.2 klein 4B (licencia Apache 2.0)
 #   ./instalar.sh sdcpp          stable-diffusion.cpp y sus modelos (opcional; aquí es lento)
 #   ./instalar.sh comprobar      dice qué hay y qué falta, sin instalar nada
@@ -23,6 +25,11 @@ FASTSD_COMMIT=0f64fd45cecd7fbac2a60540840f5f1d3141e229
 SDCPP_REPO=https://github.com/leejet/stable-diffusion.cpp
 SDCPP_COMMIT=37bc88b5e97a213821949732ea66c58ae8ffc784
 PIPER_VERSION=1.8.0
+HYPERFRAMES_VERSION=0.8.216
+# Modelos de apoyo a la edición (Hugging Face): profundidad, recortes y música.
+EXTRA_PROFUNDIDAD=onnx-community/depth-anything-v2-small
+EXTRA_RECORTE=onnx-community/BiRefNet_lite-ONNX
+EXTRA_MUSICA=facebook/musicgen-stereo-small
 VOCES=(es/es_AR/daniela/high/es_AR-daniela-high es/es_MX/claude/high/es_MX-claude-high)
 # Repositorio de Hugging Face y GB que ocupa.
 MODELOS_IMAGEN=(rupeshs/flux3-image-klein-int4-ov:6 rupeshs/sdxs-512-0.9-openvino:3 rupeshs/taesd-ov:1)
@@ -143,6 +150,33 @@ instalar_sdcpp() {
   bajar "$HF/akleine/sdxs-512/resolve/main/sdxs.safetensors" "$H/modelos/sdxs/sdxs.safetensors"
 }
 
+instalar_edicion() {
+  paso "Edición: HyperFrames $HYPERFRAMES_VERSION (vídeo hecho con HTML y GSAP)"
+  if [ ! -x "$H/hyperframes/node_modules/.bin/hyperframes" ]; then
+    comprobar_disco 1
+    mkdir -p "$H/hyperframes"
+    [ -f "$H/hyperframes/package.json" ] || echo '{"private": true}' > "$H/hyperframes/package.json"
+    (cd "$H/hyperframes" && HYPERFRAMES_NO_TELEMETRY=1 HYPERFRAMES_SKIP_SKILLS=1 PUPPETEER_SKIP_DOWNLOAD=1 \
+      npm install --silent --no-fund --no-audit "hyperframes@$HYPERFRAMES_VERSION" >/dev/null)
+  fi
+  [ -x "$H/fastsdcpu/env/bin/python" ] || falla "Falta ./instalar.sh imagen: su Python ejecuta estos modelos."
+  paso "Edición: Depth Anything V2 Small, BiRefNet lite y MusicGen estéreo"
+  local e="$H/extra" f
+  for f in onnx/model.onnx config.json preprocessor_config.json; do
+    bajar "$HF/$EXTRA_PROFUNDIDAD/resolve/main/$f" "$e/depth-anything-v2-small/$(basename "$f")"
+    bajar "$HF/$EXTRA_RECORTE/resolve/main/$f" "$e/birefnet-lite/$(basename "$f")"
+  done
+  [ -s "$e/musicgen-stereo-small/model.safetensors" ] || comprobar_disco 2
+  for f in config.json generation_config.json preprocessor_config.json special_tokens_map.json \
+    tokenizer.json tokenizer_config.json model.safetensors; do
+    bajar "$HF/$EXTRA_MUSICA/resolve/main/$f" "$e/musicgen-stereo-small/$f"
+  done
+  if [ -x "$H/piper/bin/python" ] && ! "$H/piper/bin/python" -c 'import onnx' 2>/dev/null; then
+    paso "Voz: paquete onnx, para sacar el tiempo de cada palabra"
+    uv pip install -q --python "$H/piper/bin/python" onnx
+  fi
+}
+
 comprobar() {
   estado() { if eval "$2" >/dev/null 2>&1; then printf '  ok     %s\n' "$1"; else printf '  falta  %s\n' "$1"; fi; }
   local py="$H/fastsdcpu/env/bin/python"
@@ -153,6 +187,11 @@ comprobar() {
   for m in "${MODELOS_IMAGEN[@]%%:*}" "${MODELO_EXTRA%%:*}"; do
     estado "modelo $m" "'$py' -c \"from huggingface_hub import snapshot_download as s; s('$m', local_files_only=True)\""
   done
+  estado "HyperFrames (edición)" "test -x '$H/hyperframes/node_modules/.bin/hyperframes'"
+  estado "Depth Anything V2 Small (2.5D)" "test -s '$H/extra/depth-anything-v2-small/model.onnx'"
+  estado "BiRefNet lite (recortes)" "test -s '$H/extra/birefnet-lite/model.onnx'"
+  estado "MusicGen estéreo small (música)" "test -s '$H/extra/musicgen-stereo-small/model.safetensors'"
+  estado "onnx en Piper (tiempo de cada palabra)" "'$H/piper/bin/python' -c 'import onnx'"
   estado "stable-diffusion.cpp (opcional)" "test -x '$H/sdcpp/build/bin/sd-cli'"
   estado "Chromium de Playwright (vídeo)" "node -e \"require('playwright')\""
   estado "ffmpeg (vídeo)" "command -v ffmpeg"
@@ -160,7 +199,7 @@ comprobar() {
 }
 
 mkdir -p "$H"
-componentes=("${@:-voz imagen}")
+componentes=("${@:-voz imagen edicion}")
 read -r -a componentes <<< "${componentes[*]}"
 for c in "${componentes[@]}"; do
   case "$c" in
@@ -168,8 +207,9 @@ for c in "${componentes[@]}"; do
     voz) comprobar_red; instalar_voz ;;
     imagen) comprobar_red; instalar_imagen ;;
     imagen-extra) comprobar_red; [ -x "$H/fastsdcpu/env/bin/python" ] || instalar_imagen; instalar_imagen_extra ;;
+    edicion) comprobar_red; instalar_edicion ;;
     sdcpp) comprobar_red; instalar_sdcpp ;;
-    *) falla "Componente desconocido: $c (usa voz, imagen, imagen-extra, sdcpp o comprobar)" ;;
+    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, imagen-extra, sdcpp o comprobar)" ;;
   esac
 done
 printf '\nListo en %d min %d s.\n' $((SECONDS / 60)) $((SECONDS % 60))

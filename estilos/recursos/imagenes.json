@@ -1,0 +1,37 @@
+[
+ {
+  "nombre": "faro",
+  "prompt": "a single old white stone lighthouse standing on the right third of the frame on a dark cliff at blue hour, warm light glowing in the lantern room, sea mist, wide empty misty sky on the left half of the frame, negative space for a headline, cinematic wide shot, muted teal and amber palette, 35mm film look",
+  "ancho": 1280,
+  "alto": 720,
+  "semilla": 42
+ },
+ {
+  "nombre": "manos",
+  "prompt": "close-up of weathered old hands holding a lit brass oil lamp inside a lighthouse, warm tungsten light, dark background on the left side, the lamp on the right third of the frame, shallow depth of field, cinematic, muted teal and amber palette, 35mm film look",
+  "ancho": 1280,
+  "alto": 720,
+  "semilla": 42
+ },
+ {
+  "nombre": "haz",
+  "prompt": "a lighthouse on a distant headland at night sending a long visible beam of light across the frame from right to left through sea fog, dark calm sea below, stars in a deep teal night sky, the bottom third of the frame is empty dark water, cinematic wide shot, muted teal and amber palette, 35mm film look, no text, no letters",
+  "ancho": 1280,
+  "alto": 720,
+  "semilla": 7
+ },
+ {
+  "nombre": "brujula_blanco",
+  "prompt": "an antique brass ship compass seen from directly above, isolated in the center of a plain white background, soft even studio light, detailed engraved dial, product photo, no text",
+  "ancho": 768,
+  "alto": 768,
+  "semilla": 3
+ },
+ {
+  "nombre": "carta",
+  "prompt": "a fragment of an antique nautical chart of a rocky northern cape with a small lighthouse symbol, rhumb lines radiating from a compass rose, depth soundings, faded sepia and brown ink on aged cream paper, flat top-down scan of the paper, nineteenth century cartography",
+  "ancho": 1024,
+  "alto": 768,
+  "semilla": 11
+ }
+]

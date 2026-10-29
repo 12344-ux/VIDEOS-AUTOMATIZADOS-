@@ -8,8 +8,11 @@ README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 
 **Edición de nivel agencia, no «imagen + voz».** Lo que pasa en pantalla (cuándo, dónde, cómo, efectos,
 gráficos, ritmo, sonido) tiene que ser de agencia de branding. Las imágenes generadas son material de
-apoyo. Motor elegido: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`). Estilo: propuesta en
-`docs/estilo.md`, pendiente de que el usuario elija.
+apoyo. Motor: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`), ya instalado y medido. Estilo:
+tres probados en vídeos de 10 s (`estilos/`, `docs/estilo.md`), pendiente de que el usuario elija.
+Para trabajar con HyperFrames, leer antes sus guías en
+`~/herramientas-videos/hyperframes/node_modules/hyperframes/dist/skills/` (`hyperframes/SKILL.md` y
+`references/`: motion, sound, look, review, format, runtimes) y `estilos/README.md`.
 
 ## Al empezar una sesión
 
@@ -47,8 +50,11 @@ apoyo. Motor elegido: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`). 
 - Instalado de serie: python3.11 (lo necesita FastSD), python3.13, uv, gcc y cmake, ffmpeg, Node 22,
   Playwright con Chromium y fuentes Inter.
 - El control de seguridad bloquea descargar y ejecutar código de terceros que el usuario no haya
-  pedido explícitamente. Autorizó FastSD CPU, stable-diffusion.cpp y Piper, que es lo que instala
-  `instalar.sh`. Para cualquier herramienta nueva, pedirle permiso antes.
+  pedido explícitamente. Autorizó FastSD CPU, stable-diffusion.cpp y Piper, y para las pruebas de estilo
+  «instalar lo que necesites»: HyperFrames y los modelos de apoyo, que es lo que instala `instalar.sh`.
+  Para cualquier herramienta nueva, pedirle permiso antes.
+- Sonido: BigSoundBank (CC0) llega; Freesound y Pixabay dan 403, la API de Wikimedia 429 y la búsqueda
+  de Openverse no responde. Node no usa el proxy por su cuenta: `NODE_USE_ENV_PROXY=1` (lo pone `video/hf.sh`).
 - Cada sesión es una máquina nueva: lo que no esté en este repositorio se pierde.
 
 ## Trampas conocidas
@@ -62,6 +68,15 @@ apoyo. Motor elegido: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`). 
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
 - Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`.
+- No cargar otro modelo (BiRefNet, MusicGen) con el servidor de imágenes encendido: se acaba la RAM y el
+  sistema lo mata. Apagarlo antes.
+- FLUX escribe letras inventadas si el prompt habla de «espacio para un título»: describir solo la zona
+  vacía y añadir «no text».
+- HyperFrames: el desenfoque de movimiento se sale de las máscaras (`overflow: hidden`); `check` da falsos
+  avisos de contraste con fondos escalados o recortados; `media-treatment --apply` añade `data-hf-id` a todo
+  el HTML. Detalles en `estilos/README.md`.
+- Un render en segundo plano se lanza con el binario de HyperFrames directamente; con `nohup` a través de
+  `video/hf.sh` se canceló (`render_cancelled_parent_exited`).
 
 ## Cómo decidir
 

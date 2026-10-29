@@ -1,0 +1,40 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #a1-bloque { position: absolute; left: 150px; top: 392px; color: var(--color-ink, #f3ede4); }
+    #a1-etiqueta { display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #a1-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    #a1-etiqueta span, #a1-anio span { display: inline-block; }
+    #a1-anio { margin: 18px 0 0 -10px; font: 500 252px/0.9 "Cormorant Garamond", serif; letter-spacing: -0.01em;
+      font-variant-numeric: lining-nums; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.35); }
+  </style>
+  <div id="root" data-composition-id="toma1" data-width="1920" data-height="1080">
+    <div id="a1-bloque">
+      <div id="a1-etiqueta">
+        <i id="a1-linea"></i>
+        <span>C</span><span>A</span><span>B</span><span>O</span><span>&nbsp;</span><span>N</span><span>O</span><span>R</span><span>T</span><span>E</span>
+      </div>
+      <div id="a1-anio"><span>1</span><span>8</span><span>9</span><span>1</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // Línea fina que se dibuja; el lugar entra letra a letra mientras la voz dice «Cabo Norte» (0,80–1,30 s).
+      tl.fromTo("#a1-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.55);
+      tl.fromTo("#a1-etiqueta span", { opacity: 0, filter: "blur(4px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.045 }, 0.8);
+      // Cada cifra del año aparece cuando la voz la dice: mil, ochocientos, noventa, uno.
+      const cifras = gsap.utils.toArray("#a1-anio span");
+      [1.37, 1.52, 2.12, 2.58].forEach((t, i) =>
+        tl.fromTo(cifras[i], { opacity: 0, filter: "blur(12px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power3.out" }, t));
+      // Salida antes del barrido: desenfoque y fundido, más corta que la entrada.
+      tl.to(["#a1-etiqueta", "#a1-anio"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in", stagger: 0.05 }, 2.96);
+      window.__timelines["toma1"] = tl;
+    })();
+  </script>
+</template>

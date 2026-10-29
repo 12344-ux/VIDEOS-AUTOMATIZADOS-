@@ -1,0 +1,141 @@
+<template>
+  <style>
+    @font-face { font-family: "IM Fell English"; src: url("assets/fonts/imfell-400.woff2") format("woff2"); font-weight: 400; }
+    @font-face { font-family: "IM Fell English"; src: url("assets/fonts/imfell-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+    @font-face { font-family: "Special Elite"; src: url("assets/fonts/special-elite.woff2") format("woff2"); font-weight: 400; }
+    @font-face { font-family: "La Belle Aurore"; src: url("assets/fonts/mano-la-belle-aurore.woff2") format("woff2"); font-weight: 400; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #d9cdb6; }
+    #c-camara { position: absolute; inset: 0; transform-origin: 960px 540px; }
+    /* El mundo: un escritorio de 3300 × 2100 px que la cámara recorre. */
+    #c-mundo { position: absolute; left: 0; top: 0; width: 3300px; height: 2100px; transform-origin: 0 0;
+      background-color: var(--color-paper, #e9dfcc);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='4' seed='3'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .45  0 0 0 0 .3  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='8'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .24  0 0 0 0 .16  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"); }
+    .c-pieza { position: absolute; }
+    .c-foto { background: #fbf8f1; padding: 24px 24px 72px; box-shadow: 0 16px 36px rgba(60, 40, 20, 0.26), 0 2px 5px rgba(60, 40, 20, 0.2); }
+    .c-foto img { display: block; object-fit: cover; }
+    .c-foto p { margin: 16px 6px 0; font: 400 38px/1 "La Belle Aurore", cursive; color: #3b2f25; }
+    .c-cinta { position: absolute; width: 200px; height: 50px; background: rgba(240, 228, 190, 0.74); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+    #c-carta { left: 1500px; top: 520px; width: 1300px; height: 975px; transform: rotate(-3deg); box-shadow: 0 10px 28px rgba(60, 40, 20, 0.18);
+      background: url("assets/img/carta.jpg") center / cover; opacity: 0.92; }
+    #c-foto1 { left: 300px; top: 230px; }
+    #c-foto1 img { width: 800px; height: 450px; object-position: 70% 50%; }
+    #c-foto2 { left: 1950px; top: 330px; }
+    #c-foto2 img { width: 760px; height: 428px; object-position: 60% 50%; }
+    #c-foto3 { left: 1830px; top: 960px; }
+    #c-foto3 img { width: 700px; height: 394px; object-position: 70% 50%; }
+    #c-tira { left: 1255px; top: 296px; padding: 22px 34px 18px; background: #f6f0e2; box-shadow: 0 6px 14px rgba(60, 40, 20, 0.2);
+      font: 400 52px/1 "Special Elite", monospace; letter-spacing: 0.08em; color: #2a221b; white-space: pre; }
+    #c-tira span { opacity: 0; }
+    #c-sello { left: 1236px; top: 470px; padding: 16px 30px 12px; border: 6px solid var(--color-stamp, #a3362b); color: var(--color-stamp, #a3362b);
+      font: 400 64px/1 "Special Elite", monospace; letter-spacing: 0.16em; white-space: nowrap;
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.08' numOctaves='3' seed='5'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.15'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+      mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.08' numOctaves='3' seed='5'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.15'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>"); }
+    #c-brujula { left: 2150px; top: 1450px; width: 340px; height: 354px; transform: rotate(14deg);
+      background: url("assets/img/brujula.png") center / contain no-repeat; filter: drop-shadow(0 14px 18px rgba(60, 40, 20, 0.35)); }
+    #c-nota { left: 1985px; top: 168px; font: 400 64px/1 "La Belle Aurore", cursive; color: var(--color-pen, #1f4d7a); white-space: nowrap; transform: rotate(-3deg); }
+    #c-flecha { left: 2330px; top: 230px; overflow: visible; }
+    #c-titulo { left: 700px; top: 1190px; color: #2a221b; font: 400 124px/1.02 "IM Fell English", serif; }
+    #c-titulo div { white-space: nowrap; }
+    #c-titulo span { display: inline-block; margin-right: 0.24em; }
+    #c-titulo em { font-style: italic; color: var(--color-stamp, #a3362b); }
+    #c-pie { left: 708px; top: 1500px; font: 400 40px/1 "Special Elite", monospace; letter-spacing: 0.1em; color: #3b2f25; white-space: pre; }
+    #c-pie span { opacity: 0; }
+    #c-luz { position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 45%, rgba(255, 248, 230, 0) 45%, rgba(60, 42, 24, 0.38) 100%); }
+  </style>
+  <div data-hf-id="hf-06u6" id="root" data-composition-id="escritorio" data-width="1920" data-height="1080">
+    <div data-hf-id="hf-rf2g" id="c-camara">
+      <div data-hf-id="hf-fmg1" id="c-mundo" data-layout-allow-overflow="" data-layout-allow-overlap="">
+        <div data-hf-id="hf-k7ji" id="c-carta" class="c-pieza"></div>
+        <div data-hf-id="hf-bqye" id="c-brujula" class="c-pieza"></div>
+        <div data-hf-id="hf-682e" id="c-foto1" class="c-pieza c-foto"><img data-color-grading="{&quot;preset&quot;:&quot;vintage-wash&quot;,&quot;intensity&quot;:0.62,&quot;adjust&quot;:{&quot;exposure&quot;:0.03,&quot;contrast&quot;:-0.12,&quot;highlights&quot;:-0.1,&quot;shadows&quot;:0.16,&quot;whites&quot;:-0.04,&quot;blacks&quot;:0.08,&quot;temperature&quot;:0.13,&quot;tint&quot;:0,&quot;vibrance&quot;:-0.08,&quot;saturation&quot;:-0.08},&quot;details&quot;:{&quot;vignette&quot;:0.12,&quot;vignetteMidpoint&quot;:0.5,&quot;vignetteRoundness&quot;:0,&quot;vignetteFeather&quot;:0.65,&quot;grain&quot;:0.12,&quot;grainSize&quot;:0.2,&quot;grainRoughness&quot;:0.6},&quot;effects&quot;:{&quot;blur&quot;:0,&quot;pixelate&quot;:0,&quot;chromaBleed&quot;:0,&quot;tapeDamage&quot;:0,&quot;tapeTracking&quot;:0,&quot;tapeNoise&quot;:1,&quot;tapeSpeed&quot;:0.5,&quot;filmArtifacts&quot;:0,&quot;halftone&quot;:0,&quot;halftoneSize&quot;:0,&quot;twoInkPrint&quot;:0,&quot;twoInkPrintSize&quot;:0,&quot;ascii&quot;:0,&quot;asciiSize&quot;:0.06578947368421052,&quot;asciiInvert&quot;:0,&quot;asciiStyle&quot;:0,&quot;asciiColor&quot;:1,&quot;asciiRotation&quot;:0,&quot;dither&quot;:0,&quot;ditherSize&quot;:0,&quot;bloom&quot;:0,&quot;bloomRadius&quot;:8,&quot;monoScreen&quot;:0,&quot;monoScreenSize&quot;:0,&quot;monoScreenAngle&quot;:0,&quot;monoScreenSpread&quot;:0,&quot;monoScreenShape&quot;:0,&quot;monoScreenInvert&quot;:0,&quot;scanlines&quot;:0,&quot;scanlineCount&quot;:0,&quot;scanlineSoftness&quot;:0,&quot;chromaticAberration&quot;:0,&quot;chromaticAngle&quot;:0,&quot;crtCurvature&quot;:0,&quot;digitalGlitch&quot;:0,&quot;digitalGlitchColorSplit&quot;:0,&quot;digitalGlitchLineTear&quot;:0,&quot;digitalGlitchPixelate&quot;:0,&quot;digitalGlitchBlockAmount&quot;:0,&quot;digitalGlitchBlockDisplacement&quot;:0,&quot;digitalGlitchBlockOpacity&quot;:0,&quot;digitalGlitchSpeed&quot;:0,&quot;engraving&quot;:0,&quot;engravingSpacing&quot;:0.4117647058823529,&quot;engravingMinThickness&quot;:0.2,&quot;engravingMaxThickness&quot;:0.4571428571428572,&quot;engravingAngle&quot;:0.25,&quot;engravingContrast&quot;:0.4666666666666667,&quot;engravingSharpness&quot;:0.59,&quot;engravingWave&quot;:0.2,&quot;engravingWaveFrequency&quot;:0.2222222222222222,&quot;crosshatch&quot;:0,&quot;crosshatchSpacing&quot;:0.28,&quot;crosshatchThickness&quot;:0.25,&quot;crosshatchAngle&quot;:0.25,&quot;crosshatchContrast&quot;:0.3333333333333333,&quot;crosshatchEdges&quot;:0.5,&quot;crosshatchLineWeight&quot;:0,&quot;crosshatchWave&quot;:0.33,&quot;crosshatchWaveFrequency&quot;:0.2222222222222222,&quot;kuwahara&quot;:0,&quot;kuwaharaRadius&quot;:0.14285714285714285,&quot;kuwaharaSharpness&quot;:0.3125,&quot;kuwaharaSaturation&quot;:0.5},&quot;lut&quot;:null,&quot;colorSpace&quot;:&quot;rec709&quot;}" data-hf-id="hf-du9x" id="c-img1" src="assets/img/faro.jpg" alt=""><p data-hf-id="hf-rnyc">Cabo Norte, invierno de 1891</p></div>
+        <i data-hf-id="hf-dukb" id="c-cinta1a" class="c-cinta" style="left: 330px; top: 206px"></i>
+        <i data-hf-id="hf-s0wf" id="c-cinta1b" class="c-cinta" style="left: 930px; top: 210px"></i>
+        <div data-hf-id="hf-is8d" id="c-tira" class="c-pieza" data-layout-ignore><span data-hf-id="hf-lzk6">C</span><span data-hf-id="hf-ms68">A</span><span data-hf-id="hf-ll95">B</span><span data-hf-id="hf-h7vu">O</span><span data-hf-id="hf-uckh"> </span><span data-hf-id="hf-gtkt">N</span><span data-hf-id="hf-mgvi">O</span><span data-hf-id="hf-f8cp">R</span><span data-hf-id="hf-efqn">T</span><span data-hf-id="hf-l6y4">E</span></div>
+        <div data-hf-id="hf-hwwa" id="c-sello" class="c-pieza">ARCHIVO · 1891</div>
+        <div data-hf-id="hf-29yd" id="c-foto2" class="c-pieza c-foto"><img data-color-grading="{&quot;preset&quot;:&quot;vintage-wash&quot;,&quot;intensity&quot;:0.62,&quot;adjust&quot;:{&quot;exposure&quot;:0.03,&quot;contrast&quot;:-0.12,&quot;highlights&quot;:-0.1,&quot;shadows&quot;:0.16,&quot;whites&quot;:-0.04,&quot;blacks&quot;:0.08,&quot;temperature&quot;:0.13,&quot;tint&quot;:0,&quot;vibrance&quot;:-0.08,&quot;saturation&quot;:-0.08},&quot;details&quot;:{&quot;vignette&quot;:0.12,&quot;vignetteMidpoint&quot;:0.5,&quot;vignetteRoundness&quot;:0,&quot;vignetteFeather&quot;:0.65,&quot;grain&quot;:0.12,&quot;grainSize&quot;:0.2,&quot;grainRoughness&quot;:0.6},&quot;effects&quot;:{&quot;blur&quot;:0,&quot;pixelate&quot;:0,&quot;chromaBleed&quot;:0,&quot;tapeDamage&quot;:0,&quot;tapeTracking&quot;:0,&quot;tapeNoise&quot;:1,&quot;tapeSpeed&quot;:0.5,&quot;filmArtifacts&quot;:0,&quot;halftone&quot;:0,&quot;halftoneSize&quot;:0,&quot;twoInkPrint&quot;:0,&quot;twoInkPrintSize&quot;:0,&quot;ascii&quot;:0,&quot;asciiSize&quot;:0.06578947368421052,&quot;asciiInvert&quot;:0,&quot;asciiStyle&quot;:0,&quot;asciiColor&quot;:1,&quot;asciiRotation&quot;:0,&quot;dither&quot;:0,&quot;ditherSize&quot;:0,&quot;bloom&quot;:0,&quot;bloomRadius&quot;:8,&quot;monoScreen&quot;:0,&quot;monoScreenSize&quot;:0,&quot;monoScreenAngle&quot;:0,&quot;monoScreenSpread&quot;:0,&quot;monoScreenShape&quot;:0,&quot;monoScreenInvert&quot;:0,&quot;scanlines&quot;:0,&quot;scanlineCount&quot;:0,&quot;scanlineSoftness&quot;:0,&quot;chromaticAberration&quot;:0,&quot;chromaticAngle&quot;:0,&quot;crtCurvature&quot;:0,&quot;digitalGlitch&quot;:0,&quot;digitalGlitchColorSplit&quot;:0,&quot;digitalGlitchLineTear&quot;:0,&quot;digitalGlitchPixelate&quot;:0,&quot;digitalGlitchBlockAmount&quot;:0,&quot;digitalGlitchBlockDisplacement&quot;:0,&quot;digitalGlitchBlockOpacity&quot;:0,&quot;digitalGlitchSpeed&quot;:0,&quot;engraving&quot;:0,&quot;engravingSpacing&quot;:0.4117647058823529,&quot;engravingMinThickness&quot;:0.2,&quot;engravingMaxThickness&quot;:0.4571428571428572,&quot;engravingAngle&quot;:0.25,&quot;engravingContrast&quot;:0.4666666666666667,&quot;engravingSharpness&quot;:0.59,&quot;engravingWave&quot;:0.2,&quot;engravingWaveFrequency&quot;:0.2222222222222222,&quot;crosshatch&quot;:0,&quot;crosshatchSpacing&quot;:0.28,&quot;crosshatchThickness&quot;:0.25,&quot;crosshatchAngle&quot;:0.25,&quot;crosshatchContrast&quot;:0.3333333333333333,&quot;crosshatchEdges&quot;:0.5,&quot;crosshatchLineWeight&quot;:0,&quot;crosshatchWave&quot;:0.33,&quot;crosshatchWaveFrequency&quot;:0.2222222222222222,&quot;kuwahara&quot;:0,&quot;kuwaharaRadius&quot;:0.14285714285714285,&quot;kuwaharaSharpness&quot;:0.3125,&quot;kuwaharaSaturation&quot;:0.5},&quot;lut&quot;:null,&quot;colorSpace&quot;:&quot;rec709&quot;}" data-hf-id="hf-82m0" id="c-img2" src="assets/img/manos.jpg" alt=""><p data-hf-id="hf-3wpr">La lámpara de latón</p></div>
+        <i data-hf-id="hf-wmkh" id="c-cinta2" class="c-cinta" style="left: 2230px; top: 304px"></i>
+        <div data-hf-id="hf-fakv" id="c-nota" class="c-pieza">la primera llama</div>
+        <svg data-hf-id="hf-roz9" id="c-flecha" class="c-pieza" width="260" height="280" viewBox="0 0 260 280">
+          <path data-hf-id="hf-xk4q" id="c-flecha-trazo" d="M 14 30 C 120 20, 190 90, 200 230" fill="none" stroke="#1f4d7a" stroke-width="6" stroke-linecap="round" />
+          <path data-hf-id="hf-a1h1" id="c-flecha-punta" d="M 168 196 L 201 236 L 228 190" fill="none" stroke="#1f4d7a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div data-hf-id="hf-1iak" id="c-foto3" class="c-pieza c-foto"><img data-color-grading="{&quot;preset&quot;:&quot;vintage-wash&quot;,&quot;intensity&quot;:0.62,&quot;adjust&quot;:{&quot;exposure&quot;:0.03,&quot;contrast&quot;:-0.12,&quot;highlights&quot;:-0.1,&quot;shadows&quot;:0.16,&quot;whites&quot;:-0.04,&quot;blacks&quot;:0.08,&quot;temperature&quot;:0.13,&quot;tint&quot;:0,&quot;vibrance&quot;:-0.08,&quot;saturation&quot;:-0.08},&quot;details&quot;:{&quot;vignette&quot;:0.12,&quot;vignetteMidpoint&quot;:0.5,&quot;vignetteRoundness&quot;:0,&quot;vignetteFeather&quot;:0.65,&quot;grain&quot;:0.12,&quot;grainSize&quot;:0.2,&quot;grainRoughness&quot;:0.6},&quot;effects&quot;:{&quot;blur&quot;:0,&quot;pixelate&quot;:0,&quot;chromaBleed&quot;:0,&quot;tapeDamage&quot;:0,&quot;tapeTracking&quot;:0,&quot;tapeNoise&quot;:1,&quot;tapeSpeed&quot;:0.5,&quot;filmArtifacts&quot;:0,&quot;halftone&quot;:0,&quot;halftoneSize&quot;:0,&quot;twoInkPrint&quot;:0,&quot;twoInkPrintSize&quot;:0,&quot;ascii&quot;:0,&quot;asciiSize&quot;:0.06578947368421052,&quot;asciiInvert&quot;:0,&quot;asciiStyle&quot;:0,&quot;asciiColor&quot;:1,&quot;asciiRotation&quot;:0,&quot;dither&quot;:0,&quot;ditherSize&quot;:0,&quot;bloom&quot;:0,&quot;bloomRadius&quot;:8,&quot;monoScreen&quot;:0,&quot;monoScreenSize&quot;:0,&quot;monoScreenAngle&quot;:0,&quot;monoScreenSpread&quot;:0,&quot;monoScreenShape&quot;:0,&quot;monoScreenInvert&quot;:0,&quot;scanlines&quot;:0,&quot;scanlineCount&quot;:0,&quot;scanlineSoftness&quot;:0,&quot;chromaticAberration&quot;:0,&quot;chromaticAngle&quot;:0,&quot;crtCurvature&quot;:0,&quot;digitalGlitch&quot;:0,&quot;digitalGlitchColorSplit&quot;:0,&quot;digitalGlitchLineTear&quot;:0,&quot;digitalGlitchPixelate&quot;:0,&quot;digitalGlitchBlockAmount&quot;:0,&quot;digitalGlitchBlockDisplacement&quot;:0,&quot;digitalGlitchBlockOpacity&quot;:0,&quot;digitalGlitchSpeed&quot;:0,&quot;engraving&quot;:0,&quot;engravingSpacing&quot;:0.4117647058823529,&quot;engravingMinThickness&quot;:0.2,&quot;engravingMaxThickness&quot;:0.4571428571428572,&quot;engravingAngle&quot;:0.25,&quot;engravingContrast&quot;:0.4666666666666667,&quot;engravingSharpness&quot;:0.59,&quot;engravingWave&quot;:0.2,&quot;engravingWaveFrequency&quot;:0.2222222222222222,&quot;crosshatch&quot;:0,&quot;crosshatchSpacing&quot;:0.28,&quot;crosshatchThickness&quot;:0.25,&quot;crosshatchAngle&quot;:0.25,&quot;crosshatchContrast&quot;:0.3333333333333333,&quot;crosshatchEdges&quot;:0.5,&quot;crosshatchLineWeight&quot;:0,&quot;crosshatchWave&quot;:0.33,&quot;crosshatchWaveFrequency&quot;:0.2222222222222222,&quot;kuwahara&quot;:0,&quot;kuwaharaRadius&quot;:0.14285714285714285,&quot;kuwaharaSharpness&quot;:0.3125,&quot;kuwaharaSaturation&quot;:0.5},&quot;lut&quot;:null,&quot;colorSpace&quot;:&quot;rec709&quot;}" data-hf-id="hf-o8f8" id="c-img3" src="assets/img/haz.jpg" alt=""><p data-hf-id="hf-j24r">La luz, cada noche</p></div>
+        <i data-hf-id="hf-esae" id="c-cinta3" class="c-cinta" style="left: 2080px; top: 934px"></i>
+        <div data-hf-id="hf-rhsw" id="c-titulo" class="c-pieza">
+          <div data-hf-id="hf-yeow"><span data-hf-id="hf-6ugs">Ni</span><span data-hf-id="hf-wwgl">una</span><span data-hf-id="hf-mtz0">sola</span><span data-hf-id="hf-b85c">noche</span></div>
+          <div data-hf-id="hf-y7yw"><em data-hf-id="hf-2lav"><span data-hf-id="hf-zhz4">a</span><span data-hf-id="hf-6ni3">oscuras</span></em></div>
+        </div>
+        <div data-hf-id="hf-eg2f" id="c-pie" class="c-pieza" data-layout-ignore><span data-hf-id="hf-hm6v">L</span><span data-hf-id="hf-jlq0">I</span><span data-hf-id="hf-ri5p">B</span><span data-hf-id="hf-i48t">R</span><span data-hf-id="hf-mv6j">O</span><span data-hf-id="hf-l73p"> </span><span data-hf-id="hf-ksn3">D</span><span data-hf-id="hf-16v8">E</span><span data-hf-id="hf-me0s"> </span><span data-hf-id="hf-kec2">G</span><span data-hf-id="hf-eu1o">U</span><span data-hf-id="hf-r7dk">A</span><span data-hf-id="hf-jb5w">R</span><span data-hf-id="hf-f0u7">D</span><span data-hf-id="hf-ry4w">I</span><span data-hf-id="hf-q0gh">A</span><span data-hf-id="hf-lzpr"> </span><span data-hf-id="hf-1bmq">·</span><span data-hf-id="hf-n6mu"> </span><span data-hf-id="hf-ikog">1</span><span data-hf-id="hf-ezx7">8</span><span data-hf-id="hf-fe88">9</span><span data-hf-id="hf-cy6g">1</span><span data-hf-id="hf-6awm">–</span><span data-hf-id="hf-hdrd">2</span><span data-hf-id="hf-i6df">0</span><span data-hf-id="hf-9exp">2</span><span data-hf-id="hf-fsj9">6</span></div>
+      </div>
+    </div>
+    <div data-hf-id="hf-17l6" id="c-luz"></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // «A dos»: los objetos se mueven a 12 imágenes por segundo, como en stop-motion. La cámara, no.
+      const aDos = (curva, duracion) => {
+        const e = gsap.parseEase(curva);
+        const pasos = Math.max(1, Math.round(duracion * 12));
+        return (p) => (p >= 1 ? 1 : e(Math.floor(p * pasos) / pasos));
+      };
+      // Cámara: centra el punto (cx, cy) del escritorio con un zoom s; el giro va aparte.
+      const encuadre = (cx, cy, s) => ({ x: 960 - cx * s, y: 540 - cy * s, scale: s });
+      gsap.set("#c-mundo", encuadre(960, 560, 1.0));
+      tl.fromTo("#c-mundo", encuadre(960, 560, 1.0), { ...encuadre(995, 585, 1.035), duration: 3.0, ease: "sine.inOut" }, 0);
+      tl.to("#c-mundo", { ...encuadre(2290, 610, 1.06), duration: 0.6, ease: "power2.inOut" }, 3.0);
+      tl.to("#c-mundo", { ...encuadre(2300, 620, 1.09), duration: 1.3, ease: "sine.inOut" }, 3.6);
+      tl.to("#c-mundo", { ...encuadre(1600, 1420, 0.95), duration: 0.6, ease: "power2.inOut" }, 4.9);
+      tl.to("#c-mundo", { ...encuadre(1615, 1428, 0.975), duration: 3.1, ease: "power2.out" }, 5.5);
+      tl.fromTo("#c-camara", { rotation: -0.6 }, { rotation: -0.2, duration: 3.0, ease: "sine.inOut" }, 0);
+      tl.to("#c-camara", { rotation: 0.45, duration: 1.9, ease: "sine.inOut" }, 3.0);
+      tl.to("#c-camara", { rotation: -0.25, duration: 3.7, ease: "power2.out" }, 4.9);
+
+      // Una foto cae sobre la mesa: llega grande, girada y con la sombra suelta; aterriza a dos.
+      const caer = (sel, giro, t, dur = 0.34, opacidad = 0) => {
+        tl.fromTo(sel, { opacity: opacidad, scale: 1.1, rotation: giro - 4, y: -36, boxShadow: "0 46px 70px rgba(60,40,20,0.16), 0 6px 14px rgba(60,40,20,0.1)" },
+          { opacity: 1, scale: 1, rotation: giro, y: 0, boxShadow: "0 16px 36px rgba(60,40,20,0.26), 0 2px 5px rgba(60,40,20,0.2)", duration: dur, ease: aDos("power3.out", dur) }, t);
+      };
+      const pegar = (sel, giro, t) =>
+        tl.fromTo(sel, { opacity: 0, scale: 1.25, rotation: giro + 6 }, { opacity: 1, scale: 1, rotation: giro, duration: 0.17, ease: aDos("power2.out", 0.17) }, t);
+
+      // Toma 1 (0–3 s): Cabo Norte, 1891.
+      caer("#c-foto1", -3, 0.12, 0.34, 1);
+      pegar("#c-cinta1a", -9, 0.52);
+      pegar("#c-cinta1b", 7, 0.64);
+      tl.fromTo("#c-tira", { opacity: 0, rotation: 6, y: -20 }, { opacity: 1, rotation: 2, y: 0, duration: 0.17, ease: aDos("power2.out", 0.17) }, 0.62);
+      // Máquina de escribir: una letra cada 0,053 s mientras la voz dice «Cabo Norte» (0,80–1,30 s).
+      gsap.utils.toArray("#c-tira span").forEach((letra, i) => tl.fromTo(letra, { opacity: 0 }, { opacity: 1, duration: 0.01, ease: "none" }, 0.8 + i * 0.053));
+      // Sello: golpe seco cuando el año se completa («uno», 2,58 s).
+      tl.fromTo("#c-sello", { opacity: 0, scale: 1.4, rotation: -2 }, { opacity: 0.9, scale: 1, rotation: -6, duration: 0.083, ease: aDos("power2.in", 0.083) }, 2.52);
+
+      // Toma 2 (3–4,8 s): un faro se enciende.
+      caer("#c-foto2", 3.5, 3.36);
+      pegar("#c-cinta2", 4, 3.74);
+      // La nota a pluma se escribe de izquierda a derecha y la flecha señala la llama.
+      tl.fromTo("#c-nota", { clipPath: "inset(-20% 100% -20% 0%)" }, { clipPath: "inset(-20% 0% -20% 0%)", duration: 0.42, ease: aDos("power1.inOut", 0.42) }, 3.92);
+      const trazo = document.getElementById("c-flecha-trazo");
+      const largo = trazo.getTotalLength();
+      const punta = document.getElementById("c-flecha-punta");
+      const largoPunta = punta.getTotalLength();
+      gsap.set(trazo, { strokeDasharray: largo });
+      gsap.set(punta, { strokeDasharray: largoPunta });
+      tl.fromTo(trazo, { strokeDashoffset: largo }, { strokeDashoffset: 0, duration: 0.25, ease: aDos("power1.in", 0.25) }, 4.3);
+      tl.fromTo(punta, { strokeDashoffset: largoPunta }, { strokeDashoffset: 0, duration: 0.17, ease: aDos("none", 0.17) }, 4.55);
+
+      // Toma 3 (4,8–10 s): desde entonces, ni una sola noche a oscuras.
+      caer("#c-foto3", -2.5, 5.3);
+      pegar("#c-cinta3", -5, 5.7);
+      // El título se imprime palabra a palabra, en la palabra que lo dice: tinta que se asienta.
+      const palabras = gsap.utils.toArray("#c-titulo span");
+      [6.1, 6.27, 6.49, 6.76, 7.02, 7.08].forEach((t, i) =>
+        tl.fromTo(palabras[i], { opacity: 0, filter: "blur(3px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.083, ease: aDos("power1.out", 0.083) }, t));
+      // Pie a máquina: «LIBRO DE GUARDIA · 1891–2026», una letra cada 0,05 s desde 7,45 s.
+      gsap.utils.toArray("#c-pie span").forEach((letra, i) => tl.fromTo(letra, { opacity: 0 }, { opacity: 1, duration: 0.01, ease: "none" }, 7.45 + i * 0.05));
+
+      window.__timelines["escritorio"] = tl;
+    })();
+  </script>
+</template>

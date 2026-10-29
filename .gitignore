@@ -3,3 +3,6 @@ salidas/
 resultados.jsonl
 __pycache__/
 *.pyc
+estilos/*/assets/
+estilos/*/.hyperframes/
+estilos/*/renders/

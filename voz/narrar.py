@@ -1,7 +1,8 @@
 """
 Narración en local con Piper: convierte un texto o un guion en un WAV de 48 kHz
-mono y un JSON con el inicio y el fin de cada frase. Esos tiempos sirven para
-los subtítulos y para saber cuánto tiene que durar cada escena del vídeo.
+mono y un JSON con el inicio y el fin de cada frase y de cada palabra. Esos tiempos
+sirven para los subtítulos, para que el texto en pantalla caiga en la palabra que lo
+dice y para saber cuánto tiene que durar cada escena del vídeo.
 
 Se ejecuta con el Python del entorno de Piper:
   PY=$HERRAMIENTAS/piper/bin/python
@@ -13,7 +14,12 @@ guion.json es una lista de segmentos: [{"texto": "...", "pausa": 0.8}, ...].
 cada segmento el texto se parte en frases, separadas por 0,3 s.
 
 El JSON de salida (mismo nombre que el WAV, con .json) tiene:
-  {"duracion": s, "voz": ..., "frases": [{"segmento": i, "texto": ..., "inicio": s, "fin": s}]}
+  {"duracion": s, "voz": ..., "frases": [{"segmento": i, "texto": ..., "inicio": s, "fin": s,
+   "palabras": [{"texto": ..., "inicio": s, "fin": s}]}]}
+
+Los tiempos de las palabras salen de la alineación de fonemas de Piper (exacta, al
+contrario que Whisper, que aquí falló hasta 0,8 s). Necesita el paquete onnx en el
+entorno de Piper; sin él se reparten por longitud.
 """
 import argparse
 import json
@@ -42,19 +48,62 @@ def remuestrear(x, origen, destino):
 
 
 def recortar_silencio(x, umbral=0.02):
+    """Devuelve el audio sin el silencio de los bordes y la muestra donde empieza el recorte."""
     sonoro = np.flatnonzero(np.abs(x) > umbral * np.max(np.abs(x)))
-    return x[max(sonoro[0] - 240, 0) : sonoro[-1] + 2400]
+    inicio = max(sonoro[0] - 240, 0)
+    return x[inicio : sonoro[-1] + 2400], inicio
+
+
+def palabras_alineadas(trozos, sr):
+    """Inicio y fin, en segundos, de cada palabra según la alineación de fonemas de Piper.
+
+    Los fonemas de una palabra van entre espacios; la puntuación, el inicio y el final
+    de frase no cuentan como palabra. Devuelve None si la voz no da alineaciones."""
+    palabras, desplazamiento = [], 0
+    for trozo in trozos:
+        if not trozo.phoneme_alignments:
+            return None
+        muestra, inicio, fin = desplazamiento, None, None
+        for alineacion in trozo.phoneme_alignments:
+            fonema = alineacion.phoneme
+            if fonema == ' ':
+                if inicio is not None:
+                    palabras.append((inicio / sr, fin / sr))
+                inicio = None
+            elif re.match(r'[\w\u0250-\u02ff\u0300-\u036f]', fonema):
+                inicio = muestra if inicio is None else inicio
+                fin = muestra + alineacion.num_samples
+            muestra += alineacion.num_samples
+        if inicio is not None:
+            palabras.append((inicio / sr, fin / sr))
+        desplazamiento += len(trozo.audio_int16_array)
+    return palabras
 
 
 def sintetizar(voz, texto, velocidad):
-    trozos = voz.synthesize(texto, SynthesisConfig(length_scale=velocidad))
+    """Audio de una frase a 48 kHz y los tiempos de sus palabras, relativos al audio recortado."""
+    trozos = list(voz.synthesize(texto, SynthesisConfig(length_scale=velocidad), include_alignments=True))
     x = np.concatenate([t.audio_int16_array for t in trozos]).astype(float) / 32768
+    alineadas = palabras_alineadas(trozos, voz.config.sample_rate)
     x = remuestrear(x, voz.config.sample_rate, SR)
     # Fuera los graves por debajo de 80 Hz, que solo emborronan la mezcla.
     espectro = np.fft.rfft(x)
     f = np.fft.rfftfreq(len(x), 1 / SR)
     x = np.fft.irfft(espectro / np.sqrt(1 + (80 / np.maximum(f, 1e-6)) ** 4), len(x))
-    return recortar_silencio(x)
+    x, inicio = recortar_silencio(x)
+    escritas = texto.split()
+    if alineadas is None or len(alineadas) != len(escritas):
+        # Sin alineación, o espeak juntó o partió palabras: se reparten por longitud.
+        total = sum(len(p) for p in escritas)
+        alineadas, t = [], 0.0
+        for p in escritas:
+            d = len(p) / total * len(x) / SR
+            alineadas.append((t, t + d))
+            t += d
+    else:
+        alineadas = [(a - inicio / SR, b - inicio / SR) for a, b in alineadas]
+    palabras = [{'texto': p, 'inicio': max(a, 0.0), 'fin': b} for p, (a, b) in zip(escritas, alineadas)]
+    return x, palabras
 
 
 def frases(texto):
@@ -86,14 +135,19 @@ def main():
     else:
         p.error('falta el texto o --guion')
 
-    voz = PiperVoice.load(ruta_voz(args.voz))
+    try:
+        voz = PiperVoice.load(ruta_voz(args.voz), include_alignments=True)
+    except Exception:
+        voz = PiperVoice.load(ruta_voz(args.voz))
     trozos, tiempos, t = [], [], 0.0
     for i, segmento in enumerate(segmentos):
         lista = frases(segmento['texto'])
         for j, frase in enumerate(lista):
-            x = sintetizar(voz, frase, args.velocidad)
+            x, palabras = sintetizar(voz, frase, args.velocidad)
             trozos.append(x)
-            tiempos.append({'segmento': i, 'texto': frase, 'inicio': round(t, 3), 'fin': round(t + len(x) / SR, 3)})
+            palabras = [{'texto': p['texto'], 'inicio': round(t + p['inicio'], 3), 'fin': round(t + p['fin'], 3)} for p in palabras]
+            tiempos.append({'segmento': i, 'texto': frase, 'inicio': round(t, 3), 'fin': round(t + len(x) / SR, 3),
+                            'palabras': palabras})
             t += len(x) / SR
             pausa = PAUSA_FRASE if j < len(lista) - 1 else segmento.get('pausa', PAUSA_SEGMENTO)
             trozos.append(np.zeros(int(pausa * SR)))

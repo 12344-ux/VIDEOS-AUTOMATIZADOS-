@@ -1,0 +1,50 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #a3-bloque { position: absolute; left: 150px; top: 646px; color: var(--color-ink, #f3ede4); }
+    #a3-etiqueta { display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #a3-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    #a3-etiqueta span, #a3-titulo span { display: inline-block; }
+    #a3-titulo { margin: 26px 0 0 -4px; font: 500 104px/1.0 "Cormorant Garamond", serif; letter-spacing: -0.005em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); }
+    #a3-titulo em { font-style: italic; color: var(--color-accent, #e8b66a); }
+    #a3-titulo span { margin-right: 0.22em; }
+    #a3-firma { position: absolute; right: 120px; bottom: 96px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.34em; color: rgba(243, 237, 228, 0.78); }
+  </style>
+  <div id="root" data-composition-id="toma3" data-width="1920" data-height="1080">
+    <div id="a3-bloque">
+      <div id="a3-etiqueta">
+        <i id="a3-linea"></i>
+        <span>D</span><span>E</span><span>S</span><span>D</span><span>E</span><span>&nbsp;</span><span>E</span><span>N</span><span>T</span><span>O</span><span>N</span><span>C</span><span>E</span><span>S</span>
+      </div>
+      <div id="a3-titulo">
+        <div><span>Ni</span><span>una</span><span>sola</span><span>noche</span></div>
+        <div><em><span>a</span><span>oscuras</span></em></div>
+      </div>
+    </div>
+    <div id="a3-firma">EL FARO</div>
+  </div>
+  <script>
+    (function () {
+      // Tiempos locales: la escena empieza en 4,95 s. Voz: «Desde» 5,10; ni 6,10; una 6,27; sola 6,49;
+      // noche 6,76; a 7,02; oscuras 7,08 (tiempos absolutos).
+      const tl = gsap.timeline({ paused: true });
+      const T = (absoluto) => absoluto - 4.95;
+      tl.fromTo("#a3-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(5.0));
+      tl.fromTo("#a3-etiqueta span", { opacity: 0, filter: "blur(4px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.035 }, T(5.1));
+      // El título entra palabra a palabra, sin moverse: desenfoque de 6 px a 0 en 0,13 s.
+      const palabras = gsap.utils.toArray("#a3-titulo span");
+      [6.1, 6.27, 6.49, 6.76, 7.02, 7.08].forEach((t, i) =>
+        tl.fromTo(palabras[i], { opacity: 0, filter: "blur(6px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, T(t)));
+      tl.fromTo("#a3-firma", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, T(7.7));
+      window.__timelines["toma3"] = tl;
+    })();
+  </script>
+</template>

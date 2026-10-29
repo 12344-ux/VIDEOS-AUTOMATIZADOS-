@@ -89,28 +89,74 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
   - Revisar cada fotograma buscando choques de texto con imágenes y frases destacadas partidas.
   - FLUX.3 a 1024 × 576 tarda unos 90 s por imagen con el modelo cargado.
 
+### 8. Pruebas de los tres estilos
+
+- El usuario pidió una prueba de 16:9 y 10 s en cada estilo para decidir, y dio permiso para instalar lo
+  necesario. Resultado en [estilos/](../estilos/README.md): «El faro», con la misma historia, voz e
+  imágenes en los tres; cambian la puesta en escena, la tipografía, el tratamiento, la música y el sonido.
+
+![Comparativa de estilos](resultados/comparativa-estilos.jpg)
+
+- **HyperFrames 0.8.216** instalado con npm en `~/herramientas-videos/hyperframes` (`./instalar.sh edicion`).
+  `video/hf.sh` lo lanza con la configuración del entorno. Render de 10 s a 1080p30 en esta CPU:
+  A 2 min 1 s (WebGL por software), B 2 min 31 s, C 3 min 14 s (el desenfoque de una cámara que gira y
+  escala obliga a capturar con capturas de pantalla, más lentas). `check` y `snapshot` tardan 7–17 s.
+- **Imágenes**: FLUX.3 a 1280 × 720 tardó 138–211 s por imagen. «Negative space for a title» hizo que FLUX
+  escribiera letras inventadas en la imagen: no nombrar el texto en el prompt y añadir «no text».
+- **Profundidad**: Depth Anything V2 Small (Apache 2.0, ONNX) da mapas limpios en 3 s por imagen
+  (`imagen/profundidad.py`). Desplazar una imagen con su profundidad dobla el borde del sujeto; se
+  resolvió en capas (`imagen/capas25d.py`, OpenCV del entorno de FastSD): 1,5 s por imagen.
+- **Recortes**: BiRefNet lite (MIT, ONNX) recorta la brújula pedida «sobre fondo blanco» en 27 s
+  (`imagen/recortar.py`). HyperFrames trae `remove-background`, sin probar.
+- **Voz**: Whisper (el `transcribe` de HyperFrames) entendió «Caucao» y se desvió hasta 0,8 s en los
+  tiempos. Piper 1.8 da la alineación de fonemas si su entorno tiene `onnx`: `voz/narrar.py` ahora devuelve
+  el inicio y el fin de cada palabra, exactos.
+- **Música**: MusicGen estéreo small (Meta, CC BY-NC: no comercial) en el entorno de FastSD:
+  12 s de audio en 50–55 s (`audio/musica_ia.py`). Los tempos pedidos salieron bien (120 y 90 BPM medidos).
+  La guía de sonido de HyperFrames desaconseja sintetizar música con código: por eso un modelo.
+- **Efectos**: la biblioteca de HyperFrames (21 sonidos, licencia de Pixabay) no tiene papel, cinta ni
+  sello. Freesound, Pixabay y la web de Wikimedia están bloqueados o limitados (403 y 429), y la búsqueda
+  de Openverse no responde. **BigSoundBank** sí llega y es CC0: `audio/efectos.py` busca, comprueba la
+  licencia de cada sonido y baja WAV. `audio/tecleo.py` arma una máquina de escribir con teclas reales.
+- **Fuentes**: de Google Fonts vía jsDelivr (`@fontsource`): Cormorant Garamond, Hanken Grotesk, Archivo
+  variable, IM Fell English, Special Elite y La Belle Aurore.
+- **Mezcla**: con las pistas separadas en HyperFrames (agache con `data-automation`, limitador en la voz)
+  salieron −16,2, −15,5 y −17,9 LUFS. `video/entregar.sh` los iguala a −15 LUFS y baja el peso (A pasó de
+  75 MB a 23 MB: el grano dispara el bitrate).
+- **Memoria**: cargar BiRefNet mientras el servidor de imágenes tenía FLUX cargado llenó los 15 GB y el
+  sistema mató el servidor. Apagarlo (`generar.py --parar`) antes de otros modelos.
+- Revisión con `check` de HyperFrames: encontró textos con poco contraste sobre el cielo (resuelto con una
+  «ventana» de etalonaje), tipografía por debajo de 28 px (el mínimo legible en un móvil), un subtítulo
+  que no daba tiempo a leer y un primer fotograma vacío. También da falsos avisos; están en el README de
+  `estilos/`.
+- Después de entregar se corrigieron tres detalles en el repositorio que no están en los vídeos enviados:
+  la firma de A entra en 7,7 s en vez de 8,3 s, y en B se quitó el recorte del iris al abrirse y se
+  marcaron las máscaras del pie.
+
 ### Decisiones
 
 - Imagen: FastSD CPU con OpenVINO. Calidad: FLUX.3 Image Klein. Bocetos: SDXS. Si el uso pasa a ser
   comercial: FLUX.2 klein 4B (Apache 2.0).
+- Edición: HyperFrames + GSAP. Apoyo: Depth Anything V2 Small (2.5D), BiRefNet lite (recortes),
+  MusicGen estéreo small (música, no comercial) y BigSoundBank (efectos CC0).
 - Todo en local, sin APIs externas.
 - Prompts de imagen en inglés, descriptivos.
 
 ### Pendiente
 
 - Elegir la voz.
-- Elegir el estilo.
+- Elegir el estilo, con los tres vídeos de prueba delante.
 
 ## Siguiente paso
 
-1. Que el usuario elija estilo (`docs/estilo.md`).
-2. Con su permiso, instalar HyperFrames y sus skills (en `.claude/skills/` de este repositorio, para que
-   estén en cada sesión), apuntándolo a nuestro Chromium y sin telemetría. Medir el render aquí.
-3. Comparar Piper y Kokoro en español; probar BiRefNet (recortes) y Depth Anything V2 Small (2.5D).
-4. Un tráiler de 20–30 s de «El faro» en el estilo elegido, de principio a fin, y revisarlo con el método
-   de HyperFrames (P0, P1, P2).
-5. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración →
-   composición en HyperFrames → revisión → render.
+1. Que el usuario elija estilo viendo las tres pruebas (`estilos/`) y la voz.
+2. Un tráiler de 20–30 s de «El faro» en el estilo elegido, de principio a fin, revisado con el método de
+   HyperFrames (P0, P1, P2) y su `snapshot --review`.
+3. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
+   tiempos por palabra → composición en HyperFrames por capítulos → revisión → render. Medir cuánto tarda
+   un minuto completo (en estas pruebas, 12–19 s de render por segundo de vídeo).
+4. Pendiente de probar: Kokoro frente a Piper en español, `remove-background` de HyperFrames frente a
+   BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)
 
