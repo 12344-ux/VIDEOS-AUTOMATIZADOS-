@@ -35,9 +35,11 @@ Para trabajar con HyperFrames, leer antes sus guías en
   no hace falta fotorrealismo.
 - Quiere edición «de élite»: aplicar el oficio de `docs/investigacion-edicion.md` (curvas según el papel,
   títulos quietos al aterrizar, transiciones con causa, tiempos de lectura) y revisar como un director exigente.
-- Voz: quiere una **voz masculina de español latinoamericano neutro**, sin acento marcado. Descartó
-  `es_AR-daniela-high` (acento argentino), que es la de las pruebas y la predeterminada de `voz/narrar.py`
-  hasta que se elija otra. Candidatas en la bitácora («Siguiente paso»).
+- Voz: **Supertonic-3 M1** (masculina, español neutro), la predeterminada de `voz/narrar.py`. Segunda
+  voz: Piper `es_AR-daniela-high` (femenina, acento argentino). Más adelante quiere varios canales de
+  nichos distintos, cada uno con su voz: el sistema debe dejar elegir la voz por canal.
+- **Todo vídeo con voz de Supertonic avisa de que está generada por máquina** (descripción o rótulo):
+  lo exige su licencia Open RAIL-M. MusicGen, además, solo vale para uso no comercial.
 - Le gustó descubrir herramientas investigando repositorios públicos de GitHub y Hugging Face.
   Ante un problema nuevo, buscar primero qué existe y qué está al día.
 
@@ -78,6 +80,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - HyperFrames: el desenfoque de movimiento se sale de las máscaras (`overflow: hidden`); `check` da falsos
   avisos de contraste con fondos escalados o recortados; `media-treatment --apply` añade `data-hf-id` a todo
   el HTML. Detalles en `estilos/README.md`.
+- Piper no da el mismo audio dos veces (tiene ruido aleatorio): los tiempos varían hasta 50 ms entre
+  ejecuciones. Generar la narración una vez y cronometrar la composición sobre ese archivo.
 - Un render en segundo plano se lanza con el binario de HyperFrames directamente; con `nohup` a través de
   `video/hf.sh` se canceló (`render_cancelled_parent_exited`).
 

@@ -4,7 +4,8 @@
 # Se puede repetir sin miedo: salta lo que ya está instalado.
 #
 #   ./instalar.sh                voz + imagen + edicion: lo necesario para hacer vídeos
-#   ./instalar.sh voz            Piper y las voces en español
+#   ./instalar.sh voz            Supertonic-3 (la voz principal), Piper con sus voces en español y
+#                                el alineador que da el tiempo de cada palabra
 #   ./instalar.sh imagen         FastSD CPU (OpenVINO) con FLUX.3 Image Klein y SDXS
 #   ./instalar.sh edicion        HyperFrames y los modelos de apoyo: profundidad (2.5D),
 #                                recortes y música (necesita voz e imagen)
@@ -25,6 +26,12 @@ FASTSD_COMMIT=0f64fd45cecd7fbac2a60540840f5f1d3141e229
 SDCPP_REPO=https://github.com/leejet/stable-diffusion.cpp
 SDCPP_COMMIT=37bc88b5e97a213821949732ea66c58ae8ffc784
 PIPER_VERSION=1.8.0
+SUPERTONIC_VERSION=1.3.1
+SUPERTONIC_MODELO=Supertone/supertonic-3
+SUPERTONIC_ARCHIVOS=(onnx/duration_predictor.onnx onnx/text_encoder.onnx onnx/tts.json onnx/unicode_indexer.json
+  onnx/vector_estimator.onnx onnx/vocoder.onnx voice_styles/{M,F}{1,2,3,4,5}.json)
+# Alineación forzada en español (wav2vec2 XLSR-53, Apache 2.0): tiempo de cada palabra de cualquier voz.
+ALINEADOR=jonatasgrosman/wav2vec2-large-xlsr-53-spanish
 HYPERFRAMES_VERSION=0.8.216
 # Modelos de apoyo a la edición (Hugging Face): profundidad, recortes y música.
 EXTRA_PROFUNDIDAD=onnx-community/depth-anything-v2-small
@@ -102,6 +109,18 @@ instalar_voz() {
     for ext in onnx onnx.json; do
       bajar "$HF/rhasspy/piper-voices/resolve/main/$v.$ext" "$H/voces/$(basename "$v").$ext"
     done
+  done
+  paso "Voz: Supertonic-3 $SUPERTONIC_VERSION (voz principal: M1)"
+  if ! "$H/supertonic/bin/python" -c 'import supertonic' 2>/dev/null; then
+    [ -e "$H/supertonic" ] && falla "$H/supertonic existe pero no funciona; bórralo y vuelve a ejecutar."
+    uv venv -q --python "$(python311)" "$H/supertonic"
+    uv pip install -q --python "$H/supertonic/bin/python" "supertonic==$SUPERTONIC_VERSION"
+  fi
+  local f
+  for f in "${SUPERTONIC_ARCHIVOS[@]}"; do bajar "$HF/$SUPERTONIC_MODELO/resolve/main/$f" "$H/supertonic-3/$f"; done
+  paso "Voz: alineador para el tiempo de cada palabra"
+  for f in config.json vocab.json preprocessor_config.json special_tokens_map.json pytorch_model.bin; do
+    bajar "$HF/$ALINEADOR/resolve/main/$f" "$H/extra/alineador-es/$f"
   done
 }
 
@@ -183,6 +202,8 @@ comprobar() {
   echo "Herramientas en $H"
   estado "Piper (voz)" "'$H/piper/bin/python' -c 'import piper'"
   for v in "${VOCES[@]}"; do estado "voz $(basename "$v")" "test -s '$H/voces/$(basename "$v").onnx'"; done
+  estado "Supertonic-3 (voz principal)" "'$H/supertonic/bin/python' -c 'import supertonic' && test -s '$H/supertonic-3/onnx/vocoder.onnx'"
+  estado "alineador de palabras (wav2vec2 español)" "test -s '$H/extra/alineador-es/pytorch_model.bin'"
   estado "FastSD CPU (imagen)" "'$py' -c 'import openvino, diffusers, optimum.intel'"
   for m in "${MODELOS_IMAGEN[@]%%:*}" "${MODELO_EXTRA%%:*}"; do
     estado "modelo $m" "'$py' -c \"from huggingface_hub import snapshot_download as s; s('$m', local_files_only=True)\""

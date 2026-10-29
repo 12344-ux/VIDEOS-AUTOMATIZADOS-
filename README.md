@@ -11,9 +11,9 @@ Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, 
 
 | Pieza | Herramienta | Estado |
 | --- | --- | --- |
-| Voz | Piper, voces en español | ✅ `voz/narrar.py` |
+| Voz | Supertonic-3 M1 (principal) y Piper `es_AR-daniela-high` | ✅ `voz/narrar.py` |
 | Imágenes | FastSD CPU + OpenVINO, modelos FLUX.3 Image Klein y SDXS | ✅ `imagen/generar.py` |
-| Tiempo de cada palabra | Alineación de fonemas de Piper | ✅ `voz/narrar.py` |
+| Tiempo de cada palabra | Alineación forzada en español (wav2vec2), o la de fonemas de Piper | ✅ `voz/alinear.py` |
 | Música de fondo | MusicGen estéreo (uso no comercial); antes, síntesis con numpy | ✅ `audio/musica_ia.py` |
 | Efectos de sonido | Grabaciones CC0 de BigSoundBank y la biblioteca de HyperFrames | ✅ `audio/efectos.py`, `audio/tecleo.py` |
 | Mezcla de audio | Agache de la música bajo la voz, −14 LUFS | ✅ `audio/mezclar.py` |
@@ -49,8 +49,9 @@ python3 imagen/generar.py "a lighthouse on a rocky coast at sunset, semi-realist
 python3 imagen/generar.py "..." -o boceto.png --modelo sdxs     # medio segundo
 python3 imagen/generar.py --lote escenas.json                   # varias de una vez
 
-# Voz (con el Python del entorno de Piper)
+# Voz (con el Python del entorno de Piper): Supertonic-3 M1 por defecto
 ~/herramientas-videos/piper/bin/python voz/narrar.py --guion guion.json -o narracion.wav
+~/herramientas-videos/piper/bin/python voz/narrar.py --guion guion.json -o narracion.wav --voz es_AR-daniela-high
 
 # Música y mezcla
 python3 audio/musica.py --duracion 60 -o musica.wav
@@ -87,7 +88,8 @@ Máquina: Intel Xeon de 4 núcleos a 2,1 GHz con AMX, 15 GB de RAM, sin GPU.
 | Imagen FLUX.3 Image Klein, 768 × 432 (16:9) | 53 s (95 s la primera) | 8,2 GB |
 | Imagen FLUX.2 klein 4B, 512 × 512 | 39–43 s | 9,3 GB |
 | Imagen SDXS, 512 × 512 | 0,5 s (8–17 s la primera) | 5,0 GB |
-| Voz: 10 s de narración | 14,5 s, incluida la carga | — |
+| Voz Piper: 10 s de narración | 14,5 s, incluida la carga | — |
+| Voz Supertonic-3: 7 s de narración con tiempos de palabras | 14 s (síntesis 3 s, alineación el resto) | 2 GB |
 | Música: 14 s | 1,9 s | — |
 | Título animado: 4 s a 720p30 | 14 s | — |
 | Imagen FLUX.3 Image Klein, 1280 × 720 | 138–211 s | 8,2 GB |
@@ -112,6 +114,8 @@ imagen/capas25d.py          sujeto y fondo rellenado para el 2.5D por capas
 imagen/recortar.py          quita el fondo de un objeto (BiRefNet lite)
 imagen/pruebas/             banco de pruebas: comparar modelos y montar hojas comparativas
 voz/narrar.py               texto o guion → WAV + JSON con los tiempos de cada frase y palabra
+voz/alinear.py              tiempo de cada palabra de cualquier voz (alineación forzada)
+voz/supertonic_frases.py    síntesis con Supertonic-3 (la usa narrar.py)
 audio/musica_ia.py          música de fondo con MusicGen
 audio/efectos.py            busca y baja efectos de sonido CC0 (BigSoundBank)
 audio/tecleo.py             pista de máquina de escribir con teclas reales
@@ -128,8 +132,8 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Definir el nicho de los vídeos, elegir una voz masculina de español latinoamericano neutro y hacer un
-tráiler de 20–30 s de principio a fin en el estilo A. El plan
+Definir el nicho de los vídeos y hacer un tráiler de 20–30 s de principio a fin en el estilo A, con la
+voz M1. El plan
 está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso); la investigación, en
 [docs/investigacion-edicion.md](docs/investigacion-edicion.md).
 
@@ -148,5 +152,7 @@ uno con su licencia:
 - Depth Anything V2 Small: Apache 2.0. BiRefNet lite: MIT. MusicGen: CC BY-NC 4.0, **solo uso no
   comercial**; para uso comercial habría que cambiar de modelo de música.
 - Efectos: BigSoundBank, CC0; biblioteca de HyperFrames, licencia de Pixabay.
+- Supertonic-3: Open RAIL-M. Permite uso comercial, pero obliga a avisar de que el contenido está
+  generado por máquina y prohíbe suplantar a personas. Alineador wav2vec2 en español: Apache 2.0.
 - Voces de Piper: `es_AR-daniela-high` se entrenó con datos CC BY-SA 4.0 (OpenSLR 61) y
   `es_MX-claude-high` con datos Apache 2.0. Conviene revisarlas antes de un uso comercial.

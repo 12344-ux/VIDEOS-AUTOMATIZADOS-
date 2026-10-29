@@ -133,12 +133,45 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
   la firma de A entra en 7,7 s en vez de 8,3 s, y en B se quitó el recorte del iris al abrirse y se
   marcaron las máscaras del pie.
 
+### 9. La voz principal
+
+- El usuario quería una voz masculina de español latinoamericano neutro; daniela (acento argentino) se
+  queda como segunda voz. Se buscó en Hugging Face (modelos de voz en español ordenados por tendencia,
+  «me gusta» y descargas) y se probó la misma frase con cada candidata, igualada a −16 LUFS:
+
+| Voz | Tono medio (F0) | Tiempo (frase de 7 s) | Notas |
+| --- | --- | --- | --- |
+| Piper `es_MX-claude-high` | 187 Hz | 6,5 s | aguda; Whisper entendió «vio» por «guió» |
+| Piper `es_MX-ald-medium` | 146 Hz | 2,9 s | igual con «guió» |
+| **Supertonic-3 M1** | 134 Hz | 2,8 s | **la elegida** |
+| Supertonic-3 M2 / M3 / M4 / M5 | 88 / 98 / 119 / 95 Hz | 2,4–3,7 s | M2 la más grave |
+| Kokoro-82M `em_alex` / `em_santa` | 132 / 138 Hz | 2 s | con espeak `es-419` para el seseo |
+| VoxCPM2 (diseño de voz por descripción) | — | 47–78 s, más 68 s de carga | 2B, 5 GB; corre en CPU en bf16 |
+
+- **Elegida: Supertonic-3 M1** (Supertone, ONNX). Muy rápida: unas 2,5 veces más rápida que el tiempo
+  real. Ya es la voz por defecto de `voz/narrar.py`; `./instalar.sh voz` la instala con sus 10 voces.
+- **Licencia de Supertonic-3: Open RAIL-M.** Permite uso comercial, pero su anexo A prohíbe difundir el
+  contenido sin avisar de forma clara de que está generado por una máquina: **cada vídeo con esta voz
+  debe decirlo** (descripción o rótulo).
+- Tiempo de cada palabra: Supertonic no lo da. `voz/alinear.py` hace alineación forzada CTC con un
+  wav2vec2 en español (`jonatasgrosman/wav2vec2-large-xlsr-53-spanish`, Apache 2.0, 1,3 GB): frente a la
+  alineación exacta de Piper, 17 ms de error medio y 40 ms como máximo en el inicio de cada palabra.
+  Whisper (whisper.cpp de HyperFrames) quedó en 160 ms de media y 630 ms como máximo; con DTW (que solo
+  funciona con `-nfa`, sin flash attention), en 135 ms y siempre tarde.
+- `narrar.py` con M1: la narración de «El faro» (7 s) sale en 14 s con síntesis y alineación.
+- El control de seguridad bloqueó instalar Kokoro, Supertonic y VoxCPM2 hasta que el usuario los
+  autorizó por su nombre. phonon-40m-es (solo español, 40M) pide cuenta de Hugging Face.
+- Se borraron VoxCPM2 y Kokoro para liberar disco (quedaban 3,9 GB). Si un canal futuro pide otra voz, se
+  reinstalan: `uv pip install kokoro==0.9.4 "misaki[en]"` o `voxcpm==2.0.3` con torch 2.8 de CPU.
+
 ### Decisiones
 
 - Imagen: FastSD CPU con OpenVINO. Calidad: FLUX.3 Image Klein. Bocetos: SDXS. Si el uso pasa a ser
   comercial: FLUX.2 klein 4B (Apache 2.0).
 - **Estilo de la casa: A, editorial cinematográfico.** Lo eligió el usuario al ver las pruebas: «le diste
   vida a las imágenes». B y C quedan en `estilos/` por si un tramo los pide como modos.
+- **Voz principal: Supertonic-3 M1.** Segunda voz: Piper `es_AR-daniela-high`. Todo vídeo con Supertonic
+  avisa de que la voz está generada por máquina (licencia Open RAIL-M).
 - Edición: HyperFrames + GSAP. Apoyo: Depth Anything V2 Small (2.5D), BiRefNet lite (recortes),
   MusicGen estéreo small (música, no comercial) y BigSoundBank (efectos CC0).
 - Todo en local, sin APIs externas.
@@ -147,7 +180,6 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 ### Pendiente
 
 - Definir el nicho de los vídeos y la forma de trabajar (el usuario lo hará en el chat siguiente).
-- Elegir una voz masculina de español latinoamericano neutro (ver «Siguiente paso»).
 - Idea del usuario para más adelante: con el sistema montado, varios canales de nichos distintos, cada uno
   con su voz (y quizá su modo de estilo). Ahora se elige la voz del nicho principal; el sistema debe dejar
   elegir la voz por canal.
@@ -156,21 +188,13 @@ Punto de partida: ninguna herramienta instalada. Objetivo final: vídeos largos 
 
 1. El usuario define el nicho de los vídeos y cómo se hará. Lo dirá al abrir un chat nuevo, que sirve
    también para comprobar que este repositorio basta para continuar.
-2. Cambiar de voz: quiere una **voz masculina de español latinoamericano neutro**, sin acento marcado.
-   Probar con el mismo texto y comparar naturalidad, acento y velocidad en esta CPU:
-   - Piper `es_MX-claude-high` (ya instalada; va lenta, `--velocidad 0.8`) y `es_MX-ald-medium`. El
-     catálogo de Piper no tiene voces masculinas de otros países de Latinoamérica (solo España, México y
-     Argentina).
-   - Kokoro-82M (Apache 2.0): sus voces masculinas en español (`em_alex`, `em_santa`).
-   - Buscar modelos de 2026 en Hugging Face y GitHub, incluidos los de clonación (Chatterbox Multilingual,
-     F5-TTS en español) a partir de una voz con licencia libre y permiso de su dueño. Medir tiempo y RAM.
-   - Comprobar que la voz elegida da los tiempos de cada palabra (hoy salen de la alineación de Piper).
-3. Un tráiler de 20–30 s en el estilo A y en el nicho elegido, partiendo de `estilos/estilo-a`, de
-   principio a fin, revisado con el método de HyperFrames (P0, P1, P2) y su `snapshot --review`.
-4. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
+2. Un tráiler de 20–30 s en el estilo A, con la voz M1 y en el nicho elegido, partiendo de
+   `estilos/estilo-a` (sus tiempos están hechos para la narración de daniela: rehacerlos con los de M1),
+   de principio a fin, revisado con el método de HyperFrames (P0, P1, P2) y su `snapshot --review`.
+3. Después, el flujo para vídeos largos: guion → storyboard con SDXS → planchas con FLUX.3 → narración con
    tiempos por palabra → composición en HyperFrames por capítulos → revisión → render. Medir cuánto tarda
    un minuto completo (en estas pruebas, 12–19 s de render por segundo de vídeo).
-5. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
+4. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)
 

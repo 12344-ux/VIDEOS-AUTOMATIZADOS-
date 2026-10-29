@@ -55,7 +55,7 @@ done
 [ -s "$P/carta.jpg" ] || "$PYF" -I -c "from PIL import Image; import sys; Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2], quality=92)" "$P/carta.png" "$P/carta.jpg"
 
 paso "Voz (Piper, es_AR-daniela-high, con el tiempo de cada palabra)"
-[ -s "$A/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$RC/guion.json" -o "$A/voz.wav" --velocidad 1.08
+[ -s "$A/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$RC/guion.json" -o "$A/voz.wav" --voz es_AR-daniela-high --velocidad 1.08
 
 paso "Música (MusicGen, una por estilo)"
 if [ ! -s "$A/musica_3.wav" ]; then
