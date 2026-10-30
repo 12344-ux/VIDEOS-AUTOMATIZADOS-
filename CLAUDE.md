@@ -27,6 +27,11 @@ Para trabajar con HyperFrames, leer antes sus guías en
 `~/herramientas-videos/hyperframes/node_modules/hyperframes/dist/skills/` (`hyperframes/SKILL.md` y
 `references/`: motion, sound, look, review, format, runtimes) y `estilos/README.md`.
 
+**Rastreador de nichos** (`rastreador/`, con su README): antes de elegir un tema, medirlo. El mapa de TikTok en español
+sale de un dataset público de 5.600 M de vídeos (CC BY-NC, solo uso no comercial); los Shorts atípicos, de la API de
+YouTube (la clave la pone el proxy del entorno); y el porqué de un vídeo, de `desmontar.py` sobre un archivo que sube el
+usuario. Los informes, en `rastreador/informes/`.
+
 ## Al empezar una sesión
 
 1. Lee `README.md` y `docs/bitacora.md`.
@@ -85,6 +90,15 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - La API propia de FastSD devuelve JPEG con pérdida. Por eso existe `imagen/servidor.py`, que guarda PNG.
 - Nada de disfrazar peticiones con un User-Agent de navegador: el control de seguridad lo para («Bot Check
   Circumvention»). Para datos de plataformas, fuentes públicas u oficiales (RSS, APIs con clave, datasets).
+- Bajar vídeos de YouTube o TikTok desde aquí no funciona: YouTube pide «Sign in to confirm you're not a bot» y da 403
+  al vídeo; TikTok rechaza la petición. No se esquiva (cookies, proxys): el usuario guarda el vídeo y lo sube.
+- La API de YouTube con `order=viewCount` no hace caso de `relevanceLanguage` (devuelve lo más visto del mundo): buscar
+  por relevancia y filtrar por el idioma declarado. La clave va como secreto del entorno en la cabecera
+  `X-Goog-Api-Key`; como `Authorization: Bearer` Google responde 401.
+- DuckDB baja sus extensiones por http sin proxy y falla: `instalar.sh rastreador` baja httpfs por https. DuckDB 2.0
+  pide `lambda x: …` en vez de `x -> …`, y `con.execute(…).fetchone()` (las relaciones ya no tienen `fetchone`).
+- El dataset de TikTok mide cada mes en otro momento (agosto, más tarde y con menos vídeos recientes): no comparar
+  cifras absolutas entre meses, solo cuotas y aciertos relativos.
 - El servidor de imágenes escucha en `127.0.0.1:8124` y ocupa 5–12 GB de RAM con el modelo cargado (12 GB con FLUX.3 en la CPU sin AMX).
   `python3 imagen/generar.py --parar` lo apaga.
 - Cambiar de modelo en el servidor obliga a cargarlo otra vez (8–95 s).

@@ -3,12 +3,13 @@
 # (por defecto ~/herramientas-videos), porque pesan varios GB y no caben en git.
 # Se puede repetir sin miedo: salta lo que ya está instalado.
 #
-#   ./instalar.sh                voz + imagen + edicion: lo necesario para hacer vídeos
+#   ./instalar.sh                voz + imagen + edicion + rastreador: lo necesario para hacer vídeos
 #   ./instalar.sh voz            Supertonic-3 (la voz principal), Piper con sus voces en español y
 #                                el alineador que da el tiempo de cada palabra
 #   ./instalar.sh imagen         FastSD CPU (OpenVINO) con FLUX.3 Image Klein, SDXS y el ampliador EDSR
 #   ./instalar.sh edicion        HyperFrames, el EGL de Mesa y los modelos de apoyo: profundidad (2.5D),
 #                                recortes y música (necesita voz e imagen)
+#   ./instalar.sh rastreador     DuckDB (con httpfs) y yt-dlp: el rastreador de nichos de rastreador/
 #   ./instalar.sh imagen-extra   además FLUX.2 klein 4B (licencia Apache 2.0)
 #   ./instalar.sh sdcpp          stable-diffusion.cpp y sus modelos (opcional; aquí es lento)
 #   ./instalar.sh comprobar      dice qué hay y qué falta, sin instalar nada
@@ -34,6 +35,10 @@ SUPERTONIC_ARCHIVOS=(onnx/duration_predictor.onnx onnx/text_encoder.onnx onnx/tt
 # Alineación forzada en español (wav2vec2 XLSR-53, Apache 2.0): tiempo de cada palabra de cualquier voz.
 ALINEADOR=jonatasgrosman/wav2vec2-large-xlsr-53-spanish
 HYPERFRAMES_VERSION=0.8.216
+# Rastreador de nichos (rastreador/): DuckDB consulta el dataset de TikTok a distancia; yt-dlp lee metadatos de vídeos.
+DUCKDB_VERSION=2.0.0
+YTDLP_VERSION=2026.10.26
+PYTZ_VERSION=2026.6
 # Modelos de apoyo a la edición (Hugging Face): profundidad, recortes y música.
 EXTRA_PROFUNDIDAD=onnx-community/depth-anything-v2-small
 EXTRA_RECORTE=onnx-community/BiRefNet_lite-ONNX
@@ -207,6 +212,19 @@ instalar_edicion() {
   fi
 }
 
+instalar_rastreador() {
+  paso "Rastreador: DuckDB $DUCKDB_VERSION y yt-dlp $YTDLP_VERSION"
+  [ -x "$H/rastreador/bin/python" ] || uv venv -q --python python3.13 "$H/rastreador"
+  uv pip install -q --python "$H/rastreador/bin/python" "duckdb==$DUCKDB_VERSION" "yt-dlp==$YTDLP_VERSION" \
+    "pytz==$PYTZ_VERSION"
+  # DuckDB baja sus extensiones por http y sin pasar por el proxy: falla. Se baja por https y se instala del archivo.
+  if [ ! -s "$H/rastreador/httpfs.duckdb_extension" ]; then
+    bajar "https://extensions.duckdb.org/v$DUCKDB_VERSION/linux_amd64/httpfs.duckdb_extension.gz" \
+      "$H/rastreador/httpfs.duckdb_extension.gz"
+    gunzip -f "$H/rastreador/httpfs.duckdb_extension.gz"
+  fi
+}
+
 comprobar() {
   estado() { if eval "$2" >/dev/null 2>&1; then printf '  ok     %s\n' "$1"; else printf '  falta  %s\n' "$1"; fi; }
   local py="$H/fastsdcpu/env/bin/python"
@@ -226,6 +244,7 @@ comprobar() {
   estado "MusicGen estéreo small (música)" "test -s '$H/extra/musicgen-stereo-small/model.safetensors'"
   estado "onnx en Piper (tiempo de cada palabra)" "'$H/piper/bin/python' -c 'import onnx'"
   estado "stable-diffusion.cpp (opcional)" "test -x '$H/sdcpp/build/bin/sd-cli'"
+  estado "Rastreador: DuckDB con httpfs y yt-dlp" "'$H/rastreador/bin/python' -c 'import duckdb, yt_dlp, pytz' && test -s '$H/rastreador/httpfs.duckdb_extension'"
   estado "Chromium de Playwright (vídeo)" "node -e \"require('playwright')\""
   estado "ffmpeg (vídeo)" "command -v ffmpeg"
   echo "Disco libre: $(df -h --output=avail "$HOME" | tail -1 | tr -d ' ')"
@@ -246,7 +265,7 @@ precargar() {
 }
 
 mkdir -p "$H"
-componentes=("${@:-voz imagen edicion}")
+componentes=("${@:-voz imagen edicion rastreador}")
 read -r -a componentes <<< "${componentes[*]}"
 for c in "${componentes[@]}"; do
   case "$c" in
@@ -257,7 +276,8 @@ for c in "${componentes[@]}"; do
     imagen-extra) comprobar_red; [ -x "$H/fastsdcpu/env/bin/python" ] || instalar_imagen; instalar_imagen_extra ;;
     edicion) comprobar_red; instalar_edicion ;;
     sdcpp) comprobar_red; instalar_sdcpp ;;
-    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, imagen-extra, sdcpp, comprobar o precargar)" ;;
+    rastreador) instalar_rastreador ;;
+    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, rastreador, imagen-extra, sdcpp, comprobar o precargar)" ;;
   esac
 done
 printf '\nListo en %d min %d s.\n' $((SECONDS / 60)) $((SECONDS % 60))

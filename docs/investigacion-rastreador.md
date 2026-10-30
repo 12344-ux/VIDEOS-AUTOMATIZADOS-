@@ -115,7 +115,12 @@ separado, el múltiplo y las vistas absolutas, y se compara por días desde la p
    (que es público) van las conclusiones y los enlaces, no los datos en bruto. La política de la API de YouTube no
    deja guardar sus datos más de 30 días sin refrescarlos.
 
-**Para la primera prueba de verdad hace falta:**
+**Hecho el mismo día:** el usuario dio permiso, creó la clave y aceptó el dataset. El rastreador está en
+[rastreador/](../rastreador/README.md), con su [primer informe](../rastreador/informes/2026-10-30.md). La clave va como
+secreto del entorno en la cabecera `X-Goog-Api-Key` (no como variable `YOUTUBE_API_KEY`), y bajar vídeos de YouTube o
+TikTok desde aquí resultó imposible sin esquivar sus bloqueos: el desmontaje trabaja con archivos que sube el usuario.
+
+**Lo que se pidió para la primera prueba:**
 
 - Permiso para instalar `duckdb` (MIT; consulta el parquet a distancia por columnas) y `yt-dlp` (Unlicense; lee
   las pestañas de un canal y baja un vídeo para analizarlo) en un entorno aparte.

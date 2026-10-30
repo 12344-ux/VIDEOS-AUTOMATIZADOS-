@@ -661,11 +661,46 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
   mes), los Shorts atípicos de la semana (API de YouTube y RSS) y el desmontaje de cada atípico (gancho, cortes,
   estructura) para recrear la mecánica con el kit, nunca el contenido.
 
+### 2. El rastreador de nichos, construido y probado
+
+- **Lo decidió el usuario:** usar el dataset de TikTok (sabiendo de dónde salen sus datos), instalar lo necesario y
+  «crear una bestia de los nichos». Creó una clave de la API de YouTube (datos públicos) y la guardó como secreto del
+  entorno. La primera vez el proxy la mandaba como `Authorization: Bearer` y Google respondía 401 («Expected OAuth 2
+  access token»); con la cabecera `X-Goog-Api-Key` y sin prefijo, funciona. Esta sesión la vio sin reiniciarse.
+- **Instalado** en `~/herramientas-videos/rastreador` (22 s, 81 MB): DuckDB 2.0.0, yt-dlp 2026.10.26 y pytz.
+  DuckDB baja sus extensiones por http y sin proxy, y fallaba: httpfs se baja por https y se instala del archivo
+  (`./instalar.sh rastreador`, probado desde cero en una carpeta nueva).
+- **`rastreador/tiktok.py`:** extrae los vídeos en español de un mes leyendo solo las columnas necesarias. Septiembre:
+  5.066.308 vídeos en 263 s, 230 MB en local, 5,4 GB de RAM; agosto, 4.957.042 en 271 s. Después, ranking de
+  nichos, temas por palabras y vídeos destacados en 6–16 s. Cuenta lo orgánico (sin anuncios ni colaboraciones) y los
+  vídeos de 7 a 31 días: antes de los 7 días la mediana es de 240 vistas, después de unas 800.
+- **Sesgos del dataset medidos:** 55 de los 99 millones de vídeos de septiembre son de Estados Unidos (en español, la
+  mitad); no dice quién publica cada vídeo; y cada mes se mide en otro momento (agosto, sobre todo con 30–50 días y con
+  menos vídeos recientes), así que el crecimiento salía de +200 a +1.400 % en casi todo. Ahora se comparan cuotas y
+  aciertos relativos, y el informe se queda con la foto de un mes.
+- **`rastreador/youtube.py`:** Shorts recientes por tema con su múltiplo sobre la mediana de su canal (RSS), vistas por
+  hora y por suscriptor. Ordenando por vistas, la API no hace caso del idioma (0 de 50 en español para «ideas de
+  negocio»); por relevancia, 34–44 de 50. Una búsqueda de 100 resultados, 3–5 s y unas 202 unidades; doce temas, 66 s.
+- **`rastreador/desmontar.py`:** planos (detección de escenas de ffmpeg), transcripción con tiempos (whisper small en
+  español de HyperFrames: 95 s la primera vez, con la descarga de 488 MB), palabras por segundo, gancho y hoja de
+  fotogramas. Probado con un vídeo sintético con voz de M1: cortes al segundo exacto y transcripción sin errores.
+  **Bajar vídeos de YouTube o TikTok desde aquí no se puede** (YouTube: «Sign in to confirm you're not a bot» y 403;
+  TikTok rechaza la petición) y no se esquiva: el usuario guarda el vídeo desde la app y lo sube.
+- **Primer informe** ([rastreador/informes/2026-10-30.md](../rastreador/informes/2026-10-30.md)), lo principal:
+  - En TikTok en español, la ficción en serie hecha con IA es lo que más acierta: «frutinovelas» (71 % IA) llega a
+    100.000 vistas en el 32,5 % de los vídeos, 6,3 veces la media (5,2 %); «brainrot», el 44,7 %. Lo marcado como IA,
+    en conjunto, rinde algo menos (4,4 %): funciona cuando el formato es suyo.
+  - Los vídeos de 60–180 s aciertan 2,5–3 veces más que los de menos de 30 s (8,2–10,1 % frente a 3,2–3,3 %). Los
+    cortos del canal (48–54 s) están en la franja del 4,3 %.
+  - «Negocios» en bloque acierta el 2,2 %: lo que funciona es concreto (ideas de negocio 18,3 %, historia 15,7 %,
+    pastelería 18,4 %, banco 14,5 %, millonario 12,2 %). En Shorts, negociación e historia de empresas tienen 16 y 15
+    atípicos; branding, ninguno.
+
 ## Siguiente paso
 
-0. Rastreador: con permiso para instalar `duckdb` y `yt-dlp`, una clave de la API de YouTube en el entorno
-   (`YOUTUBE_API_KEY`) y la decisión del usuario sobre el dataset de TikTok, la primera prueba: el mapa de nichos en
-   español, los Shorts atípicos de negocios y el desmontaje de tres de ellos, midiendo tiempo y RAM.
+0. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
+   desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
+   mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.
 1. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
    cambiar o si se suben así.
 2. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una

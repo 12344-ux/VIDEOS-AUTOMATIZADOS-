@@ -41,6 +41,7 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Montaje de agencia (BusinessForMen) | Una subcomposición por escena, con la marca y anclada a las palabras | ✅ `canales/businessformen/kit/montar.py` |
 | Subtítulos | SRT desde los tiempos de la voz, con nombres y cifras bien escritos | ✅ `canales/businessformen/kit/subtitulos.py` |
 | Cortos verticales | El mismo kit en 1080 × 1920: subtítulos quemados, zona segura de las apps y bucle | ✅ `canales/businessformen/cortos/` |
+| Rastreador de nichos | Dataset de 5.600 M de vídeos de TikTok (DuckDB), API de YouTube con RSS, desmontaje de vídeos | ✅ `rastreador/` ([primer informe](rastreador/informes/2026-10-30.md)) |
 
 ## Empezar en una sesión nueva
 
@@ -151,14 +152,16 @@ video/renderizar_canvas.mjs escena HTML animada → MP4
 video/plantilla_titulo.html plantilla de título animado
 estilos/                    las tres pruebas de estilo en HyperFrames y su preparar.sh
 videos/anticitera/          el primer vídeo: guion, prompts, preparar-apertura.sh y la apertura en HyperFrames
+rastreador/                 nichos y vídeos que funcionan: tiktok.py (dataset), youtube.py (Shorts), desmontar.py; informes/
 docs/                       bitácora, investigaciones (imagen, edición y rastreador de nichos), estilo, entorno y resultados
 CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 ```
 
 ## Siguiente paso
 
-Que el usuario vea el vídeo 1 de BusinessForMen y diga qué cambiar o si se sube así; después, el vídeo 2 con el
-mismo kit. El plan está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
+Elegir los próximos vídeos con el rastreador ([primer informe](rastreador/informes/2026-10-30.md)): desmontar 3–5
+vídeos atípicos que el usuario suba y, con eso, el vídeo 2 y nuevos cortos con el mismo kit. El plan está en
+[docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 
 ![Las tres pruebas de estilo](docs/resultados/comparativa-estilos.jpg)
 
