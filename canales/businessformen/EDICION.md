@@ -45,4 +45,6 @@ el rato. Competimos por la atención: el espectador no debe saber qué viene des
 ## Sonido
 
 Música limpia y presente pero por debajo de la voz; graves medidos (que se oiga en un móvil). Efectos secos y
-contados: clic en los bloques, golpe en el rojo, silencio antes de la frase importante. Logo sonoro al final.
+contados: clic en los bloques, golpe en el rojo, silencio antes de la frase importante. Logo sonoro al final. Los
+golpes graves son subgrave puro: la entrega los comprime (`GRAVES=-20` en `video/entregar.sh`) para que peguen sin
+pasar de 1–2 LU por encima de la voz.

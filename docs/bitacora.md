@@ -549,6 +549,14 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   los avisos (voz generada con IA, MusicGen CC BY-NC, imágenes generadas) y etiquetas; dos miniaturas (`miniatura.sh`:
   las cifras +38 M$ / −120 M$ o GANABA DINERO / Y QUEBRÓ); subtítulos SRT (`kit/subtitulos.py`) con los nombres bien
   escritos («Dóbliu Ti Grant» → «W. T. Grant», `recursos/pantalla.json`) y las cantidades en cifras.
+- **Render y entrega:** 8 min 48 s para 6 min 19 s (1,39 s por segundo de vídeo, como el primer tramo; todo CSS y
+  SVG); entrega a −15,1 LUFS, pico real −1,6 dBTP, 76 MB. Los fotogramas sacados del MP4 coinciden con la revisión.
+- **El sonido de los golpes:** los `impact-bass` son casi todo subgrave (97–100 % de la energía bajo 80 Hz) y subían
+  a −11 LUFS momentáneos, 5 LU por encima de la voz durante más de un segundo (en un móvil no se nota; con auriculares
+  o en una tele, sí). `video/entregar.sh` tiene ahora `GRAVES=-20`: comprime la banda bajo 120 Hz (relación 4) antes
+  de normalizar, sin tocar el vídeo. Con eso quedan a 1–2 LU de la voz, con picos como los de la propia voz.
+- **Miniaturas:** la A (+38 M$ / −120 M$) y la B (GANABA DINERO / Y QUEBRÓ), sobre la tienda vacía; las dos se leen
+  a tamaño de móvil. En la primera versión de la A el bloque rojo tapaba la etiqueta CAJA.
 - **Se rompió y se arregló:** editar `preparar.sh` mientras corría (la trampa ya anotada): se devolvió el archivo a su
   versión hasta que acabó. `const L` en una plantilla chocaba con la `L` de `ayuda.js` (el JS de la plantilla comparte
   ámbito con las ayudas). Un `tl.set(…, 0)` no se pinta en el primer fotograma de la escena: lo que nace oculto va con

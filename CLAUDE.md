@@ -130,6 +130,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
   `canales/businessformen/kit/README.md`.
 - MusicGen ignora «no sub bass»: «pulse», «driving electronic» y las cuerdas punteadas salieron con el 71–99 % de la
   energía bajo 150 Hz. Funcionan las cuerdas frotadas en ostinato con marimba. Pedir varias candidatas y medir.
+- Los golpes `impact-bass` de HyperFrames son subgrave puro y, a volumen 0,3–0,4, suben 5 LU por encima de la voz:
+  entregar con `GRAVES=-20 PICO=-2 video/entregar.sh … -15 copiar` (comprime bajo 120 Hz sin recodificar el vídeo).
 - Medir los graves de cada pieza de MusicGen antes de usarla: dos salieron con el 65–98 % de la energía bajo
   150 Hz, que en un móvil no suena (ver la bitácora, sesión 3).
 

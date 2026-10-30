@@ -3,8 +3,8 @@
 Vídeo: `salidas/businessformen/01-flujo-de-caja/entrega/businessformen-01-flujo-de-caja.mp4` (6 min 19 s, 1080p).
 Miniaturas: `entrega/miniatura-a.jpg` (las cifras) y `entrega/miniatura-b.jpg` (la frase). Subtítulos:
 `subtitulos.srt` (español, con los nombres bien escritos y las cifras en número; se suben aparte, no van quemados).
-Todo se rehace con `preparar.sh`, `kit/montar.py`, el render, `video/entregar.sh`, `miniatura.sh` y
-`kit/subtitulos.py`.
+Todo se rehace con `preparar.sh`, `kit/montar.py`, el render (`--quality high --crf 20`), la entrega
+(`GRAVES=-20 PICO=-2 video/entregar.sh render.mp4 entrega.mp4 -15 copiar`), `miniatura.sh` y `kit/subtitulos.py`.
 
 ## Título
 
