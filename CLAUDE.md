@@ -125,6 +125,11 @@ Para trabajar con HyperFrames, leer antes sus guías en
   ocupan unos 46 px por letra: junto a un dibujo, de 16 letras como mucho.
 - HyperFrames toma cada HTML con `data-composition-id` de la raíz de un proyecto por otra composición
   (`multiple_root_compositions`): las plantillas, fuera (ver `canales/businessformen/marca/plantillas/`).
+- En una subcomposición de HyperFrames el CSS queda encerrado bajo `[data-composition-id="…"]`: la raíz de la
+  plantilla no puede llevar estilos (`subcomposition_root_styled_by_class`); va un contenedor interior. Ver
+  `canales/businessformen/kit/README.md`.
+- MusicGen ignora «no sub bass»: «pulse», «driving electronic» y las cuerdas punteadas salieron con el 71–99 % de la
+  energía bajo 150 Hz. Funcionan las cuerdas frotadas en ostinato con marimba. Pedir varias candidatas y medir.
 - Medir los graves de cada pieza de MusicGen antes de usarla: dos salieron con el 65–98 % de la energía bajo
   150 Hz, que en un móvil no suena (ver la bitácora, sesión 3).
 

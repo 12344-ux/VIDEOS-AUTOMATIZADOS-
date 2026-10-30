@@ -1,0 +1,28 @@
+<template>
+  <!-- R13 · la pregunta a negro, palabra a palabra con la voz; luego, un segundo de silencio y la cámara que se acerca. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .preg { position: absolute; left: 0; width: 1920px; top: 380px; text-align: center; font: 800 128px/1.08 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .preg .r { display: block; }
+    #{{ID}} .preg u { text-decoration: none; position: relative; display: inline-block; }
+    #{{ID}} .preg u i { position: absolute; left: 0; right: 0; bottom: 0.02em; height: 10px; background: #b0122f; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="preg">
+      <span class="r"><span class="pal"><span>¿Cómo</span></span><span class="pal"><span>quiebra</span></span><span class="pal"><span>una</span></span><span class="pal"><span>empresa</span></span></span>
+      <span class="r"><span class="pal"><span>que</span></span><u><span class="pal"><span>gana</span></span><span class="pal"><span>dinero?</span></span><i></i></u></span>
+    </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = $$(".preg .pal > span");
+      [w("Cómo"), w("quiebra", 3), w("una", 2), w("empresa"), w("que", 2), w("gana", 2), w("dinero", 2)].forEach((t, i) => sube(ps[i], t - 0.06, 0.4));
+      tl.fromTo(".preg u i", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, f("dinero", 2) + 0.15);
+      tl.fromTo(".preg", { scale: 1 }, { scale: 1.05, duration: DUR - f("dinero", 2), ease: "sine.inOut", immediateRender: false }, f("dinero", 2));
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,53 @@
+<template>
+  <!-- R9 + R8 · la carpintería a sangre; la factura del pedido entra y se rellena con la voz: 100.000 − 70.000 = +30.000. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 62% 48%;
+      filter: saturate(0.85) contrast(1.05) brightness(0.92); }
+    #{{ID}} .velo { background: linear-gradient(90deg, rgba(10, 11, 13, 0.82) 0%, rgba(10, 11, 13, 0.35) 46%, rgba(10, 11, 13, 0) 70%); }
+    #{{ID}} .chip { position: absolute; left: 150px; top: 150px; color: #f4f3f0; }
+    #{{ID}} .esc3d { position: absolute; left: 150px; top: 300px; perspective: 1600px; }
+    #{{ID}} .fact { width: 780px; padding: 46px 54px 50px; background: #f4f3f0; color: #0a0b0d; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+      transform-origin: 50% 100%; }
+    #{{ID}} .fact .mono { color: #6d6f74; font-size: 31px; }
+    #{{ID}} .fila { display: flex; justify-content: space-between; align-items: baseline; margin-top: 34px; }
+    #{{ID}} .fila span { font: 500 46px/1 "Inter Tight", sans-serif; color: #3a3c40; }
+    #{{ID}} .fila b { font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .raya { height: 4px; background: #0a0b0d; margin-top: 30px; transform-origin: left center; }
+    #{{ID}} .margen b { color: #f4f3f0; background: #b0122f; padding: 0.06em 0.18em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <img class="foto" src="assets/img/carpinteria.jpg" alt="" />
+    <div class="capa velo"></div>
+    <div class="mono chip"><i>Ejemplo</i> &nbsp;tu carpintería</div>
+    <div class="esc3d">
+      <div class="fact">
+        <div class="mono">Pedido nº 0147 · mesas y sillas de roble</div>
+        <div class="fila f1"><span>Pedido</span><b class="num v1">0 €</b></div>
+        <div class="fila f2"><span>Coste</span><b class="num v2">0 €</b></div>
+        <div class="raya"></div>
+        <div class="fila f3 margen"><span>Margen</span><b class="num v3">0 €</b></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      cortina("entra", 0.42);
+      tl.fromTo(".foto", { scale: 1.06 }, { scale: 1.15, duration: DUR, ease: "none" }, 0);
+      entra(".chip", w("carpintería") - 0.1, 0.45, 12);
+      tl.fromTo(".fact", { y: 680, rotationX: 24, rotationZ: -4 }, { y: 0, rotationX: 6, rotationZ: -1.5, duration: 0.7, ease: "power3.out" }, w("pedido") - 0.3);
+      aparece(".f1", w("pedido") + 0.1, 0.25);
+      cuenta(".v1", 0, 100000, w("cien") - 0.05, f("euros") - w("cien") + 0.3, { suf: " €" });
+      aparece(".f2", w("setenta", 2) - 0.2, 0.25);
+      cuenta(".v2", 0, -70000, w("setenta", 2) - 0.05, 0.75, { suf: " €" });
+      tl.fromTo(".raya", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.inOut" }, w("Ganas") - 0.3);
+      aparece(".f3", w("Ganas") - 0.05, 0.25);
+      cuenta(".v3", 0, 30000, w("treinta", 2) - 0.05, 0.6, { signo: true, suf: " €" });
+      tl.fromTo(".margen b", { scale: 0.85 }, { scale: 1, duration: 0.4, ease: "back.out(2.5)" }, w("treinta", 2) + 0.4);
+      fin();
+    })();
+  </script>
+</template>

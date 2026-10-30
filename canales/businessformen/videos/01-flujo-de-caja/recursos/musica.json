@@ -1,0 +1,25 @@
+{
+ "_nota": "MusicGen (estéreo, small), 20 s, semilla 11, en un lote de cuatro, y su lecho (audio/lecho.py) a la duración del tramo. La primera tanda (semilla 7, «pulse», «driving electronic») salió con el 94 % y el 99 % de la energía bajo 150 Hz; en la segunda, las dos de cuerdas punteadas, con el 74 % y el 71 %. Se usan la 3 (ladrones, 0 % bajo 150 Hz) y la 4 (gancho, 26 %). «explica» es la pieza de la marca Consejo (canales/businessformen/marca, consejo_bis 1).",
+ "semilla": 11,
+ "duracion": 20,
+ "candidatas": [
+  "tense minimal suspense underscore, staccato pizzicato strings and a ticking woodblock, soft high piano notes, mysterious, 90 bpm, no bass, no drums",
+  "dark suspense underscore, plucked cello and harp in the middle register, clock ticking percussion, restrained, 88 bpm, no bass",
+  "driving investigative underscore, staccato violins and violas ostinato, marimba, light snare and hi-hat, building tension, 105 bpm, no bass",
+  "energetic documentary underscore, staccato string ostinato and pizzicato, marimba and shaker, curious and urgent, 105 bpm, no bass"
+ ],
+ "lechos": {
+  "gancho": [
+   4,
+   30
+  ],
+  "ladrones": [
+   3,
+   56
+  ],
+  "explica": [
+   "marca",
+   60
+  ]
+ }
+}

@@ -1,0 +1,47 @@
+<template>
+  <!-- R7 · el titular, recreado en tipografía (no imita ninguna cabecera real): la hoja cae y se acerca despacio. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .hoja { position: absolute; left: 200px; top: 130px; width: 1520px; height: 860px; background: #ebe5d8; color: #141414;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); padding: 56px 80px; transform-origin: 50% 50%; overflow: hidden; }
+    #{{ID}} .hoja::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.18; mix-blend-mode: multiply; }
+    #{{ID}} .cab { display: flex; justify-content: space-between; align-items: baseline; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #5e5950; }
+    #{{ID}} .cab b { font-weight: 500; color: #141414; font-size: 30px; }
+    #{{ID}} .regla { height: 6px; background: #141414; margin: 22px 0 34px; }
+    #{{ID}} .tit { font: 700 128px/0.98 "Bodoni Moda", serif; letter-spacing: -0.01em; white-space: nowrap; }
+    #{{ID}} .tit span { display: inline-block; margin-right: 0.22em; }
+    #{{ID}} .sub { position: relative; display: inline-block; margin-top: 30px; font: italic 500 45px/1.15 "Bodoni Moda", serif; color: #262626; white-space: nowrap; }
+    #{{ID}} .sub span { display: inline-block; margin-right: 0.22em; }
+    #{{ID}} .sub u { position: absolute; left: 0; right: 0.2em; bottom: -6px; height: 6px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .cols { display: flex; gap: 46px; margin-top: 46px; }
+    #{{ID}} .col { flex: 1; }
+    #{{ID}} .col i { display: block; height: 13px; margin-bottom: 19px; background: #cbc4b5; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="hoja">
+      <div class="cab"><span>RECREACIÓN · NO ES UNA PORTADA REAL</span><b class="fecha">OCTUBRE DE 1975</b></div>
+      <div class="regla"></div>
+      <div class="tit"><span>Quiebra</span><span>W. T.</span><span>Grant</span></div>
+      <div class="sub"><span>La</span><span>segunda</span><span>mayor</span><span>quiebra</span><span>de</span><span>la</span><span>historia</span><span>de</span><span>Estados</span><span>Unidos</span><u></u></div>
+      <div class="cols">
+        <div class="col"><i></i><i style="width: 92%"></i><i></i><i style="width: 80%"></i><i></i><i style="width: 64%"></i></div>
+        <div class="col"><i></i><i></i><i style="width: 88%"></i><i></i><i style="width: 71%"></i><i></i></div>
+        <div class="col"><i style="width: 95%"></i><i></i><i></i><i style="width: 83%"></i><i></i><i style="width: 58%"></i></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".hoja", { y: 900, rotation: -9 }, { y: 0, rotation: -2.5, duration: 0.65, ease: "power3.out" }, 0);
+      tl.fromTo(".hoja", { scale: 1 }, { scale: 1.07, duration: DUR, ease: "none", immediateRender: false }, 0.65);
+      aparece(".fecha", w("Dos") - 0.05, 0.3);
+      $$(".tit span").forEach((s, i) => tl.fromTo(s, { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power3.out", transformOrigin: "left bottom" }, w("quiebra") - 0.05 + i * 0.09));
+      $$(".sub span").forEach((s, i) => aparece(s, w("segunda") - 0.1 + i * 0.07, 0.2));
+      tl.fromTo(".sub u", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power3.inOut" }, w("hasta") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

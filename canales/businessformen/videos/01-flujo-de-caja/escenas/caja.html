@@ -1,0 +1,42 @@
+<template>
+  <!-- R2 → R10 · sueldos, facturas, el banco: no se pagan con BENEFICIO (tachado). Se pagan con CAJA: la palabra
+       a pantalla completa con monedas y billetes dentro de las letras. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .lista { position: absolute; left: 150px; top: 150px; }
+    #{{ID}} .lista div { font: 800 136px/1.06 "Inter Tight", sans-serif; letter-spacing: -0.035em; overflow: hidden; }
+    #{{ID}} .lista div span { display: inline-block; }
+    #{{ID}} .nose { position: absolute; left: 150px; top: 640px; }
+    #{{ID}} .ben { position: absolute; left: 144px; top: 700px; font: 800 136px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; color: #8a8d93; }
+    #{{ID}} .ben i { position: absolute; left: -10px; right: -10px; top: 50%; height: 18px; margin-top: -9px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .con { position: absolute; left: 0; width: 1920px; top: 150px; text-align: center; }
+    #{{ID}} .caja { position: absolute; left: 0; width: 1920px; top: 210px; text-align: center; font: 800 600px/1 "Inter Tight", sans-serif; letter-spacing: -0.05em;
+      background: url("assets/img/dinero.jpg") center / 1920px auto; -webkit-background-clip: text; background-clip: text; color: transparent; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="g1">
+      <div class="lista"><div><span>SUELDOS</span></div><div><span>FACTURAS</span></div><div><span>EL BANCO</span></div></div>
+      <div class="mono nose">No se pagan con</div>
+      <div class="ben">BENEFICIO<i></i></div>
+    </div>
+    <div class="mono con">Se pagan con</div>
+    <div class="caja">CAJA</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const l = $$(".lista span");
+      sube(l[0], w("sueldos", 2) - 0.06); sube(l[1], w("facturas") - 0.06); sube(l[2], w("banco", 2) - 0.06);
+      entra(".nose", w("no", 2) - 0.05, 0.4, 10);
+      tl.fromTo(".ben", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.4, ease: "expo.out" }, w("beneficio", 3) - 0.08);
+      tl.fromTo(".ben i", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, f("beneficio", 3) + 0.05);
+      tl.to(".g1", { autoAlpha: 0, duration: 0.2, ease: "power2.in" }, w("pagan", 3) - 0.3);
+      entra(".con", w("pagan", 3) - 0.15, 0.4, 10);
+      tl.fromTo(".caja", { autoAlpha: 0, scale: 1.25 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: "expo.out" }, w("caja", 3) - 0.08);
+      tl.fromTo(".caja", { backgroundPosition: "50% 40%" }, { backgroundPosition: "50% 60%", duration: DUR - w("caja", 3) + 0.1, ease: "none", immediateRender: false }, w("caja", 3) - 0.08);
+      fin();
+    })();
+  </script>
+</template>

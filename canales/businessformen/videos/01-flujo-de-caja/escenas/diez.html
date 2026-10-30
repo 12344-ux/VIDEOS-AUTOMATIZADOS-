@@ -1,0 +1,57 @@
+<template>
+  <!-- R2 → R3 → R6 · «Pasa más de lo que crees»; CB Insights, 2021: 111 cierres; cuatro de cada diez cuadros, en rojo. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .frase { position: absolute; left: 0; width: 1920px; top: 440px; text-align: center; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .b { position: absolute; left: 150px; top: 250px; }
+    #{{ID}} .ano { font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .quien { margin-top: 22px; }
+    #{{ID}} .cien { position: absolute; right: 150px; top: 200px; text-align: right; }
+    #{{ID}} .cien .n { font: 800 440px/0.82 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .cien .mono { margin-top: 30px; }
+    #{{ID}} .fila { position: absolute; left: 150px; top: 380px; display: flex; gap: 24px; }
+    #{{ID}} .fila i { display: block; width: 140px; height: 140px; border: 3px solid rgba(244, 243, 240, 0.7); }
+    #{{ID}} .fila i b { display: block; width: 100%; height: 100%; background: #b0122f; transform-origin: bottom center; visibility: hidden; }
+    #{{ID}} .fila i:nth-child(-n+4) b { visibility: visible; }
+    #{{ID}} .lbl { position: absolute; left: 150px; top: 590px; font: 800 92px/1.02 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .pc { position: absolute; left: 150px; top: 830px; }
+    #{{ID}} .fuente { position: absolute; left: 150px; bottom: 70px; font-size: 28px; }
+    #{{ID}} .chip { position: absolute; left: 150px; top: 200px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="frase">Pasa más de lo que crees.</div>
+    <div class="g2">
+      <div class="b"><div class="ano num">2021</div><div class="mono quien"><b>CB Insights</b> estudió</div></div>
+      <div class="cien"><div class="n num">0</div><div class="mono">startups que habían cerrado</div></div>
+    </div>
+    <div class="mono chip"><b>111 cierres</b> · CB Insights, 2021</div>
+    <div class="fila"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+    <div class="lbl">Se quedaron sin caja<br>o sin financiación</div>
+    <div class="mono pc"><i>38 %</i> &nbsp;una de las causas</div>
+    <div class="mono fuente">Fuente: CB Insights, «The Top 12 Reasons Startups Fail», 2021</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      trocea(".frase").forEach((s, i) => sube(s, serie("Pasa", 6)[i] - 0.06, 0.4));
+      tl.to(".frase", { yPercent: -60, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, w("En") + 0.05);
+      // 2021, CB Insights, y los 111 cierres que cuentan hasta su número.
+      tl.fromTo(".ano", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("dos", 2) - 0.05);
+      entra(".quien", w("Si") - 0.05, 0.45, 12);
+      aparece(".cien .n", w("ciento", 2) - 0.3, 0.2);
+      cuenta(".cien .n", 0, 111, w("ciento", 2) - 0.25, f("once") - w("ciento", 2) + 0.35, { ease: "power3.out" });
+      entra(".cien .mono", w("estártaps") - 0.05, 0.45, 12);
+      // «Cuatro de cada diez»: el bloque sube a una etiqueta; diez cuadros; cuatro se llenan de rojo.
+      tl.to(".g2", { autoAlpha: 0, y: -40, duration: 0.3, ease: "power3.in" }, w("En", 2) - 0.25);
+      entra(".chip", w("En", 2), 0.4, 10);
+      tl.fromTo(".fila i", { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "expo.out", stagger: 0.05 }, w("cuatro") - 0.05);
+      tl.fromTo(".fila i:nth-child(-n+4) b", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "expo.out", stagger: 0.12 }, w("quedarse") - 0.02);
+      trocea(".lbl").forEach((s, i) => sube(s, w("quedarse") + 0.05 + i * 0.06, 0.45));
+      entra(".pc", w("caja") - 0.05, 0.45, 12);
+      aparece(".fuente", w("quedarse") - 0.1, 0.4, 0.9);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,8 @@
+{
+ "_nota": "FLUX.3 Image Klein, 4 pasos, 1280 x 720, ampliadas a 1920 x 1080 con EDSR.",
+ "planchas": [
+  {"nombre": "carpinteria", "semilla": 311, "prompt": "a small carpentry workshop at golden hour, a handmade wooden dining table and chairs being finished, hand tools and wood planks on a workbench, sawdust floating in a beam of warm light, the furniture in the right half of the frame, dark wooden wall on the left of the frame, cinematic, 35mm film look, no people, no text"},
+  {"nombre": "almacen", "semilla": 313, "prompt": "a long aisle between tall warehouse shelving filled with identical plain brown cardboard boxes, vanishing into the distance, dim cold industrial light, deep shadows, symmetrical one-point perspective, cinematic, 35mm film look, no people, no text, no labels"},
+  {"nombre": "dinero", "semilla": 317, "prompt": "macro close-up of a loose pile of paper banknotes and metal coins, dramatic low key light from the side, rich texture, shallow depth of field, cinematic, no text"}
+ ]
+}

@@ -1,0 +1,55 @@
+<template>
+  <!-- R12 · ladrón 1, lo que te deben: la factura de cerca, el sello PENDIENTE, los días que corren; y la frase. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .chip { position: absolute; left: 150px; top: 120px; }
+    #{{ID}} .tit { position: absolute; left: 140px; top: 170px; font: 800 104px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .p3d { position: absolute; left: 470px; top: 300px; perspective: 1800px; }
+    #{{ID}} .fact { width: 1120px; padding: 48px 62px 210px; background: #f4f3f0; color: #0a0b0d; box-shadow: 0 34px 90px rgba(0, 0, 0, 0.6); position: relative; }
+    #{{ID}} .fact .mono { color: #6d6f74; font-size: 31px; }
+    #{{ID}} .fila { display: flex; justify-content: space-between; align-items: baseline; margin-top: 26px; font: 500 50px/1.1 "Inter Tight", sans-serif; color: #3a3c40; }
+    #{{ID}} .total { margin-top: 34px; display: flex; justify-content: space-between; align-items: baseline; }
+    #{{ID}} .total span { font: 700 46px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .total b { font: 800 106px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .vence { margin-top: 26px; display: flex; justify-content: space-between; }
+    #{{ID}} .vence .dia { color: #0a0b0d; }
+    #{{ID}} .sello { position: absolute; left: 500px; top: 470px; padding: 14px 34px 6px; border: 10px solid #b0122f; border-radius: 10px; color: #b0122f;
+      font: 800 118px/0.9 "Inter Tight", sans-serif; letter-spacing: 0.01em; transform: rotate(-12deg);
+      -webkit-mask-image: url("assets/img/desgaste.png"); mask-image: url("assets/img/desgaste.png"); -webkit-mask-size: 360px; mask-size: 360px; }
+    #{{ID}} .frase { position: absolute; left: 150px; top: 930px; font: 800 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; white-space: nowrap; }
+    #{{ID}} .frase .bl { position: relative; }
+    #{{ID}} .frase .bl i { position: absolute; inset: 0.04em -0.12em 0 -0.12em; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .frase .bl em { position: relative; font-style: normal; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="mono chip"><i>Ladrón 1</i></div>
+    <div class="tit">LO QUE TE DEBEN</div>
+    <div class="p3d">
+      <div class="fact">
+        <div class="mono">Factura nº 0147 · cliente: Restaurante Central</div>
+        <div class="fila"><span>12 mesas y 48 sillas de roble</span><span>100.000 €</span></div>
+        <div class="total"><span>Total</span><b class="num">100.000 €</b></div>
+        <div class="mono vence"><span>Vence a 90 días</span><span class="dia num">Día 1</span></div>
+        <div class="sello">PENDIENTE</div>
+      </div>
+    </div>
+    <div class="frase"><span class="pal"><span>LE</span></span><span class="pal"><span>ESTÁS</span></span><span class="pal"><span class="bl"><i></i><em>PRESTANDO</em></span></span><span class="pal"><span>TU</span></span><span class="pal"><span>DINERO.</span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".chip", w("primero") - 0.1, 0.4, 10);
+      trocea(".tit").forEach((s, i) => sube(s, serie("lo", 4, 4)[i] - 0.05, 0.4));
+      tl.fromTo(".fact", { x: 700, rotationY: -28, rotationZ: 4 }, { x: 0, rotationY: -8, rotationZ: -3, duration: 0.7, ease: "power3.out" }, 0);
+      tl.fromTo(".sello", { autoAlpha: 0, scale: 1.8, rotation: -20 }, { autoAlpha: 1, scale: 1, rotation: -12, duration: 0.2, ease: "power4.in" }, w("deben") - 0.08);
+      tl.fromTo(".p3d", { x: 0 }, { keyframes: [{ x: -8, duration: 0.04 }, { x: 6, duration: 0.05 }, { x: 0, duration: 0.06 }] }, w("deben") + 0.12);
+      cuenta(".dia", 1, 90, w("tarda", 2) - 0.1, f("pagarte") - w("tarda", 2) + 0.4, { pre: "Día ", ease: "power1.inOut" });
+      const fr = $$(".frase .pal > span");
+      serie("le", 5, 2).forEach((t, i) => sube(fr[i], t - 0.05, 0.4));
+      tl.fromTo(".frase .bl i", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "expo.out" }, w("prestando") + 0.05);
+      fin();
+    })();
+  </script>
+</template>

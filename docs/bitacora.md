@@ -494,11 +494,31 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
 - **Datos comprobados con búsquedas** y anotados con su fuente en el guion; quedan tres por contrastar en una segunda
   fuente antes de producir.
 
+### 11. Producción: el primer tramo del vídeo 1 (0:00–2:28)
+
+- **El usuario aprobó el guion** y pidió producir los primeros 2–3 minutos de una vez. Hecho: del gancho a «crecer
+  hasta morir», con el logo al final (2 min 28 s).
+- **Kit del canal** (`canales/businessformen/kit/`): `montar.py` junta las escenas (una subcomposición por escena,
+  anclada a las palabras de la voz), la música y los efectos; `marca.css` y `ayuda.js` son la marca Consejo y sus
+  animaciones. 18 escenas en `videos/01-flujo-de-caja/escenas/`, cada una con un recurso distinto del anterior
+  (`EDICION.md`): cifras que cuentan, la pantalla roja, un titular recreado, la pregunta a negro, cuadros que se llenan,
+  la factura sobre el taller, la pantalla partida, CAJA con monedas dentro, el ciclo de caja con el punto que lo
+  recorre, el sello PENDIENTE, el almacén que se queda sin color, la línea de los plazos y la gráfica que acaba en rojo.
+- **Medido:** voz de 143,3 s en 1 min 12 s (2,6 palabras por segundo, más rápida de lo calculado: el tramo de 2:43 del
+  guion dura 2:23); tres imágenes de FLUX, 110 s la primera con la carga y 84 s las otras; cuatro músicas de 20 s en
+  un lote, unos 4 min.
+- **La música, otra vez:** la primera tanda («pulse», «driving electronic») salió con el 94 % y el 99 % de la energía
+  bajo 150 Hz; en la segunda, las dos de cuerdas punteadas, con el 74 % y el 71 %. Se usan dos de cuerdas frotadas con
+  marimba (0 % y 26 %).
+- **Lo que rompió HyperFrames:** el CSS de cada subcomposición queda encerrado bajo su `data-composition-id`, así que
+  la raíz de la plantilla no puede llevar estilos (hace falta un contenedor interior); las tildes de las mayúsculas
+  asomaban por encima de la máscara (ahora las palabras suben desde el 140 %); `trocea()` perdía los `<br>`.
+
 ## Siguiente paso
 
-1. Que el usuario apruebe o corrija el guion de «Por qué quiebran empresas que ganan dinero».
-2. Con el guion aprobado: contrastar los tres datos pendientes, generar la voz y montar el kit de la marca Consejo
-   (los recursos R1–R15 de `EDICION.md`) a la vez que el vídeo; después, la miniatura.
+1. Que el usuario vea el primer tramo del vídeo 1 y diga qué cambiar.
+2. El resto del vídeo (W. T. Grant, Carillion, Amazon, las cuatro reglas y el cierre) con el mismo kit; antes,
+   contrastar los tres datos pendientes del guion. Después, la miniatura y la descripción con las fuentes.
 3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
    (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 

@@ -1,0 +1,43 @@
+<template>
+  <!-- R2 · «Las dos cosas son verdad a la vez»: las dos cifras juntas; luego, el beneficio / la caja… EL LUNES. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .dos { position: absolute; left: 0; width: 1920px; top: 380px; display: flex; justify-content: center; align-items: center; gap: 50px; }
+    #{{ID}} .chip2 { padding: 30px 46px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .chip2.a { background: #121418; }
+    #{{ID}} .chip2.b { background: #b0122f; }
+    #{{ID}} .y { font: 500 70px/1 "Inter Tight", sans-serif; color: #8a8d93; }
+    #{{ID}} .verdad { position: absolute; left: 0; width: 1920px; top: 640px; text-align: center; }
+    #{{ID}} .r { position: absolute; left: 150px; }
+    #{{ID}} .k { font: 800 128px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .s { margin-top: 18px; font: 500 58px/1.1 "Inter Tight", sans-serif; color: #8a8d93; white-space: nowrap; }
+    #{{ID}} .lunes { position: absolute; left: 820px; top: 576px; padding: 4px 30px 14px; background: #b0122f; font: 800 128px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="g1">
+      <div class="dos"><div class="chip2 a num">+30.000 €</div><div class="y">y</div><div class="chip2 b num">−70.000 €</div></div>
+    </div>
+    <div class="r" style="top: 250px"><div class="k k1">EL BENEFICIO</div><div class="s s1">dice si tu negocio vale la pena.</div></div>
+    <div class="r" style="top: 580px"><div class="k k2">LA CAJA</div><div class="s s2">dice si puedes pagar</div></div>
+    <div class="lunes">EL LUNES.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".chip2.a", w("cosas") - 0.45, 0.4, 20);
+      entra(".chip2.b", w("cosas") - 0.1, 0.4, 20);
+      aparece(".y", w("cosas") + 0.1, 0.25);
+      tl.fromTo(".dos", { scale: 1 }, { keyframes: [{ scale: 1.05, duration: 0.16 }, { scale: 1, duration: 0.3 }] }, w("vez") - 0.05);
+      // Las dos cifras se quedan arriba, pequeñas, como referencia de lo que sigue.
+      tl.to(".dos", { y: -300, scale: 0.55, duration: 0.5, ease: "expo.inOut" }, w("beneficio", 2) - 0.5);
+      trocea(".k1").forEach((s, i) => sube(s, w("beneficio", 2) - 0.12 + i * 0.08, 0.45));
+      trocea(".s1").forEach((s, i) => sube(s, serie("dice", 7)[i] - 0.05, 0.35));
+      trocea(".k2").forEach((s, i) => sube(s, w("caja", 2) - 0.12 + i * 0.08, 0.45));
+      trocea(".s2").forEach((s, i) => sube(s, serie("dice", 4, 2)[i] - 0.05, 0.35));
+      tl.fromTo(".lunes", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", transformOrigin: "left center" }, w("lunes") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

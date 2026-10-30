@@ -1,0 +1,63 @@
+<template>
+  <!-- R4 · pantalla partida: a la izquierda, tu contabilidad (+30.000 € hoy); a la derecha, tu banco: 90 días, los pagos
+       de este mes y el saldo, que se hunde a −70.000 € mientras el panel se vuelve rojo. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .izq { position: absolute; left: 0; top: 0; width: 958px; height: 1080px; background: #121418; }
+    #{{ID}} .der { position: absolute; left: 962px; top: 0; width: 958px; height: 1080px; background: #0a0b0d; }
+    #{{ID}} .div { position: absolute; left: 958px; top: 0; width: 4px; height: 1080px; background: #f4f3f0; transform-origin: top center; }
+    #{{ID}} .t { position: absolute; top: 170px; }
+    #{{ID}} .big { position: absolute; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .dia { position: absolute; left: 1080px; top: 250px; font: 800 110px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .barra { position: absolute; left: 1080px; top: 390px; width: 720px; height: 10px; background: rgba(244, 243, 240, 0.18); }
+    #{{ID}} .barra b { display: block; width: 100%; height: 100%; background: #f4f3f0; transform-origin: left center; }
+    #{{ID}} .gasto { position: absolute; left: 1080px; width: 720px; display: flex; justify-content: space-between; font: 700 52px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .gasto span { color: #c9cacd; font-weight: 500; }
+    #{{ID}} .mes { position: absolute; left: 1080px; top: 470px; }
+    #{{ID}} .saldo { position: absolute; left: 1080px; top: 800px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="izq"></div><div class="der"></div><div class="div"></div>
+    <div class="mono t" style="left: 120px">Tu contabilidad</div>
+    <div class="big num ben" style="left: 112px; top: 250px">+0 €</div>
+    <div class="mono hoy" style="position: absolute; left: 120px; top: 430px">Hoy · el día que vendes</div>
+    <div class="mono t tb" style="left: 1080px">Tu banco</div>
+    <div class="dia num">Día 0</div>
+    <div class="barra"><b></b></div>
+    <div class="mono mes">Este mes pagas</div>
+    <div class="gasto g1" style="top: 540px"><span>Madera</span><b class="num">−35.000 €</b></div>
+    <div class="gasto g2" style="top: 620px"><span>Sueldos</span><b class="num">−25.000 €</b></div>
+    <div class="gasto g3" style="top: 700px"><span>Alquiler</span><b class="num">−10.000 €</b></div>
+    <div class="mono saldo">Saldo</div>
+    <div class="big num sal" style="left: 1072px; top: 850px">0 €</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".izq", { xPercent: -100 }, { xPercent: 0, duration: 0.45, ease: "expo.out" }, 0);
+      tl.fromTo(".der", { xPercent: 100 }, { xPercent: 0, duration: 0.45, ease: "expo.out" }, 0.05);
+      tl.fromTo(".div", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "expo.out" }, 0.2);
+      entra(".t", w("contabilidad") - 0.1, 0.4, 10);
+      aparece(".ben", w("apunta") - 0.05, 0.2);
+      cuenta(".ben", 0, 30000, w("apunta"), serie("treinta", 2, 3)[1] - w("apunta") + 0.4, { signo: true, suf: " €" });
+      entra(".hoy", w("hoy", 2) - 0.05, 0.4, 10);
+      // El banco: noventa días de espera.
+      entra(".tb", w("Pero", 2) - 0.1, 0.4, 10);
+      aparece(".dia", w("cliente") - 0.1, 0.2);
+      cuenta(".dia", 0, 90, w("noventa") - 0.1, f("días") - w("noventa") + 0.5, { pre: "Día ", ease: "power1.inOut" });
+      tl.fromTo(".barra b", { scaleX: 0 }, { scaleX: 1, duration: f("días") - w("noventa") + 0.5, ease: "power1.inOut" }, w("noventa") - 0.1);
+      entra(".mes", w("Mientras") - 0.05, 0.4, 10);
+      entra(".g1", w("madera") - 0.06, 0.4, 16); entra(".g2", w("sueldos") - 0.06, 0.4, 16); entra(".g3", w("alquiler") - 0.06, 0.4, 16);
+      // «Tu contabilidad gana treinta mil»: el beneficio late; «y tu banco pierde setenta mil»: el panel se vuelve rojo.
+      tl.fromTo(".ben", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: 0.18, ease: "power2.out" }, { scale: 1, duration: 0.35, ease: "power2.inOut" }], transformOrigin: "left center" }, w("gana", 3) - 0.05);
+      entra(".saldo", w("banco") - 0.1, 0.4, 10);
+      aparece(".sal", w("banco"), 0.2);
+      cuenta(".sal", 0, -70000, w("pierde") - 0.05, f("mil", 8) - w("pierde") + 0.35, { suf: " €", ease: "power3.out" });
+      tl.fromTo(".der", { backgroundColor: "#0a0b0d" }, { backgroundColor: "#b0122f", duration: 0.35, ease: "power2.out", immediateRender: false }, w("pierde") + 0.25);
+      tl.to(".gasto span", { color: "#f4f3f0", duration: 0.3 }, w("pierde") + 0.25);
+      fin();
+    })();
+  </script>
+</template>

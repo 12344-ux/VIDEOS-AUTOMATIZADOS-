@@ -1,0 +1,33 @@
+<template>
+  <!-- El logo de la marca (ruta Consejo): el cuadro rojo crece, suben las iniciales y el nombre sale del cuadro. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .cuadro { position: absolute; left: 470px; top: 440px; width: 200px; height: 200px; background: #b0122f; overflow: hidden; }
+    #{{ID}} .cuadro .ini { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 800 84px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .cuadro .ini span { display: inline-block; }
+    #{{ID}} .nombre { position: absolute; left: 712px; top: 478px; font: 800 104px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .nombre b { font-weight: 800; color: #b0122f; }
+    #{{ID}} .lema { position: absolute; left: 716px; top: 604px; }
+    #{{ID}} .ia { position: absolute; right: 64px; bottom: 50px; font-size: 28px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="cuadro"><div class="ini"><span>B</span><span>F</span><span>M</span></div></div>
+    <div class="nombre">BUSINESS<b>FOR</b>MEN</div>
+    <div class="mono lema">Mentalidad de negocios</div>
+    <div class="mono ia">Voz generada con IA</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".cuadro", { scale: 0 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0.15);
+      tl.fromTo(".cuadro .ini span", { yPercent: 120 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.05 }, 0.35);
+      tl.fromTo(".nombre", { clipPath: "inset(0 100% 0 0)", x: -40 }, { clipPath: "inset(0 0% 0 0)", x: 0, duration: 0.7, ease: "expo.out" }, 0.55);
+      entra(".lema", 1.0, 0.5, 0);
+      aparece(".ia", 0.8, 0.5, 0.8);
+      tl.to(RAIZ, { autoAlpha: 0, duration: 0.4, ease: "power2.in" }, DUR - 0.45);
+      fin();
+    })();
+  </script>
+</template>

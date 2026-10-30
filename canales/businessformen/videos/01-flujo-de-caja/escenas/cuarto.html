@@ -1,0 +1,35 @@
+<template>
+  <!-- R13 · el cuarto ladrón: un 4 enorme; «el más traicionero», «parece una buena noticia»; y CRECER, de golpe. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .cuatro { position: absolute; left: 230px; top: 110px; font: 800 820px/0.8 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .col { position: absolute; left: 1000px; top: 330px; }
+    #{{ID}} .col .k { font: 800 84px/1.04 "Inter Tight", sans-serif; letter-spacing: -0.03em; margin-top: 26px; }
+    #{{ID}} .col .mono { margin-top: 30px; }
+    #{{ID}} .crecer { position: absolute; left: 0; width: 1920px; top: 340px; text-align: center; font: 800 330px/1 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .barra { position: absolute; left: 560px; top: 720px; width: 800px; height: 18px; background: #b0122f; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="g1">
+      <div class="cuatro">4</div>
+      <div class="col"><div class="mono"><i>Ladrón 4</i></div><div class="k">EL MÁS<br>TRAICIONERO</div><div class="mono pb">Parece una buena noticia</div></div>
+    </div>
+    <div class="crecer">CRECER</div>
+    <div class="barra"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".cuatro", { autoAlpha: 0, scale: 1.35 }, { autoAlpha: 1, scale: 1, duration: 0.32, ease: "power4.out", transformOrigin: "50% 50%" }, w("cuarto") - 0.06);
+      entra(".col .mono:first-child", w("ladrón") - 0.05, 0.4, 10);
+      tl.fromTo(".col .k", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("traicionero") - 0.15);
+      entra(".pb", w("parece") - 0.05, 0.4, 10);
+      tl.to(".g1", { xPercent: -30, autoAlpha: 0, duration: 0.28, ease: "power3.in" }, w("crecer") - 0.3);
+      tl.fromTo(".crecer", { autoAlpha: 0, scale: 1.3 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "power4.out" }, w("crecer") - 0.05);
+      tl.fromTo(".barra", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, w("crecer") + 0.2);
+      fin();
+    })();
+  </script>
+</template>

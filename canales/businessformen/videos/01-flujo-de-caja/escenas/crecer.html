@@ -1,0 +1,50 @@
+<template>
+  <!-- R6 → R1 · cada pedido nuevo pide más: las ventas suben en barras blancas y la caja se hunde en rojo; y, de golpe,
+       la pantalla roja: CRECER HASTA MORIR. -->
+  <style>
+/*MARCA*/
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{ID}} .bar { position: absolute; width: 170px; bottom: 380px; background: #f4f3f0; transform-origin: bottom center; }
+    #{{ID}} .ven { position: absolute; left: 150px; top: 110px; }
+    #{{ID}} .caja { position: absolute; right: 150px; top: 960px; }
+    #{{ID}} .rojo { position: absolute; inset: 0; background: #b0122f; visibility: hidden; }
+    #{{ID}} .golpe { position: absolute; left: 150px; top: 290px; font: 800 220px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.045em; white-space: nowrap; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="mono ven"><b>Ventas</b> · cada pedido nuevo</div>
+    <div class="bar b1" style="left: 260px; height: 110px"></div><div class="bar b2" style="left: 500px; height: 170px"></div>
+    <div class="bar b3" style="left: 740px; height: 240px"></div><div class="bar b4" style="left: 980px; height: 320px"></div>
+    <div class="bar b5" style="left: 1220px; height: 410px"></div><div class="bar b6" style="left: 1460px; height: 520px"></div>
+    <svg viewBox="0 0 1920 1080">
+      <path class="base" d="M150,700 L1770,700" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#f4f3f0;stroke-width:3"/>
+      <path class="c1" d="M260,712 L345,745" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+      <path class="c2" d="M345,745 L585,790" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+      <path class="c3" d="M585,790 L825,845" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+      <path class="c4" d="M825,845 L1065,905" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+      <path class="c5" d="M1065,905 L1305,965" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+      <path class="c6" d="M1305,965 L1545,1035" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+    </svg>
+    <div class="mono caja"><i>Caja</i></div>
+    <div class="rojo"><div class="golpe"><div class="g">CRECER</div><div><span class="pal"><span>HASTA</span></span><span class="pal"><span>MORIR.</span></span></div></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      traza(".base", 0.05, 0.6);
+      entra(".ven", w("pedido", 2) - 0.2, 0.4, 10);
+      const T = [w("pedido", 2), w("necesita"), w("adelantado"), w("nuevo"), w("pide"), w("crecen")];
+      T.forEach((t, i) => {
+        tl.fromTo(`.b${i + 1}`, { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, t - 0.05);
+        traza(`.c${i + 1}`, t - 0.02, 0.4, "power2.out");
+      });
+      entra(".caja", w("necesita") + 0.1, 0.4, 10);
+      // El golpe rojo: corte seco en «hasta»; «morir» cae encima.
+      tl.fromTo(".rojo", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, w("Hasta", 2) - 0.1);
+      const p = $$(".golpe .pal > span");
+      sube(p[0], w("Hasta", 2) - 0.06, 0.35); sube(p[1], w("morir") - 0.06, 0.35);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,80 @@
+<template>
+  <!-- R5 · el ciclo de caja: el círculo se dibuja y un punto rojo (el dinero) recorre compra, almacén, venta y cobro
+       al ritmo de la voz; cuanto más tarda en volver, más crece el círculo; nombre, fórmula y los tres ladrones. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .rueda { position: absolute; inset: 0; transform-origin: 960px 470px; }
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+    #{{ID}} .est { position: absolute; font: 800 46px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; white-space: nowrap; }
+    #{{ID}} .lad { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; background: #b0122f; display: flex; align-items: center; justify-content: center;
+      font: 800 36px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .centro { position: absolute; left: 0; width: 1920px; top: 370px; text-align: center; }
+    #{{ID}} .dias { font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; margin-top: 16px; }
+    #{{ID}} .mas { margin-top: 18px; }
+    #{{ID}} .nombre { position: absolute; left: 0; width: 1920px; top: 385px; text-align: center; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .formula { position: absolute; left: 0; width: 1920px; top: 930px; text-align: center; font-size: 34px; }
+    #{{ID}} .formula em { font-style: normal; color: #f4f3f0; padding: 0 0.4em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="rueda">
+      <svg viewBox="0 0 1920 1080">
+        <path class="aro" d="M960,190 A280,280 0 1 1 959.9,190" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#f4f3f0;stroke-width:4"/>
+        <circle class="e0" cx="960" cy="190" r="12" fill="#f4f3f0"/><circle class="e1" cx="1240" cy="470" r="12" fill="#f4f3f0"/>
+        <circle class="e2" cx="960" cy="750" r="12" fill="#f4f3f0"/><circle class="e3" cx="680" cy="470" r="12" fill="#f4f3f0"/>
+        <circle class="punto" cx="960" cy="190" r="24" fill="#b0122f" stroke="#f4f3f0" stroke-width="3"/>
+      </svg>
+      <div class="est s0" style="left: 0; width: 1920px; top: 108px; text-align: center">COMPRA</div>
+      <div class="est s1" style="left: 1290px; top: 447px">ALMACÉN</div>
+      <div class="est s2" style="left: 0; width: 1920px; top: 790px; text-align: center">VENTA</div>
+      <div class="est s3" style="right: 1290px; top: 447px; text-align: right">COBRO</div>
+      <div class="lad l1" style="left: 640px; top: 420px">1</div>
+      <div class="lad l2" style="left: 1280px; top: 420px">2</div>
+      <div class="lad l3" style="left: 1092px; top: 132px">3</div>
+    </div>
+    <div class="centro"><div class="mono">Tu dinero, fuera</div><div class="dias num">0 días</div><div class="mono mas">Más caja necesitas</div></div>
+    <div class="nombre">CICLO<br>DE CAJA</div>
+    <div class="mono formula"><b>días de almacén</b><em>+</em><b>días de cobro</b><em>−</em><b>días de pago</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      traza(".aro", w("vueltas") - 0.35, 1.1);
+      tl.fromTo(".e0, .e1, .e2, .e3", { autoAlpha: 0, scale: 0, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.12 }, w("vueltas") + 0.2);
+      aparece(".punto", w("Sale") - 0.1, 0.2);
+      entra(".s0", w("comprar") - 0.05, 0.4, 12); entra(".s1", w("almacén") - 0.05, 0.4, 12);
+      entra(".s2", w("venta") - 0.05, 0.4, 12); entra(".s3", w("pague") - 0.05, 0.4, 12);
+      // El punto: un ángulo que avanza entre las palabras (−90° arriba, 0° derecha…), y otra vuelta, más lenta.
+      const K2 = [[w("Sale") - 0.1, -90], [w("comprar") + 0.25, -90], [w("almacén"), 0], [w("convierte"), 0], [w("venta"), 90],
+                  [w("espera"), 90], [w("pague"), 180], [f("pague"), 180], [f("vuelve") + 0.1, 270], [w("Cuanto"), 270], [w("abierto"), 630]];
+      const angulo = (t) => {
+        if (t <= K2[0][0]) return K2[0][1];
+        for (let i = 1; i < K2.length; i++) if (t <= K2[i][0]) {
+          const [t0, a0] = K2[i - 1], [t1, a1] = K2[i];
+          return a0 + (a1 - a0) * gsap.parseEase("sine.inOut")((t - t0) / Math.max(t1 - t0, 1e-3));
+        }
+        return K2[K2.length - 1][1];
+      };
+      const punto = $(".punto");
+      alBuscar((t) => {
+        const a = (angulo(t) * Math.PI) / 180;
+        punto.setAttribute("cx", (960 + 280 * Math.cos(a)).toFixed(1));
+        punto.setAttribute("cy", (470 + 280 * Math.sin(a)).toFixed(1));
+      });
+      // «Cuanto más tarda en volver, más dinero necesitas»: los días cuentan y el círculo crece.
+      entra(".centro .mono:first-child", w("Cuanto") - 0.05, 0.4, 10);
+      aparece(".dias", w("tarda") - 0.1, 0.2);
+      cuenta(".dias", 0, 90, w("tarda") - 0.05, f("volver") - w("tarda") + 0.5, { suf: " días", ease: "power1.inOut" });
+      tl.fromTo(".rueda", { scale: 1 }, { scale: 1.14, duration: 1.0, ease: "power2.inOut" }, w("dinero", 6) - 0.2);
+      entra(".mas", w("necesitas") - 0.1, 0.4, 10);
+      // El nombre y la fórmula; los tres ladrones.
+      tl.to(".centro", { autoAlpha: 0, duration: 0.25 }, w("recorrido") - 0.2);
+      tl.to(".rueda", { scale: 1, duration: 0.6, ease: "power2.inOut" }, w("recorrido") - 0.2);
+      tl.fromTo(".nombre", { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 0.45, ease: "expo.out" }, w("ciclo") - 0.08);
+      entra(".formula", w("recorrido") + 0.1, 0.45, 12);
+      tl.fromTo(".lad", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", stagger: 0.12 }, w("ladrones") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

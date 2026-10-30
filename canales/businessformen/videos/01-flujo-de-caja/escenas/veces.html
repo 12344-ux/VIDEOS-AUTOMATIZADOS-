@@ -1,0 +1,41 @@
+<template>
+  <!-- R3 → R14 · «casi veinte veces lo que gana»; «todo va bien»; y, con «pero», el cero de la caja de sus operaciones. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .arriba { position: absolute; left: 150px; top: 170px; }
+    #{{ID}} .veces { position: absolute; left: 130px; top: 230px; font: 800 520px/0.82 "Inter Tight", sans-serif; letter-spacing: -0.05em; white-space: nowrap; }
+    #{{ID}} .veces b { font-weight: 800; color: #b0122f; margin-left: 0.04em; }
+    #{{ID}} .abajo { position: absolute; left: 150px; top: 690px; }
+    #{{ID}} .bien { position: absolute; left: 150px; top: 820px; font: 700 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .op { position: absolute; left: 0; width: 1920px; top: 300px; text-align: center; }
+    #{{ID}} .cero { position: absolute; left: 0; width: 1920px; top: 380px; text-align: center; font: 800 330px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="a">
+      <div class="mono arriba">Sus acciones cotizaban a</div>
+      <div class="veces num"><span class="n">0</span><b>×</b></div>
+      <div class="mono abajo">lo que ganaba en un año</div>
+      <div class="bien">Todo va bien.</div>
+    </div>
+    <div class="mono op">Caja que generan sus operaciones · 1972–73</div>
+    <div class="cero num">0 $</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".arriba", w("Sus", 2) - 0.05, 0.45, 14);
+      aparece(".veces", w("veinte") - 0.3, 0.2);
+      cuenta(".veces .n", 0, 20, w("veinte") - 0.25, f("veces") - w("veinte") + 0.35, { ease: "power3.out" });
+      tl.fromTo(".veces b", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, f("veces") - 0.1);
+      entra(".abajo", w("gana") - 0.1, 0.45, 14);
+      trocea(".bien").forEach((s, i) => sube(s, [w("Todo"), w("va"), w("bien")][i] - 0.06));
+      // «Pero»: todo lo bueno se va hacia arriba; queda la caja de sus operaciones, en cero.
+      tl.to(".a", { yPercent: -16, autoAlpha: 0, duration: 0.32, ease: "power3.in" }, w("Pero") - 0.15);
+      entra(".op", w("operaciones") - 0.1, 0.45, 14);
+      tl.fromTo(".cero", { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, w("no") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

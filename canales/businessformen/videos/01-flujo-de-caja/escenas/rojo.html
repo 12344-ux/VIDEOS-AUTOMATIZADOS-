@@ -1,0 +1,24 @@
+<template>
+  <!-- R1 · primer golpe rojo: la caja de sus operaciones, de 0 a −120.000.000 $. -->
+  <style>
+/*MARCA*/
+    #{{ID}}.esc { background: #b0122f; }
+    #{{ID}} .etq { position: absolute; left: 150px; top: 330px; color: rgba(244, 243, 240, 0.86); }
+    #{{ID}} .cifra { position: absolute; left: 140px; top: 400px; font: 800 196px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .pie { position: absolute; left: 150px; top: 640px; color: rgba(244, 243, 240, 0.86); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="mono etq">Caja de sus operaciones · el mismo año</div>
+    <div class="cifra num">0 $</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".cifra", { scale: 1.06 }, { scale: 1, duration: 0.45, ease: "expo.out", transformOrigin: "left center" }, 0);
+      cuenta(".cifra", 0, -120000000, w("ciento") - 0.12, f("millones", 2) - w("ciento") + 0.45, { suf: " $", ease: "power3.out" });
+      fin();
+    })();
+  </script>
+</template>

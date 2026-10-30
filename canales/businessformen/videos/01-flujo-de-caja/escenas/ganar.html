@@ -1,0 +1,35 @@
+<template>
+  <!-- R2 · GANAR DINERO ≠ TENER DINERO, palabra a palabra; sale con la cortina roja (R14) hacia la carpintería. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .hoy { position: absolute; left: 150px; top: 190px; font: 500 58px/1 "Inter Tight", sans-serif; color: #8a8d93; }
+    #{{ID}} .l1, #{{ID}} .l2 { position: absolute; left: 140px; font: 800 196px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; white-space: nowrap; }
+    #{{ID}} .l1 { top: 330px; }
+    #{{ID}} .l2 { top: 560px; }
+    #{{ID}} .dist { position: absolute; left: 1560px; top: 430px; width: 210px; height: 210px; background: #b0122f;
+      display: flex; align-items: center; justify-content: center; font: 800 170px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .vig { position: absolute; left: 150px; top: 860px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+    <div class="hoy">Hoy vas a entender por qué.</div>
+    <div class="l1">GANAR DINERO</div>
+    <div class="l2">TENER DINERO</div>
+    <div class="dist">≠</div>
+    <div class="mono vig">Y cómo <b>vigilarla</b> en tu negocio</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      trocea(".hoy").forEach((s, i) => sube(s, serie("Hoy", 6)[i] - 0.05, 0.4));
+      const a = trocea(".l1"), b = trocea(".l2");
+      serie("ganar", 2).forEach((t, i) => sube(a[i], t - 0.06, 0.45));
+      serie("tener", 2).forEach((t, i) => sube(b[i], t - 0.06, 0.45));
+      tl.fromTo(".dist", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(1.8)" }, f("dinero", 4) + 0.05);
+      entra(".vig", w("vigilarla") - 0.2, 0.45, 12);
+      cortina("sale", 0.32);
+      fin();
+    })();
+  </script>
+</template>
