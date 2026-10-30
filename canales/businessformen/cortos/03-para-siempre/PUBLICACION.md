@@ -3,12 +3,18 @@
 Vídeo: `salidas/businessformen/cortos/03-para-siempre/entrega/bfm-corto-03-para-siempre.mp4` (1080 × 1920, 30 fps,
 −14 LUFS). El mismo archivo en las tres apps. Portada: el fotograma 0 («1.500 años de tradición»).
 
+## Título
+
+**Una tradición de 1.500 años, cambiada en 14 por un anuncio.** Es la primera línea del texto (la que se ve sin
+abrirlo) y, donde la app pide título, el título. Otras dos: «Cómo un anuncio convirtió el diamante en tradición» ·
+«Quien decide lo que significa algo, decide su precio».
+
 ## Texto
 
 ```
-En Japón, una tradición de 1.500 años cambió en solo 14. Por un anuncio.
+Una tradición de 1.500 años, cambiada en 14 por un anuncio.
 
-La historia de cómo una marca decidió qué significa un anillo de compromiso… y, con eso, su precio.
+En Japón, en 1967, menos del 5 % de las novias tenía anillo de diamantes; en 1981, el 60 %. Así decidió una marca qué significa un anillo de compromiso… y, con eso, su precio.
 
 Fuentes: Edward J. Epstein, «Have You Ever Tried to Sell a Diamond?», The Atlantic (1982); Wikipedia («De Beers»,
 «Engagement ring»); NPR.
