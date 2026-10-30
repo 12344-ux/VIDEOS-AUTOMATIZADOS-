@@ -1,0 +1,50 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #t6-bloque { position: absolute; left: 150px; top: 330px; color: var(--color-ink, #f3ede4); }
+    #t6-titulo { font: 500 118px/1.02 "Cormorant Garamond", serif; letter-spacing: -0.005em; text-shadow: 0 4px 34px rgba(0, 0, 0, 0.5); }
+    #t6-titulo span { display: inline-block; margin-right: 0.22em; }
+    #t6-titulo em { font-style: italic; color: var(--color-accent, #e8b66a); }
+    #t6-dato { margin-top: 40px; display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #t6-dato-2 { margin-top: 18px; font: 500 34px/1.25 "Hanken Grotesk", sans-serif; color: var(--color-ink, #f3ede4);
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6); }
+    #t6-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    /* Aviso que exige la licencia de la voz (Open RAIL-M): contenido generado por máquina. */
+    #t6-aviso { position: absolute; left: 150px; bottom: 120px; font: 500 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.04em; color: var(--color-ink, #f3ede4); }
+  </style>
+  <div id="root" data-composition-id="t6" data-width="1920" data-height="1080">
+    <div id="t6-bloque">
+      <div id="t6-titulo">
+        <div><span>El</span><span>mecanismo</span></div>
+        <div><span>de</span><em><span>Anticitera</span></em></div>
+      </div>
+      <div id="t6-dato"><i id="t6-linea"></i><span>SIGLO II a.&nbsp;C.</span></div>
+      <div id="t6-dato-2">30 engranajes conservados</div>
+    </div>
+    <div id="t6-aviso">Voz sintética generada por IA</div>
+  </div>
+  <script>
+    (function () {
+      // Tiempos locales: la escena empieza en 26,3 s. La voz acaba «…que se conoce» en 30,77 s; el título
+      // aterriza después, en 31,0 s, con el golpe grave, y queda quieto hasta el final (34 s).
+      const tl = gsap.timeline({ paused: true });
+      const T = (absoluto) => absoluto - 26.3;
+      const palabras = gsap.utils.toArray("#t6-titulo span");
+      palabras.forEach((p, i) =>
+        tl.fromTo(p, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, T(31.0) + i * 0.067));
+      tl.fromTo("#t6-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(31.65));
+      tl.fromTo("#t6-dato span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(31.7));
+      tl.fromTo("#t6-dato-2", { opacity: 0, color: "#8a8780" }, { opacity: 1, duration: 0.2, ease: "power1.out" }, T(31.85));
+      tl.to("#t6-dato-2", { color: "#f3ede4", duration: 0.6, ease: "power2.out" }, T(32.0));
+      // Al menos 2 s en pantalla antes de que acabe (es la última línea).
+      tl.fromTo("#t6-aviso", { opacity: 0 }, { opacity: 0.72, duration: 0.5, ease: "power1.out" }, T(31.5));
+      window.__timelines["t6"] = tl;
+    })();
+  </script>
+</template>

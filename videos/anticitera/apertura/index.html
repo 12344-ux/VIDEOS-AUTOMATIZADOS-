@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es" data-composition-variables='[
+  {"id":"color-ground","type":"color","label":"Fondo","default":"#0d1114"},
+  {"id":"color-ink","type":"color","label":"Texto","default":"#f3ede4"},
+  {"id":"color-accent","type":"color","label":"Acento","default":"#e8b66a"}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>El mecanismo de Anticitera · apertura</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root { --color-ground: #0d1114; --color-ink: #f3ede4; --color-accent: #e8b66a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--color-ground); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #fondo { position: absolute; inset: 0; background: var(--color-ground); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34" data-width="1920" data-height="1080">
+      <div id="fondo"></div>
+
+      <!-- Imagen: las cinco planchas en 2.5D (WebGL) durante todo el vídeo -->
+      <div id="planchas" data-composition-id="planchas" data-composition-src="compositions/planchas.html"
+        data-start="0" data-duration="34" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <!-- El escáner que revela la rueda del fragmento, y el tren de ruedas del título -->
+      <div id="rueda" data-composition-id="rueda" data-composition-src="compositions/rueda.html"
+        data-start="21.5" data-duration="5.3" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="engranajes" data-composition-id="engranajes" data-composition-src="compositions/engranajes.html"
+        data-start="26.3" data-duration="7.7" data-track-index="3" data-track-kind="graphics" style="z-index: 2"></div>
+
+      <!-- Texto de cada toma -->
+      <div id="t1" data-composition-id="t1" data-composition-src="compositions/t1-tormenta.html"
+        data-start="0" data-duration="6.8" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="t2" data-composition-id="t2" data-composition-src="compositions/t2-isla.html"
+        data-start="6.8" data-duration="7" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="t3" data-composition-id="t3" data-composition-src="compositions/t3-buzo.html"
+        data-start="13.8" data-duration="2.4" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="t4" data-composition-id="t4" data-composition-src="compositions/t4-estatuas.html"
+        data-start="16.2" data-duration="5.3" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="t5" data-composition-id="t5" data-composition-src="compositions/t5-fragmento.html"
+        data-start="21.5" data-duration="4.8" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="t6" data-composition-id="t6" data-composition-src="compositions/t6-titulo.html"
+        data-start="26.3" data-duration="7.7" data-track-index="4" data-track-kind="graphics" style="z-index: 3"></div>
+
+      <!-- Voz: Supertonic-3 M1 -->
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="1.2" data-duration="29.7" data-track-index="10"
+        data-volume="1"
+        data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;v1&quot;,&quot;label&quot;:&quot;Quitar graves&quot;,&quot;params&quot;:{&quot;frequency&quot;:90}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;v2&quot;,&quot;label&quot;:&quot;Claridad&quot;,&quot;params&quot;:{&quot;frequency&quot;:3000,&quot;gain&quot;:2,&quot;q&quot;:1}},{&quot;type&quot;:&quot;limiter&quot;,&quot;id&quot;:&quot;v3&quot;,&quot;params&quot;:{&quot;limit&quot;:-1}}]}"></audio>
+      <!-- Música (MusicGen): entra con la calma, tras el rayo; más presente bajo el título -->
+      <audio id="musica" class="clip" src="assets/audio/musica.wav" data-start="6.8" data-duration="27.2" data-track-index="11"
+        data-timeline-role="music"
+        data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.9,&quot;v&quot;:0.3},{&quot;t&quot;:6.9,&quot;v&quot;:0.3},{&quot;t&quot;:7.4,&quot;v&quot;:0.36},{&quot;t&quot;:19.3,&quot;v&quot;:0.36},{&quot;t&quot;:19.9,&quot;v&quot;:0.44},{&quot;t&quot;:24.0,&quot;v&quot;:0.44},{&quot;t&quot;:24.3,&quot;v&quot;:0.56},{&quot;t&quot;:26.0,&quot;v&quot;:0.5},{&quot;t&quot;:27.2,&quot;v&quot;:0}]}]}"></audio>
+
+      <!-- Tormenta: lluvia con truenos (los de la pista llegan tras el relámpago lejano), viento y jarcias -->
+      <audio id="lluvia" class="clip" src="assets/sfx/lluvia.wav" data-start="0" data-media-start="1.5" data-duration="6.95" data-track-index="12"
+        data-volume="0.9" data-fade-out="0.15"></audio>
+      <audio id="viento" class="clip" src="assets/sfx/viento.wav" data-start="0" data-media-start="5" data-duration="6.95" data-track-index="13"
+        data-volume="0.45" data-fade-out="0.15"></audio>
+      <audio id="jarcias" class="clip" src="assets/sfx/jarcias.wav" data-start="0" data-media-start="3" data-duration="6.95" data-track-index="14"
+        data-volume="0.22" data-fade-out="0.15"></audio>
+      <!-- El rayo: el estallido del trueno cae con el destello (6,8 s) -->
+      <audio id="trueno" class="clip" src="assets/sfx/trueno.wav" data-start="6.37" data-media-start="3.6" data-duration="1.43" data-track-index="15"
+        data-volume="0.9"></audio>
+      <!-- La isla: el mar contra el acantilado -->
+      <audio id="olas" class="clip" src="assets/sfx/olas.wav" data-start="6.8" data-media-start="40" data-duration="7" data-track-index="16"
+        data-volume="0.32" data-fade-in="0.6" data-fade-out="0.25"></audio>
+      <!-- La zambullida: barrido, chapuzón y la cuerda por la que baja el buzo -->
+      <audio id="barrido" class="clip" src="assets/sfx/barrido.wav" data-start="13.37" data-duration="0.8" data-track-index="17" data-volume="0.5"></audio>
+      <audio id="chapuzon" class="clip" src="assets/sfx/chapuzon.wav" data-start="13.48" data-duration="2.2" data-track-index="18"
+        data-volume="0.42" data-fade-out="0.6"></audio>
+      <audio id="cuerda" class="clip" src="assets/sfx/cuerda.wav" data-start="13.67" data-duration="1.3" data-track-index="19" data-volume="0.3"></audio>
+      <!-- Bajo el agua: el mismo mar, sordo -->
+      <audio id="fondo-mar" class="clip" src="assets/sfx/olas.wav" data-start="13.8" data-media-start="100" data-duration="7.7" data-track-index="20"
+        data-volume="0.6" data-fade-in="0.25" data-fade-out="0.1"
+        data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;lowpass&quot;,&quot;id&quot;:&quot;m1&quot;,&quot;label&quot;:&quot;Bajo el agua&quot;,&quot;params&quot;:{&quot;frequency&quot;:420}}]}"></audio>
+      <!-- La rueda: el escáner y el tic-tac del mecanismo -->
+      <audio id="escaner" class="clip" src="assets/sfx/escaner.wav" data-start="23.62" data-duration="1" data-track-index="21" data-volume="0.22"></audio>
+      <audio id="tictac" class="clip" src="assets/sfx/tictac.wav" data-start="23.9" data-duration="2.4" data-track-index="22"
+        data-volume="0.35" data-fade-in="0.1" data-fade-out="0.3"></audio>
+      <!-- Atravesar el buje y el golpe del título -->
+      <audio id="travesia" class="clip" src="assets/sfx/travesia.mp3" data-start="25.78" data-media-start="1.6" data-duration="3.9" data-track-index="23"
+        data-volume="0.5" data-fade-out="0.8"></audio>
+      <audio id="golpe" class="clip" src="assets/sfx/golpe.mp3" data-start="30.96" data-duration="2.1" data-track-index="24" data-volume="0.55"></audio>
+    </div>
+    <script>
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

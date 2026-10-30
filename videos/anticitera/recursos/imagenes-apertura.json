@@ -1,0 +1,12 @@
+[
+ {"nombre": "tormenta", "semilla": 11, "ancho": 1280, "alto": 720,
+  "prompt": "a small wooden Greek sailing boat with one patched sail struggling through a violent storm at dusk in the early 1900s, huge dark waves and sea spray, heavy rain, a dark rocky island silhouette far away on the horizon, the boat small in the right third of the frame, turbulent dark sky filling the upper left of the frame, cinematic wide shot, muted teal and amber palette, 35mm film look, no text"},
+ {"nombre": "isla", "semilla": 23, "ancho": 1280, "alto": 720,
+  "prompt": "a steep rocky Mediterranean island with high cliffs rising from a calm sea at dawn after a storm, low mist over the water, a small wooden sailing boat anchored near the cliffs, the island filling the right half of the frame, calm empty sea and pale sky on the left half of the frame, aerial wide view, cinematic, muted teal and amber palette, 35mm film look, no text"},
+ {"nombre": "buzo", "semilla": 37, "ancho": 1280, "alto": 720,
+  "prompt": "a vintage deep sea diver in a heavy brass helmet and canvas diving suit descending along a rope into deep blue-green water, shafts of sunlight from the surface above, small bubbles rising, the diver in the right third of the frame, dark empty water on the left of the frame, underwater cinematic shot, muted teal and amber palette, 35mm film look, no text"},
+ {"nombre": "estatuas", "semilla": 41, "ancho": 1280, "alto": 720,
+  "prompt": "an ancient Roman shipwreck on the sandy seabed, a green bronze statue of a young man lying half buried in the sand next to broken amphorae and white marble statues, eerie blue-green underwater light, floating particles, the statues across the center and right of the frame, dark water on the left of the frame, underwater cinematic wide shot, muted teal and amber palette, 35mm film look, no text"},
+ {"nombre": "fragmento", "semilla": 53, "ancho": 1280, "alto": 720,
+  "prompt": "the Antikythera mechanism: a flat fragment of heavily corroded green bronze with a large four-spoked gear wheel with fine triangular teeth embedded in it, cracked and weathered, lying on dark velvet under a single warm museum spotlight, the fragment in the right half of the frame, deep shadow and empty dark space on the left of the frame, macro still life, cinematic, muted teal and amber palette, 35mm film look, no text"}
+]

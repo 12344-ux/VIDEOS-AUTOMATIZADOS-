@@ -1,0 +1,62 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #t2-bloque { position: absolute; left: 150px; top: 560px; color: var(--color-ink, #f3ede4); }
+    #t2-etiqueta { display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #t2-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    #t2-etiqueta span, #t2-nombre span { display: inline-block; }
+    #t2-nombre { margin: 22px 0 0 -6px; font: 500 132px/1 "Cormorant Garamond", serif; letter-spacing: 0.005em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4); }
+    #t2-coordenadas { margin-top: 26px; font: 500 34px/1 "Hanken Grotesk", sans-serif; letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums; color: var(--color-ink, #f3ede4); }
+    .t2-rumbo { position: absolute; display: flex; align-items: center; gap: 16px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-ink, #f3ede4); text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6); }
+    .t2-flecha { display: block; width: 18px; height: 52px; overflow: visible; }
+    .t2-flecha path { fill: none; stroke: var(--color-ink, #f3ede4); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    #t2-norte { left: 150px; top: 150px; }
+    #t2-norte .t2-flecha { transform-origin: center bottom; }
+    #t2-sur { right: 150px; bottom: 150px; }
+    #t2-sur .t2-flecha { transform-origin: center top; }
+  </style>
+  <div id="root" data-composition-id="t2" data-width="1920" data-height="1080">
+    <div id="t2-bloque">
+      <div id="t2-etiqueta" data-layout-ignore>
+        <i id="t2-linea"></i>
+        <span>G</span><span>R</span><span>E</span><span>C</span><span>I</span><span>A</span>
+      </div>
+      <div id="t2-nombre" data-layout-ignore><span>A</span><span>n</span><span>t</span><span>i</span><span>c</span><span>i</span><span>t</span><span>e</span><span>r</span><span>a</span></div>
+      <div id="t2-coordenadas">35° 52′ N · 23° 18′ E</div>
+    </div>
+    <!-- Hacia dónde quedan las tierras que nombra la voz: el Peloponeso al norte, Creta al sur. -->
+    <div id="t2-norte" class="t2-rumbo"><svg class="t2-flecha" viewBox="0 0 18 52"><path d="M9 51V3M2 11L9 3L16 11"/></svg><span>PELOPONESO</span></div>
+    <div id="t2-sur" class="t2-rumbo"><span>CRETA</span><svg class="t2-flecha" viewBox="0 0 18 52"><path d="M9 1V49M2 41L9 49L16 41"/></svg></div>
+  </div>
+  <script>
+    (function () {
+      // Tiempos locales: la escena empieza en 6,8 s. Voz (absolutos): «Anticitera» 6,88; «isla» 8,16;
+      // «Creta» 9,26; «Peloponeso» 10,14; «baja» 13,77 (el barrido).
+      const tl = gsap.timeline({ paused: true });
+      const T = (absoluto) => absoluto - 6.8;
+      tl.fromTo("#t2-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(7.2));
+      tl.fromTo("#t2-etiqueta span", { opacity: 0, filter: "blur(4px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.045 }, T(7.3));
+      // El nombre propio, letra a letra, cuando el destello deja ver la isla.
+      tl.fromTo("#t2-nombre span", { opacity: 0.0, filter: "blur(5px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.24, ease: "power2.out", stagger: 0.07 }, T(7.4));
+      tl.fromTo("#t2-coordenadas", { opacity: 0, color: "#8a8780" }, { opacity: 1, duration: 0.2, ease: "power1.out" }, T(8.2));
+      tl.to("#t2-coordenadas", { color: "#f3ede4", duration: 0.5, ease: "power2.out" }, T(8.4));
+      // Cada rumbo en su palabra: la flecha se dibuja y el nombre aparece.
+      tl.fromTo("#t2-sur .t2-flecha", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, T(9.2));
+      tl.fromTo("#t2-sur span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(9.26));
+      tl.fromTo("#t2-norte .t2-flecha", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, T(10.08));
+      tl.fromTo("#t2-norte span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(10.14));
+      // Todo sale antes del barrido hacia abajo.
+      tl.to(["#t2-bloque", "#t2-norte", "#t2-sur"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in", stagger: 0.04 }, T(13.3));
+      window.__timelines["t2"] = tl;
+    })();
+  </script>
+</template>

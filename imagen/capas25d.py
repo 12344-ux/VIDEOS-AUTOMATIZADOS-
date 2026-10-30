@@ -14,6 +14,9 @@ Escribe <salida>_fondo.jpg (el fondo con el hueco rellenado), <salida>_frente.pn
 con transparencia) y <salida>_prof.png (R: profundidad del frente, ensanchada; G: profundidad
 del fondo, rellenada). El umbral entre frente y fondo sale solo (Otsu) o con --umbral.
 --tapar X,Y,R borra un defecto de la imagen (un círculo de radio R) rellenándolo.
+Con poco paralaje (unos 10 px), --suavidad 0.012 --margen 12: el borde del frente queda en pocos
+píxeles y el relleno borroso no asoma alrededor del sujeto (con 0,05 y 30 px salía una franja
+borrosa donde la profundidad cambia poco a poco, como en un acantilado o en una estatua tumbada).
 """
 import argparse
 import time
@@ -43,6 +46,7 @@ def main():
     p.add_argument('-o', '--salida', required=True, help='prefijo de los archivos de salida')
     p.add_argument('--umbral', type=float, help='profundidad (0–1) a partir de la cual es frente')
     p.add_argument('--suavidad', type=float, default=0.05, help='transición del borde del frente')
+    p.add_argument('--margen', type=int, default=30, help='px alrededor del frente que se rellenan en el fondo')
     p.add_argument('--tapar', action='append', default=[], help='X,Y,R: círculo a borrar antes de separar')
     args = p.parse_args()
 
@@ -69,9 +73,10 @@ def main():
     alfa = cv2.erode(alfa, np.ones((5, 5), np.uint8))
     alfa = cv2.GaussianBlur(alfa, (0, 0), 1.2)
 
-    # El fondo pierde todo lo que es frente, con 30 px de margen (se llevan los detalles finos
-    # pegados al sujeto, como una barandilla, que el mapa de profundidad no recoge), y se rellena.
-    hueco = cv2.dilate((alfa > 0.02).astype(np.uint8) * 255, np.ones((61, 61), np.uint8))
+    # El fondo pierde todo lo que es frente, con un margen (se lleva los detalles finos pegados al
+    # sujeto, como una barandilla, que el mapa de profundidad no recoge), y se rellena.
+    lado = 2 * args.margen + 1
+    hueco = cv2.dilate((alfa > 0.02).astype(np.uint8) * 255, np.ones((lado, lado), np.uint8))
     fondo = rellenar(imagen, hueco)
     prof_fondo = rellenar((prof * 255).astype(np.uint8), hueco) / 255
     # La profundidad del frente se ensancha para que el borde use la del propio sujeto.

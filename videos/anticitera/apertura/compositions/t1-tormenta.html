@@ -1,0 +1,40 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #t1-bloque { position: absolute; left: 150px; top: 300px; color: var(--color-ink, #f3ede4); }
+    #t1-etiqueta { display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #t1-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    #t1-etiqueta span, #t1-anio span { display: inline-block; }
+    #t1-anio { margin: 14px 0 0 -10px; font: 500 236px/0.9 "Cormorant Garamond", serif; letter-spacing: -0.01em;
+      font-variant-numeric: lining-nums; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.4); }
+  </style>
+  <div id="root" data-composition-id="t1" data-width="1920" data-height="1080">
+    <div id="t1-bloque">
+      <div id="t1-etiqueta" data-layout-ignore>
+        <i id="t1-linea"></i>
+        <span>M</span><span>A</span><span>R</span><span>&nbsp;</span><span>E</span><span>G</span><span>E</span><span>O</span>
+      </div>
+      <div id="t1-anio" data-layout-ignore><span>1</span><span>9</span><span>0</span><span>0</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Tiempos absolutos: esta escena empieza en 0. Voz: «mil» 1,76; «novecientos» 1,92 (acaba en 2,67).
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#t1-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.45);
+      tl.fromTo("#t1-etiqueta span", { opacity: 0, filter: "blur(4px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.045 }, 0.7);
+      // Cada cifra cae con la palabra que la dice: 1 con «mil», 9-0-0 a lo largo de «novecientos».
+      const cifras = gsap.utils.toArray("#t1-anio span");
+      [1.76, 1.92, 2.12, 2.32].forEach((t, i) =>
+        tl.fromTo(cifras[i], { opacity: 0, filter: "blur(12px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power3.out" }, t));
+      // Sale antes del rayo, más corto que la entrada.
+      tl.to(["#t1-etiqueta", "#t1-anio"], { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in", stagger: 0.05 }, 6.05);
+      window.__timelines["t1"] = tl;
+    })();
+  </script>
+</template>

@@ -6,3 +6,6 @@ __pycache__/
 estilos/*/assets/
 estilos/*/.hyperframes/
 estilos/*/renders/
+videos/*/*/assets/
+videos/*/*/.hyperframes/
+videos/*/*/renders/

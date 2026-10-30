@@ -1,0 +1,39 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; }
+    #t4-bloque { position: absolute; left: 150px; top: 250px; color: var(--color-ink, #f3ede4); }
+    #t4-etiqueta { display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.32em; color: var(--color-accent, #e8b66a); }
+    #t4-linea { display: block; width: 72px; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
+    #t4-etiqueta span, #t4-titulo span { display: inline-block; }
+    #t4-titulo { margin: 24px 0 0 -4px; font: 500 104px/1 "Cormorant Garamond", serif; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); }
+    #t4-titulo span { margin-right: 0.22em; }
+  </style>
+  <div id="root" data-composition-id="t4" data-width="1920" data-height="1080">
+    <div id="t4-bloque">
+      <div id="t4-etiqueta" data-layout-ignore>
+        <i id="t4-linea"></i>
+        <span>N</span><span>A</span><span>U</span><span>F</span><span>R</span><span>A</span><span>G</span><span>I</span><span>O</span><span>&nbsp;</span><span>R</span><span>O</span><span>M</span><span>A</span><span>N</span><span>O</span>
+      </div>
+      <div id="t4-titulo"><span>Siglo</span><span>I</span><span>a.&nbsp;C.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Tiempos locales: la escena empieza en 16,2 s. Voz (absolutos): «naufragio» 17,27; «dos mil años» 18,39–18,81.
+      const tl = gsap.timeline({ paused: true });
+      const T = (absoluto) => absoluto - 16.2;
+      tl.fromTo("#t4-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(17.2));
+      tl.fromTo("#t4-etiqueta span", { opacity: 0, filter: "blur(4px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.035 }, T(17.27));
+      // La fecha, palabra a palabra con desenfoque, sin moverse: aterriza mientras la voz dice «dos mil años».
+      const palabras = gsap.utils.toArray("#t4-titulo span");
+      [18.39, 18.46, 18.53].forEach((t, i) =>
+        tl.fromTo(palabras[i], { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power2.out" }, T(t)));
+      tl.to("#t4-bloque", { opacity: 0, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, T(21.15));
+      window.__timelines["t4"] = tl;
+    })();
+  </script>
+</template>

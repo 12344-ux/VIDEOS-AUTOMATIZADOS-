@@ -1,0 +1,94 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #engranajes-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #engranajes-svg path, #engranajes-svg circle, #engranajes-svg line { fill: none; stroke: #e8b66a; stroke-width: 2;
+      stroke-linejoin: round; stroke-linecap: round; }
+  </style>
+  <div id="root" data-composition-id="engranajes" data-width="1920" data-height="1080">
+    <svg id="engranajes-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <!-- Cuatro ruedas que engranan, con números de dientes del mecanismo real (64, 38, 48 y 24).
+           La geometría (dientes, radios y fase de engrane) la pone el script; los elementos viven aquí. -->
+      <g id="rueda-a"><path id="rueda-a-dientes" pathLength="100"/><path id="rueda-a-cuerpo" pathLength="100"/></g>
+      <g id="rueda-b"><path id="rueda-b-dientes" pathLength="100"/><path id="rueda-b-cuerpo" pathLength="100"/></g>
+      <g id="rueda-c"><path id="rueda-c-dientes" pathLength="100"/><path id="rueda-c-cuerpo" pathLength="100"/></g>
+      <g id="rueda-d"><path id="rueda-d-dientes" pathLength="100"/><path id="rueda-d-cuerpo" pathLength="100"/></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Tiempos locales: la escena empieza en 26,3 s (justo antes de atravesar el buje en 26,2–26,7).
+      const tl = gsap.timeline({ paused: true });
+      const T = (absoluto) => absoluto - 26.3;
+      const DURACION = 34 - 26.3;
+      const MODULO = 7;  // px por diente en el diámetro: las ruedas que engranan comparten el módulo
+      const rad = (g) => (g * Math.PI) / 180;
+
+      // Rueda A y las demás colgando de ella: cada una engrana con su «madre» en la dirección dada.
+      const RUEDAS = [
+        { id: "a", n: 64, centro: [1500, 630], opacidad: 0.85, entra: 26.75 },
+        { id: "b", n: 38, madre: "a", direccion: 220, opacidad: 0.6, entra: 27.3 },
+        { id: "c", n: 48, madre: "a", direccion: 55, opacidad: 0.6, entra: 27.85 },
+        { id: "d", n: 24, madre: "b", direccion: 280, opacidad: 0.6, entra: 28.4 },
+      ];
+      const porId = {};
+      for (const r of RUEDAS) {
+        r.radio = (MODULO * r.n) / 2;
+        porId[r.id] = r;
+        if (!r.madre) { r.fase = 0; r.omega = 10; continue; }   // grados por segundo, en el sentido del reloj
+        const m = porId[r.madre];
+        const th = rad(r.direccion);
+        const d = m.radio + r.radio;
+        r.centro = [m.centro[0] + d * Math.cos(th), m.centro[1] + d * Math.sin(th)];
+        // Engrane: un diente de la madre frente a un hueco de la hija. Si la madre tiene en la dirección del
+        // contacto la fracción u de un diente, la hija ha de tener allí 0,5 − u; al girar, la suma no cambia.
+        const u = (((th - rad(m.fase)) * m.n) / (2 * Math.PI)) % 1;
+        const uHija = (((0.5 - u) % 1) + 1) % 1;
+        r.fase = ((th + Math.PI - (uHija * 2 * Math.PI) / r.n) * 180) / Math.PI;
+        r.omega = (-m.omega * m.n) / r.n;
+      }
+
+      // Geometría: corona de dientes triangulares; aro interior, buje y cuatro radios.
+      function dientes(r) {
+        const alto = MODULO * 1.1;
+        const pts = [];
+        for (let k = 0; k < r.n; k++) {
+          const a0 = rad(r.fase) + (2 * Math.PI * k) / r.n;          // punta del diente
+          const a1 = a0 + Math.PI / r.n;                              // fondo del hueco
+          pts.push([r.radio + alto / 2, a0], [r.radio - alto / 2, a1]);
+        }
+        return "M" + pts.map(([q, a]) => `${(r.centro[0] + q * Math.cos(a)).toFixed(1)},${(r.centro[1] + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+      }
+      function cuerpo(r) {
+        const [cx, cy] = r.centro;
+        const aro = r.radio - MODULO * 1.9, buje = Math.max(10, r.radio * 0.13);
+        const circulo = (q) => `M${cx + q},${cy}a${q},${q} 0 1,0 ${-2 * q},0a${q},${q} 0 1,0 ${2 * q},0`;
+        let d = circulo(aro) + circulo(buje);
+        for (let k = 0; k < 4; k++) {
+          const a = rad(r.fase) + (k * Math.PI) / 2 + Math.PI / r.n;
+          for (const lado of [-1, 1]) {
+            const desvio = lado * (r.radio * 0.045);
+            const ox = -Math.sin(a) * desvio, oy = Math.cos(a) * desvio;
+            d += `M${(cx + buje * Math.cos(a) + ox).toFixed(1)},${(cy + buje * Math.sin(a) + oy).toFixed(1)}` +
+                 `L${(cx + aro * Math.cos(a) + ox).toFixed(1)},${(cy + aro * Math.sin(a) + oy).toFixed(1)}`;
+          }
+        }
+        return d;
+      }
+
+      for (const r of RUEDAS) {
+        document.getElementById(`rueda-${r.id}-dientes`).setAttribute("d", dientes(r));
+        document.getElementById(`rueda-${r.id}-cuerpo`).setAttribute("d", cuerpo(r));
+        const g = `#rueda-${r.id}`;
+        // Se dibuja (trazo que avanza) y luego queda girando: el mecanismo funciona.
+        tl.set(g, { opacity: r.opacidad }, 0);
+        tl.fromTo(`${g} path`, { strokeDasharray: "100 120", strokeDashoffset: 110 },
+          { strokeDashoffset: 0, duration: 0.75, ease: "power2.inOut", stagger: 0.12 }, T(r.entra));
+        // Giro lineal desde que aparece hasta el final, a la velocidad que le toca por sus dientes.
+        tl.fromTo(g, { rotation: 0, svgOrigin: `${r.centro[0]} ${r.centro[1]}` },
+          { rotation: r.omega * DURACION, svgOrigin: `${r.centro[0]} ${r.centro[1]}`, duration: DURACION, ease: "none" }, 0);
+      }
+      window.__timelines["engranajes"] = tl;
+    })();
+  </script>
+</template>
