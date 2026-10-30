@@ -482,11 +482,23 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   `check` cuente cada letra como una palabra al medir el tiempo de lectura.
 - **Enviado al usuario:** la hoja comparativa y los tres vídeos. Falta que elija.
 
+### 10. La marca elegida y el primer guion
+
+- **Decidido con el usuario:** la marca es la ruta **Consejo**. Los vídeos tienen que ser impredecibles: nada de
+  «texto a un lado e imagen al otro» repetido como una plantilla de PowerPoint (el defecto de Anticitera), golpes de
+  marca como la pantalla roja de «Estás pidiendo», storytelling con casos reales de empresas y guiones de estudio.
+- **Escrito:** las reglas de edición y un repertorio de quince recursos (`canales/businessformen/EDICION.md`), y el
+  borrador del primer vídeo, «Por qué quiebran empresas que ganan dinero»
+  (`canales/businessformen/videos/01-flujo-de-caja/GUION.md`): hilo en W. T. Grant, eco en Carillion, contraste en
+  Amazon y cuatro reglas; 964 palabras, unos 7 min con el ritmo medido de la voz (2,57 palabras por segundo).
+- **Datos comprobados con búsquedas** y anotados con su fuente en el guion; quedan tres por contrastar en una segunda
+  fuente antes de producir.
+
 ## Siguiente paso
 
-1. Que el usuario elija una de las tres rutas de marca (`canales/businessformen/marca/`) o una mezcla y, con ella,
-   preparar el kit del canal: rótulos, esquemas, cifras, transiciones, logo y miniaturas.
-2. El primer vídeo: tema y guion con fuentes, que el usuario aprueba antes de producir.
+1. Que el usuario apruebe o corrija el guion de «Por qué quiebran empresas que ganan dinero».
+2. Con el guion aprobado: contrastar los tres datos pendientes, generar la voz y montar el kit de la marca Consejo
+   (los recursos R1–R15 de `EDICION.md`) a la vez que el vídeo; después, la miniatura.
 3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
    (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 
