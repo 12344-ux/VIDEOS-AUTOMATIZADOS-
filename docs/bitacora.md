@@ -342,12 +342,97 @@ REVIEW.md). Datos comprobados en la Wikipedia: Kontos y los buzos de Symi, 1900,
   desde el guion, para escribir 9 minutos de composiciones sin hacerlas a mano una a una; y, si el usuario
   quiere, subagentes en paralelo por capítulos (la guía de HyperFrames lo recomienda a partir de 6 escenas).
 
+## Sesión 3 — 30 de octubre de 2026
+
+El usuario vio la apertura («estuvo genial») y pidió el vídeo completo, trabajando sin paradas mientras él no
+estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por avance rápido.
+
+### 1. La máquina y los tiempos
+
+- Esta vez la CPU tiene AMX (como en la sesión 1). FLUX.3 a 1280 × 720 con 4 pasos: **82–98 s por plancha** (85–92 lo
+  normal; 172 s si coincide con la voz). En la sesión 2, sin AMX, 328 s. EDSR: 6 s por plancha (12,5 s en la 2).
+- MusicGen, pistas de 30 s: 2 a la vez en 297–305 s; 4 a la vez en 410 s (1070 s compartiendo la CPU).
+- La sesión se reanudó a mitad desde una copia guardada: todo lo que había en disco siguió ahí (planchas, música),
+  pero no los procesos. La precarga tardó 8 min 50 s; los lechos de música, leídos en frío, 5 min 21 s.
+
+### 2. La voz, reproducible
+
+- **Supertonic no era determinista**: parte de `np.random.randn` sin semilla y cada ejecución daba otra toma (en la
+  apertura, palabras hasta 0,3 s más tarde y 0,4 s más de duración). `voz/supertonic_frases.py` fija ahora la semilla
+  de cada frase con el CRC32 de su texto: dos ejecuciones dan el mismo WAV, byte a byte.
+- Para no tocar la apertura ya aprobada, `voz/ajustar.py` estira o encoge cada tramo entre palabras ancla (atempo de
+  ffmpeg, sin cambiar el tono) hasta los tiempos de la composición: 8 anclas, todos los tramos a menos de un 3 %.
+  Las anclas que pedían un 10–29 % se quitaron: se oiría.
+- La narración de los ocho capítulos (1263 palabras, 8 min 26 s de voz) salió en 8 min 33 s, a la vez que FLUX.
+
+### 3. Guion y datos
+
+- Ocho capítulos tras la apertura: el olvido (1902–1951), cómo se miró dentro (Price, Karakalos, Wright, 2005), el
+  frente, la Luna que acelera (perno y ranura), las espirales de la cara trasera, los planetas (UCL 2021), quién lo
+  hizo y lo que queda sin saber (Glasgow 2024, Mar del Plata 2025). Unos 10 min con la apertura.
+- Datos comprobados con búsquedas web; fuentes y cautelas en `videos/anticitera/FUENTES.md`. Los nombres difíciles se
+  escriben como suenan para la voz («Prais», «Máikel Rait», «Glásgou») y los subtítulos los devuelven a su ortografía.
+
+### 4. El kit del estilo A (`videos/anticitera/kit/`)
+
+- `montar.py` arma cada capítulo como proyecto de HyperFrames desde una descripción corta (`montaje/capN.py`): tomas
+  de plancha con su cámara y su paso (corte con oscurecido, barrido, oscuro, destello, zoom a través), rótulos
+  (etiqueta, nombre, cifra con contador, dato con tachado, título, «a máquina», pie), líneas guía, gráficos y sonidos.
+  **Todo se ancla a la palabra de la narración** (`w("palabra")`), así que rehacer la voz no descuadra nada; avisa de
+  las palabras que salen más de una vez y de los rótulos que no dan tiempo a leer.
+- `planchas.html`: el motor de la apertura con caché de texturas y saturación por plano. `ayuda.js`: los gráficos son
+  función del tiempo (evento `hf-seek`), y pueden seguir la cámara de la plancha (una rueda dibujada sobre la de la
+  lupa o la de la radiografía).
+- Gráficos (`graficos/`): rueda, frente (rueda mayor, zodíaco, 365 días, Sol, Luna y esfera de fases), órbita de
+  Kepler con marcas de igual tiempo, perno y ranura (±6,5°, ejes a 1,1 mm, montado sobre la rueda que gira), espirales
+  (235 y 223 casillas, signos Σ y Η, dial de los juegos), tercio conservado, mapa (costas de Natural Earth, `mapa.py`),
+  línea de tiempo, griego (ΠΛΑΝΗΤΑΙ, ΨΞΒ, ΨΜΒ), retrógrado, cosmos de anillos, anillo de 354 agujeros y atasco.
+- Fallos encontrados al revisar: ids de rótulos repetidos entre tomas (todas comparten documento, y GSAP animaba los
+  de otra), anclas en la primera aparición de una palabra repetida («cuenta», «fragmentos», «dos»), etiquetas en
+  versalitas más anchas de lo calculado (unos 46 px por letra a 28 px con 0,32 em) que pisaban los dibujos, y patrones
+  de trazos medidos en unidades de `pathLength` en vez de píxeles.
+
+### 5. Recursos
+
+- 28 planchas nuevas en 48 min con su EDSR, profundidad y capas. Se reencuadraron dos: Olimpia (unas gradas parecían
+  modernas) y la radiografía (salió a la izquierda). Rodas (casas blancas y barcos de otra época) se cambió por el mapa.
+- Música: una pieza por capítulo; **las piezas 4 y 5 tenían el 98 % y el 65 % de la energía bajo 150 Hz** y se
+  rehicieron (0 % y 6 %). `audio/lecho.py` las extiende a la duración del capítulo con fundidos de potencia constante
+  y las deja a −16 LUFS.
+- Efectos CC0 de BigSoundBank: manivela, interruptor, zumbido de transformador, máquina de escribir, grillos, fuego,
+  yunque, monedas, cajón, pasos.
+
+### 6. Render y unión
+
+- `check` sin errores en los nueve proyectos; los avisos que quedan, explicados en `videos/anticitera/REVIEW.md`.
+- **Render de los nueve proyectos: 28 min 41 s** para 9 min 58,5 s de vídeo, a 2,7–3,0 s por segundo (la apertura,
+  34 s en 103 s; los capítulos, con sus dibujos, 2,8 s por segundo). En la sesión 2, sin AMX, eran 6,2 s por segundo.
+- `unir.sh` une sin recomprimir (1 min 16 s). Las partes salían de −18,2 a −20,8 LUFS (el capítulo IV, 2,6 dB más
+  bajo que la apertura): ahora cada una se iguala a −19 LUFS en coma flotante antes de unirlas. El total, a −15,2 LUFS;
+  el pico real, a −1,3 dB (con el tope de −1,5 de `entregar.sh` el AAC acababa en −0,9: `PICO=-2`).
+- El vídeo: 1920 × 1080 a 30 fps, 17 956 cuadros, 1,1 GB. Subtítulos de todo el vídeo (244) en
+  `videos/anticitera/subtitulos.srt`, con la ortografía real de los nombres, y los minutos de cada capítulo en
+  `capitulos.txt`. Una versión a 720p para verlo en el móvil.
+- Tiempo de máquina de todo el vídeo en esta CPU: planchas con su posproceso 48 min, voz 9 min, música unos 15 min,
+  render y unión 30 min: **unas 1 h 45 min**, la mitad que lo estimado en la sesión 2 sin AMX (~4,8 h).
+
+![Anticitera en 16 fotogramas](resultados/anticitera-hoja.jpg)
+
+### Decisiones (sesión 3)
+
+- EDSR para ampliar las planchas (lo recomendado en la sesión 2; la nitidez se nota en piel, latón y reflejos).
+- Un proyecto de HyperFrames por capítulo, unidos sin recomprimir (`unir.sh`); el sonido de cada parte se recorta a la
+  duración exacta de su vídeo antes de unirlo.
+- Las imágenes son ilustraciones generadas: lo dice la tarjeta final, junto al aviso de voz sintética.
+
 ## Siguiente paso
 
-1. La decisión sobre EDSR, de arriba.
-2. ~~La apertura de 30 s~~ (hecha: `videos/anticitera/apertura`, 34 s). Que el usuario la vea y opine.
-3. El vídeo completo por capítulos, en el orden de arriba, con un kit de componentes del estilo A sacado de
-   la apertura (plancha 2.5D, rótulo con línea, cifra que cuenta, escáner, ruedas, título), midiendo cada paso.
+1. Que el usuario vea el documental (`salidas/anticitera/anticitera.mp4`, o la versión a 720p) y diga qué cambiar.
+   Lo que más mejoraría, en `videos/anticitera/REVIEW.md`: planchas nuevas para la vitrina y para Rodas, y oír la mezcla.
+2. Para subirlo: la descripción, con los avisos de IA y las fuentes, está en `videos/anticitera/DESCRIPCION.md`; los
+   capítulos, en `capitulos.txt`; los subtítulos, en `subtitulos.srt`. Uso no comercial (MusicGen).
+3. El segundo vídeo con el mismo kit: guion y `montaje/capN.py`; los gráficos de `graficos/` se reutilizan. Medir el
+   tiempo total de principio a fin, también el de Claude escribiendo los montajes.
 4. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)

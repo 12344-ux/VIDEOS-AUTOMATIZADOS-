@@ -1,0 +1,975 @@
+1
+00:00:01,200 --> 00:00:02,658
+Primavera de mil novecientos.
+
+2
+00:00:03,420 --> 00:00:05,839
+Una tormenta empuja a un barco de buzos
+
+3
+00:00:05,859 --> 00:00:08,620
+de esponjas hasta Anticitera, una isla
+
+4
+00:00:08,640 --> 00:00:10,924
+perdida entre Creta y el Peloponeso.
+
+5
+00:00:11,680 --> 00:00:13,750
+Cuando el mar se calma, uno de ellos
+
+6
+00:00:13,770 --> 00:00:15,686
+baja a cuarenta y cinco metros.
+
+7
+00:00:16,003 --> 00:00:16,810
+Y ve estatuas.
+
+8
+00:00:17,165 --> 00:00:19,246
+Un naufragio de hace más de dos mil años.
+
+9
+00:00:20,233 --> 00:00:21,782
+Entre los restos sacan un bulto
+
+10
+00:00:21,802 --> 00:00:23,730
+de bronce, verde y corroído.
+
+11
+00:00:24,019 --> 00:00:25,330
+Dentro hay ruedas dentadas.
+
+12
+00:00:26,248 --> 00:00:28,530
+Sin saberlo, acababan de encontrar el
+
+13
+00:00:28,550 --> 00:00:30,890
+ordenador más antiguo que se conoce.
+
+14
+00:00:37,460 --> 00:00:39,320
+Atenas, Museo Arqueológico Nacional.
+
+15
+00:00:40,038 --> 00:00:41,598
+Las estatuas del naufragio
+
+16
+00:00:41,838 --> 00:00:43,278
+se llevan toda la atención.
+
+17
+00:00:43,685 --> 00:00:45,565
+El bulto de bronce queda apartado,
+
+18
+00:00:45,785 --> 00:00:48,025
+y al secarse, la madera que lo envolvía
+
+19
+00:00:48,045 --> 00:00:50,225
+se encoge y lo parte en pedazos.
+
+20
+00:00:51,175 --> 00:00:52,415
+El diecisiete de mayo
+
+21
+00:00:52,435 --> 00:00:53,755
+de mil novecientos dos,
+
+22
+00:00:54,055 --> 00:00:55,755
+el arqueólogo Valerios Stais
+
+23
+00:00:55,775 --> 00:00:57,335
+se fija en uno de ellos.
+
+24
+00:00:57,752 --> 00:00:58,872
+Incrustada en la piedra,
+
+25
+00:00:59,112 --> 00:01:00,312
+hay una rueda dentada.
+
+26
+00:01:01,255 --> 00:01:03,235
+Stais piensa en un reloj astronómico.
+
+27
+00:01:03,533 --> 00:01:06,433
+Casi nadie le cree: algo así no encaja
+
+28
+00:01:06,453 --> 00:01:08,233
+con lo que se sabe de la Antigüedad.
+
+29
+00:01:08,524 --> 00:01:10,084
+Quizá, dicen, cayó al mar
+
+30
+00:01:10,104 --> 00:01:11,544
+mucho después que el barco.
+
+31
+00:01:12,496 --> 00:01:14,396
+Años más tarde, el filólogo
+
+32
+00:01:14,416 --> 00:01:16,476
+alemán Albert Rehm sospecha que
+
+33
+00:01:16,496 --> 00:01:18,156
+es una calculadora del cielo.
+
+34
+00:01:18,425 --> 00:01:20,305
+Tiene razón, pero no puede ver dentro.
+
+35
+00:01:21,149 --> 00:01:22,989
+El bronce está soldado a la piedra
+
+36
+00:01:23,249 --> 00:01:24,849
+y a la cal del fondo del mar.
+
+37
+00:01:25,203 --> 00:01:26,443
+Durante medio siglo,
+
+38
+00:01:26,683 --> 00:01:28,623
+nadie sabe cómo mirar a través de él.
+
+39
+00:01:35,820 --> 00:01:38,480
+En mil novecientos cincuenta y uno llega a
+
+40
+00:01:38,500 --> 00:01:40,120
+Atenas Derek de Solla Price,
+
+41
+00:01:40,460 --> 00:01:42,480
+un físico británico que se ha
+
+42
+00:01:42,500 --> 00:01:44,220
+hecho historiador de la ciencia.
+
+43
+00:01:45,065 --> 00:01:46,725
+Ocho años después publica un
+
+44
+00:01:46,745 --> 00:01:49,445
+artículo con un título que escandaliza:
+
+45
+00:01:49,765 --> 00:01:51,645
+un ordenador griego antiguo.
+
+46
+00:01:52,655 --> 00:01:54,595
+En mil novecientos setenta y uno,
+
+47
+00:01:54,915 --> 00:01:57,475
+con el físico griego Charalampos Karakalos,
+
+48
+00:01:57,855 --> 00:02:00,295
+atraviesa los fragmentos con rayos gamma.
+
+49
+00:02:00,571 --> 00:02:01,671
+Por primera vez se ven
+
+50
+00:02:01,691 --> 00:02:02,811
+las ruedas de dentro,
+
+51
+00:02:03,191 --> 00:02:04,991
+y se pueden contar sus dientes.
+
+52
+00:02:05,957 --> 00:02:07,577
+Su reconstrucción tiene errores.
+
+53
+00:02:07,937 --> 00:02:09,697
+Michael Wright, conservador
+
+54
+00:02:09,717 --> 00:02:10,817
+del Museo de Ciencias
+
+55
+00:02:10,837 --> 00:02:13,477
+de Londres, pasa décadas corrigiéndola,
+
+56
+00:02:13,797 --> 00:02:15,677
+rueda a rueda, y construye
+
+57
+00:02:15,697 --> 00:02:16,977
+modelos que funcionan.
+
+58
+00:02:17,889 --> 00:02:19,809
+En dos mil cinco, un equipo
+
+59
+00:02:19,829 --> 00:02:21,489
+internacional lleva hasta el
+
+60
+00:02:21,509 --> 00:02:24,169
+museo un tomógrafo de rayos X de alta
+
+61
+00:02:24,189 --> 00:02:26,549
+energía, y una técnica de luz que
+
+62
+00:02:26,569 --> 00:02:28,729
+hace visibles los relieves más finos.
+
+63
+00:02:29,595 --> 00:02:31,555
+Bajo la corrosión aparecen miles
+
+64
+00:02:31,575 --> 00:02:33,215
+de letras griegas diminutas.
+
+65
+00:02:33,634 --> 00:02:35,774
+Se lee más del doble de lo que se conocía.
+
+66
+00:02:36,735 --> 00:02:38,275
+Son ochenta y dos fragmentos,
+
+67
+00:02:38,495 --> 00:02:40,035
+con treinta ruedas dentadas.
+
+68
+00:02:40,397 --> 00:02:41,957
+Apenas un tercio de la máquina.
+
+69
+00:02:42,263 --> 00:02:44,483
+Y aun así, bastan para entender qué hacía.
+
+70
+00:02:51,793 --> 00:02:53,673
+Imagina una caja de madera del
+
+71
+00:02:53,693 --> 00:02:55,893
+tamaño de una caja de zapatos,
+
+72
+00:02:56,173 --> 00:02:58,013
+con una manivela en un costado.
+
+73
+00:02:58,841 --> 00:03:00,481
+Al girarla, el tiempo avanza.
+
+74
+00:03:00,748 --> 00:03:02,828
+Cada vuelta de la rueda mayor es un año.
+
+75
+00:03:03,735 --> 00:03:04,835
+En el frente hay dos
+
+76
+00:03:04,855 --> 00:03:06,835
+anillos: uno con los doce
+
+77
+00:03:06,855 --> 00:03:08,955
+signos del zodíaco, y otro con
+
+78
+00:03:08,975 --> 00:03:11,275
+los trescientos sesenta y cinco
+
+79
+00:03:11,295 --> 00:03:12,995
+días del calendario egipcio.
+
+80
+00:03:13,807 --> 00:03:15,747
+Una aguja marca la posición del Sol.
+
+81
+00:03:16,141 --> 00:03:17,081
+Otra, la de la Luna.
+
+82
+00:03:17,396 --> 00:03:19,496
+Y una pequeña esfera, mitad clara y
+
+83
+00:03:19,516 --> 00:03:22,176
+mitad oscura, gira para mostrar su fase:
+
+84
+00:03:22,436 --> 00:03:24,996
+creciente, llena, menguante, nueva.
+
+85
+00:03:25,969 --> 00:03:28,049
+Debajo del anillo de los días hay
+
+86
+00:03:28,069 --> 00:03:29,889
+una fila de agujeros diminutos.
+
+87
+00:03:30,292 --> 00:03:31,332
+Volveremos a ellos.
+
+88
+00:03:32,272 --> 00:03:34,532
+Todo eso lo mueven ruedas recortadas
+
+89
+00:03:34,592 --> 00:03:36,392
+en láminas finas de bronce,
+
+90
+00:03:36,632 --> 00:03:39,052
+con dientes triangulares tallados a mano.
+
+91
+00:03:39,792 --> 00:03:41,932
+Pero lo más asombroso no está a la vista.
+
+92
+00:03:42,245 --> 00:03:43,685
+Está en cómo se mueve la Luna.
+
+93
+00:03:50,973 --> 00:03:53,293
+Si sigues a la Luna durante un mes,
+
+94
+00:03:53,633 --> 00:03:55,013
+notarás algo extraño:
+
+95
+00:03:55,433 --> 00:03:56,993
+no avanza siempre igual.
+
+96
+00:03:57,319 --> 00:03:59,199
+A veces corre, y a veces se frena.
+
+97
+00:04:00,100 --> 00:04:01,020
+Hoy sabemos por qué.
+
+98
+00:04:01,380 --> 00:04:03,940
+Su órbita es una elipse, y cuando pasa
+
+99
+00:04:03,960 --> 00:04:06,500
+más cerca de la Tierra, va más deprisa.
+
+100
+00:04:07,346 --> 00:04:09,586
+Los griegos no conocían las elipses,
+
+101
+00:04:09,846 --> 00:04:11,746
+pero el astrónomo Hiparco había
+
+102
+00:04:11,766 --> 00:04:14,026
+explicado ese vaivén con círculos.
+
+103
+00:04:14,899 --> 00:04:16,439
+Y alguien lo convirtió en bronce.
+
+104
+00:04:16,796 --> 00:04:19,216
+Dos ruedas iguales, una sobre otra,
+
+105
+00:04:19,496 --> 00:04:20,696
+con los ejes separados
+
+106
+00:04:20,716 --> 00:04:22,076
+poco más de un milímetro.
+
+107
+00:04:22,377 --> 00:04:23,997
+Un perno de la primera entra
+
+108
+00:04:24,017 --> 00:04:25,557
+en una ranura de la segunda.
+
+109
+00:04:26,481 --> 00:04:28,341
+Al girar, la segunda rueda se
+
+110
+00:04:28,361 --> 00:04:30,821
+adelanta y se retrasa, una y otra vez.
+
+111
+00:04:31,212 --> 00:04:32,032
+Igual que la Luna.
+
+112
+00:04:32,988 --> 00:04:33,508
+Y hay más.
+
+113
+00:04:33,866 --> 00:04:35,706
+El punto en el que la Luna corre
+
+114
+00:04:35,726 --> 00:04:37,806
+más también se desplaza: da la
+
+115
+00:04:37,826 --> 00:04:40,266
+vuelta al cielo en casi nueve años.
+
+116
+00:04:40,580 --> 00:04:42,520
+Por eso todo el conjunto va montado
+
+117
+00:04:42,540 --> 00:04:44,860
+sobre otra rueda, que gira despacio.
+
+118
+00:04:45,789 --> 00:04:47,129
+Una teoría astronómica,
+
+119
+00:04:47,369 --> 00:04:48,929
+convertida en un mecanismo.
+
+120
+00:04:49,195 --> 00:04:51,355
+Pero la Luna servía para algo más
+
+121
+00:04:51,375 --> 00:04:53,755
+inquietante: anunciar la oscuridad.
+
+122
+00:05:00,920 --> 00:05:02,020
+En la cara de atrás hay
+
+123
+00:05:02,040 --> 00:05:03,260
+dos grandes espirales.
+
+124
+00:05:04,130 --> 00:05:05,090
+La de arriba cuenta
+
+125
+00:05:05,110 --> 00:05:07,310
+diecinueve años: doscientos
+
+126
+00:05:07,330 --> 00:05:09,550
+treinta y cinco meses lunares,
+
+127
+00:05:09,930 --> 00:05:12,170
+lo que tardan las fases de la Luna en
+
+128
+00:05:12,190 --> 00:05:14,450
+volver a caer en las mismas fechas.
+
+129
+00:05:14,825 --> 00:05:16,905
+Sus casillas llevan los nombres de
+
+130
+00:05:16,925 --> 00:05:18,845
+los meses de un calendario griego.
+
+131
+00:05:19,781 --> 00:05:21,341
+Una aguja la recorre siguiendo
+
+132
+00:05:21,361 --> 00:05:23,141
+el surco, vuelta a vuelta.
+
+133
+00:05:24,010 --> 00:05:25,590
+La de abajo es más inquietante.
+
+134
+00:05:25,857 --> 00:05:27,917
+Cuenta doscientos veintitrés meses,
+
+135
+00:05:28,137 --> 00:05:30,377
+el ciclo de saros: dieciocho
+
+136
+00:05:30,397 --> 00:05:32,417
+años y once días después de un
+
+137
+00:05:32,437 --> 00:05:34,817
+eclipse, llega otro casi igual.
+
+138
+00:05:35,780 --> 00:05:37,540
+En sus casillas hay pequeños signos.
+
+139
+00:05:37,907 --> 00:05:39,727
+Avisan de los meses con eclipse de
+
+140
+00:05:39,747 --> 00:05:41,807
+Sol o de Luna, y hasta de la hora.
+
+141
+00:05:42,647 --> 00:05:44,567
+La rueda que mueve esa espiral tiene,
+
+142
+00:05:44,867 --> 00:05:47,347
+justamente, doscientos veintitrés dientes.
+
+143
+00:05:48,327 --> 00:05:50,667
+Dentro de la espiral de arriba, un dial
+
+144
+00:05:50,687 --> 00:05:52,207
+pequeño marca algo más
+
+145
+00:05:52,227 --> 00:05:53,847
+terrenal: los juegos.
+
+146
+00:05:54,267 --> 00:05:55,927
+Los Olímpicos, y otros de
+
+147
+00:05:55,947 --> 00:05:57,967
+toda Grecia, cada cuatro años.
+
+148
+00:05:58,925 --> 00:06:00,705
+En la Antigüedad, predecir un
+
+149
+00:06:00,725 --> 00:06:02,925
+eclipse era casi predecir el futuro.
+
+150
+00:06:03,225 --> 00:06:04,325
+Esta máquina lo hacía
+
+151
+00:06:04,345 --> 00:06:05,765
+con años de antelación.
+
+152
+00:06:13,020 --> 00:06:14,240
+A simple vista se ven
+
+153
+00:06:14,260 --> 00:06:16,120
+cinco planetas: Mercurio,
+
+154
+00:06:16,140 --> 00:06:18,740
+Venus, Marte, Júpiter y Saturno.
+
+155
+00:06:19,060 --> 00:06:20,840
+Los griegos los llamaban errantes,
+
+156
+00:06:21,080 --> 00:06:22,900
+porque vagan entre las estrellas,
+
+157
+00:06:23,240 --> 00:06:25,100
+y a veces parecen retroceder.
+
+158
+00:06:25,983 --> 00:06:26,843
+De las ruedas que los
+
+159
+00:06:26,863 --> 00:06:28,283
+movían casi no queda nada.
+
+160
+00:06:28,579 --> 00:06:30,339
+Pero se conservó un trozo de la
+
+161
+00:06:30,359 --> 00:06:32,379
+tapa delantera, con un texto.
+
+162
+00:06:33,285 --> 00:06:35,385
+En dos mil veintiuno, un equipo
+
+163
+00:06:35,405 --> 00:06:36,765
+de la Universidad de Londres
+
+164
+00:06:36,785 --> 00:06:39,345
+leyó en él dos números: cuatrocientos
+
+165
+00:06:39,365 --> 00:06:41,945
+sesenta y dos, junto a Venus,
+
+166
+00:06:42,405 --> 00:06:43,885
+y cuatrocientos cuarenta
+
+167
+00:06:44,025 --> 00:06:45,845
+y dos, junto a Saturno.
+
+168
+00:06:46,783 --> 00:06:49,843
+Son ciclos de la astronomía antigua: tras
+
+169
+00:06:49,863 --> 00:06:52,303
+cuatrocientos sesenta y dos años,
+
+170
+00:06:52,663 --> 00:06:54,763
+los movimientos de Venus vuelven
+
+171
+00:06:54,783 --> 00:06:56,703
+a coincidir con el calendario.
+
+172
+00:06:57,023 --> 00:06:57,883
+Los de Saturno,
+
+173
+00:06:58,063 --> 00:06:59,863
+tras cuatrocientos cuarenta y dos.
+
+174
+00:07:00,699 --> 00:07:01,719
+Con esas cifras,
+
+175
+00:07:01,999 --> 00:07:03,739
+el equipo reconstruyó un frente
+
+176
+00:07:03,759 --> 00:07:05,879
+lleno de anillos: el Sol,
+
+177
+00:07:06,199 --> 00:07:08,939
+la Luna y los cinco planetas, cada uno
+
+178
+00:07:08,959 --> 00:07:11,299
+con su marcador, girando a su ritmo.
+
+179
+00:07:12,194 --> 00:07:14,194
+Un cosmos entero, dentro de una caja.
+
+180
+00:07:14,515 --> 00:07:16,195
+Aunque es una reconstrucción:
+
+181
+00:07:16,615 --> 00:07:19,115
+falta demostrar que podía fabricarse
+
+182
+00:07:19,155 --> 00:07:20,995
+con las técnicas de la época.
+
+183
+00:07:28,240 --> 00:07:29,380
+Nadie firmó la máquina.
+
+184
+00:07:29,663 --> 00:07:30,623
+Pero dejó pistas.
+
+185
+00:07:31,448 --> 00:07:33,188
+El barco se hundió hacia los años
+
+186
+00:07:33,208 --> 00:07:35,528
+setenta o sesenta antes de Cristo.
+
+187
+00:07:35,877 --> 00:07:37,617
+Lo dicen las monedas de Pérgamo
+
+188
+00:07:37,697 --> 00:07:39,297
+y de Éfeso que llevaba a bordo.
+
+189
+00:07:40,110 --> 00:07:42,110
+La máquina podría ser más antigua.
+
+190
+00:07:42,478 --> 00:07:44,538
+Un estudio sitúa el comienzo de
+
+191
+00:07:44,558 --> 00:07:46,698
+su espiral de eclipses en el año
+
+192
+00:07:46,718 --> 00:07:48,778
+doscientos cinco antes de Cristo.
+
+193
+00:07:49,734 --> 00:07:51,814
+Los meses de su calendario llevan nombres
+
+194
+00:07:51,834 --> 00:07:54,634
+de Corinto, o de alguna de sus colonias.
+
+195
+00:07:54,987 --> 00:07:56,447
+Una de ellas era Siracusa,
+
+196
+00:07:56,547 --> 00:07:57,807
+la ciudad de Arquímedes.
+
+197
+00:07:58,681 --> 00:08:00,081
+Más de un siglo después,
+
+198
+00:08:00,501 --> 00:08:01,621
+Cicerón escribió que
+
+199
+00:08:01,641 --> 00:08:03,601
+Arquímedes había construido una
+
+200
+00:08:03,621 --> 00:08:05,441
+esfera que mostraba los movimientos
+
+201
+00:08:05,461 --> 00:08:08,141
+del Sol, la Luna y los planetas.
+
+202
+00:08:08,471 --> 00:08:10,531
+Y contó que su maestro, Posidonio,
+
+203
+00:08:10,891 --> 00:08:12,231
+había hecho otra en Rodas,
+
+204
+00:08:12,431 --> 00:08:13,831
+la isla de los astrónomos.
+
+205
+00:08:14,756 --> 00:08:16,956
+Ninguna pista basta para dar un nombre.
+
+206
+00:08:17,225 --> 00:08:19,585
+Pero dicen algo seguro: una máquina
+
+207
+00:08:19,605 --> 00:08:21,365
+tan precisa no fue la primera.
+
+208
+00:08:21,726 --> 00:08:23,506
+Detrás tuvo que haber una tradición
+
+209
+00:08:23,526 --> 00:08:25,706
+de artesanos, y otras máquinas.
+
+210
+00:08:33,007 --> 00:08:34,167
+Después de Anticitera,
+
+211
+00:08:34,347 --> 00:08:35,547
+el rastro se pierde.
+
+212
+00:08:35,899 --> 00:08:37,979
+No se conserva nada tan complejo
+
+213
+00:08:38,119 --> 00:08:39,819
+hasta los relojes astronómicos
+
+214
+00:08:39,839 --> 00:08:41,879
+de la Europa del siglo catorce.
+
+215
+00:08:42,774 --> 00:08:44,114
+El bronce valía dinero.
+
+216
+00:08:44,451 --> 00:08:46,551
+Las otras máquinas, si existieron,
+
+217
+00:08:46,731 --> 00:08:48,531
+acabaron probablemente fundidas.
+
+218
+00:08:48,884 --> 00:08:50,404
+Esta se salvó porque se hundió.
+
+219
+00:08:51,476 --> 00:08:52,596
+Y aún guarda preguntas.
+
+220
+00:08:52,981 --> 00:08:54,141
+¿Recuerdas los agujeros
+
+221
+00:08:54,161 --> 00:08:55,581
+bajo el anillo de los días?
+
+222
+00:08:55,959 --> 00:08:58,719
+En dos mil veinticuatro, dos astrónomos de
+
+223
+00:08:58,739 --> 00:09:00,819
+Glasgow que estudian las ondas
+
+224
+00:09:00,839 --> 00:09:02,559
+gravitacionales los contaron
+
+225
+00:09:02,579 --> 00:09:04,499
+con sus métodos estadísticos.
+
+226
+00:09:05,381 --> 00:09:07,801
+Lo más probable es que fueran trescientos
+
+227
+00:09:07,821 --> 00:09:10,381
+cincuenta y cuatro: los días de un
+
+228
+00:09:10,401 --> 00:09:12,801
+año lunar, no los del año del Sol.
+
+229
+00:09:13,774 --> 00:09:15,374
+Otros dudan de que funcionara bien.
+
+230
+00:09:15,766 --> 00:09:17,286
+Dos ingenieros argentinos
+
+231
+00:09:17,306 --> 00:09:19,106
+calculan, en un estudio
+
+232
+00:09:19,126 --> 00:09:20,906
+aún sin revisar, que con los
+
+233
+00:09:20,926 --> 00:09:23,086
+errores medidos en sus dientes se
+
+234
+00:09:23,106 --> 00:09:25,106
+habría atascado en pocos meses.
+
+235
+00:09:25,415 --> 00:09:27,655
+Ellos mismos piden prudencia: el
+
+236
+00:09:27,675 --> 00:09:30,075
+bronce lleva dos mil años deformándose.
+
+237
+00:09:31,051 --> 00:09:32,251
+Quizá nunca sepamos quién
+
+238
+00:09:32,271 --> 00:09:33,811
+lo hizo, ni cuántos hubo.
+
+239
+00:09:34,678 --> 00:09:35,418
+Pero cada vez que
+
+240
+00:09:35,438 --> 00:09:36,738
+alguien vuelve a mirarlo,
+
+241
+00:09:37,138 --> 00:09:38,998
+la máquina responde un poco más.
+
+242
+00:09:39,452 --> 00:09:41,092
+Un trozo de bronce verde que,
+
+243
+00:09:41,292 --> 00:09:43,632
+hace más de dos mil años, ya sabía
+
+244
+00:09:43,652 --> 00:09:45,632
+cuándo iba a oscurecerse el cielo.

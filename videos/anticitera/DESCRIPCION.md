@@ -10,9 +10,17 @@ Anticitera, la máquina más compleja que se conserva de la Antigüedad: predec�
 Sol y quizá a los cinco planetas, y marcaba los Juegos Olímpicos. En este documental contamos cómo se descubrió
 lo que hacía, cómo funciona por dentro y qué sigue sin saberse.
 
-**Capítulos** (los minutos los escribe `unir.sh` en `capitulos.txt`):
+**Capítulos** (los escribe `unir.sh` en `capitulos.txt`):
 
-(pegar aquí el contenido de capitulos.txt)
+0:00 Apertura: el hallazgo
+0:34 I. Un bulto olvidado
+1:32 II. Ver a través del bronce
+2:48 III. Una caja con el cielo dentro
+3:47 IV. La Luna que acelera
+4:57 V. Anunciar la oscuridad
+6:09 VI. Los cinco errantes
+7:24 VII. ¿Quién lo construyó?
+8:29 VIII. Lo que el mar guardó
 
 **Aviso:** la voz de este vídeo es sintética, generada por IA (Supertonic-3). Las imágenes también están generadas
 por IA: son ilustraciones de época y de reconstrucciones, no fotografías del mecanismo real ni de las personas

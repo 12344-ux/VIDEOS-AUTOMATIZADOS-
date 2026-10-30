@@ -106,6 +106,15 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - Para esperar a que acabe un proceso, no usar `pgrep -f` con un texto que también aparece en el propio
   bucle de espera: se encuentra a sí mismo y no termina nunca.
 - Cargar cada modelo una vez por trabajo: voz y música antes que FLUX, o después de todo el lote de planchas.
+- No editar un guion de bash mientras se ejecuta: bash lo lee sobre la marcha y falla (pasó con
+  `preparar-apertura.sh`). Esperar a que acabe o escribir otro archivo.
+- Supertonic da ya siempre la misma voz (semilla por frase en `voz/supertonic_frases.py`). Para encajar una toma
+  nueva en una composición ya cronometrada, `voz/ajustar.py` (anclas en palabras; tramos de menos de un 5 %).
+- Kit de vídeos largos (`videos/anticitera/kit/`): los montajes se anclan a palabras con `w("palabra", n)`; si la
+  palabra sale más de una vez, `montar.py` lo avisa y hay que elegir la aparición. Las etiquetas en versalitas
+  ocupan unos 46 px por letra: junto a un dibujo, de 16 letras como mucho.
+- Medir los graves de cada pieza de MusicGen antes de usarla: dos salieron con el 65–98 % de la energía bajo
+  150 Hz, que en un móvil no suena (ver la bitácora, sesión 3).
 
 ## Cómo decidir
 

@@ -6,12 +6,13 @@
 # Con «copiar», el vídeo pasa tal cual y solo se trata el sonido: es lo que conviene si el render ya
 # salió con la calidad de entrega (hf.sh render --quality high --crf 20). Recomprimir es lo lento: con preset slow,
 # 44 s por cada 10 s de vídeo en esta CPU (unos 40 min para 9 min); con medium, 27 s y la misma calidad.
+# PICO cambia el pico real máximo (−1,5 dBTP por defecto; con −1,5 el AAC puede acabar en −0,9).
 set -euo pipefail
-entrada=$1 salida=$2 lufs=${3:--15} crf=${4:-20}
-medida=$(ffmpeg -hide_banner -nostats -i "$entrada" -vn -af "loudnorm=I=$lufs:TP=-1.5:LRA=11:print_format=json" -f null - 2>&1 \
+entrada=$1 salida=$2 lufs=${3:--15} crf=${4:-20} pico=${PICO:--1.5}
+medida=$(ffmpeg -hide_banner -nostats -i "$entrada" -vn -af "loudnorm=I=$lufs:TP=$pico:LRA=11:print_format=json" -f null - 2>&1 \
   | sed -n '/^{/,/^}/p')
 valor() { echo "$medida" | python3 -c "import json,sys; print(json.load(sys.stdin)['$1'])"; }
-filtro="loudnorm=I=$lufs:TP=-1.5:LRA=11:measured_I=$(valor input_i):measured_TP=$(valor input_tp)"
+filtro="loudnorm=I=$lufs:TP=$pico:LRA=11:measured_I=$(valor input_i):measured_TP=$(valor input_tp)"
 filtro="$filtro:measured_LRA=$(valor input_lra):measured_thresh=$(valor input_thresh):offset=$(valor target_offset):linear=true"
 if [ "$crf" = copiar ]; then
   video=(-c:v copy)

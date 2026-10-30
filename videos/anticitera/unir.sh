@@ -4,7 +4,8 @@
 #   videos/anticitera/unir.sh --unir     solo une lo ya renderizado
 # La imagen se copia tal cual (los renders salen ya a calidad de entrega: --quality high --crf 20). El sonido
 # de cada parte se recorta o rellena a la duración exacta de su vídeo antes de unirlo, para que no se desfase
-# (el AAC añade unas muestras de cebado en cada archivo), y el total se iguala a −15 LUFS en dos pasadas.
+# (el AAC añade unas muestras de cebado en cada archivo) e igualado a −19 LUFS, y el total se lleva a −15 LUFS en
+# dos pasadas, con el pico real por debajo de −2 dB.
 # Escribe también los subtítulos del vídeo entero y la lista de capítulos con sus minutos.
 set -euo pipefail
 
@@ -32,12 +33,16 @@ mkdir -p "$T"
 for p in "${PARTES[@]}"; do
   printf "file '%s'\n" "$R/$p.mp4" >> "$T/lista.txt"
   dur=$(ffprobe -v error -select_streams v:0 -count_packets -show_entries stream=nb_read_packets -of csv=p=0 "$R/$p.mp4")
-  ffmpeg -v error -y -i "$R/$p.mp4" -vn -af "apad,atrim=end_sample=$((dur * 48000 / 30))" -ar 48000 -ac 2 "$T/$p.wav"
+  # Cada parte, igualada a −19 LUFS antes de unir (salían de −18,2 a −20,8): en coma flotante, sin recortar picos.
+  i=$(ffmpeg -hide_banner -nostats -i "$R/$p.mp4" -vn -af ebur128 -f null - 2>&1 | grep -A3 Summary | sed -n 's/.*I: *\(-*[0-9.]*\) LUFS.*/\1/p')
+  ffmpeg -v error -y -i "$R/$p.mp4" -vn -af "apad,atrim=end_sample=$((dur * 48000 / 30)),volume=$(python3 -c "print(-19 - $i)")dB" \
+    -ar 48000 -ac 2 -c:a pcm_f32le "$T/$p.wav"
+  echo "  $p: $i LUFS → −19"
 done
 ffmpeg -v error -y -f concat -safe 0 -i "$T/lista.txt" -c copy -an "$T/imagen.mp4"
 ffmpeg -v error -y -f concat -safe 0 -i <(for p in "${PARTES[@]}"; do printf "file '%s'\n" "$T/$p.wav"; done) -c copy "$T/sonido.wav"
-ffmpeg -v error -y -i "$T/imagen.mp4" -i "$T/sonido.wav" -map 0:v -map 1:a -c:v copy -c:a pcm_s16le "$T/completo.mov"
-"$REPO/video/entregar.sh" "$T/completo.mov" "$TRABAJO/anticitera.mp4" -15 copiar
+ffmpeg -v error -y -i "$T/imagen.mp4" -i "$T/sonido.wav" -map 0:v -map 1:a -c:v copy -c:a pcm_f32le "$T/completo.mov"
+PICO=-2 "$REPO/video/entregar.sh" "$T/completo.mov" "$TRABAJO/anticitera.mp4" -15 copiar
 
 paso "Subtítulos y capítulos"
 python3 - "$AQUI" "$TRABAJO" "$R" "${PARTES[@]}" <<'EOF'

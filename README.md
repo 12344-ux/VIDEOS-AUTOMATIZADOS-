@@ -4,14 +4,16 @@ Crear **vídeos largos a partir de un prompt**, con **edición de nivel agencia*
 sin servicios de pago y sin que el texto salga de la máquina. Todo funciona en la CPU de una sesión en
 la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo lo hace la edición.
 
-## Estado (29 de octubre de 2026)
+## Estado (30 de octubre de 2026)
 
-Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, uno por estilo
-([estilos/](estilos/README.md)). El estilo elegido es el A, editorial cinematográfico. Nicho del primer
-canal: historia y misterios; primer vídeo, «El mecanismo de Anticitera» (8–10 min). Antes de empezarlo se
-aceleró el proceso: el render del estilo A tarda un tercio y la entrega ya no recomprime (ver la
-[bitácora](docs/bitacora.md#2-velocidad-dónde-se-va-el-tiempo-y-qué-se-ganó)). Ya está la apertura de 34 s
-(`videos/anticitera/`, reproducible con `preparar-apertura.sh --render`); falta el vídeo largo por capítulos.
+**Primer vídeo terminado: «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos), en el estilo A,
+con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
+descripción corta anclada a las palabras de la narración (`videos/anticitera/kit/`), con dibujos animados para cada
+idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se rehace con `preparar-apertura.sh`,
+`preparar.sh` y `unir.sh`; el detalle, en la [bitácora](docs/bitacora.md#sesión-3--30-de-octubre-de-2026) y en
+[videos/anticitera/](videos/anticitera/SPEC.md).
+
+![Anticitera en 16 fotogramas](docs/resultados/anticitera-hoja.jpg)
 
 | Pieza | Herramienta | Estado |
 | --- | --- | --- |
@@ -26,8 +28,10 @@ aceleró el proceso: el render del estilo A tarda un tercio y la entrega ya no r
 | Motor de edición y motion | HyperFrames 0.8.216 + GSAP; WebGL con llvmpipe de Mesa | ✅ instalado y medido, `video/hf.sh` |
 | 2.5D y recortes | Depth Anything V2 Small, capas con OpenCV, BiRefNet lite | ✅ `imagen/profundidad.py`, `capas25d.py`, `recortar.py` |
 | Volumen de entrega | loudnorm en dos pasadas a −15 LUFS | ✅ `video/entregar.sh` |
+| Montaje de un vídeo largo | Kit del estilo A: capítulos desde una descripción anclada a la voz | ✅ `videos/anticitera/kit/montar.py` |
+| Lecho de música | Una pieza de MusicGen extendida a la duración de un tramo | ✅ `audio/lecho.py` |
 | Estilo de animación | A, editorial cinematográfico, elegido tras probar tres ([estilos/](estilos/README.md)) | ✅ elegido |
-| Guion a partir del prompt | Lo escribe Claude en la sesión | ⏳ por diseñar |
+| Guion a partir del prompt | Lo escribe Claude en la sesión, con los datos comprobados en la web | ✅ probado en Anticitera |
 
 ## Empezar en una sesión nueva
 
@@ -86,26 +90,26 @@ Los prompts de imagen funcionan mejor en inglés y descriptivos: sujeto, lugar, 
 
 ## Rendimiento medido aquí
 
-La máquina cambia entre sesiones: siempre 4 núcleos, 15 GB de RAM y sin GPU, pero en la sesión 1 fue un
-Xeon a 2,1 GHz con AMX y en la 2 un Cascade Lake a 2,8 GHz sin AMX.
+La máquina cambia entre sesiones: siempre 4 núcleos, 15 GB de RAM y sin GPU, pero en las sesiones 1 y 3 fue un
+Xeon con AMX y en la 2 un Cascade Lake a 2,8 GHz sin AMX.
 
-| Tarea | Sesión 1 (con AMX) | Sesión 2 (sin AMX) | RAM |
-| --- | --- | --- | --- |
-| Imagen FLUX.3 Image Klein, 512 × 512 | 37–39 s (73 s la primera) | 85 s (18,5 s por paso; 104 s la primera) | 8,2 GB |
-| Imagen FLUX.3 Image Klein, 768 × 432 (16:9) | 53 s (95 s la primera) | — | 8,2 GB |
-| Imagen FLUX.3 Image Klein, 1280 × 720 | 138–211 s | 328 s (246 s con 3 pasos) | 8,2–12 GB |
-| Imagen FLUX.2 klein 4B, 512 × 512 | 39–43 s | — | 9,3 GB |
-| Imagen SDXS, 512 × 512 | 0,5 s (8–17 s la primera) | — | 5,0 GB |
-| Voz Piper: 10 s de narración | 14,5 s, incluida la carga | — | — |
-| Voz Supertonic-3 con tiempos de palabras | 7 s en 14 s | 58 s en 61 s (síntesis 41 s) | 2 GB |
-| Música sintetizada: 14 s | 1,9 s | — | — |
-| Música MusicGen estéreo: 12 s | 50–55 s | 69–96 s; en lote de 4, 31 s por cada 10 s | 3 GB |
-| Título animado: 4 s a 720p30 | 14 s | — | — |
-| Profundidad (Depth Anything V2 Small) | 3 s por imagen | 5 s | — |
-| Recorte (BiRefNet lite), 768 × 768 | 27 s | — | — |
-| Render HyperFrames: 10 s a 1080p30 | 2 min–3 min 14 s, según el estilo | estilo A: 66 s (195 s al empezar); B: 114 s | — |
-| Ampliar ×2 con EDSR | — | 7 s desde 960 × 544; 12,5 s desde 1280 × 720 | — |
-| Entrega de 10 s de vídeo | — | 2,2 s copiando; 47 s recomprimiendo con preset slow | — |
+| Tarea | Sesión 1 (con AMX) | Sesión 2 (sin AMX) | Sesión 3 (con AMX) | RAM |
+| --- | --- | --- | --- | --- |
+| Imagen FLUX.3 Image Klein, 512 × 512 | 37–39 s (73 s la primera) | 85 s (18,5 s por paso; 104 s la primera) | — | 8,2 GB |
+| Imagen FLUX.3 Image Klein, 768 × 432 (16:9) | 53 s (95 s la primera) | — | — | 8,2 GB |
+| Imagen FLUX.3 Image Klein, 1280 × 720 | 138–211 s | 328 s (246 s con 3 pasos) | 82–98 s (102–112 s en lote con otra tarea) | 8,2–12 GB |
+| Imagen FLUX.2 klein 4B, 512 × 512 | 39–43 s | — | — | 9,3 GB |
+| Imagen SDXS, 512 × 512 | 0,5 s (8–17 s la primera) | — | — | 5,0 GB |
+| Voz Piper: 10 s de narración | 14,5 s, incluida la carga | — | — | — |
+| Voz Supertonic-3 con tiempos de palabras | 7 s en 14 s | 58 s en 61 s (síntesis 41 s) | 8 min 26 s en 8 min 33 s (con FLUX a la vez) | 2 GB |
+| Música sintetizada: 14 s | 1,9 s | — | — | — |
+| Música MusicGen estéreo | 12 s en 50–55 s | 12 s en 69–96 s; en lote de 4, 31 s por cada 10 s | 4 piezas de 30 s en 410 s | 3 GB |
+| Título animado: 4 s a 720p30 | 14 s | — | — | — |
+| Profundidad (Depth Anything V2 Small) | 3 s por imagen | 5 s | — | — |
+| Recorte (BiRefNet lite), 768 × 768 | 27 s | — | — | — |
+| Render HyperFrames: 10 s a 1080p30 | 2 min–3 min 14 s, según el estilo | estilo A: 66 s (195 s al empezar); B: 114 s | estilo A con dibujos: 27–30 s | — |
+| Ampliar ×2 con EDSR | — | 7 s desde 960 × 544; 12,5 s desde 1280 × 720 | 6 s desde 1280 × 720 | — |
+| Entrega de 10 s de vídeo | — | 2,2 s copiando; 47 s recomprimiendo con preset slow | — | — |
 
 «La primera» incluye cargar el modelo en memoria. La comparativa completa, con imágenes, está en
 [docs/investigacion-imagenes.md](docs/investigacion-imagenes.md).
@@ -144,10 +148,8 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Definir el nicho de los vídeos y hacer un tráiler de 20–30 s de principio a fin en el estilo A, con la
-voz M1. El plan
-está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso); la investigación, en
-[docs/investigacion-edicion.md](docs/investigacion-edicion.md).
+Que el usuario vea el documental de Anticitera y diga qué cambiar; después, el segundo vídeo con el mismo kit,
+midiendo cuánto tarda de principio a fin. El plan está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 
 ![Las tres pruebas de estilo](docs/resultados/comparativa-estilos.jpg)
 
