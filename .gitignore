@@ -9,3 +9,6 @@ estilos/*/renders/
 videos/*/*/assets/
 videos/*/*/.hyperframes/
 videos/*/*/renders/
+canales/**/assets/
+canales/**/.hyperframes/
+canales/**/renders/

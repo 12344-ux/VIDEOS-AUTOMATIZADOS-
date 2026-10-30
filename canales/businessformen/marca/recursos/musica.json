@@ -1,0 +1,14 @@
+{
+ "_nota": "MusicGen (estéreo, small), 20 s, semilla 7, en un solo lote. Una pieza por ruta, en este orden. La de «consejo» salió con el 90 % de la energía bajo 150 Hz: se rehízo con «consejo_bis» (la primera de las dos, con el 75 % por encima de 150 Hz; la segunda tenía el 82 % por encima de 6 kHz).",
+ "semilla": 7,
+ "duracion": 20,
+ "piezas": {
+  "sastre": "elegant minimal cinematic underscore, solo felt piano and warm cello in the middle register, slow and confident, luxury brand film, 80 bpm, no drums",
+  "consejo": "modern minimal electronic pulse, tight muted synth plucks in the middle register, soft clean percussion, focused and confident, corporate keynote, 100 bpm",
+  "lacre": "bold cinematic underscore, staccato cello and viola ostinato in the middle register, low taiko hits, dark and powerful, 90 bpm"
+ },
+ "consejo_bis": [
+  "modern minimal corporate electronica, bright muted synth plucks and clean electric piano in the middle register, light crisp percussion, focused and confident, 100 bpm, no sub bass",
+  "confident modern keynote underscore, staccato marimba and clean electric guitar in the middle register, light clap percussion, 100 bpm, no bass"
+ ]
+}

@@ -1,0 +1,6 @@
+{
+ "_nota": "FLUX.3 Image Klein, 4 pasos, 1280 x 720, ampliada a 1920 x 1080 con EDSR. La misma imagen en las tres rutas; cada una la trata a su manera.",
+ "nombre": "mesa",
+ "semilla": 301,
+ "prompt": "a long dark walnut boardroom table in a high-rise office at night, one black leather executive chair pushed back and turned away from the table, empty room, city lights through floor-to-ceiling windows, low key dramatic lighting, deep blacks, the chair in the right third of the frame, dark empty wall on the left of the frame, cinematic, 35mm film look, no people, no text"
+}

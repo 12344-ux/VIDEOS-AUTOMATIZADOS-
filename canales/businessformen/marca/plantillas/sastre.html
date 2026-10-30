@@ -1,0 +1,179 @@
+<!doctype html>
+<!-- BusinessForMen · ruta 1, «Sastre»: la elegancia clásica de la sastrería. Bodoni Moda (titulares) y Jost
+     (etiquetas), negro cálido, marfil y un burdeos propio; movimiento lento y seguro, líneas finas, raya
+     diplomática de fondo y, de logo, una etiqueta de sastre. Plantilla: la monta ../montar.py. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>BusinessForMen · ruta Sastre</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+      @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Jost"; src: url("assets/fonts/jost-500.woff2") format("woff2"); font-weight: 500; }
+      :root { --negro: #0e0c0c; --marfil: #efe8dd; --rojo: #8e1b2c; --gris: #8c8379; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--negro); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--negro); color: var(--marfil); }
+      .capa { position: absolute; inset: 0; }
+      #b2, #b3, #b4 { opacity: 0; visibility: hidden; }
+      .rayas { background: repeating-linear-gradient(90deg, rgba(239, 232, 221, 0.04) 0 1px, transparent 1px 36px); }
+      #grano { background: url("assets/img/grano.png"); opacity: 0.07; mix-blend-mode: overlay; }
+      /* 1 · la mesa */
+      #foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 70% 55%;
+        filter: saturate(0.5) sepia(0.2) contrast(1.04) brightness(1.04); }
+      #velo { background: linear-gradient(90deg, rgba(14, 12, 12, 0.95) 0%, rgba(14, 12, 12, 0.72) 36%, rgba(14, 12, 12, 0) 68%),
+        radial-gradient(ellipse 80% 75% at 64% 50%, rgba(14, 12, 12, 0) 45%, rgba(14, 12, 12, 0.85) 100%); }
+      .ceja { position: absolute; display: flex; align-items: center; gap: 26px; font: 500 30px/1 "Jost", sans-serif;
+        letter-spacing: 0.34em; color: var(--marfil); }
+      .ceja i { display: block; width: 76px; height: 2px; background: var(--rojo); transform-origin: left center; }
+      .titular { position: absolute; font: 500 112px/1.1 "Bodoni Moda", serif; letter-spacing: -0.01em; }
+      .linea { display: block; overflow: hidden; padding: 0 0.04em 0.1em 0; }
+      .linea > span { display: inline-block; }
+      .marca { position: relative; display: inline-block; font-style: italic; }
+      .marca u { position: absolute; left: 0.02em; right: 0.06em; bottom: 0.04em; height: 7px; background: var(--rojo); transform-origin: left center; }
+      /* 2 · la MAAN */
+      #barra { position: absolute; left: 560px; top: 318px; width: 3px; height: 640px; background: var(--rojo); transform-origin: top center; }
+      #lista { position: absolute; left: 610px; top: 300px; }
+      .fila { display: flex; align-items: baseline; height: 162px; white-space: nowrap; }
+      .ini { display: inline-block; font: 700 150px/1 "Bodoni Moda", serif; margin-right: 0.02em; }
+      .resto { display: inline-block; font: italic 500 112px/1 "Bodoni Moda", serif; color: var(--marfil); }
+      .nexo { display: inline-block; margin-left: 34px; font: 500 44px/1 "Jost", sans-serif; letter-spacing: 0.06em; color: var(--gris); }
+      #nota { position: absolute; left: 610px; top: 975px; font: 500 26px/1 "Jost", sans-serif; letter-spacing: 0.22em; color: var(--gris); }
+      /* 3 · negociar o pedir */
+      #pre { position: absolute; left: 150px; top: 250px; font: italic 500 66px/1 "Bodoni Moda", serif; color: var(--gris); }
+      #neg { position: absolute; left: 150px; top: 340px; font: 500 128px/1.1 "Bodoni Moda", serif; }
+      #neg .p { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; margin-right: 0.26em; }
+      #neg .p > span { display: inline-block; position: relative; }
+      #tacha { position: absolute; left: -0.04em; right: -0.04em; top: 52%; height: 7px; background: var(--rojo); transform-origin: left center; }
+      #banda { position: absolute; left: 0; top: 610px; width: 1920px; height: 270px; background: var(--rojo); transform-origin: left center; }
+      #pide { position: absolute; left: 150px; top: 668px; font: italic 500 150px/1 "Bodoni Moda", serif; color: var(--marfil); white-space: nowrap; }
+      #pide .p { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.1em; margin-right: 0.24em; }
+      #pide .p > span { display: inline-block; }
+      /* 4 · el logo: una etiqueta de sastre */
+      #etiqueta { position: absolute; left: 740px; top: 216px; width: 440px; height: 190px; }
+      #etiqueta .fondo { position: absolute; inset: 0; background: var(--rojo); }
+      #etiqueta svg { position: absolute; inset: 0; width: 440px; height: 190px; }
+      #etiqueta .bfm { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+        font: italic 500 100px/1 "Bodoni Moda", serif; letter-spacing: 0.04em; color: var(--marfil); }
+      #nombre { position: absolute; left: 0; width: 1920px; top: 470px; text-align: center; font: 500 104px/1 "Bodoni Moda", serif; letter-spacing: 0.005em; }
+      #nombre span { display: inline-block; }
+      #nombre em { font-style: italic; }
+      #hilo { position: absolute; left: 860px; top: 628px; width: 200px; height: 2px; background: var(--rojo); transform-origin: center; }
+      #lema { position: absolute; left: 0; width: 1920px; top: 668px; text-align: center; font: 500 30px/1 "Jost", sans-serif; letter-spacing: 0.42em; color: var(--gris); }
+      #ia { position: absolute; right: 64px; bottom: 50px; font: 500 28px/1 "Jost", sans-serif; letter-spacing: 0.06em; color: var(--gris); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-width="1920" data-height="1080">
+      <!-- 1 · «Gana quien puede levantarse de la mesa» -->
+      <div id="b1" class="capa">
+        <img id="foto" src="assets/img/mesa.jpg" alt="" />
+        <div id="velo" class="capa"></div>
+        <div id="c1" class="ceja" style="left: 150px; top: 330px"><i></i><span>NEGOCIACIÓN</span></div>
+        <div class="titular" style="left: 150px; top: 400px">
+          <span id="l1" class="linea"><span>Gana quien puede</span></span>
+          <span id="l2" class="linea"><span><span class="marca">levantarse<u id="subraya"></u></span> de la mesa.</span></span>
+        </div>
+      </div>
+      <!-- 2 · la MAAN, letra a letra -->
+      <div id="b2" class="capa rayas">
+        <div id="c2" class="ceja" style="left: 560px; top: 180px"><i></i><span>PROYECTO DE NEGOCIACIÓN DE HARVARD</span></div>
+        <div id="barra"></div>
+        <div id="lista">
+          <div class="fila"><span class="ini">M</span><span id="r1" class="resto">ejor</span></div>
+          <div class="fila"><span class="ini">A</span><span id="r2" class="resto">lternativa</span><span id="aun" class="nexo">a un</span></div>
+          <div class="fila"><span class="ini">A</span><span id="r3" class="resto">cuerdo</span></div>
+          <div class="fila"><span class="ini">N</span><span id="r4" class="resto">egociado</span></div>
+        </div>
+        <div id="nota">EN INGLÉS, BATNA</div>
+      </div>
+      <!-- 3 · «Si no la conoces, no estás negociando. Estás pidiendo.» -->
+      <div id="b3" class="capa rayas">
+        <div id="pre">Si no la conoces,</div>
+        <div id="neg"><span class="p"><span id="n1">no</span></span><span class="p"><span id="n2">estás</span></span><span class="p"><span id="n3">negociando.<i id="tacha"></i></span></span></div>
+        <div id="banda"></div>
+        <div id="pide"><span class="p"><span id="p1">Estás</span></span><span class="p"><span id="p2">pidiendo.</span></span></div>
+      </div>
+      <!-- 4 · el logo -->
+      <div id="b4" class="capa rayas">
+        <div id="etiqueta">
+          <div class="fondo"></div>
+          <svg viewBox="0 0 440 190"><rect id="puntada" x="14" y="14" width="412" height="162" rx="2"
+            style="fill:none;stroke:#efe8dd;stroke-width:2;stroke-dasharray:9 7;opacity:0.55"/></svg>
+          <div class="bfm">BfM</div>
+        </div>
+        <div id="nombre">Business<em>For</em>Men</div>
+        <div id="hilo"></div>
+        <div id="lema">MENTALIDAD DE NEGOCIOS</div>
+        <div id="ia">Voz generada con IA</div>
+      </div>
+      <div id="grano" class="capa"></div>
+
+      <!-- Sonido -->
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="{{VOZ0}}" data-duration="{{e:FINVOZ - VOZ0}}" data-track-index="10"
+        data-volume="1"
+        data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;highpass&quot;,&quot;id&quot;:&quot;v1&quot;,&quot;params&quot;:{&quot;frequency&quot;:90}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;v2&quot;,&quot;params&quot;:{&quot;frequency&quot;:3000,&quot;gain&quot;:2,&quot;q&quot;:1}},{&quot;type&quot;:&quot;limiter&quot;,&quot;id&quot;:&quot;v3&quot;,&quot;params&quot;:{&quot;limit&quot;:-1}}]}"></audio>
+      <audio id="musica" class="clip" src="assets/audio/musica.wav" data-start="0" data-duration="{{DUR}}" data-track-index="11"
+        data-timeline-role="music"
+        data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.5,&quot;v&quot;:0.4},{&quot;t&quot;:1.0,&quot;v&quot;:0.3},{&quot;t&quot;:{{e:FINVOZ}},&quot;v&quot;:0.3},{&quot;t&quot;:{{e:FINVOZ + 0.5}},&quot;v&quot;:0.62},{&quot;t&quot;:{{e:DUR - 0.9}},&quot;v&quot;:0.6},{&quot;t&quot;:{{DUR}},&quot;v&quot;:0}]}]}"></audio>
+      <audio id="s-paso" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="{{e:w('Járvard') - 0.55}}" data-duration="0.57" data-track-index="12" data-volume="0.16"></audio>
+      <audio id="s-banda" class="clip" src="assets/sfx/whoosh.mp3" data-start="{{e:w('estás', 2) - 0.55}}" data-duration="0.57" data-track-index="13" data-volume="0.22"></audio>
+      <audio id="s-pide" class="clip" src="assets/sfx/impact-bass-2.mp3" data-start="{{e:w('pidiendo') - 0.04}}" data-duration="1.8" data-track-index="14" data-volume="0.3"></audio>
+      <audio id="s-logo" class="clip" src="assets/sfx/chime.mp3" data-start="{{e:FINVOZ + 0.45}}" data-duration="1.6" data-track-index="15" data-volume="0.16"></audio>
+    </div>
+    <script>
+      (function () {
+        const W = { neg: {{w:negociación}}, gana: {{w:gana}}, lev: {{w:levantarse}}, harvard: {{w:Járvard}}, maan: {{w:maan}},
+          mejor: {{w:mejor}}, alt: {{w:alternativa}}, a: {{w:a}}, acuerdo: {{w:acuerdo}}, nego: {{w:negociado}}, negof: {{f:negociado}},
+          si: {{w:Si}}, no2: {{w:no#2}}, estas1: {{w:estás}}, negociando: {{w:negociando}}, negociandof: {{f:negociando}},
+          estas2: {{w:estás#2}}, pidiendo: {{w:pidiendo}}, fin: {{FINVOZ}} };
+        const T12 = W.harvard - 0.35, T23 = W.si - 0.3, T34 = W.fin + 0.15, DUR = {{DUR}};
+        const tl = gsap.timeline({ paused: true });
+        const sube = (sel, t, d) => tl.fromTo(sel, { yPercent: 108 }, { yPercent: 0, duration: d || 0.95, ease: "power4.out" }, t);
+        // 1 · la mesa: entra desde negro y se acerca despacio; el titular sube de su máscara, línea a línea.
+        tl.fromTo("#foto", { scale: 1.05 }, { scale: 1.12, duration: T12 + 0.5, ease: "sine.inOut" }, 0);
+        tl.fromTo("#c1 i", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.inOut" }, W.neg - 0.3);
+        tl.fromTo("#c1 span", { autoAlpha: 0, x: -14 }, { autoAlpha: 1, x: 0, duration: 0.8, ease: "power3.out" }, W.neg - 0.1);
+        sube("#l1 > span", W.gana - 0.12);
+        sube("#l2 > span", W.lev - 0.12);
+        tl.fromTo("#subraya", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.inOut" }, W.lev + 0.3);
+        tl.to("#b1", { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, T12 - 0.35);
+        // 2 · la MAAN: las cuatro iniciales y, en cada palabra, lo que le sigue a su letra.
+        tl.fromTo("#b2", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, T12 - 0.05);
+        tl.fromTo("#c2 i", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.inOut" }, W.harvard - 0.25);
+        tl.fromTo("#c2 span", { autoAlpha: 0, x: -14 }, { autoAlpha: 1, x: 0, duration: 0.8, ease: "power3.out" }, W.harvard - 0.05);
+        tl.fromTo("#barra", { scaleY: 0 }, { scaleY: 1, duration: 1.3, ease: "power3.inOut" }, W.maan - 0.3);
+        tl.fromTo("#lista .ini", { autoAlpha: 0, yPercent: 24 }, { autoAlpha: 1, yPercent: 0, duration: 0.7, ease: "power3.out", stagger: 0.1 }, W.maan - 0.08);
+        const abre = (sel, t) => tl.fromTo(sel, { clipPath: "inset(-10% 100% -10% 0)", x: -24 }, { clipPath: "inset(-10% 0% -10% 0)", x: 0, duration: 0.8, ease: "power3.out" }, t);
+        abre("#r1", W.mejor - 0.06); abre("#r2", W.alt - 0.06); abre("#aun", W.a - 0.04); abre("#r3", W.acuerdo - 0.06); abre("#r4", W.nego - 0.06);
+        tl.fromTo("#nota", { autoAlpha: 0 }, { autoAlpha: 0.85, duration: 0.7, ease: "power1.out" }, W.maan + 0.5);
+        tl.to("#b2", { autoAlpha: 0, duration: 0.45, ease: "power2.inOut" }, T23 - 0.35);
+        // 3 · negociar o pedir: la palabra se tacha en rojo y entra la banda con la verdad.
+        tl.fromTo("#b3", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35, ease: "power2.out" }, T23 - 0.1);
+        tl.fromTo("#pre", { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, W.si - 0.06);
+        sube("#n1", W.no2 - 0.08, 0.7); sube("#n2", W.estas1 - 0.06, 0.7); sube("#n3", W.negociando - 0.06, 0.7);
+        tl.fromTo("#tacha", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, W.negociandof + 0.02);
+        tl.to("#neg", { opacity: 0.42, duration: 0.6, ease: "power2.out" }, W.negociandof + 0.35);
+        tl.fromTo("#banda", { scaleX: 0 }, { scaleX: 1, duration: 0.65, ease: "power4.inOut" }, W.estas2 - 0.5);
+        sube("#p1", W.estas2 - 0.06, 0.7); sube("#p2", W.pidiendo - 0.06, 0.7);
+        tl.to("#b3", { autoAlpha: 0, duration: 0.5, ease: "power2.inOut" }, T34 - 0.3);
+        // 4 · la etiqueta baja, se cose, y el nombre sube letra a letra.
+        tl.fromTo("#b4", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, T34 - 0.05);
+        tl.fromTo("#etiqueta", { autoAlpha: 0, y: -36 }, { autoAlpha: 1, y: 0, duration: 1.0, ease: "power3.out" }, T34 + 0.1);
+        tl.fromTo("#puntada", { strokeDashoffset: 0 }, { strokeDashoffset: -96, duration: 1.3, ease: "power2.out" }, T34 + 0.2);
+        tl.fromTo("#nombre", { autoAlpha: 0, y: 34, filter: "blur(6px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "power3.out" }, T34 + 0.5);
+        tl.fromTo("#hilo", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "power3.inOut" }, T34 + 1.1);
+        tl.fromTo("#lema", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 1.0, ease: "power3.out" }, T34 + 1.3);
+        tl.fromTo("#ia", { autoAlpha: 0 }, { autoAlpha: 0.75, duration: 0.6 }, T34 + 0.9);
+        tl.to("#b4", { autoAlpha: 0, duration: 0.6, ease: "power2.in" }, DUR - 0.65);
+        // Grano: la textura (512 px, repetida) salta 137 × 251 px en cada cuadro; con steps, igual en cada render.
+        const F = Math.round(DUR * 30);
+        tl.fromTo("#grano", { backgroundPosition: "0px 0px" }, { backgroundPosition: `${137 * F}px ${251 * F}px`, duration: DUR, ease: `steps(${F})` }, 0);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

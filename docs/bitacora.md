@@ -446,18 +446,48 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   versión, en `renders/v1/`). El II se le envió al usuario como piloto, a 720p. El III tiene el montaje nuevo escrito
   (`montaje/cap3.py`) sin revisar ni renderizar; del IV al VIII, sin revisar. Las versiones anteriores de los montajes,
   en `montaje/capN_v1.py`.
-- **Decisión:** el usuario para aquí Anticitera, sin gastar más tiempo en este vídeo, y cambia de rumbo (un canal de
-  otro nicho, en discusión).
+- **Decisión:** el usuario para aquí Anticitera, sin gastar más tiempo en este vídeo, y cambia de rumbo (ver el
+  punto 8).
+
+### 8. Nuevo rumbo: BusinessForMen
+
+- **El canal:** BusinessForMen, en español. Negocios para un público sobre todo masculino: gestión empresarial,
+  administración de recursos, organización interna, branding, marketing digital, negociación y éxito empresarial,
+  con la idea de hacerse un caballero profesional con mentalidad de negocios. Marca premium, con un rojo propio y
+  negro. No es un documental (salvo que el tema lo pida) y los vídeos no llevan capítulos.
+- **Regla del canal:** se debe entender; si no se entiende, no comunica. Edición «HIPER PRO» (término del usuario):
+  de estudio y de agencia.
+- **Decidido con el usuario:** el nombre es BusinessForMen (sin apóstrofo, que YouTube no admite en el identificador);
+  seguimos en este repositorio; mismo método y mismas licencias hasta que avise de que se monetiza; la voz,
+  Supertonic-3 M1.
+- **Primer paso:** pruebas de marca, tres identidades con el mismo texto (unos 15 s), cada una con su logo animado y
+  una miniatura, en `canales/businessformen/marca/`.
+
+### 9. Pruebas de marca de BusinessForMen
+
+- **Qué:** tres identidades con el mismo texto de 13,6 s sobre la MAAN (la mejor alternativa a un acuerdo negociado),
+  cada una con su logo animado al final y una miniatura: **Sastre** (burdeos `#8E1B2C`, Bodoni Moda y Jost, lenta y
+  fina), **Consejo** (carmesí `#B0122F`, Inter Tight y Plex Mono, rápida, cortes secos) y **Lacre** (rojo lacre
+  `#B3261E`, Archivo Narrow e Instrument Serif, tipografía que golpea y un sello que se estampa). Detalle en
+  `canales/businessformen/marca/README.md`; se repiten con su `preparar.sh`.
+- **Medido:** voz, 1 min 47 s; música, 3 × 20 s en 207 s más 49 s de carga; imagen de FLUX, 113 s con la carga;
+  render, de 30 a 32 s por vídeo de 18,8 s (todo CSS: 1,7 s por segundo de vídeo, frente a los 2,8 s del estilo A con
+  WebGL); entrega a −15 LUFS, de 2,7 a 3,5 MB.
+- **La música de «Consejo»:** la primera tenía el 90 % de la energía bajo 150 Hz («pulse» da sub-bajo). Se pidieron dos
+  más brillantes: una con el 75 % por encima de 150 Hz (la elegida) y otra con el 82 % por encima de 6 kHz (casi solo
+  agudos). Pedir instrumentos del registro medio y medir siempre.
+- **Lo que enseñó HyperFrames:** las plantillas no pueden estar en la raíz del proyecto (cuentan como otra
+  composición); las capas a pantalla completa empiezan ocultas por CSS; animar `letter-spacing` da saltos; un subrayado
+  absoluto dentro de un elemento en línea no se ve (hace falta `inline-block`); y partir una palabra en letras hace que
+  `check` cuente cada letra como una palabra al medir el tiempo de lectura.
+- **Enviado al usuario:** la hoja comparativa y los tres vídeos. Falta que elija.
 
 ## Siguiente paso
 
-1. Concretar el rumbo nuevo con el usuario: idioma, si se va a monetizar, el nombre y si el repositorio sigue siendo
-   público. Hasta decidir lo del repositorio, no apuntar aquí la marca ni los guiones.
-2. Si se monetiza: MusicGen no vale (CC BY-NC); comprobar la licencia del modelo de imagen y las condiciones de
-   Supertonic (Open RAIL-M: avisar de que la voz es sintética).
-3. Lo que se reutiliza de Anticitera: el motor y el kit (anclas a palabras, `senal`, contadores, gráficos que siguen la
-   cámara de la plancha, `auditar.py`, la unión y la entrega). El estilo documental de planchas 2.5D deja de ser el centro.
-4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
+1. Que el usuario elija una de las tres rutas de marca (`canales/businessformen/marca/`) o una mezcla y, con ella,
+   preparar el kit del canal: rótulos, esquemas, cifras, transiciones, logo y miniaturas.
+2. El primer vídeo: tema y guion con fuentes, que el usuario aprueba antes de producir.
+3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
    (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 
 ## Primera idea de montaje (sustituida)

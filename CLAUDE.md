@@ -6,11 +6,21 @@ README; lo hecho, lo decidido y lo pendiente, en `docs/bitacora.md`.
 
 ## Rumbo actual
 
+**El primer canal es BusinessForMen**, en español: negocios (gestión empresarial, administración de recursos,
+organización interna, branding, marketing digital, negociación, éxito empresarial) para un público sobre todo
+masculino que quiere hacerse un caballero profesional con mentalidad de negocios. La marca tiene que sentirse
+**premium**: un rojo propio (no un rojo típico) y negro. No es un documental, salvo que el tema lo pida, y los vídeos
+no llevan capítulos: un solo hilo, la esencia. Tono: rigor, elegancia y ética, nunca el discurso «alfa».
+**Regla del canal: SE DEBE ENTENDER. Si no se entiende, no comunica.** Edición **«HIPER PRO»** (término del usuario:
+de estudio, de agencia, de élite): si hablamos de éxito, predicamos con el ejemplo. Anticitera (`videos/anticitera/`)
+quedó en pausa; su motor y su kit se reutilizan. Mismo método de trabajo y mismas licencias hasta que el usuario
+avise de que se monetiza (entonces, música e imágenes con licencia comercial).
+
 **Edición de nivel agencia, no «imagen + voz».** Lo que pasa en pantalla (cuándo, dónde, cómo, efectos,
-gráficos, ritmo, sonido) tiene que ser de agencia de branding. Las imágenes generadas son material de
-apoyo. Motor: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`), ya instalado y medido. Estilo:
-**A, editorial cinematográfico**, elegido por el usuario tras ver las tres pruebas (`estilos/`,
-`docs/estilo.md`); el punto de partida es `estilos/estilo-a`.
+gráficos, ritmo, sonido) tiene que ser de agencia de branding: cada plano enseña lo que dice la voz, en la palabra que
+lo dice. Las imágenes generadas son material de apoyo. Motor: HyperFrames + GSAP (ver `docs/investigacion-edicion.md`),
+ya instalado y medido. El estilo A, editorial cinematográfico (`estilos/estilo-a`, `docs/estilo.md`), fue el de
+Anticitera; el de BusinessForMen sale de las pruebas de marca de `canales/businessformen/marca/`.
 Para trabajar con HyperFrames, leer antes sus guías en
 `~/herramientas-videos/hyperframes/node_modules/hyperframes/dist/skills/` (`hyperframes/SKILL.md` y
 `references/`: motion, sound, look, review, format, runtimes) y `estilos/README.md`.
@@ -37,7 +47,7 @@ Para trabajar con HyperFrames, leer antes sus guías en
   no hace falta fotorrealismo.
 - Quiere edición «de élite»: aplicar el oficio de `docs/investigacion-edicion.md` (curvas según el papel,
   títulos quietos al aterrizar, transiciones con causa, tiempos de lectura) y revisar como un director exigente.
-- Voz: **Supertonic-3 M1** (masculina, español neutro), la predeterminada de `voz/narrar.py`. Segunda
+- Voz: **Supertonic-3 M1** (masculina, español neutro), la predeterminada de `voz/narrar.py` y la de BusinessForMen. Segunda
   voz: Piper `es_AR-daniela-high` (femenina, acento argentino). Más adelante quiere varios canales de
   nichos distintos, cada uno con su voz: el sistema debe dejar elegir la voz por canal.
 - **Todo vídeo con voz de Supertonic avisa de que está generada por máquina** (descripción o rótulo):
@@ -113,6 +123,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - Kit de vídeos largos (`videos/anticitera/kit/`): los montajes se anclan a palabras con `w("palabra", n)`; si la
   palabra sale más de una vez, `montar.py` lo avisa y hay que elegir la aparición. Las etiquetas en versalitas
   ocupan unos 46 px por letra: junto a un dibujo, de 16 letras como mucho.
+- HyperFrames toma cada HTML con `data-composition-id` de la raíz de un proyecto por otra composición
+  (`multiple_root_compositions`): las plantillas, fuera (ver `canales/businessformen/marca/plantillas/`).
 - Medir los graves de cada pieza de MusicGen antes de usarla: dos salieron con el 65–98 % de la energía bajo
   150 Hz, que en un móvil no suena (ver la bitácora, sesión 3).
 

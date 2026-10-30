@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- BusinessForMen · miniatura de prueba de la ruta Lacre (se diseña a 1920 × 1080 y se entrega a 1280 × 720).
+     Plantilla: la monta ../montar.py en miniaturas/lacre/. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>BusinessForMen · miniatura Lacre</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Archivo Narrow"; src: url("assets/fonts/archivonarrow-700.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-600.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .capa { position: absolute; inset: 0; }
+      #foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform: scale(1.3); transform-origin: 78% 58%; }
+      #root { background: #0b0a0a; color: #f1ebe1; }
+      #foto { filter: saturate(0.65) sepia(0.28) contrast(1.08) brightness(1.05); }
+      #tinte { background: rgba(120, 22, 16, 0.16); mix-blend-mode: multiply; }
+      #velo { background: linear-gradient(90deg, rgba(11, 10, 10, 0.96) 0%, rgba(11, 10, 10, 0.78) 46%, rgba(11, 10, 10, 0) 76%); }
+      #ceja { position: absolute; left: 124px; top: 150px; display: flex; align-items: center; gap: 22px; font: 600 40px/1 "Archivo", sans-serif; letter-spacing: 0.26em; }
+      #ceja i { display: block; width: 26px; height: 26px; border-radius: 50%; background: #b3261e; }
+      #uno { position: absolute; left: 112px; top: 220px; font: 700 300px/0.9 "Archivo Narrow", sans-serif; letter-spacing: 0.005em; }
+      #dos { position: absolute; left: 130px; top: 540px; padding: 22px 44px 8px; border: 14px solid #b3261e; border-radius: 12px; color: #b3261e;
+        font: 700 320px/0.86 "Archivo Narrow", sans-serif; transform: rotate(-5deg);
+        -webkit-mask-image: url("assets/img/desgaste.png"); mask-image: url("assets/img/desgaste.png"); -webkit-mask-size: 420px; mask-size: 420px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1920" data-height="1080">
+      <img id="foto" src="assets/img/mesa.jpg" alt="" />
+      <div id="tinte" class="capa"></div>
+      <div id="velo" class="capa"></div>
+      <div id="ceja"><i></i>NEGOCIACIÓN</div>
+      <div id="uno">DEJA DE</div>
+      <div id="dos">PEDIR</div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.set({}, {}, 1);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

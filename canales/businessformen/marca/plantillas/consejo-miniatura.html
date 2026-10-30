@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- BusinessForMen · miniatura de prueba de la ruta Consejo (se diseña a 1920 × 1080 y se entrega a 1280 × 720).
+     Plantilla: la monta ../montar.py en miniaturas/consejo/. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>BusinessForMen · miniatura Consejo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .capa { position: absolute; inset: 0; }
+      #foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform: scale(1.3); transform-origin: 78% 58%; }
+      #root { background: #0a0b0d; color: #f4f3f0; }
+      #foto { filter: saturate(0.25) contrast(1.12) brightness(1.05); }
+      #velo { background: linear-gradient(90deg, rgba(10, 11, 13, 0.97) 0%, rgba(10, 11, 13, 0.82) 44%, rgba(10, 11, 13, 0) 74%); }
+      #ceja { position: absolute; left: 120px; top: 214px; font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #8a8d93; }
+      #ceja b { font-weight: 500; color: #f4f3f0; }
+      #uno { position: absolute; left: 112px; top: 284px; font: 800 210px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+      #dos { position: absolute; left: 112px; top: 500px; padding: 0 0.1em 0.04em; background: #b0122f; font: 800 300px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+      #logo { position: absolute; left: 120px; top: 900px; width: 110px; height: 110px; background: #b0122f; display: flex; align-items: center; justify-content: center;
+        font: 800 46px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1920" data-height="1080">
+      <img id="foto" src="assets/img/mesa.jpg" alt="" />
+      <div id="velo" class="capa"></div>
+      <div id="ceja"><b>NEGOCIACIÓN</b> — TU MAAN</div>
+      <div id="uno">DEJA DE</div>
+      <div id="dos">PEDIR</div>
+      <div id="logo">BFM</div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.set({}, {}, 1);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
