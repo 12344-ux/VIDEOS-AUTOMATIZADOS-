@@ -232,8 +232,7 @@ forma de trabajar. Todo se midió aquí con la prueba de 10 s del estilo A.
   - La cuantización dinámica de OpenVINO ya está activa con el mejor valor (grupo 32: 19 s por paso a
     512 px; sin ella, 29 s; con 128, 31 s).
   - El coste crece más que los píxeles: 18,5 s por paso a 512 × 512 y 72 s a 1280 × 720 (3,5 veces los
-    píxeles, 4 veces el tiempo). Generar a 960 × 544 y ampliar ×2 con el EDSR de FastSD saldría por unos
-    180 s por imagen; falta el permiso del usuario para bajar el modelo (5,5 MB) y compararlo.
+    píxeles, 4 veces el tiempo). Generar a 960 × 544 y ampliar ×2 con EDSR: ver el apartado 3.
 - **Música**: MusicGen en lote, 4 pistas de 10 s a la vez en 123 s (31 s cada una) frente a 53,5 s una
   sola. Conviene generar todas las piezas de un vídeo juntas: `audio/musica_ia.py` ya las agrupa en lotes
   de 4 (`--lote`). Las pistas cambian respecto a generarlas sueltas con la misma semilla.
@@ -244,28 +243,60 @@ forma de trabajar. Todo se midió aquí con la prueba de 10 s del estilo A.
 - **Servidor de imágenes**: `generar.py --parar` no lo apagaba mientras generaba (atendía una petición
   cada vez y no contestaba a `/estado`) y se quedó encendido con 12 GB mientras arrancaban otros modelos.
   Ahora contesta siempre y sigue generando de una en una.
-- Visto y no probado: renderizar en la nube de HeyGen o en Lambda (sacaría el proyecto de la máquina),
-  MusicGen convertido a OpenVINO (otro modelo que bajar, sin cifras publicadas) y Mesa llvmpipe en lugar
-  de SwiftShader (pide instalar `libegl-mesa0`; pendiente de permiso).
+- Visto y no probado: renderizar en la nube de HeyGen o en Lambda (sacaría el proyecto de la máquina) y
+  MusicGen convertido a OpenVINO (otro modelo que bajar, sin cifras publicadas). Mesa llvmpipe en lugar de
+  SwiftShader: probado en el apartado 3.
 
-| 9 min de vídeo en esta máquina (35 planchas, 6 piezas de música de 30 s) | Antes | Ahora |
+### 3. EDSR y llvmpipe (pruebas pedidas por el usuario)
+
+El usuario eligió **4 pasos y 30 fps** (la calidad manda) y pidió probar el EDSR y llvmpipe.
+
+- **EDSR** (el ampliador ×2 de FastSD, `rupeshs/edsr-onnx`, 5,5 MB; `imagen/ampliar.py`): 7 s desde
+  960 × 544 y 12,5 s desde 1280 × 720. FLUX a 960 × 544 tarda 166 s (pasos de 38 s), la mitad que a
+  1280 × 720. Comparado con la misma imagen (la de 1280 reducida) y midiendo la nitidez con la varianza
+  del laplaciano en la linterna y el muro:
+  - camino de ahora (1280 + Lanczos y máscara de enfoque): 326 y 147;
+  - **1280 + EDSR: 397 y 181**, más nítida y limpia por 11 s más;
+  - 1120 + EDSR: 245 y 92; 960 + EDSR: 219 y 64 (960 + Lanczos: 116 y 44).
+  - Para ganar tiempo no sirve: desde 960 o 1120 recupera los bordes pero no la textura fina, la misma
+    clase de pérdida que con 3 pasos. Sí sirve para ampliar las planchas de 1280.
+- **llvmpipe**: Ubuntu responde (`archive.ubuntu.com`), así que se instalaron `libegl1` y `libegl-mesa0`
+  (la parte EGL del Mesa 25.2.8 de la máquina). El shader de las planchas a 1920 × 1080, aislado: 51 ms
+  por cuadro frente a 139 ms de SwiftShader (con desenfoque, 194 frente a 394).
+  - En HyperFrames, con `--browser-gpu` (llvmpipe para todo): estilo A 83,5 s frente a 94 s, estilo B
+    118 s frente a 138 s, pero solo texto **36 s frente a 25 s**: dibujar el texto y el CSS con llvmpipe
+    es más lento que en la CPU.
+  - Con `video/chrome-llvmpipe.sh`, que deja el WebGL en llvmpipe y dibuja y compone la página en la CPU:
+    **estilo A 70 s, estilo B 114 s, solo texto 24 s**. Los cuadros salen iguales salvo el dibujo del grano
+    (el azar del shader usa `sin()`, que cada motor calcula a su manera): sin grano, PSNR 48–50 dB y 6
+    niveles como mucho; ningún píxel del texto cambia más de 30 niveles.
+  - En modo «hardware» la calibración de HyperFrames elige 1 Chromium (85 s): `hf.sh` pone 2 por cada 4
+    núcleos si no se pide otra cosa.
+- **Preset fast** (`--quality high --crf 20`): la misma calidad que medium contra una referencia sin
+  pérdida (PSNR 41,205 dB los dos, SSIM 0,9480 y 0,9479), un 3 % más de peso y el render de 72,5 s a 65,6 s.
+- Total en esta máquina: **los 10 s del estilo A, de 195 s al principio de la sesión a 66 s.**
+
+| 9 min de vídeo en esta máquina (35 planchas, 6 piezas de música de 30 s) | Al empezar la sesión | Ahora |
 | --- | --- | --- |
 | Cargar FLUX en una sesión reanudada | 11 min | en segundo plano (precarga) |
-| Planchas FLUX.3, 4 pasos | 191 min | 191 min (143 con 3 pasos) |
+| Planchas FLUX.3, 4 pasos, 1280 × 720 | 191 min | 191 min (+7 min si se amplían con EDSR) |
 | Voz y tiempos de palabras | no cabía en la RAM | ~9 min |
 | Música | 17 min | ~9 min |
-| Render a 30 fps | 175 min | ~88 min (~76 a 24 fps) |
+| Render a 30 fps | 175 min | ~59 min |
 | Entrega | ~40 min | ~2 min |
-| **Total de máquina** | **~7,5 h** | **~5 h** (~4 h con 3 pasos y 24 fps) |
+| **Total de máquina** | **~7,5 h** | **~4,6 h** |
 
-Las planchas son ya el 60 % del tiempo. Mientras se generan, Claude escribe las composiciones, así que
-ese tiempo no se suma al suyo. En una máquina con AMX, como la de la sesión 1, todo baja a unas 3 h.
+Las planchas son ya el 70 % del tiempo y, con 4 pasos a 1280 × 720, solo bajan en una máquina con AMX
+(138–211 s por plancha en la sesión 1, frente a 328 s aquí). Mientras se generan, Claude escribe las
+composiciones, así que ese tiempo no se suma al suyo.
 
 ### Decisiones (sesión 2)
 
 - Nicho: historia y misterios. Primer vídeo: Anticitera, de 8–10 min.
-- Render: el shader de una muestra sin desenfoque, los Chromium en automático, el render final con
-  `--crf 20` y la entrega copiando el vídeo.
+- **FLUX.3 con 4 pasos a 1280 × 720 y vídeo a 30 fps** (elección del usuario).
+- Render: el shader de una muestra sin desenfoque; WebGL con llvmpipe y la página en la CPU
+  (`video/chrome-llvmpipe.sh`, lo pone `hf.sh` si está el EGL de Mesa); 2 Chromium por cada 4 núcleos;
+  el render final con `--quality high --crf 20` y la entrega copiando el vídeo.
 - Al reanudar una sesión, `./instalar.sh precargar` en segundo plano.
 - Orden de un vídeo largo, cargando cada modelo una sola vez: guion → voz y tiempos → música (todas las
   piezas en un lote) → planchas de FLUX en un lote, en segundo plano mientras Claude escribe las
@@ -273,16 +304,15 @@ ese tiempo no se suma al suyo. En una máquina con AMX, como la de la sesión 1,
 
 ### Pendiente (sesión 2)
 
-- Que el usuario decida: 3 o 4 pasos en FLUX (comparación hecha) y 24 o 30 fps.
-- Permisos para probar: el EDSR de FastSD (generar a 960 × 544 y ampliar) y `libegl-mesa0` (WebGL con
-  llvmpipe de Mesa, que en otros casos ha ido hasta 4 veces más rápido que SwiftShader).
+- Que el usuario vea la comparación y diga si las planchas se amplían con EDSR (más nitidez, 11 s más por
+  plancha) en lugar de con Lanczos y máscara de enfoque.
 - Un kit de componentes del estilo A (plancha 2.5D, rótulos, capítulos, subtítulos, datos) que se rellene
   desde el guion, para escribir 9 minutos de composiciones sin hacerlas a mano una a una; y, si el usuario
   quiere, subagentes en paralelo por capítulos (la guía de HyperFrames lo recomienda a partir de 6 escenas).
 
 ## Siguiente paso
 
-1. Las decisiones y permisos de arriba.
+1. La decisión sobre EDSR, de arriba.
 2. La apertura de 30 s de «El mecanismo de Anticitera» en el estilo A, con la voz M1, de principio a fin y
    revisada con el método de HyperFrames (P0, P1, P2) y `snapshot --review`: sirve de tráiler y de primer
    bloque del vídeo.

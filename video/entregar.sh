@@ -4,7 +4,7 @@
 # pasadas de loudnorm, para que varios vídeos suenen igual de fuerte.
 #   video/entregar.sh render.mp4 entrega.mp4 [LUFS] [CRF|copiar]   (por defecto −15 LUFS y CRF 20)
 # Con «copiar», el vídeo pasa tal cual y solo se trata el sonido: es lo que conviene si el render ya
-# salió con la calidad de entrega (hf.sh render --crf 20). Recomprimir es lo lento: con preset slow,
+# salió con la calidad de entrega (hf.sh render --quality high --crf 20). Recomprimir es lo lento: con preset slow,
 # 44 s por cada 10 s de vídeo en esta CPU (unos 40 min para 9 min); con medium, 27 s y la misma calidad.
 set -euo pipefail
 entrada=$1 salida=$2 lufs=${3:--15} crf=${4:-20}

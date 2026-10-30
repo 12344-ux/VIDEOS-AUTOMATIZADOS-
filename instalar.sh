@@ -6,8 +6,8 @@
 #   ./instalar.sh                voz + imagen + edicion: lo necesario para hacer vídeos
 #   ./instalar.sh voz            Supertonic-3 (la voz principal), Piper con sus voces en español y
 #                                el alineador que da el tiempo de cada palabra
-#   ./instalar.sh imagen         FastSD CPU (OpenVINO) con FLUX.3 Image Klein y SDXS
-#   ./instalar.sh edicion        HyperFrames y los modelos de apoyo: profundidad (2.5D),
+#   ./instalar.sh imagen         FastSD CPU (OpenVINO) con FLUX.3 Image Klein, SDXS y el ampliador EDSR
+#   ./instalar.sh edicion        HyperFrames, el EGL de Mesa y los modelos de apoyo: profundidad (2.5D),
 #                                recortes y música (necesita voz e imagen)
 #   ./instalar.sh imagen-extra   además FLUX.2 klein 4B (licencia Apache 2.0)
 #   ./instalar.sh sdcpp          stable-diffusion.cpp y sus modelos (opcional; aquí es lento)
@@ -40,7 +40,7 @@ EXTRA_RECORTE=onnx-community/BiRefNet_lite-ONNX
 EXTRA_MUSICA=facebook/musicgen-stereo-small
 VOCES=(es/es_AR/daniela/high/es_AR-daniela-high es/es_MX/claude/high/es_MX-claude-high)
 # Repositorio de Hugging Face y GB que ocupa.
-MODELOS_IMAGEN=(rupeshs/flux3-image-klein-int4-ov:6 rupeshs/sdxs-512-0.9-openvino:3 rupeshs/taesd-ov:1)
+MODELOS_IMAGEN=(rupeshs/flux3-image-klein-int4-ov:6 rupeshs/sdxs-512-0.9-openvino:3 rupeshs/taesd-ov:1 rupeshs/edsr-onnx:1)
 MODELO_EXTRA=rupeshs/flux2-klein-4b-int4-ov:5
 FLUX2_GGUF=manishdashsharma/flux2-klein-4b-gguf
 
@@ -195,6 +195,16 @@ instalar_edicion() {
     paso "Voz: paquete onnx, para sacar el tiempo de cada palabra"
     uv pip install -q --python "$H/piper/bin/python" onnx
   fi
+  # El WebGL del render va por llvmpipe en vez de SwiftShader si está el EGL de Mesa (video/chrome-llvmpipe.sh):
+  # dos paquetes de Ubuntu de menos de 1 MB, la parte EGL del Mesa que ya trae la máquina.
+  if ! ldconfig -p | grep -q libEGL_mesa; then
+    paso "Edición: EGL de Mesa (WebGL con llvmpipe)"
+    if [ "$(id -u)" = 0 ] && apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq libegl1 libegl-mesa0 >/dev/null; then
+      echo "  ok"
+    else
+      echo "  aviso: no se pudo instalar; el render usará SwiftShader, más lento"
+    fi
+  fi
 }
 
 comprobar() {
@@ -210,6 +220,7 @@ comprobar() {
     estado "modelo $m" "'$py' -c \"from huggingface_hub import snapshot_download as s; s('$m', local_files_only=True)\""
   done
   estado "HyperFrames (edición)" "test -x '$H/hyperframes/node_modules/.bin/hyperframes'"
+  estado "EGL de Mesa (WebGL con llvmpipe en el render)" "ldconfig -p | grep -q libEGL_mesa"
   estado "Depth Anything V2 Small (2.5D)" "test -s '$H/extra/depth-anything-v2-small/model.onnx'"
   estado "BiRefNet lite (recortes)" "test -s '$H/extra/birefnet-lite/model.onnx'"
   estado "MusicGen estéreo small (música)" "test -s '$H/extra/musicgen-stereo-small/model.safetensors'"

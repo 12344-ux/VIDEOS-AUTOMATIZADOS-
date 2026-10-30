@@ -53,7 +53,7 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - **OpenVINO aprovecha esta CPU**: el mismo FLUX.2 klein fue 8 veces más rápido con FastSD CPU
   (OpenVINO) que con stable-diffusion.cpp. Para imágenes, FastSD CPU.
 - Red: Hugging Face (y su CDN `*.hf.co`), PyPI, download.pytorch.org, storage.openvinotoolkit.org,
-  `raw.githubusercontent.com`, git de GitHub y npm/jsDelivr. La web de github.com devuelve 403:
+  `raw.githubusercontent.com`, git de GitHub, npm/jsDelivr y los paquetes de Ubuntu (`apt-get`). La web de github.com devuelve 403:
   los README se leen con `curl` a `raw.githubusercontent.com`. WebFetch no llega a sitios fuera de
   la lista permitida; WebSearch sí funciona.
 - Instalado de serie: python3.11 (lo necesita FastSD), python3.13, uv, gcc y cmake, ffmpeg, Node 22,
@@ -88,10 +88,17 @@ Para trabajar con HyperFrames, leer antes sus guías en
   ejecuciones. Generar la narración una vez y cronometrar la composición sobre ese archivo.
 - Un render en segundo plano se lanza con el binario de HyperFrames directamente; con `nohup` a través de
   `video/hf.sh` se canceló (`render_cancelled_parent_exited`).
-- El WebGL del render va por software (SwiftShader): cada muestra de textura cuesta. El shader de las
-  planchas tomaba 16 muestras por píxel también sin desenfoque y el render tardaba el doble.
-- No recomprimir lo renderizado: render con `--crf 20` y `video/entregar.sh … copiar`. Recomprimir 9 min
-  con preset slow eran unos 40 min, y con peor calidad.
+- El WebGL del render va por software: cada muestra de textura cuesta. El shader de las planchas tomaba
+  16 muestras por píxel también sin desenfoque y el render tardaba el doble.
+- `video/hf.sh` usa llvmpipe de Mesa para el WebGL (si está el EGL de Mesa, que pone `./instalar.sh
+  edicion`) y deja el texto y la composición en la CPU con `video/chrome-llvmpipe.sh`: con todo en llvmpipe
+  (`--browser-gpu` a secas) el texto va un 45 % más lento. El grano sale con otro dibujo que con
+  SwiftShader; `HF_SWIFTSHADER=1` vuelve a SwiftShader.
+- La calibración automática de HyperFrames elige a veces 1 Chromium (mide un primer cuadro lento):
+  `hf.sh` pone 2 por cada 4 núcleos; con 3 o 4 no mejora.
+- No recomprimir lo renderizado: render con `--quality high --crf 20` (preset fast, la misma calidad que
+  medium y un 10 % más rápido) y `video/entregar.sh … copiar`. Recomprimir 9 min con preset slow eran
+  unos 40 min, y con peor calidad.
 - Una narración larga se alinea frase a frase (`voz/alinear.py --frases`, lo hace `narrar.py`): entera,
   la atención de wav2vec2 no cabe en la RAM.
 - MusicGen rinde más en lote: varias piezas en una sola llamada (4 a la vez, 1,7 veces más rápido).
