@@ -22,7 +22,7 @@
       // Motor de planchas del estilo A (sacado de la apertura). kit/montar.py escribe aquí las tomas de cada
       // capítulo: cada una es una plancha con su profundidad y, si lo tiene, su sujeto recortado («frente»),
       // y cada parámetro, una lista de claves [t, valor, curva] en segundos del capítulo (ver apertura).
-      const TOMAS = [{"nombre":"escritorio","desde":0.0,"hasta":12.365,"luz":[0.5,0.14],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.55,0.6],"ventanaI":[[0.0,0.5]],"capas":false,"zoom":[[0.0,1.04],[12.365,1.09,"sine.inOut"]],"panY":[[0.0,0.01],[12.365,-0.01,"sine.inOut"]],"brillo":[[0.0,0.0],[1.4,1.0,"power2.out"],[12.264,1.0],[12.265,0.6]],"luzI":[[0.0,0.2]],"luzR":[[0.0,0.3]]},{"nombre":"escritorio","desde":12.365,"hasta":19.955,"luz":[0.5,0.14],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.26,0.5,0.62],"ventanaI":[[12.365,0.55]],"capas":false,"zoom":[[12.365,1.3],[19.955,1.36,"sine.inOut"]],"panX":[[12.365,0.06],[19.955,0.07,"sine.inOut"]],"panY":[[12.365,0.0],[19.955,0.02,"sine.inOut"]],"brillo":[[12.365,1.0],[19.655,1.0],[19.955,1.5,"power2.in"]],"luzI":[[12.365,0.2],[19.635,0.2],[19.955,3.0,"power2.in"]],"luzR":[[12.365,0.3],[19.635,0.3],[19.955,2.6,"power2.in"]]},{"nombre":"radiografia","desde":19.955,"hasta":33.257,"luz":[0.62,0.45],"luzColor":[0.92,0.96,1.0],"dir":[1,0],"ventana":[0.26,0.24,0.5],"ventanaI":[[19.955,0.55]],"zoom":[[19.955,1.42],[33.257,1.5,"sine.inOut"]],"panX":[[19.955,-0.13],[33.257,-0.11,"sine.inOut"]],"panY":[[19.955,0.03],[33.257,0.05,"sine.inOut"]],"brillo":[[19.955,1.5],[20.455,1.0,"power2.out"],[33.156,1.0],[33.157,0.6]],"luzI":[[19.955,3.0],[20.555,0.1,"power2.out"]],"luzR":[[19.955,2.6],[20.555,0.3,"power2.out"]]},{"nombre":"taller","desde":33.257,"hasta":45.189,"luz":[0.86,0.18],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.52,0.62],"ventanaI":[[33.257,0.45]],"zoom":[[33.257,1.08],[45.189,1.08,"sine.inOut"]],"panX":[[33.257,0.016],[44.929,-0.016],[45.189,0.204,"power3.in"]],"camX":[[33.257,0.014],[45.189,-0.014,"sine.inOut"]],"desenfoque":[[44.949,0],[45.189,0.08,"power3.in"]],"brillo":[[33.257,1.0]],"luzI":[[33.257,0.18]],"luzR":[[33.257,0.25]]},{"nombre":"tomografo","desde":45.189,"hasta":56.895,"luz":[0.7,0.45],"luzColor":[0.75,0.9,1.0],"dir":[1,0],"ventana":[0.25,0.5,0.62],"ventanaI":[[45.189,0.45]],"zoom":[[45.189,1.04],[56.895,1.1,"sine.inOut"]],"panX":[[45.189,-0.18],[45.529,0.0,"expo.out"]],"camX":[[45.189,-0.012],[56.895,0.012,"sine.inOut"]],"desenfoque":[[45.189,0.08],[45.389,0,"power2.out"]],"brillo":[[45.189,1.0],[56.794,1.0],[56.795,0.6]],"luzI":[[45.189,0.16]],"luzR":[[45.189,0.25]]},{"nombre":"tapa","desde":56.895,"hasta":64.035,"luz":[0.72,0.4],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.6],"ventanaI":[[56.895,0.5]],"capas":false,"zoom":[[56.895,1.08],[64.035,1.16,"sine.inOut"]],"panX":[[56.895,0.02],[64.035,-0.01,"sine.inOut"]],"brillo":[[56.895,1.0],[63.485,1.0],[64.035,0.04,"power2.in"]],"luzI":[[56.895,0.18]],"luzR":[[56.895,0.25]]},{"nombre":"placa","desde":64.035,"hasta":75.93,"luz":[0.7,0.3],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.6],"ventanaI":[[64.035,0.35]],"zoom":[[64.035,1.04],[75.93,1.08,"sine.inOut"]],"camX":[[64.035,-0.006],[75.93,0.006,"sine.inOut"]],"brillo":[[64.035,0.04],[64.935,0.6,"power2.out"],[75.08,0.6],[75.85,0.0,"power2.in"]],"luzI":[[64.035,0.1]],"luzR":[[64.035,0.25]]}];
+      const TOMAS = [{"nombre":"escritorio","desde":0.0,"hasta":12.365,"luz":[0.5,0.14],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.55,0.6],"ventanaI":[[0.0,0.5]],"capas":false,"sat":0.5,"zoom":[[0.0,1.04],[12.365,1.09,"sine.inOut"]],"panY":[[0.0,0.01],[12.365,-0.01,"sine.inOut"]],"brillo":[[0.0,0.0],[1.4,1.0,"power2.out"],[12.264,1.0],[12.265,0.6]],"luzI":[[0.0,0.2]],"luzR":[[0.0,0.3]]},{"nombre":"escritorio","desde":12.365,"hasta":19.955,"luz":[0.5,0.14],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.26,0.5,0.62],"ventanaI":[[12.365,0.55]],"capas":false,"sat":0.5,"zoom":[[12.365,1.3],[19.955,1.36,"sine.inOut"]],"panX":[[12.365,0.06],[19.955,0.07,"sine.inOut"]],"panY":[[12.365,0.0],[19.955,0.02,"sine.inOut"]],"brillo":[[12.365,1.0],[19.655,1.0],[19.955,1.5,"power2.in"]],"luzI":[[12.365,0.2],[19.635,0.2],[19.955,3.0,"power2.in"]],"luzR":[[12.365,0.3],[19.635,0.3],[19.955,2.6,"power2.in"]]},{"nombre":"radiografia","desde":19.955,"hasta":33.257,"luz":[0.62,0.45],"luzColor":[0.92,0.96,1.0],"dir":[1,0],"ventana":[0.26,0.24,0.5],"ventanaI":[[19.955,0.55]],"zoom":[[19.955,1.42],[33.257,1.5,"sine.inOut"]],"panX":[[19.955,-0.13],[33.257,-0.11,"sine.inOut"]],"panY":[[19.955,0.03],[33.257,0.05,"sine.inOut"]],"brillo":[[19.955,1.5],[20.455,1.0,"power2.out"],[33.156,1.0],[33.157,0.6]],"luzI":[[19.955,3.0],[20.555,0.1,"power2.out"]],"luzR":[[19.955,2.6],[20.555,0.3,"power2.out"]]},{"nombre":"taller","desde":33.257,"hasta":45.189,"luz":[0.86,0.18],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.52,0.62],"ventanaI":[[33.257,0.45]],"zoom":[[33.257,1.08],[45.189,1.08,"sine.inOut"]],"panX":[[33.257,0.016],[44.929,-0.016],[45.189,0.204,"power3.in"]],"camX":[[33.257,0.014],[45.189,-0.014,"sine.inOut"]],"desenfoque":[[44.949,0],[45.189,0.08,"power3.in"]],"brillo":[[33.257,1.0]],"luzI":[[33.257,0.18]],"luzR":[[33.257,0.25]]},{"nombre":"tomografo","desde":45.189,"hasta":56.895,"luz":[0.7,0.45],"luzColor":[0.75,0.9,1.0],"dir":[1,0],"ventana":[0.25,0.5,0.62],"ventanaI":[[45.189,0.45]],"zoom":[[45.189,1.14],[56.895,1.2,"sine.inOut"]],"panX":[[45.189,-0.26],[45.529,-0.08,"expo.out"],[56.895,-0.06,"sine.inOut"]],"desenfoque":[[45.189,0.08],[45.389,0,"power2.out"]],"brillo":[[45.189,1.0],[56.794,1.0],[56.795,0.6]],"luzI":[[45.189,0.16]],"luzR":[[45.189,0.25]]},{"nombre":"tapa","desde":56.895,"hasta":64.035,"luz":[0.72,0.4],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.6],"ventanaI":[[56.895,0.5]],"capas":false,"zoom":[[56.895,1.08],[64.035,1.16,"sine.inOut"]],"panX":[[56.895,0.02],[64.035,-0.01,"sine.inOut"]],"brillo":[[56.895,1.0],[63.485,1.0],[64.035,0.04,"power2.in"]],"luzI":[[56.895,0.18]],"luzR":[[56.895,0.25]]},{"nombre":"placa","desde":64.035,"hasta":75.93,"luz":[0.7,0.3],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.6],"ventanaI":[[64.035,0.35]],"zoom":[[64.035,1.3936],[75.93,1.4472,"sine.inOut"]],"camX":[[64.035,-0.006],[75.93,0.006,"sine.inOut"]],"brillo":[[64.035,0.04],[64.935,0.6,"power2.out"],[75.08,0.6],[75.85,0.0,"power2.in"]],"luzI":[[64.035,0.1]],"luzR":[[64.035,0.25]]}];
       const PREDETERMINADO = { zoom: 1, panX: 0, panY: 0, camX: 0, camY: 0, desenfoque: 0, radial: 0, brillo: 1,
         luzI: 0, luzR: 0.1, ventanaI: 0, lluvia: 0 };
       const FOCO = 0.35; // profundidad que no se mueve con la cámara
@@ -63,7 +63,7 @@
         varying vec2 uv;
         uniform sampler2D uImg, uProf, uFrente;
         uniform float uCapas;
-        uniform float uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
+        uniform float uSat, uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
         uniform vec3 uVentana, uLuzColor;
         uniform vec2 uPan, uCam, uLuz, uCentro, uDir;
         const float ASPECTO = 1.7777778;
@@ -116,7 +116,7 @@
           c /= float(muestras);
           // Etalonaje: algo menos de saturación y contraste suave; sombras hacia el verde azulado.
           float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
-          c = mix(vec3(l), c, 0.9);
+          c = mix(vec3(l), c, uSat);
           c = (c - 0.5) * 1.05 + 0.5;
           c += (1.0 - smoothstep(0.0, 0.45, l)) * vec3(-0.006, 0.004, 0.012);
           float w = 1.0 - smoothstep(uVentana.z * 0.25, uVentana.z, length((uv - uVentana.xy) * vec2(1.0, 1.35)));
@@ -160,7 +160,7 @@
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
       const U = {};
-      for (const n of ["uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
+      for (const n of ["uSat", "uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
         "uCuadro", "uFoco", "uPan", "uCam", "uLuz", "uLuzColor", "uVentana", "uVentanaI", "uLluvia", "uCentro", "uDir"])
         U[n] = gl.getUniformLocation(prog, n);
 
@@ -199,6 +199,7 @@
         gl.bindTexture(gl.TEXTURE_2D, toma.texFrente || toma.texImg);
         gl.uniform1i(U.uFrente, 2);
         gl.uniform1f(U.uCapas, toma.texFrente ? 1 : 0);
+        gl.uniform1f(U.uSat, toma.sat == null ? 0.9 : toma.sat);   // saturación de la plancha (0,9 por defecto)
         gl.uniform1f(U.uZoom, e.zoom);
         gl.uniform2f(U.uPan, e.panX, e.panY);
         gl.uniform2f(U.uCam, e.camX, e.camY);

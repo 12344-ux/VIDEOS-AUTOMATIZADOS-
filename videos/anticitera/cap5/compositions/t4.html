@@ -26,6 +26,8 @@
     .t em { font-style: italic; color: var(--color-accent, #e8b66a); }
     .q { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; line-height: 1.15; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
     .q span { display: inline-block; margin-right: 0.24em; }
+    .pie { font: 500 28px/1.35 "Hanken Grotesk", sans-serif; letter-spacing: 0.02em; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6); }
+    .blq > .pie + .pie { margin-top: 6px; }
     .m { font-family: "Cormorant Garamond", serif; font-weight: 500; line-height: 1.1; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
     .m span { display: inline-block; }
     .gu { position: absolute; height: 2px; background: var(--color-accent, #e8b66a); transform-origin: left center; }
@@ -33,11 +35,11 @@
   </style>
   <div id="root" data-composition-id="t4" data-width="1920" data-height="1080">
     <div id="cap5-t4-b0" class="blq" style="left: 150px; top: 380px">
-      <div id="cap5-t4-b0-0" class="e" data-layout-ignore><i></i><span>L</span><span>A</span><span>&nbsp;</span><span>R</span><span>U</span><span>E</span><span>D</span><span>A</span><span>&nbsp;</span><span>Q</span><span>U</span><span>E</span><span>&nbsp;</span><span>L</span><span>A</span><span>&nbsp;</span><span>M</span><span>U</span><span>E</span><span>V</span><span>E</span></div>
+      <div id="cap5-t4-b0-0" class="e" data-layout-ignore><i></i><span>S</span><span>U</span><span>&nbsp;</span><span>R</span><span>U</span><span>E</span><span>D</span><span>A</span></div>
       <div id="cap5-t4-b0-1" class="c" style="font-size: 190px"><span id="cap5-t4-b0-1-n">0</span><em>dientes</em></div>
     </div>
     <div id="cap5-t4-b1" class="blq" style="left: 150px; top: 380px">
-      <div id="cap5-t4-b1-0" class="e" data-layout-ignore><i></i><span>D</span><span>I</span><span>A</span><span>L</span><span>&nbsp;</span><span>D</span><span>E</span><span>&nbsp;</span><span>L</span><span>O</span><span>S</span><span>&nbsp;</span><span>J</span><span>U</span><span>E</span><span>G</span><span>O</span><span>S</span></div>
+      <div id="cap5-t4-b1-0" class="e" data-layout-ignore><i></i><span>L</span><span>O</span><span>S</span><span>&nbsp;</span><span>J</span><span>U</span><span>E</span><span>G</span><span>O</span><span>S</span></div>
       <div id="cap5-t4-b1-1" class="d">Cuatro años, uno por sector</div>
     </div>
   </div>
@@ -46,7 +48,7 @@
       // Generado por kit/montar.py desde montaje/cap5.py: tiempos locales (la toma empieza en 37.98 s).
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#cap5-t4-b0-0 i", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 7.247);
-      tl.fromTo("#cap5-t4-b0-0 span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.018 }, 7.307);
+      tl.fromTo("#cap5-t4-b0-0 span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out", stagger: 0.03 }, 7.307);
       tl.fromTo("#cap5-t4-b0-1", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power3.out" }, 10.157);
       (function () { const n = document.getElementById("cap5-t4-b0-1-n"), o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 223, duration: 1.3, ease: "power2.out", onUpdate: () => { n.textContent = String(Math.round(o.v)); } }, 10.157); })();
       tl.to("#cap5-t4-b0 > *", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in", stagger: 0.04 }, 12.547);

@@ -15,7 +15,7 @@ bloque(150, 650, [E('MOVIMIENTO RETRÓGRADO', w('retroceder', mas=-0.2))], sale=
 sonido('grillos', 0.4, vol=0.14, dur=w('De las ruedas') - 0.5, fi=1.0, fo=0.8)
 
 # 2 · La tapa: dos números escritos con letras.
-toma('tapa', w('De las ruedas', mas=-0.3), entra='oscuro', capas=False, mov=dict(zoom=(1.12, 1.2), panX=(-0.01, 0.02)),
+toma('tapa', w('De las ruedas', mas=-0.3), entra='oscuro', capas=False, mov=dict(zoom=(1.12, 1.2), panX=(-0.06, -0.04)),
      luz=(0.72, 0.4), luzI=0.18, ventana=(0.25, 0.52, 0.62), ventanaI=0.55)
 bloque(150, 170, [E('UCL · 2021', w('veintiuno'))], sale=w('Son ciclos', mas=-0.6))
 grafico('griego', w('De las ruedas', mas=-0.3), w('Son ciclos', mas=-0.3), id='griego-b', z=6, sale=w('Son ciclos', mas=-0.6),

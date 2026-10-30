@@ -22,7 +22,7 @@
       // Motor de planchas del estilo A (sacado de la apertura). kit/montar.py escribe aquí las tomas de cada
       // capítulo: cada una es una plancha con su profundidad y, si lo tiene, su sujeto recortado («frente»),
       // y cada parámetro, una lista de claves [t, valor, curva] en segundos del capítulo (ver apertura).
-      const TOMAS = [{"nombre":"museo","desde":0.0,"hasta":9.565,"luz":[0.66,0.2],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.24,0.6,0.6],"ventanaI":[[0.0,0.4]],"zoom":[[0.0,1.08],[9.565,1.08,"sine.inOut"]],"panX":[[0.0,-0.016],[9.565,0.016,"sine.inOut"]],"camX":[[0.0,-0.014],[9.565,0.014,"sine.inOut"]],"brillo":[[0.0,0.0],[1.4,1.0,"power2.out"],[9.464,1.0],[9.465,0.6]],"luzI":[[0.0,0.22]],"luzR":[[0.0,0.32]]},{"nombre":"pedazos","desde":9.565,"hasta":16.875,"luz":[0.62,0.42],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.55],"ventanaI":[[9.565,0.2]],"zoom":[[9.565,1.05],[15.575,1.075],[15.925,1.13,"expo.out"],[16.875,1.09,"sine.inOut"],[17.175,1.15,"sine.inOut"]],"panX":[[16.615,0.0],[16.875,0.22,"power3.in"]],"camX":[[9.565,0.0],[16.875,0.0,"sine.inOut"]],"desenfoque":[[16.635,0],[16.875,0.08,"power3.in"]],"brillo":[[9.565,1.0]],"luzI":[[9.565,0.18]],"luzR":[[9.565,0.25]]},{"nombre":"lupa","desde":16.875,"hasta":26.955,"luz":[0.7,0.45],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.24,0.42,0.6],"ventanaI":[[16.875,0.45]],"zoom":[[16.875,1.04],[26.955,1.1,"sine.inOut"]],"panX":[[16.875,-0.18],[17.215,0.0,"expo.out"]],"camX":[[16.875,-0.012],[26.955,0.012,"sine.inOut"]],"desenfoque":[[16.875,0.08],[17.075,0,"power2.out"]],"brillo":[[16.875,1.0],[26.854,1.0],[26.855,0.6]],"luzI":[[16.875,0.2]],"luzR":[[16.875,0.25]]},{"nombre":"museo","desde":26.955,"hasta":38.246,"luz":[0.66,0.2],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.55,0.62],"ventanaI":[[26.955,0.45]],"zoom":[[26.955,1.12],[38.246,1.05,"sine.inOut"]],"camX":[[26.955,0.012],[38.246,-0.012,"sine.inOut"]],"brillo":[[26.955,1.0],[37.696,1.0],[38.246,0.04,"power2.in"]],"luzI":[[26.955,0.22]],"luzR":[[26.955,0.32]]},{"nombre":"pedazos","desde":38.246,"hasta":46.849,"luz":[0.62,0.42],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.26,0.5,0.6],"ventanaI":[[38.246,0.5]],"zoom":[[38.246,1.22],[46.849,1.3,"sine.inOut"]],"panX":[[38.246,0.06],[46.849,0.07,"sine.inOut"]],"panY":[[38.246,-0.02],[46.849,-0.03,"sine.inOut"]],"brillo":[[38.246,0.04],[39.146,1.0,"power2.out"],[46.748,1.0],[46.749,0.6]],"luzI":[[38.246,0.18]],"luzR":[[38.246,0.25]]},{"nombre":"cajon","desde":46.849,"hasta":58.4,"luz":[0.7,0.35],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.27,0.48,0.62],"ventanaI":[[46.849,0.45]],"zoom":[[46.849,1.04],[58.4,1.12,"sine.inOut"]],"camX":[[46.849,-0.01],[58.4,0.01,"sine.inOut"]],"brillo":[[46.849,1.0],[57.55,1.0],[58.32,0.0,"power2.in"]],"luzI":[[46.849,0.2]],"luzR":[[46.849,0.3]]}];
+      const TOMAS = [{"nombre":"museo","desde":0.0,"hasta":9.565,"luz":[0.66,0.2],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.24,0.6,0.6],"ventanaI":[[0.0,0.4]],"zoom":[[0.0,1.08],[9.565,1.08,"sine.inOut"]],"panX":[[0.0,-0.016],[9.565,0.016,"sine.inOut"]],"camX":[[0.0,-0.014],[9.565,0.014,"sine.inOut"]],"brillo":[[0.0,0.0],[1.4,1.0,"power2.out"],[9.464,1.0],[9.465,0.6]],"luzI":[[0.0,0.22]],"luzR":[[0.0,0.32]]},{"nombre":"pedazos","desde":9.565,"hasta":16.875,"luz":[0.62,0.42],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.5,0.55],"ventanaI":[[9.565,0.2]],"zoom":[[9.565,1.05],[15.575,1.075],[15.925,1.13,"expo.out"],[16.875,1.09,"sine.inOut"],[17.175,1.15,"sine.inOut"]],"panX":[[16.615,0.0],[16.875,0.22,"power3.in"]],"camX":[[9.565,0.0],[16.875,0.0,"sine.inOut"]],"desenfoque":[[16.635,0],[16.875,0.08,"power3.in"]],"brillo":[[9.565,1.0]],"luzI":[[9.565,0.18]],"luzR":[[9.565,0.25]]},{"nombre":"lupa","desde":16.875,"hasta":26.955,"luz":[0.7,0.45],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.24,0.42,0.6],"ventanaI":[[16.875,0.45]],"zoom":[[16.875,1.04],[26.955,1.1,"sine.inOut"]],"panX":[[16.875,-0.18],[17.215,0.0,"expo.out"]],"camX":[[16.875,-0.012],[26.955,0.012,"sine.inOut"]],"desenfoque":[[16.875,0.08],[17.075,0,"power2.out"]],"brillo":[[16.875,1.0],[26.854,1.0],[26.855,0.6]],"luzI":[[16.875,0.2]],"luzR":[[16.875,0.25]]},{"nombre":"museo","desde":26.955,"hasta":38.246,"luz":[0.66,0.2],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.55,0.62],"ventanaI":[[26.955,0.45]],"zoom":[[26.955,1.12],[38.246,1.05,"sine.inOut"]],"camX":[[26.955,0.012],[38.246,-0.012,"sine.inOut"]],"brillo":[[26.955,1.0],[37.696,1.0],[38.246,0.04,"power2.in"]],"luzI":[[26.955,0.22]],"luzR":[[26.955,0.32]]},{"nombre":"pedazos","desde":38.246,"hasta":46.849,"luz":[0.62,0.42],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.26,0.5,0.6],"ventanaI":[[38.246,0.5]],"zoom":[[38.246,1.22],[46.849,1.3,"sine.inOut"]],"panX":[[38.246,-0.05],[46.849,-0.04,"sine.inOut"]],"panY":[[38.246,-0.02],[46.849,-0.03,"sine.inOut"]],"brillo":[[38.246,0.04],[39.146,1.0,"power2.out"],[46.748,1.0],[46.749,0.6]],"luzI":[[38.246,0.18]],"luzR":[[38.246,0.25]]},{"nombre":"cajon","desde":46.849,"hasta":58.4,"luz":[0.7,0.35],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.27,0.48,0.62],"ventanaI":[[46.849,0.45]],"zoom":[[46.849,1.04],[58.4,1.12,"sine.inOut"]],"camX":[[46.849,-0.01],[58.4,0.01,"sine.inOut"]],"brillo":[[46.849,1.0],[57.55,1.0],[58.32,0.0,"power2.in"]],"luzI":[[46.849,0.2]],"luzR":[[46.849,0.3]]}];
       const PREDETERMINADO = { zoom: 1, panX: 0, panY: 0, camX: 0, camY: 0, desenfoque: 0, radial: 0, brillo: 1,
         luzI: 0, luzR: 0.1, ventanaI: 0, lluvia: 0 };
       const FOCO = 0.35; // profundidad que no se mueve con la cámara
@@ -63,7 +63,7 @@
         varying vec2 uv;
         uniform sampler2D uImg, uProf, uFrente;
         uniform float uCapas;
-        uniform float uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
+        uniform float uSat, uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
         uniform vec3 uVentana, uLuzColor;
         uniform vec2 uPan, uCam, uLuz, uCentro, uDir;
         const float ASPECTO = 1.7777778;
@@ -116,7 +116,7 @@
           c /= float(muestras);
           // Etalonaje: algo menos de saturación y contraste suave; sombras hacia el verde azulado.
           float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
-          c = mix(vec3(l), c, 0.9);
+          c = mix(vec3(l), c, uSat);
           c = (c - 0.5) * 1.05 + 0.5;
           c += (1.0 - smoothstep(0.0, 0.45, l)) * vec3(-0.006, 0.004, 0.012);
           float w = 1.0 - smoothstep(uVentana.z * 0.25, uVentana.z, length((uv - uVentana.xy) * vec2(1.0, 1.35)));
@@ -160,7 +160,7 @@
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
       const U = {};
-      for (const n of ["uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
+      for (const n of ["uSat", "uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
         "uCuadro", "uFoco", "uPan", "uCam", "uLuz", "uLuzColor", "uVentana", "uVentanaI", "uLluvia", "uCentro", "uDir"])
         U[n] = gl.getUniformLocation(prog, n);
 
@@ -199,6 +199,7 @@
         gl.bindTexture(gl.TEXTURE_2D, toma.texFrente || toma.texImg);
         gl.uniform1i(U.uFrente, 2);
         gl.uniform1f(U.uCapas, toma.texFrente ? 1 : 0);
+        gl.uniform1f(U.uSat, toma.sat == null ? 0.9 : toma.sat);   // saturación de la plancha (0,9 por defecto)
         gl.uniform1f(U.uZoom, e.zoom);
         gl.uniform2f(U.uPan, e.panX, e.panY);
         gl.uniform2f(U.uCam, e.camX, e.camY);

@@ -73,7 +73,7 @@
         $("cota").setAttribute("d", `M${c1[0]},${c1[1] - 30}L${c1[0]},${c1[1] - 46}M${c2[0]},${c2[1] - 30}L${c2[0]},${c2[1] - 46}M${c1[0]},${c1[1] - 38}L${c2[0]},${c2[1] - 38}`);
         $("cota").style.opacity = cota.toFixed(3);
         $("mm").setAttribute("x", ((c1[0] + c2[0]) / 2).toFixed(1)); $("mm").setAttribute("y", (c1[1] - 58).toFixed(1));
-        $("mm").setAttribute("font-size", "16"); $("mm").style.opacity = cota.toFixed(3);
+        $("mm").setAttribute("font-size", "16"); $("mm").style.letterSpacing = "0.04em"; $("mm").style.opacity = cota.toFixed(3);
         // Agujas: la de arriba (acento) frente a la de ritmo constante (a trazos); el arco marca la diferencia.
         const pa = AY.paso(t, W.girar + 0.3, 0.5, "expo.out");
         const [ax, ay] = AY.pol(c2[0], c2[1], R + 60, th2), [fx, fy] = AY.pol(c1[0], c1[1], R + 60, th1);
@@ -89,7 +89,7 @@
         $("e3c").setAttribute("d", AY.circulo(E3[0], E3[1], RE3 - 22) + AY.circulo(E3[0], E3[1], 34));
         const p3 = AY.paso(t, W.desplaza + 0.2, 1.2, "power2.inOut");
         AY.trazo($("e3d"), p3); AY.trazo($("e3c"), p3);
-        $("e3").style.opacity = (0.55 * Math.min(1, p3 * 3)).toFixed(3);
+        $("e3").style.opacity = (0.9 * Math.min(1, p3 * 3)).toFixed(3);
         // Cámara: de lejos al par; muy cerca de los ejes en «separados»; vuelta; y lejos para ver la rueda mayor.
         const s = AY.valor([[0, 0.95], [W.ejes - 0.1, 1.0, "sine.inOut"], [W.ejes + 0.6, 4.2, "power2.inOut"], [W.perno - 0.5, 4.2],
                              [W.perno + 0.4, 1.12, "power2.inOut"], [W.girar + 1, 1.15, "sine.inOut"], [W.desplaza, 1.15],

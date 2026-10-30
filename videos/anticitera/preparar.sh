@@ -73,6 +73,17 @@ musica() {
     read -r duracion semilla < <(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d['duracion'], d['semilla'])" "$RC/musica.json")
     "$PYF" "$REPO/audio/musica_ia.py" "${piezas[@]}" -o "$M/pieza.wav" --duracion "$duracion" --semilla "$semilla"
   fi
+  # Las piezas que salieron con casi toda la energía en los graves se rehacen aparte (ver musica.json).
+  if [ ! -e "$M/sustituidas" ]; then
+    mapfile -t nums < <(python3 -c "import json,sys; [print(k) for k in json.load(open(sys.argv[1]))['sustituir']['piezas']]" "$RC/musica.json")
+    mapfile -t desc < <(python3 -c "import json,sys; [print(v) for v in json.load(open(sys.argv[1]))['sustituir']['piezas'].values()]" "$RC/musica.json")
+    semilla=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['sustituir']['semilla'])" "$RC/musica.json")
+    mkdir -p "$M/sust"
+    "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$M/sust/pieza.wav" --duracion 30 --semilla "$semilla"
+    for i in "${!nums[@]}"; do cp -f "$M/sust/pieza_$((i + 1)).wav" "$M/pieza_${nums[$i]}.wav"; done
+    touch "$M/sustituidas"
+  fi
+  python3 "$AQUI/kit/lechos.py"
 }
 
 fuentes() {

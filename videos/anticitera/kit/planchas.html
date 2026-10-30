@@ -63,7 +63,7 @@
         varying vec2 uv;
         uniform sampler2D uImg, uProf, uFrente;
         uniform float uCapas;
-        uniform float uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
+        uniform float uSat, uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
         uniform vec3 uVentana, uLuzColor;
         uniform vec2 uPan, uCam, uLuz, uCentro, uDir;
         const float ASPECTO = 1.7777778;
@@ -116,7 +116,7 @@
           c /= float(muestras);
           // Etalonaje: algo menos de saturación y contraste suave; sombras hacia el verde azulado.
           float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
-          c = mix(vec3(l), c, 0.9);
+          c = mix(vec3(l), c, uSat);
           c = (c - 0.5) * 1.05 + 0.5;
           c += (1.0 - smoothstep(0.0, 0.45, l)) * vec3(-0.006, 0.004, 0.012);
           float w = 1.0 - smoothstep(uVentana.z * 0.25, uVentana.z, length((uv - uVentana.xy) * vec2(1.0, 1.35)));
@@ -160,7 +160,7 @@
       gl.enableVertexAttribArray(loc);
       gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
       const U = {};
-      for (const n of ["uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
+      for (const n of ["uSat", "uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
         "uCuadro", "uFoco", "uPan", "uCam", "uLuz", "uLuzColor", "uVentana", "uVentanaI", "uLluvia", "uCentro", "uDir"])
         U[n] = gl.getUniformLocation(prog, n);
 
@@ -199,6 +199,7 @@
         gl.bindTexture(gl.TEXTURE_2D, toma.texFrente || toma.texImg);
         gl.uniform1i(U.uFrente, 2);
         gl.uniform1f(U.uCapas, toma.texFrente ? 1 : 0);
+        gl.uniform1f(U.uSat, toma.sat == null ? 0.9 : toma.sat);   // saturación de la plancha (0,9 por defecto)
         gl.uniform1f(U.uZoom, e.zoom);
         gl.uniform2f(U.uPan, e.panX, e.panY);
         gl.uniform2f(U.uCam, e.camX, e.camY);

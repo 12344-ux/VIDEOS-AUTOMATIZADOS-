@@ -3,15 +3,18 @@
 # nombra (graficos/frente.html); corte a la esfera real y vuelta al dibujo, ya en las fases; los agujeros
 # quedan como pregunta para el capítulo VIII. Acaba en la Luna sobre el mar, que abre el capítulo IV.
 
+TITULO_ANCHO = 760   # «Una caja con el / cielo dentro»: que no pise la caja
+
 # 1 · La caja reconstruida, desde negro.
-toma('caja', 0, entra='negro', mov='empuje', luz=(0.66, 0.36), luzI=0.2, ventana=(0.25, 0.55, 0.6))
+toma('caja', 0, entra='negro', mov='empuje', centro=(0.8, 0.42), luz=(0.66, 0.36), luzI=0.2, ventana=(0.25, 0.55, 0.6))
 bloque(150, 600, [E('RECONSTRUCCIÓN', w('caja'))], sale=w('Al girarla', mas=-0.6))
 
 # 2 · Se entra en el frente: la rueda mayor da una vuelta (un año) y se dibujan los anillos y las agujas.
 toma('placa', w('Al girarla', mas=-0.25), entra='zoom', mov=dict(zoom=(1.04, 1.08), camX=(-0.006, 0.006)),
      brillo=0.62, luz=(0.7, 0.3), luzI=0.1, ventana=(0.25, 0.45, 0.6), ventanaI=0.35)
 grafico('frente', w('Al girarla', mas=-0.25), w('esfera', mas=-0.35), id='frente-a', modo='a')
-bloque(150, 330, [E('RUEDA MAYOR · 223 DIENTES', w('Cada')), C('365', w('año', mas=0.15), desde=1, dur=1.7, unidad='días', tam=200)],
+bloque(150, 330, [E('RUEDA MAYOR', w('Cada')), C('365', w('año', mas=0.15), desde=1, dur=1.7, unidad='días', tam=200),
+                  D('223 dientes', w('rueda', mas=0.2))],
        sale=w('En el frente', mas=-0.35))
 sonido('manivela', w('girarla', mas=-0.1), vol=0.22, dur=2.6, fo=0.6)
 sonido('tictac', w('vuelta', mas=-0.2), vol=0.2, dur=2.4, fi=0.2, fo=0.5)

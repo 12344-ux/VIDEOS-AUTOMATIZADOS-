@@ -3,7 +3,7 @@
 # Éfeso), la fecha de la espiral (una línea de tiempo) y el calendario (el mapa de Corinto a Siracusa); luego los
 # textos de Cicerón y Rodas, y al final las manos de un artesano: no fue la primera máquina.
 
-ANT, PER, EFE, COR, SIR = (1248, 765), (1587, 404), (1601, 536), (1216, 536), (549, 632)
+ANT, PER, EFE, COR, SIR, ROD = (1248, 765), (1587, 404), (1601, 536), (1216, 536), (549, 632), (1677, 703)
 
 # 1 · El barco cargado: nadie firmó la máquina.
 toma('carguero', 0, entra='negro', mov='der', luz=(0.66, 0.32), luzI=0.2, ventana=(0.25, 0.55, 0.6))
@@ -27,7 +27,7 @@ grafico('mapa', w('Lo dicen', mas=-0.25), w('La máquina podría', mas=-0.3), id
         arcos=[dict(de=PER, a=ANT, t=w('Pérgamo', mas=0.35)), dict(de=EFE, a=ANT, t=w('Éfeso', mas=0.35))],
         camara=[[w('Lo dicen', mas=-0.25), 1.0, 1100, 580], [w('Pérgamo', mas=-0.3), 1.12, 1300, 600, 'power2.inOut'],
                 [w('La máquina podría'), 1.2, 1340, 600, 'sine.inOut']])
-sonido('whoosh', w('Lo dicen', mas=-0.3), vol=0.16, dur=1.2)
+sonido('whoosh', w('Lo dicen', mas=-0.3), vol=0.16)
 
 # 4 · La fecha: la espiral empieza en el 205 a. C., mucho antes del naufragio.
 toma('placa', w('La máquina podría', mas=-0.3), entra='oscuro', mov=dict(zoom=(1.07, 1.04)), brillo=0.55, luz=(0.7, 0.3), luzI=0.08,
@@ -53,15 +53,22 @@ grafico('mapa', w('Los meses', mas=-0.3), w('Más de un siglo', mas=-0.3), id='m
 # 6 · Cicerón y la esfera de Arquímedes.
 toma('armilar', w('Más de un siglo', mas=-0.3), entra='oscuro', mov='empuje', luz=(0.75, 0.3), luzI=0.18,
      ventana=(0.25, 0.5, 0.62), ventanaI=0.45)
-bloque(150, 450, [E('CICERÓN · «SOBRE LA REPÚBLICA»', w('Cicerón')), D('La esfera de Arquímedes, que Marcelo se llevó de Siracusa', w('esfera'))],
+bloque(150, 430, [E('CICERÓN', w('Cicerón')), D('«Sobre la república»', w('escribió')),
+                  D('La esfera que Marcelo se llevó de Siracusa', w('esfera'))],
        sale=w('Y contó', mas=-0.6))
 sonido('paginas', w('Cicerón', mas=-0.2), vol=0.2, dur=1.4)
 
-# 7 · Rodas: Posidonio.
-toma('rodas', w('Y contó', mas=-0.3), entra='barrido', mov='izq', luz=(0.75, 0.28), luzI=0.2, ventana=(0.25, 0.55, 0.62), ventanaI=0.42)
+# 7 · Rodas, en el mapa: Posidonio (el plano de la ciudad parecía moderno; el mapa sigue la investigación).
+toma('placa', w('Y contó', mas=-0.3), entra='barrido', mov=dict(zoom=(1.04, 1.07)), brillo=0.55, luz=(0.7, 0.3), luzI=0.08,
+     ventanaI=0.3)
+grafico('mapa', w('Y contó', mas=-0.3), w('Ninguna', mas=-0.3), id='mapa-c',
+        revela=dict(t=w('Y contó', mas=-1.9), x=ROD[0], y=ROD[1]),
+        puntos=[dict(n='RODAS', s='Posidonio · Hiparco', x=ROD[0], y=ROD[1], t=w('Rodas'), lado='aba'),
+                dict(n='ANTICITERA', x=ANT[0], y=ANT[1], t=w('Y contó', mas=-0.2), lado='izq')],
+        arcos=[dict(de=ROD, a=ANT, t=w('astrónomos', mas=-0.2))],
+        camara=[[w('Y contó', mas=-0.3), 1.3, 1460, 690], [w('Ninguna'), 1.4, 1480, 700, 'sine.inOut']])
 bloque(150, 470, [E('MAESTRO DE CICERÓN', w('maestro')), N('Posidonio', w('Posidonio'))], sale=w('Ninguna', mas=-0.6))
-sonido('mercado', w('Y contó', mas=-0.3), vol=0.1, dur=6.2, ini=10, fi=0.6, fo=0.8)
-sonido('olas', w('Y contó', mas=-0.3), vol=0.12, dur=6.2, ini=40, fi=0.6, fo=0.8)
+sonido('olas', w('Y contó', mas=-0.3), vol=0.1, dur=6.2, ini=40, fi=0.6, fo=0.8)
 
 # 8 · Las manos de un artesano: no fue la primera.
 toma('artesano', w('Ninguna', mas=-0.3), entra='oscuro', mov=dict(zoom=(1.05, 1.13), camX=(0.01, -0.01)), luz=(0.7, 0.4),

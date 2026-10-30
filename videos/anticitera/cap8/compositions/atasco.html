@@ -1,0 +1,93 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #atasco-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #atasco-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; }
+    #atasco-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 1.6; stroke-linejoin: round; }
+  </style>
+  <div id="root" data-composition-id="atasco" data-width="1920" data-height="1080">
+    <!-- Dos ruedas de dientes triangulares que engranan y giran hasta que, en el instante dado, se atascan: un
+         tirón amortiguado y quietas (el preprint de Szigety y Arenas, 2025, aún sin revisar). Un anillo marca el
+         punto de contacto. -->
+    <svg id="atasco-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="atasco-a" class="l" pathLength="100"/><path id="atasco-b" class="tinta" pathLength="100"/>
+      <path id="atasco-contacto" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 43.907;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("atasco-" + s);
+      const ENTRA = 0.560, ATASCO = 10.052;
+      const NA = 40, NB = 20, MOD = 15, RA = (MOD * NA) / 2, RB = (MOD * NB) / 2;
+      const A = [1250, 560], B = [A[0] + RA + RB, 560];
+      // Fase de B para que engrane: un diente de A frente a un hueco de B en la línea de contacto (ángulo 0).
+      const FB = 180 + 180 / NB;
+      const cuerpo = (c, r) => AY.circulo(c[0], c[1], r * 0.8) + AY.circulo(c[0], c[1], Math.max(10, r * 0.14));
+      const [kx, ky] = [A[0] + RA, A[1]];
+      $("contacto").setAttribute("d", AY.circulo(kx, ky, 34));
+      function dibujar(t) {
+        // Giro constante hasta el atasco; después, un tirón que se apaga en unas décimas.
+        const u = Math.min(t, ATASCO) - ENTRA, dt = Math.max(0, t - ATASCO);
+        const tiron = t > ATASCO ? 2.2 * Math.exp(-dt / 0.12) * Math.sin(dt * 46) : 0;
+        const ga = 22 * Math.max(0, u) + tiron, gb = -ga * (NA / NB) + FB;
+        $("a").setAttribute("d", AY.dientes(A[0], A[1], RA, NA, ga) + cuerpo(A, RA));
+        $("b").setAttribute("d", AY.dientes(B[0], B[1], RB, NB, gb) + cuerpo(B, RB));
+        const p = AY.paso(t, ENTRA, 1.0, "power2.inOut");
+        AY.trazo($("a"), p); AY.trazo($("b"), AY.paso(t, ENTRA + 0.25, 1.0, "power2.inOut"));
+        AY.trazo($("contacto"), AY.paso(t, ATASCO + 0.05, 0.45, "expo.out"));
+        $("contacto").style.opacity = (1 - AY.paso(t, ATASCO + 1.6, 0.4)).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, 17.277 - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["atasco"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

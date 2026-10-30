@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es" data-composition-variables='[
+  {"id":"color-ground","type":"color","label":"Fondo","default":"#0d1114"},
+  {"id":"color-ink","type":"color","label":"Texto","default":"#f3ede4"},
+  {"id":"color-accent","type":"color","label":"Acento","default":"#e8b66a"}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>El mecanismo de Anticitera · VIII. Lo que el mar guardó</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root { --color-ground: #0d1114; --color-ink: #f3ede4; --color-accent: #e8b66a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--color-ground); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #fondo { position: absolute; inset: 0; background: var(--color-ground); }
+    </style>
+  </head>
+  <body>
+    <!-- Generado por videos/anticitera/kit/montar.py desde montaje/cap8.py: editar allí y volver a montar. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="88.94" data-width="1920" data-height="1080">
+      <div id="fondo"></div>
+      <div id="planchas" data-composition-id="planchas" data-composition-src="compositions/planchas.html"
+        data-start="0" data-duration="88.94" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <div id="linea-b" data-composition-id="linea-b" data-composition-src="compositions/linea-b.html"
+        data-start="3.35" data-duration="9.557" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="anillo" data-composition-id="anillo" data-composition-src="compositions/anillo.html"
+        data-start="21.609" data-duration="22.298" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="atasco" data-composition-id="atasco" data-composition-src="compositions/atasco.html"
+        data-start="43.907" data-duration="17.277" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="t1" data-composition-id="t1" data-composition-src="compositions/t1.html"
+        data-start="0.0" data-duration="3.35" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t2" data-composition-id="t2" data-composition-src="compositions/t2.html"
+        data-start="3.35" data-duration="9.557" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t3" data-composition-id="t3" data-composition-src="compositions/t3.html"
+        data-start="12.907" data-duration="8.702" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t4" data-composition-id="t4" data-composition-src="compositions/t4.html"
+        data-start="21.609" data-duration="22.298" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t5" data-composition-id="t5" data-composition-src="compositions/t5.html"
+        data-start="43.907" data-duration="17.277" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t6" data-composition-id="t6" data-composition-src="compositions/t6.html"
+        data-start="61.184" data-duration="3.627" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t7" data-composition-id="t7" data-composition-src="compositions/t7.html"
+        data-start="64.811" data-duration="4.774" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t8" data-composition-id="t8" data-composition-src="compositions/t8.html"
+        data-start="69.585" data-duration="19.355" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="3.4" data-duration="72.928" data-track-index="10"
+        data-volume="1" data-fx-chain="{&quot;version&quot;: 1, &quot;nodes&quot;: [{&quot;type&quot;: &quot;highpass&quot;, &quot;id&quot;: &quot;v1&quot;, &quot;label&quot;: &quot;Quitar graves&quot;, &quot;params&quot;: {&quot;frequency&quot;: 90}}, {&quot;type&quot;: &quot;peaking&quot;, &quot;id&quot;: &quot;v2&quot;, &quot;label&quot;: &quot;Claridad&quot;, &quot;params&quot;: {&quot;frequency&quot;: 3000, &quot;gain&quot;: 2, &quot;q&quot;: 1}}, {&quot;type&quot;: &quot;limiter&quot;, &quot;id&quot;: &quot;v3&quot;, &quot;params&quot;: {&quot;limit&quot;: -1}}]}"></audio>
+      <audio id="musica" class="clip" src="assets/audio/musica.wav" data-start="0" data-duration="88.94" data-track-index="11"
+        data-timeline-role="music" data-automation="{&quot;version&quot;: 1, &quot;lanes&quot;: [{&quot;target&quot;: &quot;volume&quot;, &quot;points&quot;: [{&quot;t&quot;: 0.0, &quot;v&quot;: 0}, {&quot;t&quot;: 1.2, &quot;v&quot;: 0.34}, {&quot;t&quot;: 3.0, &quot;v&quot;: 0.34}, {&quot;t&quot;: 3.5, &quot;v&quot;: 0.2}, {&quot;t&quot;: 20.417, &quot;v&quot;: 0.2}, {&quot;t&quot;: 20.817, &quot;v&quot;: 0.32}, {&quot;t&quot;: 21.809, &quot;v&quot;: 0.32}, {&quot;t&quot;: 22.309, &quot;v&quot;: 0.2}, {&quot;t&quot;: 75.945, &quot;v&quot;: 0.2}, {&quot;t&quot;: 76.645, &quot;v&quot;: 0.36}, {&quot;t&quot;: 87.64, &quot;v&quot;: 0.36}, {&quot;t&quot;: 88.89, &quot;v&quot;: 0}]}]}"></audio>
+      <audio id="s0-tictac3" class="clip" src="assets/sfx/tictac3.wav" data-start="0.5" data-duration="2.6"
+        data-track-index="12" data-volume="0.16" data-fade-in="0.6" data-fade-out="0.6"></audio>
+      <audio id="s1-viento" class="clip" src="assets/sfx/viento.wav" data-start="3.4" data-duration="9.0"
+        data-track-index="13" data-volume="0.1" data-fade-in="0.8" data-fade-out="1.0"></audio>
+      <audio id="s2-fuego" class="clip" src="assets/sfx/fuego.wav" data-start="12.907" data-duration="8.6"
+        data-track-index="14" data-volume="0.2" data-media-start="3" data-fade-in="0.3" data-fade-out="0.6"></audio>
+      <audio id="s3-yunque" class="clip" src="assets/sfx/yunque.wav" data-start="13.827" data-duration="1.2"
+        data-track-index="15" data-volume="0.16"></audio>
+      <audio id="s4-escaner" class="clip" src="assets/sfx/escaner.wav" data-start="23.754" data-duration="1.0"
+        data-track-index="16" data-volume="0.12"></audio>
+      <audio id="s5-tictac" class="clip" src="assets/sfx/tictac.wav" data-start="44.667" data-duration="9.292"
+        data-track-index="17" data-volume="0.2"></audio>
+      <audio id="s6-clic" class="clip" src="assets/sfx/clic.wav" data-start="53.939" data-duration="0.5"
+        data-track-index="18" data-volume="0.32"></audio>
+      <audio id="s7-grillos" class="clip" src="assets/sfx/grillos.wav" data-start="64.811" data-duration="5.174"
+        data-track-index="19" data-volume="0.12" data-fade-in="0.6" data-fade-out="0.6"></audio>
+      <audio id="s8-olas" class="clip" src="assets/sfx/olas.wav" data-start="64.811" data-duration="5.174"
+        data-track-index="20" data-volume="0.14" data-media-start="60" data-fade-in="0.6" data-fade-out="0.6"></audio>
+      <audio id="s9-golpe" class="clip" src="assets/sfx/golpe.mp3" data-start="76.905" data-duration="2.1"
+        data-track-index="21" data-volume="0.5"></audio>
+    </div>
+    <script>
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

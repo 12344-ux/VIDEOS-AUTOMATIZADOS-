@@ -4,13 +4,13 @@
 # contando lo que hay: 82 fragmentos, 30 ruedas, un tercio de la máquina.
 
 # 1 · El escritorio de Price.
-toma('escritorio', 0, entra='negro', mov=dict(zoom=(1.04, 1.09), panY=(0.01, -0.01)), capas=False,
+toma('escritorio', 0, entra='negro', mov=dict(zoom=(1.04, 1.09), panY=(0.01, -0.01)), capas=False, sat=0.5,
      luz=(0.5, 0.14), luzI=0.2, luzR=0.3, ventana=(0.25, 0.55, 0.6), ventanaI=0.5)
 bloque(150, 520, [E('1951 · FÍSICO E HISTORIADOR', w('mil')), N('Derek\nde Solla Price', w('Derek'), tam=112)], sale=w('Ocho', mas=-0.5))
 sonido('lapiz', w('Derek', mas=0.4), vol=0.22, dur=2.4, fi=0.2, fo=0.6)
 
 # 2 · Su artículo de 1959, a máquina.
-toma('escritorio', w('Ocho', mas=-0.3), entra='corte', mov=dict(zoom=(1.3, 1.36), panX=(0.06, 0.07), panY=(0.0, 0.02)), capas=False,
+toma('escritorio', w('Ocho', mas=-0.3), entra='corte', mov=dict(zoom=(1.3, 1.36), panX=(0.06, 0.07), panY=(0.0, 0.02)), capas=False, sat=0.5,
      luz=(0.5, 0.14), luzI=0.2, luzR=0.3, ventana=(0.26, 0.5, 0.62), ventanaI=0.55)
 bloque(150, 440, [E('SCIENTIFIC AMERICAN · JUNIO DE 1959', w('artículo')), M('«An Ancient Greek Computer»', w('título', mas=0.1), tam=96)],
        sale=w('En mil novecientos setenta', mas=-0.6))
@@ -29,14 +29,14 @@ sonido('zumbido', w('En mil novecientos setenta', mas=-0.25), vol=0.12, dur=w('S
 
 # 4 · El taller de Wright y su modelo de latón.
 toma('taller', w('Su', mas=-0.3), entra='corte', mov='izq', luz=(0.86, 0.18), luzI=0.18, ventana=(0.25, 0.52, 0.62), ventanaI=0.45)
-bloque(150, 470, [E('MUSEO DE CIENCIAS DE LONDRES', w('conservador')), N('Michael Wright', w('Máikel'), tam=120)], sale=w('construye', mas=-0.2))
+bloque(150, 470, [E('CONSERVADOR · LONDRES', w('conservador')), N('Michael Wright', w('Máikel'), tam=120)], sale=w('construye', mas=-0.2))
 bloque(150, 470, [E('DÉCADAS DE MODELOS', w('modelos', mas=-0.1))], sale=w('En dos mil cinco', mas=-0.6))
 sonido('tictac3', w('construye', mas=-0.2), vol=0.18, dur=2.6, fi=0.3, fo=0.6)
 
 # 5 · El tomógrafo en el museo (2005).
-toma('tomografo', w('En dos mil cinco', mas=-0.3), entra='barrido', mov='empuje', luz=(0.7, 0.45), luzColor=(0.75, 0.9, 1.0),
+toma('tomografo', w('En dos mil cinco', mas=-0.3), entra='barrido', mov=dict(zoom=(1.14, 1.2), panX=(-0.08, -0.06)), luz=(0.7, 0.45), luzColor=(0.75, 0.9, 1.0),
      luzI=0.16, ventana=(0.25, 0.5, 0.62), ventanaI=0.45)
-bloque(150, 450, [E('2005 · TOMOGRAFÍA DE RAYOS X', w('cinco')), D('Cardiff · Atenas · Salónica', w('internacional')),
+bloque(150, 740, [E('2005 · TOMOGRAFÍA DE RAYOS X', w('cinco')), D('Cardiff · Atenas · Salónica', w('internacional')),
                   D('Hewlett-Packard · luz rasante', w('técnica'))], sale=w('Bajo', mas=-0.6))
 sonido('transformador', w('tomógrafo', mas=-0.3), vol=0.14, dur=6.0, fi=0.4, fo=0.8)
 sonido('escaner', w('técnica', mas=-0.1), vol=0.16, dur=1.0)

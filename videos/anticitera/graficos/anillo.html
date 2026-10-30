@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- El anillo de agujeros bajo el calendario: se conserva un arco (en acento); el resto del círculo se deduce
+         (en tinta tenue) y se completa mientras se cuentan: 354 agujeros, un año lunar (Woan y Bayley, 2024). -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-guia" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:1;opacity:0.25"/>
+      <g id="{{id}}-ag"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const N = {{p:n}}, CX = {{p:cx}}, CY = 540, R = 380, ARCO = {{p:arco}};
+      const APARECE = {{t:aparece}}, C0 = {{t:cuenta0}}, C1 = {{t:cuenta1}};
+      $("guia").setAttribute("d", AY.circulo(CX, CY, R));
+      const G0 = -150, conservados = Math.round(N * ARCO);
+      const ag = [];
+      for (let k = 0; k < N; k++) {
+        const [x, y] = AY.pol(CX, CY, R, G0 + (k * 360) / N), c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", k < conservados ? "3.4" : "2");
+        c.setAttribute("style", k < conservados ? "fill:#e8b66a" : "fill:#f3ede4");
+        $("ag").appendChild(c);
+        ag.push(c);
+      }
+      function dibujar(t) {
+        AY.trazo($("guia"), AY.paso(t, C0 - 0.3, 1.0, "power2.inOut"));
+        const f = AY.paso(t, C0, C1 - C0, "power2.out");   // el resto se completa al ritmo del contador
+        ag.forEach((c, k) => {
+          if (k < conservados) c.style.opacity = AY.paso(t, APARECE + (k / conservados) * 0.9, 0.12).toFixed(3);
+          else c.style.opacity = (0.6 * (f * (N - conservados) >= k - conservados ? 1 : 0)).toFixed(3);
+        });
+        $("svg").style.opacity = (1 - AY.paso(t, {{dur}} - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

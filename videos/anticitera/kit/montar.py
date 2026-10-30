@@ -85,6 +85,7 @@ def N(texto, t, tam=132): return Parte('n', texto, t, tam=tam)               # n
 def D(texto, t, tacha=None): return Parte('d', texto, t, tacha=tacha)        # dato, de gris a tinta
 def T(texto, t, em=None, tam=104): return Parte('t', texto, t, em=em, tam=tam)   # título, palabra a palabra
 def Q(texto, t, tam=60): return Parte('q', texto, t, tam=tam)                 # cita o frase destacada
+def P(texto, t): return Parte('p', texto, t)                                   # pie: créditos y fuentes, pequeño
 def M(texto, t, paso=0.055, tam=72): return Parte('m', texto, t, paso=paso, tam=tam)   # a máquina, letra a letra
 
 
@@ -143,10 +144,11 @@ def cargar(cid):
         cap.sonidos.append(dict(nombre=nombre, t=r3(t), vol=vol, dur=dur, ini=ini, fi=fi, fo=fo, fx=fx))
 
     nombres = dict(w=cap.w, DUR=cap.dur, VOZ0=VOZ0, ULTIMA=cap.ultima(), toma=toma, bloque=bloque, guia=guia,
-                   grafico=grafico, sonido=sonido, E=E, N=N, C=C, D=D, T=T, Q=Q, M=M)
+                   grafico=grafico, sonido=sonido, E=E, N=N, C=C, D=D, T=T, Q=Q, M=M, P=P)
     ruta = os.path.join(RAIZ, 'montaje', cid + '.py')
     exec(compile(open(ruta).read(), ruta, 'exec'), nombres)
     cap.musica = nombres.get('MUSICA', {})
+    cap.titulo_ancho = nombres.get('TITULO_ANCHO', 1200)   # el rótulo del capítulo pasa a dos líneas si no cabe
     if 'DURACION' in nombres:
         cap.dur = nombres['DURACION']
     return cap
@@ -164,6 +166,8 @@ MOVIMIENTOS = {   # parámetro: (inicio, fin) a lo largo de la toma, con sine.in
     'quieto': dict(zoom=(1.06, 1.065), camX=(-0.005, 0.005)),
 }
 CURVAS = {'zoom', 'panX', 'panY', 'camX', 'camY'}
+# Planchas que siempre van más cerradas: la placa de bronce (fondo de los dibujos) tiene un borde brillante.
+ZOOM_BASE = {'placa': 1.34}
 
 
 def tomas_js(cap):
@@ -175,6 +179,8 @@ def tomas_js(cap):
         for k in ('zoom', 'panX', 'panY', 'camX', 'camY'):
             if k in tm:
                 base[k] = tm[k] if isinstance(tm[k], tuple) else (tm[k], tm[k])
+        if tm['nombre'] in ZOOM_BASE and 'zoom' in base:
+            base['zoom'] = tuple(z * ZOOM_BASE[tm['nombre']] for z in base['zoom'])
         b = tm.get('brillo', 1.0)
         li, lr = tm.get('luzI', 0.15), tm.get('luzR', 0.25)
         claves = {k: [] for k in ('zoom', 'panX', 'panY', 'camX', 'camY', 'desenfoque', 'radial', 'brillo', 'luzI', 'luzR')}
@@ -247,6 +253,8 @@ def tomas_js(cap):
             js['capas'] = False
         if 'centro' in tm:
             js['centro'] = list(tm['centro'])
+        if 'sat' in tm:
+            js['sat'] = tm['sat']
         for k, v in claves.items():
             v = sorted(v, key=lambda c: c[0])
             if v:
@@ -288,6 +296,8 @@ CSS = f'''
     .t em {{ font-style: italic; color: var(--color-accent, {ACENTO}); }}
     .q {{ font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; line-height: 1.15; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }}
     .q span {{ display: inline-block; margin-right: 0.24em; }}
+    .pie {{ font: 500 28px/1.35 "Hanken Grotesk", sans-serif; letter-spacing: 0.02em; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6); }}
+    .blq > .pie + .pie {{ margin-top: 6px; }}
     .m {{ font-family: "Cormorant Garamond", serif; font-weight: 500; line-height: 1.1; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }}
     .m span {{ display: inline-block; }}
     .gu {{ position: absolute; height: 2px; background: var(--color-accent, {ACENTO}); transform-origin: left center; }}
@@ -352,6 +362,9 @@ def comp_textos(cid, tm, bloques, guias, avisos):
                     tc = p.k['tacha']
                     js.append(f'tl.fromTo("#{pid} u", {{ scaleX: 0 }}, {{ scaleX: 1, duration: 0.35, ease: "power3.out" }}, {L(tc)});')
                     js.append(f'tl.to("#{pid} b", {{ opacity: 0.55, duration: 0.3, ease: "power2.out" }}, {L(tc + 0.2)});')
+            elif p.tipo == 'p':
+                partes.append(f'<div id="{pid}" class="pie">{html.escape(p.texto)}</div>')
+                js.append(f'tl.fromTo("#{pid}", {{ opacity: 0 }}, {{ opacity: 0.78, duration: 0.5, ease: "power1.out" }}, {L(p.t)});')
             elif p.tipo == 'm':
                 partes.append(f'<div id="{pid}" class="m" style="font-size: {p.k["tam"]}px" data-layout-ignore>{letras(p.texto)}</div>')
                 js.append(f'gsap.utils.toArray("#{pid} span").forEach((s, i) => {{ tl.set(s, {{ opacity: 0 }}, 0); tl.set(s, {{ opacity: 1 }}, {L(p.t)} + i * {p.k["paso"]}); }});')
@@ -554,7 +567,7 @@ def copiar_recursos(cap, borrador):
         shutil.copy2(src, os.path.join(d, 'sfx', s['archivo']))
         if s['dur'] is None:
             s['dur'] = r3(min(duracion_audio(src) - s['ini'], cap.dur - s['t']))
-        s['dur'] = r3(min(s['dur'], cap.dur - s['t']))
+        s['dur'] = r3(min(s['dur'], cap.dur - s['t'], duracion_audio(src) - s['ini']))
     return faltan
 
 
@@ -568,7 +581,7 @@ def montar(cid, borrador=False):
             os.remove(os.path.join(comp, f))
     # El rótulo del capítulo, sobre la primera toma.
     cap.bloques.insert(0, dict(x=150, y=380, partes=[E(f'CAPÍTULO {cap.numero}', 0.4), T(cap.titulo, 0.72, tam=118)],
-                               sale=r3(VOZ0 - 0.35), der=False, ancho=None, id=f'{cid}-titulo'))
+                               sale=r3(VOZ0 - 0.35), der=False, ancho=cap.titulo_ancho, id=f'{cid}-titulo'))
     faltan = copiar_recursos(cap, borrador)
     tomas = sorted(cap.tomas, key=lambda x: x['desde'])
     js = tomas_js(cap)

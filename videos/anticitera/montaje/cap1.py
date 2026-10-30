@@ -28,10 +28,10 @@ toma('museo', w('Stais', 2, mas=-0.3), entra='corte', mov='retroceso', luz=(0.66
      ventana=(0.25, 0.55, 0.62), ventanaI=0.45)
 sonido('tictac', w('reloj', mas=-0.1), vol=0.28, dur=2.2, fo=0.6)
 bloque(150, 480, [E('DATACIÓN', w('encaja')), D('Siglo I a. C.', w('encaja', mas=0.25), tacha=w('después', mas=0.05)),
-                  D('¿Muy posterior?', w('después', mas=0.4))], sale=w('Años', mas=-0.3))
+                  D('¿Muy posterior?', w('después', mas=0.4))], sale=w('Años', mas=-0.5))
 
 # 5 · Rehm: la bandeja otra vez, muy cerca del borde de la rueda.
-toma('pedazos', w('Años', mas=-0.25), entra='oscuro', mov=dict(zoom=(1.22, 1.3), panX=(0.06, 0.07), panY=(-0.02, -0.03)),
+toma('pedazos', w('Años', mas=-0.25), entra='oscuro', mov=dict(zoom=(1.22, 1.3), panX=(-0.05, -0.04), panY=(-0.02, -0.03)),
      luz=(0.62, 0.42), luzI=0.18, ventana=(0.26, 0.5, 0.6), ventanaI=0.5)
 bloque(150, 470, [E('FILÓLOGO ALEMÁN', w('filólogo')), N('Albert Rehm', w('Albert'))], sale=w('El bronce', mas=-0.55))
 

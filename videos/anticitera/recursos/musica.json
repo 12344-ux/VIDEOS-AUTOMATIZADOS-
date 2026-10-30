@@ -11,5 +11,13 @@
   "majestic cosmic ambient score, slow rising strings, shimmering high pads, soft choir, vast and calm, 64 bpm, no drums",
   "mysterious inquisitive documentary underscore, pizzicato strings, low clarinet melody, soft piano, light hand percussion, 90 bpm",
   "emotional reflective cinematic finale, solo piano theme with warm strings slowly swelling, bittersweet and hopeful, 68 bpm, no drums"
- ]
+ ],
+ "sustituir": {
+  "_nota": "Las piezas 4 y 5 de la primera tanda tenían el 98 % y el 65 % de la energía por debajo de 150 Hz (no suenan en un móvil): se rehicieron aparte, en un lote de dos, con esta semilla.",
+  "semilla": 11,
+  "piezas": {
+   "4": "gentle nocturnal ambient, soft felt piano melody and warm string pad in the middle register, airy shimmering harp, slow and circular, 70 bpm, no drums",
+   "5": "tense cinematic underscore, pulsing staccato violas and violins in the middle register, soft ticking clock percussion, suspense building, 72 bpm"
+  }
+ }
 }

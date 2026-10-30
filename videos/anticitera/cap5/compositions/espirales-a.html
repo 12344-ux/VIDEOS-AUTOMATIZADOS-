@@ -78,17 +78,17 @@
         // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
         camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
       };
-      const T0 = 3.150;
+      const T0 = 3.350;
       function alBuscar(dibujar) {
         window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
         dibujar(0);
       }
 
       const $ = (s) => document.getElementById("espirales-a-" + s);
-      const W = { espirales: 1.950, arriba: 3.660, meses: 7.880, aguja: 19.291, vuelta: 21.591,
-        abajo: 23.560, meses2: 26.787, saros: 28.207, igual: 33.747, casillas2: 35.410,
-        signos: 36.390, hora: 40.837, rueda: 41.997, dientes: 46.137, dentro: 47.677,
-        dial: 49.757, juegos: 52.597, olimpicos: 53.817 };
+      const W = { espirales: 1.750, arriba: 3.460, meses: 7.680, aguja: 19.091, vuelta: 21.391,
+        abajo: 23.360, meses2: 26.587, saros: 28.007, igual: 33.547, casillas2: 35.210,
+        signos: 36.190, hora: 40.637, rueda: 41.797, dientes: 45.937, dentro: 47.477,
+        dial: 49.557, juegos: 52.397, olimpicos: 53.617 };
       const M = [1240, 300], S = [1240, 800], R0 = 62, R1 = 240;
       // Espiral de Arquímedes: radio que crece con el ángulo (desde arriba, como el reloj).
       function espiral(c, vueltas) {
@@ -167,7 +167,7 @@
                    [W.olimpicos, 5.4, M[0] - 70, M[1], "sine.inOut"]];
         const cam = [1, 2, 3].map((i) => AY.valor(k.map((c) => [c[0], c[i], c[4]]), t));
         AY.camara($("cam"), cam[0], cam[1], cam[2]);
-        $("svg").style.opacity = (1 - AY.paso(t, 32.787 - 0.25, 0.22, "power2.in")).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, 32.587 - 0.25, 0.22, "power2.in")).toFixed(3);
       }
       alBuscar(dibujar);
       window.__timelines["espirales-a"] = gsap.timeline({ paused: true });

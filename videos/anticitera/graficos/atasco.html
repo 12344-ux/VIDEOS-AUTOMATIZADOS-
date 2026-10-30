@@ -1,0 +1,46 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; }
+    #{{id}}-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 1.6; stroke-linejoin: round; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Dos ruedas de dientes triangulares que engranan y giran hasta que, en el instante dado, se atascan: un
+         tirón amortiguado y quietas (el preprint de Szigety y Arenas, 2025, aún sin revisar). Un anillo marca el
+         punto de contacto. -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-a" class="l" pathLength="100"/><path id="{{id}}-b" class="tinta" pathLength="100"/>
+      <path id="{{id}}-contacto" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const ENTRA = {{t:entra}}, ATASCO = {{t:atasco}};
+      const NA = 40, NB = 20, MOD = 15, RA = (MOD * NA) / 2, RB = (MOD * NB) / 2;
+      const A = [1250, 560], B = [A[0] + RA + RB, 560];
+      // Fase de B para que engrane: un diente de A frente a un hueco de B en la línea de contacto (ángulo 0).
+      const FB = 180 + 180 / NB;
+      const cuerpo = (c, r) => AY.circulo(c[0], c[1], r * 0.8) + AY.circulo(c[0], c[1], Math.max(10, r * 0.14));
+      const [kx, ky] = [A[0] + RA, A[1]];
+      $("contacto").setAttribute("d", AY.circulo(kx, ky, 34));
+      function dibujar(t) {
+        // Giro constante hasta el atasco; después, un tirón que se apaga en unas décimas.
+        const u = Math.min(t, ATASCO) - ENTRA, dt = Math.max(0, t - ATASCO);
+        const tiron = t > ATASCO ? 2.2 * Math.exp(-dt / 0.12) * Math.sin(dt * 46) : 0;
+        const ga = 22 * Math.max(0, u) + tiron, gb = -ga * (NA / NB) + FB;
+        $("a").setAttribute("d", AY.dientes(A[0], A[1], RA, NA, ga) + cuerpo(A, RA));
+        $("b").setAttribute("d", AY.dientes(B[0], B[1], RB, NB, gb) + cuerpo(B, RB));
+        const p = AY.paso(t, ENTRA, 1.0, "power2.inOut");
+        AY.trazo($("a"), p); AY.trazo($("b"), AY.paso(t, ENTRA + 0.25, 1.0, "power2.inOut"));
+        AY.trazo($("contacto"), AY.paso(t, ATASCO + 0.05, 0.45, "expo.out"));
+        $("contacto").style.opacity = (1 - AY.paso(t, ATASCO + 1.6, 0.4)).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, {{dur}} - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

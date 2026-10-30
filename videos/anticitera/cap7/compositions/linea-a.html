@@ -7,7 +7,7 @@
     #root { position: absolute; inset: 0; overflow: hidden; }
     #linea-a-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
     #linea-a-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.24em; fill: #f3ede4; }
-    #linea-a-svg .sub { font: 500 26px "Hanken Grotesk", sans-serif; letter-spacing: 0.04em; fill: #e8b66a; }
+    #linea-a-svg .sub { font: 500 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.04em; fill: #e8b66a; }
   </style>
   <div id="root" data-composition-id="linea-a" data-width="1920" data-height="1080">
     <!-- Línea de tiempo: la línea se dibuja de izquierda a derecha, con una marca pequeña por siglo, y cada
@@ -16,6 +16,7 @@
       <g id="linea-a-cam">
         <path id="linea-a-linea" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;opacity:0.8"/>
         <path id="linea-a-siglos" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:1.5;opacity:0.45"/>
+        <g id="linea-a-siglosT"></g>
         <g id="linea-a-tramo"><path id="linea-a-tramop" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2"/><text id="linea-a-tramot" class="sub" text-anchor="middle"></text></g>
         <g id="linea-a-marcas"></g>
       </g>
@@ -80,6 +81,16 @@
       let sd = "";
       for (let a = Math.ceil(RANGO[0] / 100) * 100; a <= RANGO[1]; a += 100) sd += `M${X(a).toFixed(1)},${Y - 8}L${X(a).toFixed(1)},${Y + 8}`;
       $("siglos").setAttribute("d", sd);
+      // Rótulo de cada siglo bajo su marca (cada dos si son muchos).
+      const nSiglos = Math.floor(RANGO[1] / 100) - Math.ceil(RANGO[0] / 100) + 1, salto = nSiglos > 8 ? 200 : 100;
+      for (let a = Math.ceil(RANGO[0] / salto) * salto; a <= RANGO[1]; a += salto) {
+        const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tx.setAttribute("x", X(a).toFixed(1)); tx.setAttribute("y", Y + 44); tx.setAttribute("text-anchor", "middle");
+        tx.setAttribute("style", 'font: 500 28px "Hanken Grotesk", sans-serif; fill: #f3ede4; opacity: 0.5');
+        tx.setAttribute("class", "siglo");
+        tx.textContent = a < 0 ? `${-a} a. C.` : a === 0 ? "1" : String(a);
+        $("siglosT").appendChild(tx);
+      }
       const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
       const M = MARCAS.map((m) => {
         const g = el("g", {}, $("marcas")), x = X(m.a), arriba = m.lado !== "aba", h = m.alto || 70;
@@ -99,6 +110,7 @@
       function dibujar(t) {
         const p = AY.paso(t, DIBUJA[0] - T0, DIBUJA[1], "power1.inOut");
         AY.trazo($("linea"), p); AY.trazo($("siglos"), p);
+        $("siglosT").style.opacity = AY.paso(t, DIBUJA[0] - T0 + DIBUJA[1] * 0.6, 0.6).toFixed(3);
         M.forEach((m) => {
           m.g.style.opacity = AY.paso(t, m.t - 0.1, 0.2).toFixed(3);
           AY.trazo(m.palo, AY.paso(t, m.t - 0.05, 0.45, "expo.out"));
