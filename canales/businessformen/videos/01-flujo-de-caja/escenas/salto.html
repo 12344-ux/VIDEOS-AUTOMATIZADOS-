@@ -1,0 +1,45 @@
+<template>
+  <!-- R14 · «Podrías pensar que esto es de los años setenta»: el año de la quiebra, y en «dos mil dieciocho» las cifras
+       giran como un cuentakilómetros hasta 2018. La cifra que se convierte en otra. Las cifras son proporcionales (un 1
+       es más estrecho que un 0): cada columna se mueve a su sitio mientras gira, para que 2018 quede bien espaciado. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .ano { position: absolute; left: 0; top: 330px; width: 1920px; height: 400px; font: 800 400px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .col { position: absolute; top: 0; height: 1em; overflow: hidden; }
+    #{{ID}} .col span { display: block; height: 1em; text-align: center; }
+    #{{ID}} .etq { position: absolute; left: 0; width: 1920px; top: 770px; text-align: center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="ano"></div>
+      <div class="mono etq e1"><b>W. T. Grant</b> · su quiebra</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // Las columnas se solapan unos píxeles por los lados (la tinta no): de ahí el data-layout-allow-overlap de cada cifra.
+      // Avance de cada cifra de Inter Tight 800 a 400 px, ya con el −0,04 em de espaciado (medido en el navegador).
+      const AV = { 0: 256, 1: 150, 2: 228, 3: 240, 4: 249, 5: 237, 6: 244, 7: 209, 8: 245, 9: 244 };
+      const centros = (cifras) => { let x = 960 - cifras.reduce((s, c) => s + AV[c], 0) / 2; return cifras.map((c) => { x += AV[c]; return x - AV[c] / 2; }); };
+      const TIRAS = [[1, 2], [9, 0], [7, 8, 9, 0, 1], [5, 6, 7, 8]], ANTES = centros([1, 9, 7, 5]), DESPUES = centros([2, 0, 1, 8]);
+      const ano = $(".ano");
+      TIRAS.forEach((tira, i) => {
+        const ancho = Math.max(...tira.map((c) => AV[c])) + 24;
+        const col = document.createElement("div"); col.className = "col"; col.style.width = ancho + "px"; col.style.left = ANTES[i] - ancho / 2 + "px";
+        col.innerHTML = `<div class="tira">${tira.map((c) => `<span data-layout-allow-overlap>${c}</span>`).join("")}</div>`; ano.appendChild(col);
+      });
+      tl.fromTo(".ano", { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.45, ease: "expo.out" }, 0.05);
+      entra(".e1", 0.3, 0.4, 10);
+      tl.to(".e1", { autoAlpha: 0, duration: 0.25 }, w("dos", 5) - 0.3);
+      // Cada columna baja tantas cifras como le toca (1→2, 9→0, 7→1, 5→8) y se corre a su sitio.
+      $$(".col").forEach((col, i) => {
+        const n = TIRAS[i].length, t = w("dos", 5) - 0.35 + i * 0.05;
+        tl.fromTo(col.firstChild, { yPercent: 0 }, { yPercent: (-100 * (n - 1)) / n, duration: 0.62, ease: "expo.inOut" }, t);
+        tl.fromTo(col, { x: 0 }, { x: DESPUES[i] - ANTES[i], duration: 0.62, ease: "expo.inOut" }, t);
+      });
+      tl.fromTo(".ano", { scale: 1 }, { scale: 1.05, duration: 0.9, ease: "power2.in", immediateRender: false }, f("dieciocho") - 0.2);
+      fin();
+    })();
+  </script>
+</template>

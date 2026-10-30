@@ -1,23 +1,178 @@
 [
- {"texto": "Mil novecientos setenta y tres. Una de las mayores cadenas de tiendas de Estados Unidos presenta sus cuentas.", "pausa": 0.5},
- {"texto": "Beneficio: treinta y ocho millones de dólares.", "pausa": 0.6},
- {"texto": "Sus acciones cotizan a casi veinte veces lo que gana. Todo va bien.", "pausa": 0.7},
- {"texto": "Pero ese año, sus operaciones no generan dinero. Lo queman: ciento veinte millones.", "pausa": 0.8},
- {"texto": "Dos años después, quiebra. Es la segunda mayor quiebra de la historia de Estados Unidos hasta entonces.", "pausa": 0.6},
- {"texto": "¿Cómo quiebra una empresa que gana dinero?", "pausa": 1.3},
- {"texto": "Pasa más de lo que crees. En dos mil veintiuno, Si Bi Ínsaits estudió ciento once estártaps que habían cerrado.", "pausa": 0.4},
- {"texto": "En casi cuatro de cada diez, una de las causas fue quedarse sin caja o sin financiación.", "pausa": 0.7},
- {"texto": "Hoy vas a entender por qué. La diferencia entre ganar dinero y tener dinero. Y cómo vigilarla en tu negocio.", "pausa": 0.9},
- {"texto": "Imagina que tienes una carpintería y cierras un pedido de cien mil euros. Hacerlo te cuesta setenta mil. Ganas treinta mil.", "pausa": 0.6},
- {"texto": "Tu contabilidad apunta esos treinta mil hoy, el día que vendes. Pero el cliente paga a noventa días.", "pausa": 0.6},
- {"texto": "Mientras tanto, la madera, los sueldos y el alquiler se pagan este mes. Este mes, tu contabilidad gana treinta mil euros. Y tu banco pierde setenta mil.", "pausa": 0.8},
- {"texto": "Las dos cosas son verdad a la vez. El beneficio dice si tu negocio vale la pena. La caja dice si puedes pagar el lunes.", "pausa": 0.7},
- {"texto": "Y los sueldos, las facturas y el banco no se pagan con beneficio. Se pagan con caja.", "pausa": 0.9},
- {"texto": "El dinero de una empresa da vueltas. Sale para comprar, se queda un tiempo en el almacén, se convierte en una venta, espera a que el cliente pague. Y vuelve.", "pausa": 0.6},
- {"texto": "Cuanto más tarda en volver, más dinero necesitas para seguir abierto. A ese recorrido se le llama ciclo de caja. Y tiene ladrones.", "pausa": 0.7},
- {"texto": "El primero: lo que te deben. Cada día que un cliente tarda en pagarte, le estás prestando tu dinero.", "pausa": 0.6},
- {"texto": "El segundo: el almacén. Cada caja en una estantería es dinero dormido.", "pausa": 0.6},
- {"texto": "El tercero: pagar antes de cobrar. Si pagas a tus proveedores a treinta días y cobras a noventa, los sesenta del medio los financias tú.", "pausa": 0.7},
- {"texto": "Y hay un cuarto ladrón, el más traicionero, porque parece una buena noticia: crecer.", "pausa": 0.8},
- {"texto": "Si cada pedido necesita dinero por adelantado, cada pedido nuevo te pide más. Por eso hay empresas que crecen. Hasta morir.", "pausa": 1.0}
+ {
+  "texto": "Mil novecientos setenta y tres. Una de las mayores cadenas de tiendas de Estados Unidos presenta sus cuentas.",
+  "pausa": 0.5
+ },
+ {
+  "texto": "Beneficio: treinta y ocho millones de dólares.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Sus acciones cotizan a casi veinte veces lo que gana. Todo va bien.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Pero ese año, sus operaciones no generan dinero. Lo queman: ciento veinte millones.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Dos años después, quiebra. Es la segunda mayor quiebra de la historia de Estados Unidos hasta entonces.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "¿Cómo quiebra una empresa que gana dinero?",
+  "pausa": 1.3
+ },
+ {
+  "texto": "Pasa más de lo que crees. En dos mil veintiuno, Si Bi Ínsaits estudió ciento once estártaps que habían cerrado.",
+  "pausa": 0.4
+ },
+ {
+  "texto": "En casi cuatro de cada diez, una de las causas fue quedarse sin caja o sin financiación.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Hoy vas a entender por qué. La diferencia entre ganar dinero y tener dinero. Y cómo vigilarla en tu negocio.",
+  "pausa": 0.9
+ },
+ {
+  "texto": "Imagina que tienes una carpintería y cierras un pedido de cien mil euros. Hacerlo te cuesta setenta mil. Ganas treinta mil.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Tu contabilidad apunta esos treinta mil hoy, el día que vendes. Pero el cliente paga a noventa días.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Mientras tanto, la madera, los sueldos y el alquiler se pagan este mes. Este mes, tu contabilidad gana treinta mil euros. Y tu banco pierde setenta mil.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Las dos cosas son verdad a la vez. El beneficio dice si tu negocio vale la pena. La caja dice si puedes pagar el lunes.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Y los sueldos, las facturas y el banco no se pagan con beneficio. Se pagan con caja.",
+  "pausa": 0.9
+ },
+ {
+  "texto": "El dinero de una empresa da vueltas. Sale para comprar, se queda un tiempo en el almacén, se convierte en una venta, espera a que el cliente pague. Y vuelve.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Cuanto más tarda en volver, más dinero necesitas para seguir abierto. A ese recorrido se le llama ciclo de caja. Y tiene ladrones.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "El primero: lo que te deben. Cada día que un cliente tarda en pagarte, le estás prestando tu dinero.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "El segundo: el almacén. Cada caja en una estantería es dinero dormido.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "El tercero: pagar antes de cobrar. Si pagas a tus proveedores a treinta días y cobras a noventa, los sesenta del medio los financias tú.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Y hay un cuarto ladrón, el más traicionero, porque parece una buena noticia: crecer.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Si cada pedido necesita dinero por adelantado, cada pedido nuevo te pide más. Por eso hay empresas que crecen. Hasta morir.",
+  "pausa": 1.6
+ },
+ {
+  "texto": "Volvamos a mil novecientos setenta y tres. Dóbliu Ti Grant era una cadena de grandes almacenes fundada en mil novecientos seis. Llegó a tener más de mil tiendas.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "A finales de los sesenta apostó por crecer deprisa: abrió tiendas sin parar y empujó la venta a crédito. En mil novecientos sesenta y ocho, sus clientes ya le debían más de trescientos millones de dólares.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "En sus cuentas, todo iba bien: entre mil novecientos sesenta y seis y mil novecientos setenta y tres ganó unos treinta y cinco millones al año.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Pero sus operaciones no generaron caja casi ningún año. El dinero se quedaba atrapado en lo que le debían los clientes y en los almacenes.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Para tapar el agujero, pidió prestado. Y siguió pagando dividendos generosos, aunque tuviera que endeudarse para hacerlo.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "En octubre de mil novecientos setenta y cinco, con más de mil millones de dólares de deuda, Dóbliu Ti Grant se declaró en quiebra. En la primavera siguiente ya había cerrado todas sus tiendas.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Años después, dos profesores, Yeims Largué y Cláid Stíkni, estudiaron sus números. Su conclusión: las señales estaban en su flujo de caja hasta diez años antes.",
+  "pausa": 1.0
+ },
+ {
+  "texto": "Podrías pensar que esto es de los años setenta. En dos mil dieciocho cayó Carílion, una de las grandes contratistas del Estado británico: construía y mantenía hospitales, colegios y cárceles.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Entre dos mil doce y dos mil dieciséis repartió trescientos setenta y seis millones de libras en dividendos. Doscientos diecisiete millones más de lo que generaron sus operaciones.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Y obligó a sus proveedores a esperar ciento veinte días para cobrar. Su problema de caja se lo pasaba a los demás.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "El quince de enero de dos mil dieciocho entró en liquidación. Le quedaban veintinueve millones de libras en caja, frente a casi siete mil millones en deudas y obligaciones.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Un informe del Parlamento británico lo resumió en tres palabras: imprudencia, arrogancia y codicia.",
+  "pausa": 1.2
+ },
+ {
+  "texto": "Ahora, al revés. Ámazon perdió dinero durante sus primeros años. Pero tenía algo a su favor.",
+  "pausa": 0.6
+ },
+ {
+  "texto": "Cobra a sus clientes en el momento, vende el inventario muy deprisa y paga a sus proveedores después. Su ciclo de caja es negativo: el dinero de los clientes llega antes de que salga el suyo.",
+  "pausa": 0.7
+ },
+ {
+  "texto": "Por eso, en su carta a los accionistas de dos mil cuatro, Yef Bésos escribió que su medida financiera definitiva no era el beneficio. Era el flujo de caja libre por acción.",
+  "pausa": 1.0
+ },
+ {
+  "texto": "¿Qué haces tú con todo esto? Cuatro reglas.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Una: mira tu caja cada semana. El beneficio llega una vez al trimestre. Los problemas de caja, cualquier lunes.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Dos: prevé trece semanas. Una tabla sencilla con lo que va a entrar y lo que va a salir. Si en la semana nueve sale en negativo, ya sabes cuándo tendrás el problema. Y tienes ocho semanas para evitarlo.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Tres: acorta tu ciclo. Cobra antes, con anticipos o un descuento por pronto pago. No dejes dinero dormido en el almacén. Y negocia plazos con tus proveedores, sin hacer lo de Carílion: un proveedor asfixiado también es tu problema.",
+  "pausa": 0.8
+ },
+ {
+  "texto": "Y cuatro: antes de crecer, calcula cuánta caja te va a comer ese crecimiento. Crecer sin caja no es crecer. Es correr hacia una pared.",
+  "pausa": 1.1
+ },
+ {
+  "texto": "Dóbliu Ti Grant ganaba dinero cuando quebró. No le faltaban ventas, ni tiendas, ni clientes. Le faltaba caja.",
+  "pausa": 0.9
+ },
+ {
+  "texto": "Hay un viejo dicho en los negocios: las ventas son vanidad, el beneficio es cordura. Y la caja es realidad.",
+  "pausa": 1.0
+ },
+ {
+  "texto": "Si te ha servido, suscríbete. Cada semana, una lección de negocios que se entiende.",
+  "pausa": 0.6
+ }
 ]

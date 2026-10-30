@@ -1,0 +1,82 @@
+<template>
+  <!-- R5 · la caja como un depósito con un agujero (lo que se queda en clientes y almacenes): para tapar el agujero entra
+       deuda por arriba; por abajo salen los dividendos; y al final la flecha roja dice lo que pasaba: deuda que salía
+       como dividendo. El nivel sube y baja con la voz y nunca se llena. -->
+  <style>
+/*MARCA*/
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{ID}} .k { position: absolute; font: 800 56px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; white-space: nowrap; }
+    #{{ID}} .tcaja { position: absolute; left: 420px; width: 300px; top: 500px; text-align: right; font: 800 72px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .hl { position: absolute; left: 0; width: 1920px; top: 968px; text-align: center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <svg viewBox="0 0 1920 1080">
+        <path class="agua" fill="rgba(244,243,240,0.86)"/>
+        <rect class="chorro" x="849" y="300" width="22" height="0" fill="rgba(244,243,240,0.86)"/>
+        <g class="gotas"><circle r="7" cx="960" fill="#f4f3f0"/><circle r="7" cx="960" fill="#f4f3f0"/><circle r="7" cx="960" fill="#f4f3f0"/><circle r="7" cx="960" fill="#f4f3f0"/></g>
+        <path class="tanque" d="M760,300 L760,800 L945,800 M975,800 L1160,800 L1160,300" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#f4f3f0;stroke-width:5"/>
+        <path class="tubo td" d="M200,240 L860,240 L860,300" style="fill:none;stroke:#2a2d33;stroke-width:30"/>
+        <path class="flujo fd" d="M200,240 L860,240 L860,300" stroke-dasharray="18 26" style="fill:none;stroke:#f4f3f0;stroke-width:8"/>
+        <path class="tubo tv" d="M1160,760 L1760,760" style="fill:none;stroke:#2a2d33;stroke-width:30"/>
+        <path class="flujo fv" d="M1160,760 L1760,760" stroke-dasharray="18 26" style="fill:none;stroke:#f4f3f0;stroke-width:8"/>
+        <circle class="aro" cx="960" cy="800" r="28" style="fill:none;stroke:#b0122f;stroke-width:5"/>
+        <path class="arco" d="M330,140 C760,20 1560,30 1700,688" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#b0122f;stroke-width:8;stroke-linecap:round"/>
+        <polygon class="punta" points="1682,684 1718,684 1702,722" fill="#b0122f"/>
+      </svg>
+      <div class="tcaja">CAJA</div>
+      <div class="k kd" style="left: 200px; top: 150px">DEUDA</div>
+      <div class="k kv" style="left: 1250px; top: 670px">DIVIDENDOS</div>
+      <div class="mono hl"><b>El agujero</b> · clientes y almacenes</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // El nivel del depósito (0–1 de sus 500 px): se vacía despacio por el agujero, sube con la deuda y baja con los dividendos.
+      const nivel = (t) => Math.max(0.05, 0.42 - 0.015 * t
+        + 0.34 * paso(t, w("pidió") - 0.1, 0.9, "power2.out")
+        - 0.34 * paso(t, w("pagando"), 1.2, "power2.inOut")
+        + 0.26 * paso(t, w("endeudarse") - 0.15, 0.7, "power2.out")
+        - 0.36 * paso(t, f("hacerlo", 2) - 0.3, 1.0, "power2.inOut"));
+      const agua = $(".agua"), chorro = $(".chorro"), gotas = $$(".gotas circle");
+      alBuscar((t) => {
+        const y = 800 - 500 * nivel(t);
+        let d = `M764,800 L764,${y.toFixed(1)}`;
+        for (let x = 764; x <= 1156; x += 14) d += ` L${x},${(y + 5 * Math.sin(x * 0.025 + t * 3.2)).toFixed(1)}`;
+        agua.setAttribute("d", d + " L1156,800 Z");
+        chorro.setAttribute("height", Math.max(0, y - 300).toFixed(1));
+        gotas.forEach((g, k) => {
+          const fase = (((t + k * 0.24) % 0.96) + 0.96) % 0.96 / 0.96;
+          g.setAttribute("cy", (806 + 140 * fase * fase).toFixed(1));
+          g.setAttribute("opacity", (1 - fase).toFixed(2));
+        });
+      });
+      traza(".tanque", 0.05, 0.7);
+      entra(".tcaja", 0.2, 0.45, 12);
+      aparece(".gotas", 0.5, 0.3);
+      // «Para tapar el agujero»: el agujero, señalado.
+      tl.fromTo(".aro", { autoAlpha: 0, scale: 2, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, w("agujero") - 0.1);
+      entra(".hl", w("agujero"), 0.4, 10);
+      // «Pidió prestado»: entra deuda por arriba.
+      aparece(".td", w("pidió") - 0.45, 0.3);
+      trocea(".kd").forEach((s) => sube(s, w("pidió") - 0.4, 0.45));
+      tl.fromTo(".flujo", { strokeDashoffset: 0 }, { strokeDashoffset: -44 * Math.ceil(DUR * 2.2), duration: DUR, ease: "none" }, 0);
+      const abre = (sel, t0, t1) => { tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, t0); tl.to(sel, { autoAlpha: 0, duration: 0.25 }, t1); };
+      abre(".fd, .chorro", w("pidió") - 0.15, w("pidió") + 0.9);
+      // «Siguió pagando dividendos generosos»: salen por abajo.
+      aparece(".tv", w("siguió") - 0.1, 0.3);
+      trocea(".kv").forEach((s) => sube(s, w("dividendos") - 0.15, 0.45));
+      abre(".fv", w("pagando") - 0.05, w("pagando") + 1.25);
+      tl.to(".tv", { strokeWidth: 46, duration: 0.35, ease: "power2.out" }, w("generosos") - 0.05);
+      tl.to(".fv", { strokeWidth: 14, duration: 0.35, ease: "power2.out" }, w("generosos") - 0.05);
+      // «Aunque tuviera que endeudarse para hacerlo»: más deuda… que sale como dividendo.
+      tl.fromTo(".fd, .chorro", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15, immediateRender: false }, w("endeudarse") - 0.2);
+      tl.to(".fd, .chorro", { autoAlpha: 0, duration: 0.25 }, w("endeudarse") + 0.6);
+      traza(".arco", w("para", 4) - 0.25, 0.75, "power2.inOut");
+      tl.fromTo(".punta", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1 }, w("para", 4) + 0.45);
+      tl.fromTo(".fv", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15, immediateRender: false }, f("hacerlo", 2) - 0.35);
+      fin();
+    })();
+  </script>
+</template>

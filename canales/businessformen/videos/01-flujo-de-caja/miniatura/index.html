@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- BusinessForMen · vídeo 1 · dos miniaturas (se diseñan a 1920 × 1080 y se entregan a 1280 × 720): la A, de 0 a 1 s, con
+     las dos cifras del gancho; la B, de 1 a 2 s, con la frase sobre la tienda cerrada. Las saca ../miniatura.sh. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>BusinessForMen · miniaturas del vídeo 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0a0b0d; }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: #0a0b0d; color: #f4f3f0; }
+      .capa { position: absolute; inset: 0; }
+      .foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; filter: saturate(0.35) contrast(1.1) brightness(0.95); }
+      .ceja { position: absolute; left: 120px; top: 120px; font: 500 44px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #8a8d93; }
+      .ceja b { font-weight: 500; color: #f4f3f0; }
+      .etq { position: absolute; left: 124px; font: 500 52px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #f4f3f0; }
+      .big { position: absolute; left: 104px; font: 800 270px/1 "Inter Tight", sans-serif; letter-spacing: -0.045em; white-space: nowrap; }
+      .rojo { background: #b0122f; padding: 0.02em 0.12em 0.06em; }
+      .logo { position: absolute; right: 120px; top: 96px; width: 120px; height: 120px; background: #b0122f; display: flex; align-items: center; justify-content: center;
+        font: 800 50px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+      /* A: las cifras */
+      #a .foto { transform: scale(1.15); transform-origin: 85% 50%; }
+      #a .velo { background: linear-gradient(90deg, rgba(10, 11, 13, 1) 0%, rgba(10, 11, 13, 0.94) 52%, rgba(10, 11, 13, 0.35) 80%, rgba(10, 11, 13, 0.2) 100%); }
+      /* B: la frase */
+      #b { visibility: hidden; }
+      #b .foto { transform: scale(1.2); transform-origin: 75% 55%; }
+      #b .velo { background: linear-gradient(90deg, rgba(10, 11, 13, 0.97) 0%, rgba(10, 11, 13, 0.8) 46%, rgba(10, 11, 13, 0.15) 78%); }
+      #b .big { font-size: 236px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="2" data-width="1920" data-height="1080">
+      <div id="a" class="capa">
+        <img class="foto" src="assets/img/grant-cerrada.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="ceja"><b>W. T. GRANT</b> · 1973</div>
+        <div class="etq" style="top: 262px">BENEFICIO</div>
+        <div class="big" style="top: 318px">+38 M$</div>
+        <div class="etq" style="top: 622px">CAJA</div>
+        <div class="big" style="top: 678px"><span class="rojo">−120 M$</span></div>
+        <div class="logo">BFM</div>
+      </div>
+      <div id="b" class="capa">
+        <img class="foto" src="assets/img/grant-cerrada.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="ceja"><b>W. T. GRANT</b> · 1975</div>
+        <div class="big" style="top: 236px">GANABA</div>
+        <div class="big" style="top: 466px">DINERO</div>
+        <div class="big" style="top: 720px"><span class="rojo">Y QUEBRÓ</span></div>
+        <div class="logo">BFM</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#a", { autoAlpha: 0 }, 1);
+      tl.set("#b", { autoAlpha: 1 }, 1);
+      tl.set({}, {}, 2);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

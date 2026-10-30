@@ -1,0 +1,49 @@
+<template>
+  <!-- R11 · 120 días: un cuadro por día, que se llenan mientras el contador sube; y «su problema de caja se lo pasaba a los
+       demás»: el bloque rojo viaja de CARILLION a SUS PROVEEDORES y los 120 días se vuelven rojos. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .cifra { position: absolute; left: 0; width: 1920px; top: 120px; text-align: center; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+    #{{ID}} .pc { position: absolute; left: 0; width: 1920px; top: 284px; text-align: center; }
+    #{{ID}} .rej { position: absolute; left: 485px; top: 360px; width: 950px; height: 278px; }
+    #{{ID}} .rej i { position: absolute; width: 38px; height: 38px; background: #f4f3f0; opacity: 0; visibility: hidden; }
+    #{{ID}} .k { position: absolute; top: 720px; font: 800 56px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; white-space: nowrap; }
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{ID}} .blk { position: absolute; left: 150px; top: 880px; width: 600px; padding: 14px 0; text-align: center; background: #b0122f; font: 800 44px/1 "Inter Tight", sans-serif; white-space: nowrap; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="cifra num">0 días</div>
+      <div class="mono pc">para cobrar</div>
+      <div class="rej"></div>
+      <div class="k k1" style="left: 150px">CARILLION</div>
+      <div class="k k2" style="right: 150px">SUS PROVEEDORES</div>
+      <svg viewBox="0 0 1920 1080"><path class="fl" d="M150,830 L1750,830" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#8a8d93;stroke-width:4"/>
+        <polygon class="pf" points="1744,816 1772,830 1744,844" fill="#8a8d93"/></svg>
+      <div class="blk">SU PROBLEMA DE CAJA</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const rej = $(".rej");
+      for (let k = 0; k < 120; k++) { const i = document.createElement("i"); i.style.left = (k % 20) * 48 + "px"; i.style.top = Math.floor(k / 20) * 48 + "px"; rej.appendChild(i); }
+      const dias = $$(".rej i");
+      trocea(".k1").forEach((s) => sube(s, w("obligó") - 0.1, 0.45));
+      trocea(".k2").forEach((s) => sube(s, w("proveedores", 2) - 0.1, 0.45));
+      // Un cuadro por día; el contador va con ellos.
+      const t0 = w("esperar") - 0.1, t1 = f("días", 3) + 0.25;
+      aparece(".cifra", t0 - 0.1, 0.2);
+      dias.forEach((d, k) => tl.to(d, { autoAlpha: 1, duration: 0.06 }, t0 + ((t1 - t0) * k) / 120));
+      cuenta(".cifra", 0, 120, t0, t1 - t0, { suf: " días", ease: "none" });
+      entra(".pc", w("cobrar", 2) - 0.15, 0.4, 10);
+      // «Su problema de caja se lo pasaba a los demás».
+      tl.fromTo(".blk", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, w("problema") - 0.1);
+      traza(".fl", w("pasaba") - 0.3, 0.8, "power3.inOut");
+      tl.fromTo(".pf", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1 }, w("pasaba") + 0.45);
+      tl.fromTo(".blk", { x: 0 }, { x: 1020, duration: 0.8, ease: "power3.inOut", immediateRender: false }, w("pasaba") - 0.25);
+      tl.to(dias, { backgroundColor: "#b0122f", duration: 0.25, stagger: { each: 0.004, from: "start" } }, w("demás") - 0.2);
+      fin();
+    })();
+  </script>
+</template>

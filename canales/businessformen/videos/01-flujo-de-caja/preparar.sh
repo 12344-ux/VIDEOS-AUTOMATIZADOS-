@@ -31,6 +31,16 @@ fi
 [ -s "$T/musica/ladrones.wav" ] || python3 "$REPO/audio/lecho.py" "$T/musica/v2/pieza_3.wav" 56 -o "$T/musica/ladrones.wav" --cruce 3
 # La de los tramos que explican es la de la marca (Consejo); si falta, la rehace preparar.sh de la marca.
 [ -s "$T/musica/explica.wav" ] || python3 "$REPO/audio/lecho.py" "$MARCA/musica/consejo/pieza_1.wav" 60 -o "$T/musica/explica.wav" --cruce 3
+# La segunda parte (la historia, Carillion, Amazon y el cierre): otras cuatro candidatas, semilla 13.
+if [ ! -s "$T/musica/v3/pieza_4.wav" ]; then
+  mkdir -p "$T/musica/v3"
+  mapfile -t desc < <(python3 -c "import json; [print(x) for x in json.load(open('$AQUI/recursos/musica.json'))['candidatas_2']]")
+  "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$T/musica/v3/pieza.wav" --duracion 20 --semilla 13
+fi
+python3 -c "import json; [print(k, *v) for k, v in json.load(open('$AQUI/recursos/musica.json'))['lechos_2'].items()]" |
+  while read -r nombre pieza dura; do
+    [ -s "$T/musica/$nombre.wav" ] || python3 "$REPO/audio/lecho.py" "$T/musica/v3/pieza_$pieza.wav" "$dura" -o "$T/musica/$nombre.wav" --cruce 3
+  done
 
 paso "Imágenes: FLUX.3, 1280 × 720, ampliadas con EDSR"
 python3 - "$AQUI/recursos/imagenes.json" "$T/img" > "$T/img/lote.json" <<'EOF'

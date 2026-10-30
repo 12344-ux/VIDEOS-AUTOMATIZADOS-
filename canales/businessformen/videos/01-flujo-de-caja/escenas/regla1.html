@@ -1,0 +1,53 @@
+<template>
+  <!-- R2 + R11 · regla 1: MIRA TU CAJA CADA SEMANA y un trimestre en trece semanas, que se marcan una a una; el beneficio
+       llega una vez, al final; los problemas de caja, cualquier lunes: dos semanas se vuelven rojas. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .reg { position: absolute; left: 412px; top: 108px; }
+    #{{ID}} .tit { position: absolute; left: 140px; top: 210px; font: 800 130px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .tit .r { display: block; }
+    #{{ID}} .sem { position: absolute; top: 770px; width: 44px; height: 44px; margin-left: -22px; border: 4px solid #f4f3f0; box-sizing: border-box; }
+    #{{ID}} .sem b { position: absolute; inset: 0; background: #f4f3f0; opacity: 0; visibility: hidden; }
+    #{{ID}} .sem.mal b { background: #b0122f; }
+    #{{ID}} .s { position: absolute; top: 838px; width: 100px; margin-left: -50px; text-align: center; font-size: 28px; }
+    #{{ID}} .lun { position: absolute; top: 710px; width: 160px; margin-left: -80px; text-align: center; font-size: 28px; }
+    #{{ID}} .poste { position: absolute; left: 1684px; top: 630px; width: 12px; height: 128px; background: #f4f3f0; transform-origin: bottom center; }
+    #{{ID}} .ben { position: absolute; right: 150px; top: 562px; font: 800 52px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; }
+    #{{ID}} .vez { position: absolute; right: 150px; top: 510px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="idx"><i class="on">1</i><i>2</i><i>3</i><i>4</i></div>
+      <div class="mono reg"><b>Regla 1</b></div>
+      <div class="tit"><span class="r"><span class="pal"><span>MIRA</span></span><span class="pal"><span>TU</span></span><span class="pal"><span>CAJA</span></span></span><span class="r"><span class="pal"><span>CADA</span></span><span class="pal"><span>SEMANA.</span></span></span></div>
+      <div class="poste"></div>
+      <div class="mono vez">Una vez al trimestre</div>
+      <div class="ben">BENEFICIO</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const X = (i) => 230 + (i * 1460) / 12, MAL = [3, 8];
+      for (let i = 0; i < 13; i++) {
+        const q = document.createElement("div"); q.className = "sem" + (MAL.includes(i) ? " mal" : ""); q.style.left = X(i) + "px"; q.innerHTML = "<b></b>"; RAIZ.appendChild(q);
+        const s = document.createElement("div"); s.className = "mono s num"; s.style.left = X(i) + "px"; s.textContent = "S" + (i + 1); RAIZ.appendChild(s);
+      }
+      MAL.forEach((i) => { const l = document.createElement("div"); l.className = "mono lun"; l.style.left = X(i) + "px"; l.innerHTML = "<b>Lunes</b>"; RAIZ.appendChild(l); });
+      aparece(".idx, .reg", 0.05, 0.3);
+      const ps = $$(".tit .pal > span");
+      [w("mira"), w("tu", 7), w("caja", 12), w("cada", 6), w("semana")].forEach((t, i) => sube(ps[i], t - 0.08, 0.42));
+      tl.fromTo(".sem, .s", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: "power2.out", stagger: 0.02 }, w("cada", 6) - 0.2);
+      // Cada semana, una marca (las de los lunes malos aún no se ven).
+      tl.to(".sem:not(.mal) b", { autoAlpha: 1, duration: 0.08, stagger: 0.07 }, w("semana") + 0.1);
+      // «El beneficio llega una vez al trimestre»: al final, una sola vez.
+      tl.fromTo(".poste", { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "expo.out" }, w("beneficio", 5) - 0.1);
+      trocea(".ben").forEach((s) => sube(s, w("beneficio", 5) - 0.05, 0.42));
+      entra(".vez", w("una", 12) - 0.1, 0.4, 8);
+      // «Los problemas de caja, cualquier lunes».
+      tl.to(".sem.mal b", { autoAlpha: 1, duration: 0.1, stagger: 0.35 }, w("problemas") - 0.05);
+      tl.fromTo(".lun", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out", stagger: 0.35 }, w("lunes", 2) - 0.25);
+      fin();
+    })();
+  </script>
+</template>

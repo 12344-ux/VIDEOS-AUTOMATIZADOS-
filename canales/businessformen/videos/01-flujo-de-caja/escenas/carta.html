@@ -1,0 +1,68 @@
+<template>
+  <!-- R7 · la carta a los accionistas de 2004, recreada en tipografía con la frase original: se subraya la firma en «Jeff
+       Bezos» y «Our ultimate financial measure» en «medida financiera definitiva». En «no era el beneficio», la carta se
+       oscurece: BENEFICIO, tachado; y en su lugar, FLUJO DE CAJA LIBRE POR ACCIÓN. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .hoja { position: absolute; left: 360px; top: 70px; width: 1200px; height: 940px; background: #ebe5d8; color: #141414;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); padding: 50px 80px; overflow: hidden; }
+    #{{ID}} .hoja::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.18; mix-blend-mode: multiply; }
+    #{{ID}} .cab { display: flex; justify-content: space-between; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #5e5950; }
+    #{{ID}} .sal { margin-top: 56px; font: italic 500 42px/1 "Bodoni Moda", serif; }
+    #{{ID}} .lin i { display: block; height: 12px; margin-bottom: 18px; background: #cbc4b5; }
+    #{{ID}} .lin { margin-top: 36px; }
+    #{{ID}} .frase { margin-top: 30px; font: 500 46px/1.32 "Bodoni Moda", serif; }
+    #{{ID}} .hl { position: relative; display: inline-block; }
+    #{{ID}} .hl u { position: absolute; left: 0; right: 0; bottom: 2px; height: 7px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .firma { margin-top: 40px; font: italic 500 46px/1 "Bodoni Moda", serif; }
+    #{{ID}} .cargo { margin-top: 14px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.06em; color: #5e5950; }
+    #{{ID}} .fte { position: absolute; left: 80px; bottom: 44px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.06em; color: #5e5950; }
+    #{{ID}} .velo { background: rgba(10, 11, 13, 0.92); visibility: hidden; }
+    #{{ID}} .ben { position: absolute; left: 0; width: 1920px; top: 420px; text-align: center; font: 800 170px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+    #{{ID}} .ben .t { position: relative; display: inline-block; }
+    #{{ID}} .ben u { position: absolute; left: -2%; right: -2%; top: 46%; height: 18px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .fcl { position: absolute; left: 0; width: 1920px; top: 330px; text-align: center; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .fcl .b { display: inline-block; padding: 0.08em 0.24em 0.04em; background: #b0122f; }
+    #{{ID}} .pa { position: absolute; left: 0; width: 1920px; top: 500px; text-align: center; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+    #{{ID}} .en { position: absolute; left: 0; width: 1920px; top: 680px; text-align: center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="hoja">
+        <div class="cab"><span>RECREACIÓN</span><span>CARTA A LOS ACCIONISTAS · 2004</span></div>
+        <div class="sal">To our shareowners:</div>
+        <div class="lin"><i></i><i style="width: 94%"></i><i style="width: 70%"></i></div>
+        <div class="frase" data-layout-allow-overlap><span class="hl h1" data-layout-allow-overlap>Our ultimate financial measure<u></u></span>, and the one we most want to drive over the long-term, is <span class="hl h2" data-layout-allow-overlap>free cash flow per share.<u></u></span></div>
+        <div class="lin"><i></i><i style="width: 88%"></i><i></i><i style="width: 54%"></i></div>
+        <div class="firma"><span class="hl h3">Jeff Bezos<u></u></span></div>
+        <div class="cargo">Fundador y consejero delegado</div>
+        <div class="fte">Fuente: Amazon, carta a los accionistas de 2004 (SEC)</div>
+      </div>
+      <div class="capa velo"></div>
+      <div class="ben"><span class="t"><span class="pal"><span>BENEFICIO</span></span><u></u></span></div>
+      <div class="fcl"><span class="b">FLUJO DE CAJA LIBRE</span></div>
+      <div class="pa"><span class="pal"><span>POR ACCIÓN</span></span></div>
+      <div class="mono en"><b>«free cash flow per share»</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".hoja", { y: 1100, rotation: 6 }, { y: 0, rotation: 1.2, duration: 0.7, ease: "power3.out" }, 0);
+      tl.fromTo(".hoja", { scale: 1 }, { scale: 1.06, duration: w("no", 4) - 0.7, ease: "none", immediateRender: false }, 0.7);
+      tl.fromTo(".h3 u", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, w("Yef") - 0.05);
+      tl.fromTo(".h1 u", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, w("medida") - 0.1);
+      tl.fromTo(".h2 u", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, w("definitiva"));
+      // «No era el beneficio»: la carta se oscurece y BENEFICIO se tacha.
+      tl.fromTo(".velo", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, w("no", 4) - 0.25);
+      sube(".ben .pal > span", w("no", 4) - 0.1, 0.45);
+      tl.fromTo(".ben u", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, f("beneficio", 4) - 0.1);
+      tl.to(".ben", { autoAlpha: 0, y: -50, duration: 0.3, ease: "power2.in" }, w("Era", 3) - 0.2);
+      // «Era el flujo de caja libre por acción».
+      tl.fromTo(".fcl .b", { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 0.45, ease: "expo.out" }, w("flujo", 2) - 0.12);
+      sube(".pa .pal > span", w("por", 6) - 0.12, 0.45);
+      entra(".en", w("flujo", 2) + 0.2, 0.4, 8);
+      fin();
+    })();
+  </script>
+</template>

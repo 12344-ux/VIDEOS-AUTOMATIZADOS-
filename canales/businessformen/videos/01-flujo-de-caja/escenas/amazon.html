@@ -1,0 +1,66 @@
+<template>
+  <!-- R5 · el ciclo de Amazon en una línea de tiempo: cobra al momento (flecha blanca hacia arriba), vende deprisa (las
+       cajas desaparecen) y paga después (flecha roja hacia abajo). CICLO DE CAJA NEGATIVO; y entre las dos flechas, la
+       franja del dinero de sus clientes, que llega antes de que salga el suyo. -->
+  <style>
+/*MARCA*/
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{ID}} .tit { position: absolute; left: 0; width: 1920px; top: 120px; text-align: center; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; white-space: nowrap; }
+    #{{ID}} .tit .neg { display: inline-block; margin-left: 0.25em; padding: 0.06em 0.2em 0.02em; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .k { position: absolute; width: 400px; margin-left: -200px; text-align: center; font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; }
+    #{{ID}} .m { position: absolute; width: 400px; margin-left: -200px; text-align: center; }
+    #{{ID}} .fl { position: absolute; width: 12px; margin-left: -6px; }
+    #{{ID}} .fl::after { content: ""; position: absolute; left: -18px; width: 48px; height: 36px; background: inherit; }
+    #{{ID}} .fin { top: 418px; height: 222px; background: #f4f3f0; transform-origin: bottom center; }
+    #{{ID}} .fin::after { top: -30px; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+    #{{ID}} .fout { top: 640px; height: 222px; background: #b0122f; transform-origin: top center; }
+    #{{ID}} .fout::after { bottom: -30px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+    #{{ID}} .caja { position: absolute; left: 778px; width: 44px; height: 44px; border: 4px solid #f4f3f0; box-sizing: border-box; }
+    #{{ID}} .franja { position: absolute; left: 392px; top: 440px; width: 1096px; height: 196px; background: rgba(244, 243, 240, 0.13); transform-origin: left center; }
+    #{{ID}} .fr { position: absolute; left: 392px; width: 1096px; top: 522px; text-align: center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="franja"></div>
+      <div class="mono fr"><b>El dinero de sus clientes</b>, ya en su caja</div>
+      <svg viewBox="0 0 1920 1080"><path class="eje" d="M200,640 L1720,640" pathLength="100" stroke-dasharray="100 100" style="fill:none;stroke:#8a8d93;stroke-width:3"/></svg>
+      <div class="fl fin" style="left: 380px"></div>
+      <div class="fl fout" style="left: 1500px"></div>
+      <div class="caja c1" style="top: 596px"></div><div class="caja c2" style="top: 548px"></div><div class="caja c3" style="top: 500px"></div>
+      <div class="k kc" style="left: 380px; top: 310px">COBRA</div>
+      <div class="mono m mc" style="left: 380px; top: 668px">al momento</div>
+      <div class="k kv" style="left: 800px; top: 690px">VENDE</div>
+      <div class="mono m mv" style="left: 800px; top: 772px">muy deprisa</div>
+      <div class="k kp" style="left: 1500px; top: 905px">PAGA</div>
+      <div class="mono m mp" style="left: 1500px; top: 985px">después</div>
+      <div class="tit"><span class="pal"><span>CICLO DE CAJA</span></span><span class="neg">NEGATIVO</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      traza(".eje", 0.05, 0.6);
+      // «Cobra a sus clientes en el momento».
+      tl.fromTo(".fin", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, w("Cobra") - 0.1);
+      trocea(".kc").forEach((s) => sube(s, w("Cobra") - 0.05, 0.45));
+      entra(".mc", w("momento") - 0.1, 0.4, 8);
+      // «Vende el inventario muy deprisa»: las cajas se van.
+      tl.fromTo(".caja", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(2)", stagger: 0.06 }, w("vende") - 0.15);
+      trocea(".kv").forEach((s) => sube(s, w("vende") - 0.05, 0.45));
+      entra(".mv", w("muy") - 0.1, 0.4, 8);
+      tl.to(".caja", { x: 160, autoAlpha: 0, duration: 0.25, ease: "power2.in", stagger: 0.07 }, w("deprisa", 2) - 0.05);
+      // «Y paga a sus proveedores después».
+      tl.fromTo(".fout", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, w("paga", 2) - 0.1);
+      trocea(".kp").forEach((s) => sube(s, w("paga", 2) - 0.05, 0.45));
+      entra(".mp", w("después", 3) - 0.1, 0.4, 8);
+      // «Su ciclo de caja es negativo».
+      sube(".tit .pal > span", w("ciclo", 2) - 0.12, 0.45);
+      tl.fromTo(".tit .neg", { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "expo.out" }, w("negativo") - 0.1);
+      // «El dinero de los clientes llega antes de que salga el suyo»: la franja entre las dos flechas.
+      tl.fromTo(".franja", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.out" }, w("dinero", 12) - 0.1);
+      entra(".fr", w("llega") - 0.1, 0.4, 8);
+      tl.to(".kv, .mv", { autoAlpha: 0.35, duration: 0.4 }, w("dinero", 12) - 0.1);
+      fin();
+    })();
+  </script>
+</template>

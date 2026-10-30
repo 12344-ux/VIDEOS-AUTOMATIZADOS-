@@ -6,7 +6,9 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 
 ## Estado (30 de octubre de 2026)
 
-**Primer vídeo terminado: «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos), en el estilo A,
+**El canal en marcha es BusinessForMen** (negocios, en español; marca «Consejo»: grafito, blanco y carmesí). Su **primer vídeo, «Por qué quiebran empresas que ganan dinero», está terminado: 6 min 19 s**, 43 escenas de edición hechas a mano en HyperFrames y ancladas palabra a palabra a la voz (`canales/businessformen/kit/` y `canales/businessformen/videos/01-flujo-de-caja/`), con su miniatura, su descripción con fuentes y sus subtítulos (`PUBLICACION.md`). Las reglas de edición del canal están en `canales/businessformen/EDICION.md`.
+
+**Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
 descripción corta anclada a las palabras de la narración (`videos/anticitera/kit/`), con dibujos animados para cada
 idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se rehace con `preparar-apertura.sh`,
@@ -32,6 +34,8 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Lecho de música | Una pieza de MusicGen extendida a la duración de un tramo | ✅ `audio/lecho.py` |
 | Estilo de animación | A, editorial cinematográfico, elegido tras probar tres ([estilos/](estilos/README.md)) | ✅ elegido |
 | Guion a partir del prompt | Lo escribe Claude en la sesión, con los datos comprobados en la web | ✅ probado en Anticitera |
+| Montaje de agencia (BusinessForMen) | Una subcomposición por escena, con la marca y anclada a las palabras | ✅ `canales/businessformen/kit/montar.py` |
+| Subtítulos | SRT desde los tiempos de la voz, con nombres y cifras bien escritos | ✅ `canales/businessformen/kit/subtitulos.py` |
 
 ## Empezar en una sesión nueva
 
@@ -148,8 +152,8 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Que el usuario vea el documental de Anticitera y diga qué cambiar; después, el segundo vídeo con el mismo kit,
-midiendo cuánto tarda de principio a fin. El plan está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
+Que el usuario vea el vídeo 1 de BusinessForMen y diga qué cambiar o si se sube así; después, el vídeo 2 con el
+mismo kit. El plan está en [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 
 ![Las tres pruebas de estilo](docs/resultados/comparativa-estilos.jpg)
 

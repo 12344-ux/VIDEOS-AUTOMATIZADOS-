@@ -1,0 +1,36 @@
+<template>
+  <!-- R3 · 1968: lo que le debían sus clientes, contado hasta 324.359.000 $, con su fuente. Detrás, las facturas a plazos
+       se apilan como fichas. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .etq { position: absolute; left: 150px; top: 330px; }
+    #{{ID}} .cifra { position: absolute; left: 140px; top: 390px; font: 800 186px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .sub { position: absolute; left: 150px; top: 640px; font: 700 64px/1.1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .fuente { position: absolute; left: 150px; bottom: 70px; font-size: 28px; }
+    #{{ID}} .pila { position: absolute; right: 150px; top: 120px; width: 220px; height: 820px; }
+    #{{ID}} .pila i { position: absolute; left: 0; width: 220px; height: 22px; background: #121418; border-top: 3px solid #b0122f; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="pila"></div>
+      <div class="mono etq"><b>1968</b> · lo que le debían sus clientes</div>
+      <div class="cifra num">0 $</div>
+      <div class="sub">en ventas a plazos</div>
+      <div class="mono fuente">Fuente: informe anual de W. T. Grant, 1968</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const pila = $(".pila");
+      for (let k = 0; k < 30; k++) { const i = document.createElement("i"); i.style.top = 820 - 27 * (k + 1) + "px"; pila.appendChild(i); }
+      entra(".etq", w("sesenta", 3) - 0.3, 0.4, 10);
+      aparece(".cifra", w("clientes") - 0.1, 0.2);
+      cuenta(".cifra", 0, 324359000, w("trescientos") - 0.1, f("dólares", 2) - w("trescientos") + 0.4, { suf: " $", ease: "power3.out" });
+      tl.fromTo(".pila i", { autoAlpha: 0, y: -40 }, { autoAlpha: 1, y: 0, duration: 0.2, ease: "power2.out", stagger: (f("dólares", 2) - w("trescientos")) / 30 }, w("trescientos") - 0.1);
+      entra(".sub", w("debían") - 0.1, 0.45, 12);
+      aparece(".fuente", w("trescientos"), 0.4, 0.9);
+      fin();
+    })();
+  </script>
+</template>

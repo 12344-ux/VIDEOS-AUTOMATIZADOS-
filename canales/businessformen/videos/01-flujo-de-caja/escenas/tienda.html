@@ -1,0 +1,40 @@
+<template>
+  <!-- R9 · finales de los sesenta: la tienda, a sangre; «abrió tiendas sin parar» y «empujó la venta a crédito»: la tarjeta. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 60% 50%;
+      filter: saturate(0.75) sepia(0.15) contrast(1.05) brightness(0.9); }
+    #{{ID}} .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.75) 0%, rgba(10, 11, 13, 0) 26%), linear-gradient(0deg, rgba(10, 11, 13, 0.85) 0%, rgba(10, 11, 13, 0.2) 45%, rgba(10, 11, 13, 0) 70%),
+      linear-gradient(90deg, rgba(10, 11, 13, 0.6) 0%, rgba(10, 11, 13, 0) 40%); }
+    #{{ID}} .chip { position: absolute; left: 150px; top: 120px; }
+    #{{ID}} .k { position: absolute; left: 150px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.5); }
+    #{{ID}} .p3d { position: absolute; left: 1180px; top: 560px; perspective: 1400px; }
+    #{{ID}} .tarjeta { width: 560px; height: 350px; border-radius: 26px; padding: 40px 44px; background: linear-gradient(135deg, #c21a3a 0%, #8a0f24 100%);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55); position: relative; }
+    #{{ID}} .tarjeta .chipcard { width: 86px; height: 64px; border-radius: 10px; background: linear-gradient(135deg, #e8d7a8, #b89a5a); }
+    #{{ID}} .tarjeta .num4 { margin-top: 46px; font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.14em; color: #f4f3f0; }
+    #{{ID}} .tarjeta .tit { position: absolute; right: 44px; top: 44px; font: 800 44px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; }
+    #{{ID}} .tarjeta .pie { position: absolute; left: 44px; bottom: 34px; font: 500 32px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: rgba(244, 243, 240, 0.85); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/grant-tienda.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="mono chip"><i>Finales de los 60</i> &nbsp;<b>crecer deprisa</b></div>
+      <div class="k k1" style="top: 760px">+ TIENDAS</div>
+      <div class="k k2" style="top: 890px">+ CRÉDITO</div>
+      <div class="p3d"><div class="tarjeta"><div class="chipcard"></div><div class="tit">CRÉDITO</div><div class="num4">4519 ···· ···· 1969</div><div class="pie">Paga a plazos</div></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.04 }, { scale: 1.12, duration: DUR, ease: "none" }, 0);
+      entra(".chip", w("finales") - 0.1, 0.4, 10);
+      trocea(".k1").forEach((s, i) => sube(s, w("abrió") - 0.05 + i * 0.08, 0.45));
+      trocea(".k2").forEach((s, i) => sube(s, w("crédito") - 0.15 + i * 0.08, 0.45));
+      tl.fromTo(".tarjeta", { autoAlpha: 0, x: 900, rotationY: -40, rotationZ: 12 }, { autoAlpha: 1, x: 0, rotationY: -12, rotationZ: -6, duration: 0.7, ease: "power3.out" }, w("venta", 2) - 0.2);
+      fin();
+    })();
+  </script>
+</template>

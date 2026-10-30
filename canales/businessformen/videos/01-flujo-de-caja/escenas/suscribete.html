@@ -1,0 +1,43 @@
+<template>
+  <!-- La llamada a suscribirse, con la marca (no con el logo de nadie): el botón rojo de la marca, un cursor que lo pulsa en
+       «suscríbete» y pasa a SUSCRITO; debajo, la promesa del canal, con «que se entiende» subrayado. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .boton { position: absolute; left: 660px; top: 300px; width: 600px; height: 150px; background: #b0122f; display: flex; align-items: center; justify-content: center;
+      font: 800 72px/1 "Inter Tight", sans-serif; letter-spacing: 0.01em; }
+    #{{ID}} .boton .b2 { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 22px; background: #121418; border: 4px solid #8a8d93; box-sizing: border-box; color: #f4f3f0; visibility: hidden; }
+    #{{ID}} .cursor { position: absolute; left: 1100px; top: 420px; width: 56px; height: 70px; }
+    #{{ID}} .lema { position: absolute; left: 0; width: 1920px; top: 620px; text-align: center; font: 800 80px/1.15 "Inter Tight", sans-serif; letter-spacing: -0.025em; white-space: nowrap; }
+    #{{ID}} .lema .r { display: block; }
+    #{{ID}} .lema u { text-decoration: none; position: relative; display: inline-block; }
+    #{{ID}} .lema u i { position: absolute; left: 0.04em; right: 0.2em; bottom: 0; height: 10px; background: #b0122f; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="boton"><span class="b1">SUSCRÍBETE</span><div class="b2"><svg viewBox="0 0 54 54" style="width: 48px; height: 48px"><path d="M8,28 L22,42 L46,12" style="fill:none;stroke:#f4f3f0;stroke-width:7"/></svg>SUSCRITO</div></div>
+      <svg class="cursor" viewBox="0 0 56 70"><path d="M4,4 L4,58 L18,45 L28,66 L38,61 L28,41 L48,41 Z" style="fill:#f4f3f0;stroke:#0a0b0d;stroke-width:3;stroke-linejoin:round"/></svg>
+      <div class="lema"><span class="r"><span class="pal"><span>Cada</span></span><span class="pal"><span>semana,</span></span><span class="pal"><span>una</span></span><span class="pal"><span>lección</span></span><span class="pal"><span>de</span></span><span class="pal"><span>negocios</span></span></span><span class="r"><u><span class="pal"><span>que</span></span><span class="pal"><span>se</span></span><span class="pal"><span>entiende.</span></span><i></i></u></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".boton", { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, w("Si", 7) - 0.1);
+      // El cursor llega y pulsa en «suscríbete».
+      const clic = w("suscríbete") + 0.1;
+      tl.fromTo(".cursor", { autoAlpha: 0, x: 380, y: 300 }, { autoAlpha: 1, x: 0, y: 0, duration: 0.6, ease: "power3.out" }, clic - 0.7);
+      tl.to(".cursor", { scale: 0.85, duration: 0.08, ease: "power2.in", transformOrigin: "10% 10%" }, clic);
+      tl.to(".cursor", { scale: 1, duration: 0.15, ease: "power2.out" }, clic + 0.08);
+      tl.to(".boton", { scale: 0.95, duration: 0.08, ease: "power2.in" }, clic);
+      tl.to(".boton", { scale: 1, duration: 0.25, ease: "back.out(2)" }, clic + 0.08);
+      tl.fromTo(".b2", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.12 }, clic + 0.06);
+      tl.set(".b1", { autoAlpha: 0 }, clic + 0.18);
+      tl.to(".cursor", { autoAlpha: 0, x: 120, y: 90, duration: 0.5, ease: "power2.in" }, clic + 0.7);
+      // «Cada semana, una lección de negocios que se entiende».
+      const p = $$(".lema .pal > span");
+      [w("Cada", 7), w("semana", 3), w("una", 15), w("lección"), w("de", 40), w("negocios", 2), w("que", 19), w("se", 10), w("entiende")].forEach((t, i) => sube(p[i], t - 0.06, 0.38));
+      tl.fromTo(".lema u i", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, f("entiende") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

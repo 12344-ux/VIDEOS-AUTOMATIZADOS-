@@ -1,0 +1,42 @@
+<template>
+  <!-- R9 · 2018: la grúa sobre un hospital a medio hacer, a sangre; en el cielo vacío, CARILLION, «contratista del Estado
+       británico» y lo que construía, palabra a palabra: hospitales, colegios, cárceles. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .foto { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; transform-origin: 70% 40%;
+      filter: saturate(0.85) contrast(1.05); }
+    #{{ID}} .velo { background: linear-gradient(90deg, rgba(10, 11, 13, 0.72) 0%, rgba(10, 11, 13, 0.35) 30%, rgba(10, 11, 13, 0) 50%),
+      linear-gradient(0deg, rgba(10, 11, 13, 0.6) 0%, rgba(10, 11, 13, 0) 35%); }
+    #{{ID}} .chip { position: absolute; left: 150px; top: 150px; }
+    #{{ID}} .nombre { position: absolute; left: 140px; top: 200px; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.5); }
+    #{{ID}} .sub { position: absolute; left: 150px; top: 375px; }
+    #{{ID}} .k { position: absolute; left: 150px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.6); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/grua.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="mono chip"><i>2018</i> &nbsp;Reino Unido</div>
+      <div class="nombre">CARILLION</div>
+      <div class="mono sub">Contratista del <b>Estado británico</b></div>
+      <div class="k k1" style="top: 480px">HOSPITALES</div>
+      <div class="k k2" style="top: 592px">COLEGIOS</div>
+      <div class="k k3" style="top: 704px">CÁRCELES</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // «Cayó»: el plano cae y se asienta; luego avanza despacio hacia la grúa.
+      tl.fromTo(".foto", { y: -50, scale: 1.12 }, { y: 0, scale: 1.04, duration: 0.9, ease: "power3.out" }, 0);
+      tl.fromTo(".foto", { scale: 1.04 }, { scale: 1.1, duration: DUR - 0.9, ease: "none", immediateRender: false }, 0.9);
+      entra(".chip", 0.1, 0.4, 10);
+      trocea(".nombre").forEach((s) => sube(s, w("Carílion") - 0.12, 0.5));
+      entra(".sub", w("contratistas") - 0.1, 0.4, 10);
+      trocea(".k1").forEach((s) => sube(s, w("hospitales") - 0.1, 0.45));
+      trocea(".k2").forEach((s) => sube(s, w("colegios") - 0.1, 0.45));
+      trocea(".k3").forEach((s) => sube(s, w("cárceles") - 0.1, 0.45));
+      fin();
+    })();
+  </script>
+</template>

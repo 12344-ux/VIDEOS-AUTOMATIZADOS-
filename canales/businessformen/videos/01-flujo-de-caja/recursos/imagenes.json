@@ -1,8 +1,35 @@
 {
  "_nota": "FLUX.3 Image Klein, 4 pasos, 1280 x 720, ampliadas a 1920 x 1080 con EDSR.",
  "planchas": [
-  {"nombre": "carpinteria", "semilla": 311, "prompt": "a small carpentry workshop at golden hour, a handmade wooden dining table and chairs being finished, hand tools and wood planks on a workbench, sawdust floating in a beam of warm light, the furniture in the right half of the frame, dark wooden wall on the left of the frame, cinematic, 35mm film look, no people, no text"},
-  {"nombre": "almacen", "semilla": 313, "prompt": "a long aisle between tall warehouse shelving filled with identical plain brown cardboard boxes, vanishing into the distance, dim cold industrial light, deep shadows, symmetrical one-point perspective, cinematic, 35mm film look, no people, no text, no labels"},
-  {"nombre": "dinero", "semilla": 317, "prompt": "macro close-up of a loose pile of paper banknotes and metal coins, dramatic low key light from the side, rich texture, shallow depth of field, cinematic, no text"}
+  {
+   "nombre": "carpinteria",
+   "semilla": 311,
+   "prompt": "a small carpentry workshop at golden hour, a handmade wooden dining table and chairs being finished, hand tools and wood planks on a workbench, sawdust floating in a beam of warm light, the furniture in the right half of the frame, dark wooden wall on the left of the frame, cinematic, 35mm film look, no people, no text"
+  },
+  {
+   "nombre": "almacen",
+   "semilla": 313,
+   "prompt": "a long aisle between tall warehouse shelving filled with identical plain brown cardboard boxes, vanishing into the distance, dim cold industrial light, deep shadows, symmetrical one-point perspective, cinematic, 35mm film look, no people, no text, no labels"
+  },
+  {
+   "nombre": "dinero",
+   "semilla": 317,
+   "prompt": "macro close-up of a loose pile of paper banknotes and metal coins, dramatic low key light from the side, rich texture, shallow depth of field, cinematic, no text"
+  },
+  {
+   "nombre": "grant-tienda",
+   "semilla": 331,
+   "prompt": "a 1960s American department store on a small town main street, a long two-storey brick storefront with large display windows and a striped awning, vintage cars parked in front, overcast afternoon, faded film colors, the store in the right two thirds of the frame, open street on the left of the frame, the sign above the windows is a plain blank panel, cinematic, 35mm film look, no readable text"
+  },
+  {
+   "nombre": "grant-cerrada",
+   "semilla": 337,
+   "prompt": "the empty interior of a closed 1970s department store at night, long rows of bare shelves and empty display tables, a few price cards and papers on the floor, a single fluorescent light still on, dust in the air, melancholic, symmetrical wide shot, cinematic, 35mm film look, no people, no text"
+  },
+  {
+   "nombre": "grua",
+   "semilla": 347,
+   "prompt": "a tall construction tower crane silhouetted against a dark blue dusk sky above an unfinished concrete hospital building, scaffolding, a few work lights, cold cinematic light, the crane in the right half of the frame, empty dark sky on the left of the frame, 35mm film look, no people, no text"
+  }
  ]
 }

@@ -32,12 +32,16 @@
       // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
       const cuenta = (el, desde, hasta, t, d, o = {}) => {
         el = typeof el === "string" ? $(el) : el;
-        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + fmt(v.x, o.signo) + (o.suf || ""); };
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
         pinta();
         tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
       };
-      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100".
-      const traza = (sel, t, d, ease = "power2.inOut") => tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
       // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
       const trocea = (el) => {
         el = typeof el === "string" ? $(el) : el;

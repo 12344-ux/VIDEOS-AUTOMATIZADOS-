@@ -21,5 +21,30 @@
    "marca",
    60
   ]
+ },
+ "candidatas_2": [
+  "melancholic cinematic underscore, solo felt piano and warm cello in the middle register, slow and serious, 72 bpm, no drums",
+  "serious documentary underscore, sustained strings and soft piano chords in the middle register, reflective, 76 bpm, no drums",
+  "confident modern underscore, clean electric piano and staccato violins in the middle register, light shaker, focused and positive, 100 bpm",
+  "uplifting cinematic resolution, warm strings and piano in the middle register, hopeful and calm, 80 bpm, no drums"
+ ],
+ "_nota_2": "Segunda parte del vídeo (la historia, Carillion, Amazon y el cierre): cuatro candidatas más, semilla 13, 20 s, en un lote. Las cuatro salieron limpias de graves (1 %, 6 %, 2 % y 13 % de la energía bajo 150 Hz): la 1 (piano y chelo) para la historia de W. T. Grant, la 2 (cuerdas sostenidas) para Carillion, la 3 (piano eléctrico y violines) para Amazon y la 4 (cuerdas y piano, luminosa) para el cierre; las reglas y el logo llevan la de la marca.",
+ "lechos_2": {
+  "historia": [
+   1,
+   80
+  ],
+  "carillion": [
+   2,
+   54
+  ],
+  "amazon": [
+   3,
+   34
+  ],
+  "cierre": [
+   4,
+   18
+  ]
  }
 }

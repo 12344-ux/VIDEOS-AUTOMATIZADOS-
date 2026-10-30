@@ -34,3 +34,16 @@ cd canales/businessformen/videos/<vídeo>/proyecto && ../../../../../video/hf.sh
 - Las cifras se escriben con punto de miles y el signo menos tipográfico (`fmt()`); `toLocaleString("es-ES")` no
   agrupa los números de cuatro cifras.
 - Los efectos largos de la biblioteca (el `riser` dura 10 s) se recortan con `dur` para que no pasen del final.
+- Un trazo con remate redondo o cuadrado deja un punto en su extremo antes de dibujarse (el guion de largo cero):
+  `traza()` lo oculta hasta que empieza.
+- Los años no llevan punto de miles: `cuenta(…, { crudo: true })`.
+- Un `tl.set(…, 0)` no se pinta en el primer fotograma de la escena: lo que nace oculto, con CSS o con `fromTo`.
+- El JS de la plantilla comparte ámbito con `ayuda.js`: no declarar `W`, `L`, `T0`, `DUR`, `RAIZ`, `tl`…
+- Con `.num` (cifras tabulares) un año grande deja un hueco junto al 1 («201 8»). Las cifras de Inter Tight son
+  proporcionales si no se pide otra cosa; para un cuentakilómetros, cada columna va a su sitio con el avance medido de
+  cada cifra (`videos/01-flujo-de-caja/escenas/salto.html`).
+- `check` da por solapados los textos que se tapan a propósito (una carta bajo un velo, las columnas de cifras que se
+  rozan): `data-layout-allow-overlap` en ese bloque; si una capa opaca tapa del todo el texto de debajo, mejor ocultarlo.
+- Plantillas de la segunda parte del vídeo 1 que se pueden reutilizar: el mapa que se enciende y se apaga (`mapa`,
+  `apagon`, con `mapa.py`), el depósito con agujero (`deposito`), la tabla de 13 semanas (`regla2`), el ciclo que
+  encoge (`regla3`), el cuadrado a escala (`liquidacion`) y la carta recreada (`carta`).

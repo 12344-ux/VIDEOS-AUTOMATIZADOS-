@@ -1,0 +1,38 @@
+<template>
+  <!-- R2 · el informe del Parlamento, en tres palabras: tres huecos en «tres palabras» y cada palabra cae en el suyo, con
+       el original en inglés al lado; CODICIA, sobre un bloque rojo. Luego, silencio. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .inf { position: absolute; left: 150px; top: 170px; }
+    #{{ID}} .fila { position: absolute; left: 150px; width: 1620px; height: 170px; }
+    #{{ID}} .fila .hueco { position: absolute; left: 0; bottom: 8px; width: 420px; height: 6px; background: #2a2d33; transform-origin: left center; }
+    #{{ID}} .fila .pal { margin: 0; }
+    #{{ID}} .fila .p { position: absolute; left: -10px; top: 0; font: 800 160px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; white-space: nowrap; }
+    #{{ID}} .fila .en { position: absolute; right: 0; top: 70px; }
+    #{{ID}} .rojo { position: absolute; left: -30px; top: -6px; width: 900px; height: 182px; background: #b0122f; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="mono inf">Informe del <b>Parlamento británico</b> · mayo de 2018</div>
+      <div class="fila f1" style="top: 300px"><div class="hueco"></div><div class="p"><span class="pal"><span>IMPRUDENCIA.</span></span></div><div class="mono en">recklessness</div></div>
+      <div class="fila f2" style="top: 500px"><div class="hueco"></div><div class="p"><span class="pal"><span>ARROGANCIA.</span></span></div><div class="mono en">hubris</div></div>
+      <div class="fila f3" style="top: 700px"><div class="rojo"></div><div class="hueco"></div><div class="p"><span class="pal"><span>CODICIA.</span></span></div><div class="mono en">greed</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".inf", w("informe") - 0.1, 0.4, 10);
+      // «Tres palabras»: tres huecos.
+      tl.fromTo(".hueco", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out", stagger: 0.1 }, w("tres", 4) - 0.1);
+      [["f1", "imprudencia"], ["f2", "arrogancia"], ["f3", "codicia"]].forEach(([c, p]) => {
+        sube(`.${c} .p .pal > span`, w(p) - 0.12, 0.45);
+        tl.to(`.${c} .hueco`, { autoAlpha: 0, duration: 0.2 }, w(p) - 0.05);
+        entra(`.${c} .en`, w(p) + 0.25, 0.4, 8);
+      });
+      tl.fromTo(".rojo", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, w("codicia") - 0.2);
+      tl.to(".f1, .f2", { autoAlpha: 0.4, duration: 0.5, ease: "power2.inOut" }, f("codicia") + 0.2);
+      fin();
+    })();
+  </script>
+</template>

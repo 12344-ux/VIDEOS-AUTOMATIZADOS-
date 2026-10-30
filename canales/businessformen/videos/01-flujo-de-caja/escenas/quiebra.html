@@ -1,0 +1,41 @@
+<template>
+  <!-- R3 · octubre de 1975: la deuda cuenta hasta más de mil millones de dólares, aparece el nombre y cae el sello
+       QUIEBRA, con un golpe que sacude el plano. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .fecha { position: absolute; left: 150px; top: 150px; font: 800 110px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; white-space: nowrap; }
+    #{{ID}} .etq { position: absolute; left: 150px; top: 404px; }
+    #{{ID}} .cifra { position: absolute; left: 140px; top: 450px; font: 800 184px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .nombre { position: absolute; left: 150px; top: 790px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; white-space: nowrap; }
+    #{{ID}} .sello { position: absolute; left: 1010px; top: 700px; padding: 26px 50px 22px; background: #b0122f; outline: 5px solid rgba(244, 243, 240, 0.9);
+      outline-offset: -18px; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; white-space: nowrap; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="plano" style="position: absolute; inset: 0">
+      <div class="fecha"><span class="pal"><span>OCTUBRE</span></span><span class="pal"><span>DE</span></span><span class="pal"><span>1975</span></span></div>
+      <div class="mono etq"><b>Deuda</b> · más de</div>
+      <div class="cifra num">0 $</div>
+      <div class="nombre">W. T. GRANT</div>
+      <div class="sello">QUIEBRA</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const p = $$(".fecha .pal > span");
+      sube(p[0], w("octubre") - 0.08, 0.45); sube(p[1], w("octubre") + 0.12, 0.45); sube(p[2], w("setenta", 6) - 0.1, 0.45);
+      entra(".etq", w("con", 3) - 0.1, 0.4, 10);
+      aparece(".cifra", w("más", 8) - 0.05, 0.2);
+      tl.fromTo(".cifra", { scale: 1.05 }, { scale: 1, duration: 0.5, ease: "expo.out", transformOrigin: "left center" }, w("más", 8) - 0.05);
+      cuenta(".cifra", 0, 1000000000, w("mil", 16) - 0.1, f("deuda") - w("mil", 16) + 0.3, { suf: " $", ease: "power3.out" });
+      trocea(".nombre").forEach((s, i) => sube(s, w("Dóbliu", 2) - 0.1 + i * 0.08, 0.45));
+      // El sello cae en «quiebra» y el plano tiembla.
+      const t = w("quiebra", 4) - 0.1;
+      tl.fromTo(".sello", { autoAlpha: 0, scale: 2.4, rotation: -14 }, { autoAlpha: 1, scale: 1, rotation: -7, duration: 0.17, ease: "power4.in" }, t);
+      [[0.17, -12], [0.21, 9], [0.26, -6], [0.31, 3], [0.36, 0]].forEach(([d, x]) => tl.to(".plano", { x, duration: 0.04, ease: "none" }, t + d - 0.04));
+      fin();
+    })();
+  </script>
+</template>

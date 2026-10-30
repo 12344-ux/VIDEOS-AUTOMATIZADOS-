@@ -1,0 +1,38 @@
+<template>
+  <!-- R15 · vuelve el mapa del principio de la historia, con sus mil tiendas encendidas, y se apagan del oeste hacia
+       Lynn, por donde empezó; el contador baja de 1.000 a 0. Primavera de 1976. -->
+  <style>
+/*MARCA*/
+    #{{ID}} svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{ID}} .nombre { position: absolute; left: 150px; top: 110px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .fecha { position: absolute; left: 150px; top: 220px; }
+    #{{ID}} .tiendas { position: absolute; right: 150px; top: 880px; text-align: right; }
+    #{{ID}} .tiendas .n { font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <svg viewBox="0 0 1920 1080"><path class="cont" d="{{p:contorno}}" style="fill:rgba(244,243,240,0.03);stroke:rgba(244,243,240,0.75);stroke-width:2"/><g class="pts"></g>
+        <circle class="lynn" r="16" style="fill:none;stroke:#b0122f;stroke-width:4"/></svg>
+      <div class="nombre">W. T. GRANT</div>
+      <div class="mono fecha"><b>Primavera de 1976</b></div>
+      <div class="tiendas"><div class="n num">1.000</div><div class="mono">tiendas abiertas</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const P = {{p:puntos}}, LY = {{p:lynn}}, NS = "http://www.w3.org/2000/svg";
+      const g = $(".pts");
+      P.forEach(([x, y]) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 3.4); c.setAttribute("fill", "#f4f3f0"); g.appendChild(c); });
+      const lynn = $(".lynn"); lynn.setAttribute("cx", LY[0]); lynn.setAttribute("cy", LY[1]);
+      entra(".fecha", w("primavera") - 0.1, 0.4, 10);
+      // Se apagan en el orden inverso al que se encendieron: del oeste hacia Lynn.
+      const pts = $$(".pts circle").reverse(), t0 = w("cerrado", 2) - 0.2, t1 = f("tiendas", 4) + 0.1;
+      pts.forEach((c, i) => tl.to(c, { autoAlpha: 0.08, duration: 0.1 }, t0 + (t1 - t0) * Math.pow(i / pts.length, 1.25)));
+      cuenta(".tiendas .n", 1000, 0, t0, t1 - t0 + 0.05, { ease: "power1.in" });
+      tl.to(".lynn", { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, t1 + 0.1);
+      tl.to(".nombre", { autoAlpha: 0.35, duration: 0.6, ease: "power2.inOut" }, t1);
+      fin();
+    })();
+  </script>
+</template>

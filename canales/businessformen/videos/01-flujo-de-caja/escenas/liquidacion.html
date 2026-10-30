@@ -1,0 +1,49 @@
+<template>
+  <!-- R2 → R6 · 15 de enero de 2018: LIQUIDACIÓN. Luego, a escala: un cuadradito blanco, los 29 M£ que le quedaban en
+       caja, y en «siete mil millones» un cuadrado rojo 241 veces mayor, las deudas y obligaciones. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .fecha { position: absolute; left: 150px; top: 330px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; white-space: nowrap; }
+    #{{ID}} .liq { position: absolute; left: 140px; top: 480px; font: 800 170px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; white-space: nowrap; }
+    #{{ID}} .liq u { position: absolute; left: 10px; right: 0; bottom: -26px; height: 14px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .chico { position: absolute; left: 762px; top: 932px; width: 58px; height: 58px; background: #f4f3f0; }
+    #{{ID}} .lc { position: absolute; left: 150px; width: 580px; top: 870px; text-align: right; }
+    #{{ID}} .lc .n { font: 800 80px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .lc .mono { margin-top: 10px; }
+    #{{ID}} .grande { position: absolute; left: 860px; top: 90px; width: 900px; height: 900px; background: #b0122f; transform-origin: left bottom; }
+    #{{ID}} .lg { position: absolute; left: 920px; top: 150px; }
+    #{{ID}} .lg .n { font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .lg .mono { margin-top: 18px; color: rgba(244, 243, 240, 0.9); }
+    #{{ID}} .fuente { position: absolute; left: 150px; top: 110px; font-size: 28px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="fecha"><span class="pal"><span>15</span></span><span class="pal"><span>DE ENERO</span></span><span class="pal"><span>DE 2018</span></span></div>
+      <div class="liq"><span class="pal"><span>LIQUIDACIÓN.</span></span><u></u></div>
+      <div class="grande"></div>
+      <div class="chico"></div>
+      <div class="lc"><div class="n num">29 M£</div><div class="mono">en caja</div></div>
+      <div class="lg"><div class="n num">≈ 7.000 M£</div><div class="mono">en deudas y obligaciones</div></div>
+      <div class="mono fuente">Fuente: Parlamento británico, 2018</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const p = $$(".fecha .pal > span");
+      sube(p[0], w("quince") - 0.1, 0.45); sube(p[1], w("enero") - 0.1, 0.45); sube(p[2], w("dieciocho", 2) - 0.2, 0.45);
+      sube(".liq .pal > span", w("liquidación") - 0.12, 0.5);
+      tl.fromTo(".liq u", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, w("liquidación") + 0.2);
+      tl.to(".fecha, .liq", { autoAlpha: 0, y: -40, duration: 0.35, ease: "power2.in" }, w("Le", 5) - 0.45);
+      // «Le quedaban 29 millones en caja»: el cuadradito.
+      tl.fromTo(".chico", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.4, ease: "back.out(2.4)" }, w("veintinueve") - 0.1);
+      entra(".lc", w("veintinueve") - 0.05, 0.4, 10);
+      aparece(".fuente", w("veintinueve"), 0.4, 0.9);
+      // «Frente a casi siete mil millones»: el cuadrado rojo, a la misma escala.
+      tl.fromTo(".grande", { scale: 0 }, { scale: 1, duration: 1.1, ease: "power3.inOut" }, w("siete") - 0.25);
+      entra(".lg .n", w("millones", 9) - 0.1, 0.45, 14);
+      entra(".lg .mono", w("deudas") - 0.1, 0.4, 10);
+      fin();
+    })();
+  </script>
+</template>

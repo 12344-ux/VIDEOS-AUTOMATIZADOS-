@@ -13,6 +13,7 @@ En montaje.py hay disponibles:
   sonido(nombre, t, vol=1, dur=None, ini=0, fi=0, fo=0)   efectos (ver SFX)
   musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=[(t, v)])   lecho de música (musica/<nombre>.wav)
   DURACION = ...                         duración del vídeo (si no, la última palabra más COLA)
+  AQUI                                   la carpeta del vídeo (para leer sus recursos/)
 
 En las plantillas de escena:
   {{ID}}            el id de la escena (también su composición): los selectores van con #{{ID}}
@@ -100,7 +101,7 @@ def cargar(vid):
     def musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=None):
         v.musicas.append(dict(nombre=nombre, desde=r3(desde), hasta=r3(hasta), vol=vol, fi=fi, fo=fo, puntos=puntos or []))
 
-    nombres = dict(w=v.w, VOZ0=VOZ0, escena=escena, sonido=sonido, musica=musica)
+    nombres = dict(w=v.w, VOZ0=VOZ0, escena=escena, sonido=sonido, musica=musica, AQUI=v.dir)
     ruta = os.path.join(v.dir, 'montaje.py')
     exec(compile(open(ruta).read(), ruta, 'exec'), nombres)
     if 'DURACION' in nombres:

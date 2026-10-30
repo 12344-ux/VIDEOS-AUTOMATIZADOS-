@@ -515,11 +515,50 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   la raíz de la plantilla no puede llevar estilos (hace falta un contenedor interior); las tildes de las mayúsculas
   asomaban por encima de la máscara (ahora las palabras suben desde el 140 %); `trocea()` perdía los `<br>`.
 
+### 12. El vídeo 1, completo (6 min 19 s)
+
+- **El usuario vio el primer tramo** («¡Está BRUTAL, qué estilazo!… te mantiene enganchado») y pidió terminarlo.
+  Hecho: la historia de W. T. Grant, Carillion, Amazon, las cuatro reglas y el cierre, con 25 escenas nuevas (43 en
+  total) y el logo al final. El gancho sigue igual: la voz nueva da los mismos tiempos en el primer tramo (0 palabras
+  distintas en las 384 primeras), así que sus escenas no se tocaron.
+- **Datos contrastados** antes de escribir: Carillion, 376 M£ en dividendos entre 2012 y 2016, 217 M£ más que la caja
+  de sus operaciones (informe del Parlamento), unos 420 contratos públicos, 29 M£ en caja frente a casi 7.000 M£ en la
+  liquidación; W. T. Grant, operaciones que no generaban caja hasta 1973 (Largay y Stickney) y 37,8 M$ de beneficio
+  en el ejercicio cerrado en enero de 1973. La línea de beneficio de 1966–1973 se dibuja en «forma aproximada» y solo
+  se rotulan los extremos, que tienen fuente.
+- **Recursos y tiempos:** voz completa (98 frases, 374,7 s) en 4 min 15 s; cuatro músicas más (semilla 13) en 267 s,
+  esta vez todas limpias de graves (1 %, 6 %, 2 % y 13 % bajo 150 Hz: piano y chelo, cuerdas sostenidas, piano
+  eléctrico con violines, cuerdas y piano); tres imágenes de FLUX con su EDSR en 5 min 15 s (la tienda de los 60, la
+  tienda vacía y la grúa sobre un hospital, las tres a la primera); 77 fotogramas de revisión en 37 s.
+- **Recursos de la segunda parte:** el mapa de Estados Unidos (us-atlas, dominio público) con mil puntos que se
+  encienden desde Lynn y, más tarde, se apagan hacia allí; el gráfico de beneficio plano y caja hundida, con lo
+  atrapado entre las dos; el depósito con agujero (entra deuda, salen dividendos); el sello QUIEBRA que sacude el plano;
+  el estudio de 1980 recreado y la línea de tiempo «10 años antes»; 1975 que gira como un cuentakilómetros hasta 2018;
+  las barras de dividendos con lo que no salió del negocio en rojo; 120 cuadros, uno por día; 29 M£ frente a un cuadrado
+  rojo 241 veces mayor, a escala; IMPRUDENCIA, ARROGANCIA, CODICIA; AL REVÉS boca abajo; la línea de tiempo del ciclo
+  negativo de Amazon; la carta de 2004 con BENEFICIO tachado; las cuatro reglas con su índice (semanas, la tabla de
+  13 semanas con la 9 en rojo, el ciclo que encoge, la flecha que choca con un muro); la tienda vacía con LE FALTABA
+  CAJA; el tercer golpe rojo, LA CAJA ES REALIDAD; y la llamada a suscribirse con el botón de la marca.
+- **Revisión de director** sobre los fotogramas con la frase de la voz debajo. Se corrigió: el año con punto de miles
+  («1.963»), el nombre que pisaba el mapa (el mapa bajó), la tarjeta que asomaba antes de entrar, el «$» que tocaba la
+  pila, la cifra que se salía del margen, un punto rojo en el extremo de cada trazo aún sin dibujar (remates redondos:
+  ahora `traza()` lo oculta hasta que empieza; también lo tenía el primer tramo), el «2018» que se cortaba antes de
+  aterrizar y que dejaba un hueco junto al 1 (cifras tabulares: ahora cada columna va a su sitio con el avance medido
+  de cada cifra) y la carta que se transparentaba bajo el texto. `check`: sin errores ni avisos.
+- **Para subir** (`canales/businessformen/videos/01-flujo-de-caja/PUBLICACION.md`): título, descripción con fuentes,
+  los avisos (voz generada con IA, MusicGen CC BY-NC, imágenes generadas) y etiquetas; dos miniaturas (`miniatura.sh`:
+  las cifras +38 M$ / −120 M$ o GANABA DINERO / Y QUEBRÓ); subtítulos SRT (`kit/subtitulos.py`) con los nombres bien
+  escritos («Dóbliu Ti Grant» → «W. T. Grant», `recursos/pantalla.json`) y las cantidades en cifras.
+- **Se rompió y se arregló:** editar `preparar.sh` mientras corría (la trampa ya anotada): se devolvió el archivo a su
+  versión hasta que acabó. `const L` en una plantilla chocaba con la `L` de `ayuda.js` (el JS de la plantilla comparte
+  ámbito con las ayudas). Un `tl.set(…, 0)` no se pinta en el primer fotograma de la escena: lo que nace oculto va con
+  CSS o con `fromTo`.
+
 ## Siguiente paso
 
-1. Que el usuario vea el primer tramo del vídeo 1 y diga qué cambiar.
-2. El resto del vídeo (W. T. Grant, Carillion, Amazon, las cuatro reglas y el cierre) con el mismo kit; antes,
-   contrastar los tres datos pendientes del guion. Después, la miniatura y la descripción con las fuentes.
+1. Que el usuario vea el vídeo 1 completo y diga qué cambiar o si se sube así (y qué miniatura).
+2. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
+   vez, midiendo cuánto tarda de principio a fin.
 3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
    (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 

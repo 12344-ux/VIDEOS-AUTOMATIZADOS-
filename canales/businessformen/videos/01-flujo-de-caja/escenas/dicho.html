@@ -1,0 +1,35 @@
+<template>
+  <!-- R2 → R1 · el viejo dicho, palabra a palabra: LAS VENTAS SON VANIDAD, EL BENEFICIO ES CORDURA; y el tercer golpe rojo
+       del vídeo, de corte seco en «y»: LA CAJA ES REALIDAD. -->
+  <style>
+/*MARCA*/
+    #{{ID}} .dic { position: absolute; left: 150px; top: 250px; }
+    #{{ID}} .l { position: absolute; left: 140px; font: 800 110px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+    #{{ID}} .rojo { position: absolute; inset: 0; background: #b0122f; visibility: hidden; }
+    #{{ID}} .golpe { position: absolute; left: 140px; top: 300px; font: 800 210px/1 "Inter Tight", sans-serif; letter-spacing: -0.045em; white-space: nowrap; }
+    #{{ID}} .golpe .r { display: block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="1920" data-height="1080">
+    <div id="{{ID}}" class="esc">
+      <div class="mono dic">Un viejo dicho de los negocios</div>
+      <div class="l l1" style="top: 340px"><span class="pal"><span>LAS</span></span><span class="pal"><span>VENTAS</span></span><span class="pal"><span>SON</span></span><span class="pal"><span>VANIDAD.</span></span></div>
+      <div class="l l2" style="top: 490px"><span class="pal"><span>EL</span></span><span class="pal"><span>BENEFICIO</span></span><span class="pal"><span>ES</span></span><span class="pal"><span>CORDURA.</span></span></div>
+      <div class="rojo"><div class="golpe"><span class="r"><span class="pal"><span>LA</span></span><span class="pal"><span>CAJA</span></span></span><span class="r"><span class="pal"><span>ES</span></span><span class="pal"><span>REALIDAD.</span></span></span></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".dic", w("viejo") - 0.1, 0.4, 10);
+      const p1 = $$(".l1 .pal > span"), p2 = $$(".l2 .pal > span"), p3 = $$(".golpe .pal > span");
+      [w("las", 7), w("ventas", 2), w("son", 2), w("vanidad")].forEach((t, i) => sube(p1[i], t - 0.07, 0.4));
+      tl.to(".l1", { autoAlpha: 0.35, duration: 0.4 }, w("el", 27) - 0.15);
+      [w("el", 27), w("beneficio", 6), w("es", 8), w("cordura")].forEach((t, i) => sube(p2[i], t - 0.07, 0.4));
+      // El golpe rojo: corte seco en «y».
+      tl.fromTo(".rojo", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, w("Y", 37) - 0.08);
+      tl.set(".dic, .l1, .l2", { autoAlpha: 0 }, w("Y", 37) - 0.07);
+      [w("la", 11), w("caja", 17), w("es", 9), w("realidad")].forEach((t, i) => sube(p3[i], t - 0.06, 0.34));
+      fin();
+    })();
+  </script>
+</template>
