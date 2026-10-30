@@ -6,9 +6,12 @@ términos de TikTok: para investigar, sin redistribuirlos. DuckDB lee a distanci
 
   PY=~/herramientas-videos/rastreador/bin/python
   $PY rastreador/tiktok.py extraer 2026-08 2026-09           # los vídeos en español de esos meses (unos 4 min por mes)
+  $PY rastreador/tiktok.py --idioma en,pt extraer 2026-09    # varios idiomas en una sola lectura
   $PY rastreador/tiktok.py nichos 2026-09 --antes 2026-08    # ranking de hashtags: aciertos, vistas, guardados, crecimiento
   $PY rastreador/tiktok.py tema 2026-09 negocio dinero emprend finanz --antes 2026-08   # un tema: subnichos y atípicos
   $PY rastreador/tiktok.py atipicos 2026-09 emprendimiento --n 20                       # los vídeos con más vistas del nicho
+  $PY rastreador/tiktok.py hueco 2026-09 --origen en         # nichos de otro idioma con poca oferta en español
+                                                             # (equivalencias de hashtags en rastreador/equivalencias.json)
 
 Cómo se mide (lo orgánico: sin anuncios ni colaboraciones pagadas, y solo vídeos de 7 a 31 días, porque las vistas son
 las del día en que se midieron y un vídeo de 2 días aún no ha tenido su recorrido):
@@ -24,6 +27,7 @@ destacados no se pueden medir frente a su canal (eso lo hace rastreador/youtube.
 Los datos van a salidas/rastreador/tiktok/ (fuera del repositorio).
 """
 import argparse
+import json
 import os
 import re
 import time
@@ -70,21 +74,29 @@ def archivo(mes, idioma):
     return os.path.join(DATOS, f'{idioma}_{mes}.parquet')
 
 
-def extraer(meses, idioma):
+def extraer(meses, idiomas):
+    """Una sola lectura del mes para todos los idiomas pedidos (lo que cuesta es bajar las columnas, no filtrar)."""
     os.makedirs(DATOS, exist_ok=True)
     con = conexion()
     for mes in meses:
-        destino = archivo(mes, idioma)
-        if os.path.exists(destino):
-            print(f'{mes}: ya está ({destino})')
+        faltan = [i for i in idiomas if not os.path.exists(archivo(mes, i))]
+        if not faltan:
+            print(f'{mes}: ya está ({", ".join(idiomas)})')
             continue
         t = time.time()
-        con.execute(f"COPY (SELECT {COLUMNAS} FROM read_parquet('{URL.format(mes)}') WHERE language = '{idioma}') "
-                    f"TO '{destino}.tmp' (FORMAT parquet, COMPRESSION zstd)")
-        os.rename(destino + '.tmp', destino)
-        n = con.execute(f"SELECT count(*) FROM '{destino}'").fetchone()[0]
-        print(f'{mes}: {mil(n)} vídeos en «{idioma}» en {time.time() - t:.0f} s → {destino} '
-              f'({os.path.getsize(destino) / 1e6:.0f} MB)')
+        tmp = os.path.join(DATOS, f'_{mes}.tmp.parquet')
+        lista = ', '.join(f"'{i}'" for i in faltan)
+        con.execute(f"COPY (SELECT language, {COLUMNAS} FROM read_parquet('{URL.format(mes)}') WHERE language IN ({lista})) "
+                    f"TO '{tmp}' (FORMAT parquet, COMPRESSION zstd)")
+        for i in faltan:
+            destino = archivo(mes, i)
+            con.execute(f"COPY (SELECT {COLUMNAS} FROM '{tmp}' WHERE language = '{i}') "
+                        f"TO '{destino}.tmp' (FORMAT parquet, COMPRESSION zstd)")
+            os.rename(destino + '.tmp', destino)
+            n = con.execute(f"SELECT count(*) FROM '{destino}'").fetchone()[0]
+            print(f'{mes}: {mil(n)} vídeos en «{i}» → {destino} ({os.path.getsize(destino) / 1e6:.0f} MB)')
+        os.remove(tmp)
+        print(f'{mes}: {time.time() - t:.0f} s')
 
 
 def mil(n):
@@ -256,9 +268,53 @@ def atipicos(con, mes, idioma, nicho, top):
     atipicos_de(con, 't', top, f'Los {top} con más vistas del nicho')
 
 
+def hueco(con, mes, origen, destino, ruta_eq, minimo):
+    """Arbitraje entre idiomas: nichos que en el idioma de origen tienen mucha más cuota que en el de destino."""
+    eq = json.load(open(ruta_eq))
+    res = {}
+    totales = {}
+    for v, idioma in (('o', origen), ('d', destino)):
+        vistas_sql(con, mes, idioma, v)
+        totales[v] = base(con, v)[::2]
+        pares = [(e['nicho'], strip_tilde(t)) for e in eq['nichos'] for t in e.get(idioma, [])]
+        con.execute('CREATE OR REPLACE TEMP TABLE eq (nicho VARCHAR, tag VARCHAR)')
+        con.executemany('INSERT INTO eq VALUES (?, ?)', pares)
+        # Una sola pasada por los vídeos: cada vídeo cuenta una vez por nicho aunque lleve varios de sus hashtags.
+        for fila in con.execute(f"""SELECT nicho, count(*), median(views), avg((views >= {EXITO})::INT),
+                1000.0 * sum(saves) / greatest(sum(views), 1), median(duration_ms) / 1000.0, avg(ia)
+            FROM (SELECT DISTINCT eq.nicho, v.video_id, v.views, v.saves, v.duration_ms, v.ia
+                  FROM {v}_n v JOIN eq ON v.nicho = eq.tag) GROUP BY nicho""").fetchall():
+            res[(v, fila[0])] = fila[1:]
+    (no, ex_o), (nd, ex_d) = totales['o'], totales['d']
+    filas = []
+    for e in eq['nichos']:
+        ro, rd = res.get(('o', e['nicho'])), res.get(('d', e['nicho']))
+        if not ro or ro[0] < minimo:
+            continue
+        cuota_o, cuota_d = ro[0] / no, (rd[0] if rd else 0) / nd
+        filas.append(dict(nicho=e['nicho'], replicable=e.get('replicable', ''), no=ro[0], xo=ro[2] / ex_o, dur=ro[4],
+                          ia=ro[5], nd=rd[0] if rd else 0, xd=(rd[2] / ex_d) if rd and rd[0] >= 30 else None,
+                          guard=rd[3] if rd else None, hueco=cuota_o / cuota_d if cuota_d else float('inf')))
+    filas.sort(key=lambda f: f['hueco'], reverse=True)
+    print(f'## Hueco {origen} → {destino}, TikTok {mes}\n')
+    print(f'«{origen}»: {mil(no)} vídeos orgánicos (acierto {pct(ex_o)}); «{destino}»: {mil(nd)} (acierto {pct(ex_d)}). '
+          f'Hueco: la cuota del nicho en «{origen}» dividida por su cuota en «{destino}» (3 = en «{destino}» se publica un '
+          f'tercio de lo que le tocaría). ×: acierto frente al de su idioma; el de «{destino}», con 30 vídeos o más.\n')
+    print(tabla(['Nicho', f'Vídeos {origen}', f'× {origen}', f'Vídeos {destino}', f'× {destino}', 'Hueco',
+                 f'guard/mil {destino}', f'Duración {origen}', f'IA {origen}', 'Replicable'],
+                [[f['nicho'], mil(f['no']), num(f['xo']) + '×', mil(f['nd']), num(f['xd']) + '×' if f['xd'] else '—',
+                  '∞' if f['hueco'] == float('inf') else num(f['hueco']), num(f['guard']) if f['guard'] else '—',
+                  f"{f['dur']:.0f} s", pct(f['ia'], 0), f['replicable']] for f in filas]))
+
+
+def strip_tilde(t):
+    import unicodedata
+    return ''.join(c for c in unicodedata.normalize('NFD', t.lower().lstrip('#')) if unicodedata.category(c) != 'Mn')
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--idioma', default='es')
+    p.add_argument('--idioma', default='es', help='en extraer, varios separados por comas: es,en,pt')
     sub = p.add_subparsers(dest='orden', required=True)
     e = sub.add_parser('extraer')
     e.add_argument('meses', nargs='+')
@@ -279,14 +335,21 @@ def main():
     a.add_argument('mes')
     a.add_argument('nicho')
     a.add_argument('--n', type=int, default=20)
+    h = sub.add_parser('hueco')
+    h.add_argument('mes')
+    h.add_argument('--origen', default='en')
+    h.add_argument('--equivalencias', default=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'equivalencias.json'))
+    h.add_argument('--minimo', type=int, default=300, help='vídeos mínimos en el idioma de origen')
     args = p.parse_args()
     if args.orden == 'extraer':
-        extraer(args.meses, args.idioma)
+        extraer(args.meses, args.idioma.split(','))
         return
     con = duckdb.connect()
     con.execute('SET threads=4')
     if args.orden == 'nichos':
         ranking(con, args.mes, args.antes, args.idioma, args.minimo, args.n, args.lugares)
+    elif args.orden == 'hueco':
+        hueco(con, args.mes, args.origen, args.idioma, args.equivalencias, args.minimo)
     elif args.orden == 'tema':
         tema(con, args.mes, args.antes, args.idioma, args.palabras, args.minimo, args.n, args.texto)
     else:

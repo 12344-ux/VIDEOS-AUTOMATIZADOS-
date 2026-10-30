@@ -696,16 +696,37 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
     pastelería 18,4 %, banco 14,5 %, millonario 12,2 %). En Shorts, negociación e historia de empresas tienen 16 y 15
     atípicos; branding, ninguno.
 
+### 3. Arbitraje entre idiomas: el nicho para un canal nuevo
+
+- **Pedido del usuario:** sin el sesgo de BusinessForMen y sin frutinovelas, qué nicho probaría una semana en un canal
+  de Shorts y una página de Reels de Facebook; mejor aún, lo que funciona en otros países y en español está poco
+  explotado, para hacerlo mejor.
+- **Hecho:** `tiktok.py` extrae varios idiomas en una lectura (inglés 31,3 M y portugués 1,3 M de vídeos de septiembre en
+  297 s) y tiene `hueco`: la cuota de cada nicho en el otro idioma frente a la del español, con 25 nichos y sus hashtags
+  en tres idiomas (`rastreador/equivalencias.json`). La primera versión hacía una consulta por nicho y tardaba más de
+  2 min; con una pasada por idioma, 19 s.
+- **Medido:** el español está menos saturado (5,2 % de los vídeos llega a 100.000 vistas; inglés 2,4 %; portugués
+  6,5 %). Los vídeos de 60–90 s aciertan el doble que los de 30–60 s en los tres idiomas. Huecos: supervivencia (4,5),
+  historias de Reddit (4,3), crimen real y animales (2,7); geografía acierta 3,5× en español con solo 336 vídeos al
+  mes. En Shorts (unas 2.450 unidades de cuota): historias de Reddit, mediana de 56.100 vistas en español; geografía,
+  9.800 (38.400 en inglés); supervivencia, 1.300 (18.900 en inglés).
+- **Recomendación** ([rastreador/informes/2026-10-30-hueco.md](../rastreador/informes/2026-10-30-hueco.md)): geografía
+  explicada con mapas animados, 60–90 s, dos al día durante una semana. Es donde nuestra ventaja (mapas vectoriales,
+  motion graphics) pesa más, sin derechos de terceros ni riesgos. Reservas: historias reales de supervivencia (el hueco
+  más puro) e historias de Reddit (los números más altos, pero con problemas de derechos y de contenido reutilizado).
+
 ## Siguiente paso
 
-0. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
+0. Canal nuevo: que el usuario elija nicho. Si es geografía: kit de mapas (fronteras de Natural Earth por jsDelivr,
+   cámara que vuela al lugar), 14 temas contrastados y producción de la semana; medir a los 7 días.
+1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.
-1. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
+2. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
    cambiar o si se suben así.
-2. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
+3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
-3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
+4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
    (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 
 ## Primera idea de montaje (sustituida)

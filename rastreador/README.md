@@ -14,6 +14,10 @@ $PY rastreador/tiktok.py nichos 2026-09 --minimo 300           # los nichos que 
 $PY rastreador/tiktok.py tema 2026-09 negocio emprend finanz   # un tema: sus subnichos y sus vídeos con más vistas
 $PY rastreador/tiktok.py atipicos 2026-09 ideasdenegocio       # los vídeos con más vistas de un nicho
 
+# 1 bis. El arbitraje: lo que funciona en otro idioma y en español casi nadie hace
+$PY rastreador/tiktok.py --idioma en,pt extraer 2026-09        # inglés y portugués en una sola lectura (5 min)
+$PY rastreador/tiktok.py hueco 2026-09 --origen en             # hueco por nicho (equivalencias.json)
+
 # 2. Lo de esta semana: Shorts de YouTube que multiplican las vistas normales de su canal
 python3 rastreador/youtube.py nicho "negociación" "historia de empresas" "ideas de negocio" --dias 30
 python3 rastreador/youtube.py buscar "historia de empresas" --dias 30 --min-vistas 10000
@@ -37,6 +41,9 @@ cuando se midieron: antes de los 7 días aún no han hecho su recorrido (la medi
 - **guard/mil** y **comp/mil:** guardados y compartidos por cada mil vistas. Lo útil se guarda; lo que se contagia se
   comparte.
 - **IA:** la parte que TikTok marca como generada con IA.
+- **Hueco** (`hueco`): la cuota de un nicho en el otro idioma dividida por su cuota en español. 3 = en español se
+  publica un tercio de lo que le tocaría. Los nichos y sus hashtags en cada idioma están en `equivalencias.json`: un
+  hashtag que falte en español agranda el hueco, así que se mira también cómo acierta en español y se valida en YouTube.
 - `--antes` compara con el mes anterior por **cuota** (la parte de los vídeos del mes que lleva el hashtag) y por ×.
   Es orientativo: el rastreo del dataset cambia cada mes (agosto se midió más tarde y con menos vídeos recientes que
   septiembre), así que las cifras absolutas de dos meses no se comparan.
@@ -65,6 +72,9 @@ de cada plano. Se copia la mecánica; nunca el guion, la voz ni las imágenes.
 | Instalar el rastreador | 22 s (2 s con la caché de uv) | 81 MB más la extensión httpfs (27 MB) |
 | Extraer un mes de TikTok en español | 263–271 s | 5,0–5,1 M vídeos; se leen unos 3,7 GB por columnas y quedan 224–230 MB; 5,4 GB de RAM |
 | Ranking de nichos, un tema, atípicos | 6–16 s | sobre el parquet local |
+| Extraer inglés y portugués a la vez | 297 s | 31,3 M + 1,3 M vídeos; 1,4 GB + 49 MB en local; 5,5 GB de RAM |
+| Ranking en inglés | 28 s | 17,9 M vídeos orgánicos |
+| Hueco inglés → español, 25 nichos | 19 s | una pasada por idioma (con una consulta por nicho eran más de 2 min) |
 | Una búsqueda de Shorts (100 resultados) | 3–5 s | unas 202 unidades de cuota |
 | Doce búsquedas de nichos en Shorts | 66 s | unas 2.450 unidades |
 | Desmontar un vídeo de 7 s | 95 s la primera vez (baja whisper small, 488 MB); después, segundos | cortes en 0,3 s |
