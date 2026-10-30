@@ -151,7 +151,7 @@ video/renderizar_canvas.mjs escena HTML animada → MP4
 video/plantilla_titulo.html plantilla de título animado
 estilos/                    las tres pruebas de estilo en HyperFrames y su preparar.sh
 videos/anticitera/          el primer vídeo: guion, prompts, preparar-apertura.sh y la apertura en HyperFrames
-docs/                       bitácora, investigaciones (imagen y edición), estilo, entorno y resultados
+docs/                       bitácora, investigaciones (imagen, edición y rastreador de nichos), estilo, entorno y resultados
 CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 ```
 

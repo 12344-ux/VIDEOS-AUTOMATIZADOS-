@@ -628,8 +628,44 @@ instalación se hizo en dos pasadas: el `instalar.sh` de `main` y luego el nuevo
   0,2 s casi en negro antes de la primera palabra; y la música, elegida por la descripción y las medidas, sin oírla.
 - Para subir, `PUBLICACION.md` de cada corto: texto, etiquetas, fuentes y el aviso de IA (voz, imágenes y música).
 
+## Sesión 5 — 30 de octubre de 2026, noche
+
+Máquina nueva (Xeon con AMX). `main` sigue en la sesión 1; el trabajo de la 4 estaba en otra rama sin unir y se trajo
+por avance rápido. **Instalación completa en 2 min 31 s** (la estimación era de 5–10 min). El usuario avisó de que otra
+sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama, mirando la otra antes de cada commit.
+
+### 1. Investigación: un rastreador de nichos virales para cortos
+
+- **Pedido del usuario:** dejar de hacer contenido a ciegas; buscar en repositorios públicos una herramienta que
+  rastree nichos potentes y virales de vídeo corto que podamos recrear. Detalle y fuentes en
+  [investigacion-rastreador.md](investigacion-rastreador.md).
+- **La red ya no es la de la sesión 1:** desde aquí llegan YouTube (web, RSS y la API oficial, que solo pide clave),
+  TikTok, Instagram, la Graph API de Meta y el RSS de Google Trends. Reddit da 403 y la API de GitHub está cerrada
+  para esta sesión (los README, por `raw.githubusercontent.com`; la fecha del último commit, con un `git clone`
+  sin blobs).
+- **No hay una herramienta abierta que lo haga todo.** Para Shorts, los buscadores de atípicos (Bangermap,
+  yt-competitor-outlier-pipeline, viral-shorts; Outlier-Lab solo para vídeos largos) usan el mismo método: el
+  múltiplo de un vídeo sobre la mediana de su propio canal. TikTok e Instagram solo tienen scrapers no oficiales,
+  frágiles y contra sus términos (TikTok-Api pide la cookie de una sesión y proxys; instaloader, iniciar sesión).
+  TrendRadar es de noticias de portales chinos; last30days, para documentar un tema.
+- **El hallazgo:** un dataset de Hugging Face con 5.598 millones de vídeos de TikTok (vistas, guardados, compartidos,
+  idioma, país, hashtags, texto en pantalla, marca de IA; un archivo por mes hasta octubre de 2026, 460 GB). Se
+  recogió con la API privada de la app (contra los términos de TikTok) y es CC BY-NC. El visor de Hugging Face lee
+  filas sueltas, pero su filtro da error 500 con ese tamaño: para consultarlo hace falta DuckDB.
+- **Probado con código propio:** el RSS de un canal de YouTube da sus 15 últimos vídeos con las vistas, y los Shorts
+  llevan `/shorts/` en el enlace (la lista `UUSH…` de solo Shorts da 404 por RSS). El Creative Center de TikTok
+  redirige a «TikTok One Creative Suite», una aplicación sin datos en el HTML. El RSS de Google Trends da 10 búsquedas
+  por país, de actualidad. El control de seguridad paró una comprobación con un User-Agent de navegador
+  («Bot Check Circumvention»): las pruebas van con peticiones normales a fuentes públicas u oficiales.
+- **Recomendación:** un rastreador propio con tres piezas, el mapa de nichos de TikTok (dataset y DuckDB, una vez al
+  mes), los Shorts atípicos de la semana (API de YouTube y RSS) y el desmontaje de cada atípico (gancho, cortes,
+  estructura) para recrear la mecánica con el kit, nunca el contenido.
+
 ## Siguiente paso
 
+0. Rastreador: con permiso para instalar `duckdb` y `yt-dlp`, una clave de la API de YouTube en el entorno
+   (`YOUTUBE_API_KEY`) y la decisión del usuario sobre el dataset de TikTok, la primera prueba: el mapa de nichos en
+   español, los Shorts atípicos de negocios y el desmontaje de tres de ellos, midiendo tiempo y RAM.
 1. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
    cambiar o si se suben así.
 2. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una

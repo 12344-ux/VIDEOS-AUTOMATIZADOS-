@@ -67,7 +67,9 @@ Para trabajar con HyperFrames, leer antes sus guías en
 - Red: Hugging Face (y su CDN `*.hf.co`), PyPI, download.pytorch.org, storage.openvinotoolkit.org,
   `raw.githubusercontent.com`, git de GitHub, npm/jsDelivr y los paquetes de Ubuntu (`apt-get`). La web de github.com devuelve 403:
   los README se leen con `curl` a `raw.githubusercontent.com`. WebFetch no llega a sitios fuera de
-  la lista permitida; WebSearch sí funciona.
+  la lista permitida; WebSearch sí funciona. En la sesión 5 llegaban también YouTube (web, RSS y la API, con clave),
+  TikTok, Instagram, la Graph API de Meta y el RSS de Google Trends; Reddit daba 403 y la API de GitHub está cerrada
+  para la sesión (la fecha del último commit de un repositorio, con `git clone --filter=blob:none --no-checkout`).
 - Instalado de serie: python3.11 (lo necesita FastSD), python3.13, uv, gcc y cmake, ffmpeg, Node 22,
   Playwright con Chromium y fuentes Inter.
 - El control de seguridad bloquea descargar y ejecutar código de terceros que el usuario no haya
@@ -81,6 +83,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
 ## Trampas conocidas
 
 - La API propia de FastSD devuelve JPEG con pérdida. Por eso existe `imagen/servidor.py`, que guarda PNG.
+- Nada de disfrazar peticiones con un User-Agent de navegador: el control de seguridad lo para («Bot Check
+  Circumvention»). Para datos de plataformas, fuentes públicas u oficiales (RSS, APIs con clave, datasets).
 - El servidor de imágenes escucha en `127.0.0.1:8124` y ocupa 5–12 GB de RAM con el modelo cargado (12 GB con FLUX.3 en la CPU sin AMX).
   `python3 imagen/generar.py --parar` lo apaga.
 - Cambiar de modelo en el servidor obliga a cargarlo otra vez (8–95 s).
