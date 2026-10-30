@@ -1,0 +1,256 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #0d1114; }
+    #planchas-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; }
+  </style>
+  <div id="root" data-composition-id="planchas" data-width="1920" data-height="1080">
+    <canvas id="planchas-lienzo" width="1920" height="1080"></canvas>
+  </div>
+  <script>
+    (function () {
+      // Planchas en 2.5D (el motor del estilo A, ampliado para esta apertura). Cada toma es una imagen con su
+      // mapa de profundidad y, si lo tiene, su sujeto recortado («frente») sobre un fondo rellenado.
+      // Todo sale del tiempo t (evento hf-seek): el mismo cuadro en cada render.
+      // Cada parámetro es una lista de claves [t, valor, curva] en segundos del vídeo; la curva va de la clave
+      // anterior a esta. Además de los del estilo A:
+      //   centro [x, y]: punto de la pantalla que queda fijo al hacer zoom (por defecto, el centro);
+      //   dir [x, y]: dirección del desenfoque de movimiento (horizontal por defecto, vertical en el barrido);
+      //   radial: desenfoque desde el centro de zoom, para atravesar la rueda;
+      //   luzColor: color del halo (rayo frío, amanecer cálido, foco de museo);
+      //   lluvia: intensidad de la lluvia dibujada sobre la tormenta;
+      //   capas: false para usar la imagen original sin separar sujeto y fondo (una toma sin paralaje).
+      // Motor de planchas del estilo A (sacado de la apertura). kit/montar.py escribe aquí las tomas de cada
+      // capítulo: cada una es una plancha con su profundidad y, si lo tiene, su sujeto recortado («frente»),
+      // y cada parámetro, una lista de claves [t, valor, curva] en segundos del capítulo (ver apertura).
+      const TOMAS = [{"nombre":"crepusculo","desde":0.0,"hasta":16.083,"luz":[0.73,0.4],"luzColor":[0.9,0.95,1.0],"dir":[1,0],"ventana":[0.25,0.5,0.62],"ventanaI":[[0.0,0.45]],"zoom":[[0.0,1.04],[16.083,1.1,"sine.inOut"]],"camX":[[0.0,-0.01],[16.083,0.01,"sine.inOut"]],"brillo":[[0.0,0.0],[1.4,1.0,"power2.out"],[15.533,1.0],[16.083,0.04,"power2.in"]],"luzI":[[0.0,0.14]],"luzR":[[0.0,0.25]]},{"nombre":"tapa","desde":16.083,"hasta":36.883,"luz":[0.72,0.4],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.52,0.62],"ventanaI":[[16.083,0.55]],"capas":false,"zoom":[[16.083,1.12],[36.883,1.2,"sine.inOut"]],"panX":[[16.083,-0.01],[36.883,0.02,"sine.inOut"]],"brillo":[[16.083,0.04],[16.983,1.0,"power2.out"],[36.333,1.0],[36.883,0.04,"power2.in"]],"luzI":[[16.083,0.18]],"luzR":[[16.083,0.25]]},{"nombre":"crepusculo","desde":36.883,"hasta":51.199,"luz":[0.73,0.4],"luzColor":[0.9,0.95,1.0],"dir":[1,0],"ventana":[0.25,0.5,0.62],"ventanaI":[[36.883,0.5]],"zoom":[[36.883,1.12],[51.199,1.2,"sine.inOut"]],"panX":[[36.883,0.04],[51.199,0.06,"sine.inOut"]],"brillo":[[36.883,0.04],[37.783,1.0,"power2.out"],[51.098,1.0],[51.099,0.6]],"luzI":[[36.883,0.18]],"luzR":[[36.883,0.25]]},{"nombre":"placa","desde":51.199,"hasta":64.615,"luz":[0.7,0.3],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.24,0.5,0.55],"ventanaI":[[51.199,0.35]],"zoom":[[51.199,1.04],[64.615,1.08,"sine.inOut"]],"camX":[[51.199,-0.006],[64.615,0.006,"sine.inOut"]],"brillo":[[51.199,0.58],[64.514,0.58],[64.515,0.348]],"luzI":[[51.199,0.1]],"luzR":[[51.199,0.25]]},{"nombre":"caja","desde":64.615,"hasta":75.2,"luz":[0.66,0.36],"luzColor":[1.0,0.82,0.56],"dir":[1,0],"ventana":[0.25,0.55,0.6],"ventanaI":[[64.615,0.45]],"zoom":[[64.615,1.12],[75.2,1.05,"sine.inOut"]],"camX":[[64.615,0.012],[75.2,-0.012,"sine.inOut"]],"brillo":[[64.615,1.0],[74.35,1.0],[75.12,0.0,"power2.in"]],"luzI":[[64.615,0.2]],"luzR":[[64.615,0.25]]}];
+      const PREDETERMINADO = { zoom: 1, panX: 0, panY: 0, camX: 0, camY: 0, desenfoque: 0, radial: 0, brillo: 1,
+        luzI: 0, luzR: 0.1, ventanaI: 0, lluvia: 0 };
+      const FOCO = 0.35; // profundidad que no se mueve con la cámara
+      const FPS = 30;
+
+      function valor(claves, t, def) {
+        if (!claves || !claves.length) return def;
+        if (t <= claves[0][0]) return claves[0][1];
+        for (let i = 1; i < claves.length; i++) {
+          const [t1, v1, curva] = claves[i];
+          const [t0, v0] = claves[i - 1];
+          if (t <= t1) {
+            const p = t1 > t0 ? (t - t0) / (t1 - t0) : 1;
+            return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(p);
+          }
+        }
+        return claves[claves.length - 1][1];
+      }
+
+      function estado(t) {
+        let toma = TOMAS[TOMAS.length - 1];
+        for (const candidata of TOMAS) if (t >= candidata.desde && t < candidata.hasta) { toma = candidata; break; }
+        const e = { toma };
+        for (const k in PREDETERMINADO) e[k] = valor(toma[k], t, PREDETERMINADO[k]);
+        e.centro = toma.centro || [0.5, 0.5];
+        // Halo: del punto de la imagen a la pantalla, con el mismo zoom, centro y paneo.
+        e.luzX = (toma.luz[0] - e.centro[0] - e.panX) * e.zoom + e.centro[0];
+        e.luzY = (toma.luz[1] - e.centro[1] - e.panY) * e.zoom + e.centro[1];
+        return e;
+      }
+      window.__planchasEstado = estado;
+
+      const lienzo = document.getElementById("planchas-lienzo");
+      const gl = lienzo.getContext("webgl", { preserveDrawingBuffer: true, antialias: false });
+      const VERT = `attribute vec2 p; varying vec2 uv; void main(){ uv = vec2(p.x, -p.y) * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }`;
+      const FRAG = `
+        precision highp float;
+        varying vec2 uv;
+        uniform sampler2D uImg, uProf, uFrente;
+        uniform float uCapas;
+        uniform float uZoom, uDesenfoque, uRadial, uBrillo, uLuzI, uLuzR, uCuadro, uFoco, uVentanaI, uLluvia;
+        uniform vec3 uVentana, uLuzColor;
+        uniform vec2 uPan, uCam, uLuz, uCentro, uDir;
+        const float ASPECTO = 1.7777778;
+        float azar(vec2 q){ return fract(sin(dot(q, vec2(12.9898, 78.233))) * 43758.5453); }
+        // Tres pasos de punto fijo: muestrea la profundidad donde cae el píxel ya desplazado.
+        // Canal R: profundidad del frente (o de la imagen única); G: la del fondo rellenado.
+        vec2 desplazar(vec2 p, bool fondo){
+          vec2 q = p;
+          for (int i = 0; i < 3; i++) {
+            vec4 m = texture2D(uProf, q);
+            q = p + uCam * ((fondo ? m.g : m.r) - uFoco);
+          }
+          return q;
+        }
+        vec3 muestra(vec2 qBase, vec2 qFrente, vec2 dx, bool capas){
+          vec3 base = texture2D(uImg, clamp(qBase + dx, 0.001, 0.999)).rgb;
+          if (capas) {
+            vec4 f = texture2D(uFrente, clamp(qFrente + dx, 0.001, 0.999));
+            base = mix(base, f.rgb, f.a);
+          }
+          return base;
+        }
+        // Lluvia: trazos finos inclinados por el viento que caen; dos capas a distinta velocidad.
+        float gotas(vec2 px, float t, float semilla, float ancho, float vel, float largo){
+          px.x += px.y * 0.28;
+          float col = floor(px.x / ancho);
+          float r = azar(vec2(col, semilla));
+          if (r > 0.22) return 0.0;
+          float periodo = 900.0 * (0.55 + r);
+          float y = mod(px.y - t * vel + r * 5000.0, periodo);
+          float d = abs(fract(px.x / ancho) - 0.5) * ancho;
+          return smoothstep(1.1, 0.2, d) * smoothstep(largo, largo * 0.4, y) * smoothstep(0.0, 6.0, y);
+        }
+        void main(){
+          vec2 p = (uv - uCentro) / uZoom + uCentro + uPan;
+          bool capas = uCapas > 0.5;
+          vec2 qBase = desplazar(p, capas);   // la imagen única, o el fondo si hay capas
+          vec2 qFrente = desplazar(p, false);
+          vec3 c = vec3(0.0);
+          // Sin desenfoque, las 16 muestras serían la misma: basta una (WebGL va por software).
+          bool movido = uDesenfoque > 0.0 || uRadial > 0.0;
+          int muestras = movido ? 16 : 1;
+          vec2 radio = (p - uCentro) * uRadial;
+          for (int i = 0; i < 16; i++) {
+            if (i >= muestras) break;
+            float k = float(i) / 15.0 - 0.5;
+            vec2 dx = uDir * k * uDesenfoque + radio * k;
+            c += muestra(qBase, qFrente, dx, capas);
+          }
+          c /= float(muestras);
+          // Etalonaje: algo menos de saturación y contraste suave; sombras hacia el verde azulado.
+          float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+          c = mix(vec3(l), c, 0.9);
+          c = (c - 0.5) * 1.05 + 0.5;
+          c += (1.0 - smoothstep(0.0, 0.45, l)) * vec3(-0.006, 0.004, 0.012);
+          float w = 1.0 - smoothstep(uVentana.z * 0.25, uVentana.z, length((uv - uVentana.xy) * vec2(1.0, 1.35)));
+          c *= 1.0 - uVentanaI * w;
+          // Lluvia, por encima de la imagen y por debajo de la luz.
+          if (uLluvia > 0.0) {
+            vec2 px = uv * vec2(1920.0, 1080.0);
+            float tt = uCuadro / 30.0;
+            float g = gotas(px, tt, 1.0, 9.0, 2300.0, 70.0) * 0.55 + gotas(px * 0.7, tt, 2.0, 7.0, 1500.0, 46.0) * 0.35;
+            c += g * uLluvia * vec3(0.55, 0.62, 0.66) * 0.22;
+          }
+          // Halo de luz (el rayo, el sol, el foco); con radio grande inunda el cuadro.
+          vec2 dl = (uv - uLuz) * vec2(ASPECTO, 1.0);
+          float g = uLuzI * exp(-dot(dl, dl) / max(uLuzR * uLuzR, 1e-5));
+          c = 1.0 - (1.0 - c) * (1.0 - clamp(g, 0.0, 1.0) * uLuzColor);
+          c += max(g - 1.0, 0.0) * uLuzColor * 0.3;
+          // Viñeta y grano de película (el grano cambia en cada cuadro, siempre igual para el mismo cuadro).
+          float v = smoothstep(1.05, 0.25, length((uv - 0.5) * vec2(1.25, 1.0)));
+          c *= mix(0.62, 1.0, v);
+          float n = azar(floor(uv * vec2(1920.0, 1080.0) / 1.5) + uCuadro * vec2(17.0, 59.0)) - 0.5;
+          c += n * 0.06 * (0.35 + 0.65 * (1.0 - abs(l - 0.5) * 2.0));
+          gl_FragColor = vec4(clamp(c * uBrillo, 0.0, 1.0), 1.0);
+        }`;
+
+      function compilar(tipo, codigo) {
+        const s = gl.createShader(tipo);
+        gl.shaderSource(s, codigo);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+        return s;
+      }
+      const prog = gl.createProgram();
+      gl.attachShader(prog, compilar(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compilar(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(prog, "p");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      const U = {};
+      for (const n of ["uImg", "uProf", "uFrente", "uCapas", "uZoom", "uDesenfoque", "uRadial", "uBrillo", "uLuzI", "uLuzR",
+        "uCuadro", "uFoco", "uPan", "uCam", "uLuz", "uLuzColor", "uVentana", "uVentanaI", "uLluvia", "uCentro", "uDir"])
+        U[n] = gl.getUniformLocation(prog, n);
+
+      function textura(imagen, formato) {
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, formato || gl.RGB, formato || gl.RGB, gl.UNSIGNED_BYTE, imagen);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        return tex;
+      }
+      function cargarImagen(src) {
+        return new Promise((ok, mal) => {
+          const im = new Image();
+          im.onload = () => (im.decode ? im.decode().then(() => ok(im), () => ok(im)) : ok(im));
+          im.onerror = () => mal(new Error("no carga " + src));
+          im.src = src;
+        });
+      }
+
+      let listo = false;
+      function dibujar(t) {
+        if (!listo) return;
+        const e = estado(t);
+        const toma = e.toma;
+        gl.viewport(0, 0, 1920, 1080);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, toma.texImg);
+        gl.uniform1i(U.uImg, 0);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, toma.texProf);
+        gl.uniform1i(U.uProf, 1);
+        gl.activeTexture(gl.TEXTURE2);
+        gl.bindTexture(gl.TEXTURE_2D, toma.texFrente || toma.texImg);
+        gl.uniform1i(U.uFrente, 2);
+        gl.uniform1f(U.uCapas, toma.texFrente ? 1 : 0);
+        gl.uniform1f(U.uZoom, e.zoom);
+        gl.uniform2f(U.uPan, e.panX, e.panY);
+        gl.uniform2f(U.uCam, e.camX, e.camY);
+        gl.uniform2f(U.uCentro, e.centro[0], e.centro[1]);
+        const dir = toma.dir || [1, 0];
+        gl.uniform2f(U.uDir, dir[0], dir[1]);
+        gl.uniform1f(U.uFoco, FOCO);
+        gl.uniform1f(U.uDesenfoque, e.desenfoque);
+        gl.uniform1f(U.uRadial, e.radial);
+        gl.uniform1f(U.uBrillo, e.brillo);
+        gl.uniform2f(U.uLuz, e.luzX, e.luzY);
+        gl.uniform1f(U.uLuzI, e.luzI);
+        gl.uniform1f(U.uLuzR, e.luzR);
+        const lc = toma.luzColor || [1.0, 0.8, 0.52];
+        gl.uniform3f(U.uLuzColor, lc[0], lc[1], lc[2]);
+        gl.uniform1f(U.uLluvia, e.lluvia);
+        gl.uniform1f(U.uCuadro, Math.round(t * FPS));
+        const v = toma.ventana || [0.5, 0.5, 1];
+        gl.uniform3f(U.uVentana, v[0], v[1], v[2]);
+        gl.uniform1f(U.uVentanaI, e.ventanaI);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
+
+      // Cada toma usa la plancha a 1920 × 1080 (EDSR), su profundidad y, si hay sujeto, el frente recortado.
+      // Una plancha que sale en dos tomas se carga una sola vez.
+      const cache = {};
+      function texturas(nombre, capas) {
+        const clave = nombre + (capas ? "+capas" : "");
+        if (!cache[clave]) {
+          const base = "assets/img/" + nombre;
+          cache[clave] = Promise.all([cargarImagen(base + (capas ? "_fondo.jpg" : ".jpg")), cargarImagen(base + "_prof.png"),
+            capas ? cargarImagen(base + "_frente.png") : null])
+            .then(([im, pr, fr]) => ({ img: textura(im), prof: textura(pr), frente: fr ? textura(fr, gl.RGBA) : null }));
+        }
+        return cache[clave];
+      }
+      const carga = Promise.all(
+        TOMAS.map((toma) => texturas(toma.nombre, toma.capas !== false).then((tx) => {
+          toma.texImg = tx.img;
+          toma.texProf = tx.prof;
+          if (tx.frente) toma.texFrente = tx.frente;
+        })),
+      ).then(() => {
+        listo = true;
+        dibujar(0);
+      });
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      window.__hf.buildReady["planchas"] = carga;
+      window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time));
+
+      window.__timelines["planchas"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

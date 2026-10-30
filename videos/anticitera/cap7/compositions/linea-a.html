@@ -1,0 +1,121 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #linea-a-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #linea-a-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.24em; fill: #f3ede4; }
+    #linea-a-svg .sub { font: 500 26px "Hanken Grotesk", sans-serif; letter-spacing: 0.04em; fill: #e8b66a; }
+  </style>
+  <div id="root" data-composition-id="linea-a" data-width="1920" data-height="1080">
+    <!-- Línea de tiempo: la línea se dibuja de izquierda a derecha, con una marca pequeña por siglo, y cada
+         fecha aparece en la palabra que la nombra; un tramo puede quedar señalado (un hueco). -->
+    <svg id="linea-a-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <g id="linea-a-cam">
+        <path id="linea-a-linea" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;opacity:0.8"/>
+        <path id="linea-a-siglos" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:1.5;opacity:0.45"/>
+        <g id="linea-a-tramo"><path id="linea-a-tramop" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2"/><text id="linea-a-tramot" class="sub" text-anchor="middle"></text></g>
+        <g id="linea-a-marcas"></g>
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 15.010;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("linea-a-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const RANGO = [-300, 0], MARCAS = [{"a": -65, "n": "h. 65 a. C.", "s": "naufragio", "t": 15.85}, {"a": -205, "n": "205 a. C.", "s": "la espiral de eclipses", "t": 22.068, "lado": "aba"}], DIBUJA = [15.31, 1.2], CAMARA = [[15.01, 1.0, 960, 560], [24.934, 1.06, 900, 570, "sine.inOut"]], TRAMO = null;
+      const X0 = 180, X1 = 1740, Y = 600;
+      const X = (a) => X0 + ((a - RANGO[0]) / (RANGO[1] - RANGO[0])) * (X1 - X0);
+      $("linea").setAttribute("d", `M${X0},${Y}L${X1},${Y}`);
+      let sd = "";
+      for (let a = Math.ceil(RANGO[0] / 100) * 100; a <= RANGO[1]; a += 100) sd += `M${X(a).toFixed(1)},${Y - 8}L${X(a).toFixed(1)},${Y + 8}`;
+      $("siglos").setAttribute("d", sd);
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      const M = MARCAS.map((m) => {
+        const g = el("g", {}, $("marcas")), x = X(m.a), arriba = m.lado !== "aba", h = m.alto || 70;
+        const palo = el("path", { d: `M${x},${Y}L${x},${arriba ? Y - h : Y + h}`, pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2" }, g);
+        el("circle", { cx: x, cy: Y, r: 7, style: "fill:#e8b66a" }, g);
+        const ty = arriba ? Y - h - 46 : Y + h + 40;
+        const t1 = el("text", { x, y: ty, class: "rotulo", "text-anchor": m.ancla || "middle" }, g); t1.textContent = m.n;
+        let t2 = null;
+        if (m.s) { t2 = el("text", { x, y: ty + 36, class: "sub", "text-anchor": m.ancla || "middle" }, g); t2.textContent = m.s; }
+        return { g, palo, t1, t2, t: m.t - T0 };
+      });
+      if (TRAMO) {
+        const a = X(TRAMO.a0), b = X(TRAMO.a1), y = Y + 60;
+        $("tramop").setAttribute("d", `M${a},${y - 14}L${a},${y}L${b},${y}L${b},${y - 14}`);
+        $("tramot").setAttribute("x", ((a + b) / 2).toFixed(1)); $("tramot").setAttribute("y", y + 44); $("tramot").textContent = TRAMO.n;
+      }
+      function dibujar(t) {
+        const p = AY.paso(t, DIBUJA[0] - T0, DIBUJA[1], "power1.inOut");
+        AY.trazo($("linea"), p); AY.trazo($("siglos"), p);
+        M.forEach((m) => {
+          m.g.style.opacity = AY.paso(t, m.t - 0.1, 0.2).toFixed(3);
+          AY.trazo(m.palo, AY.paso(t, m.t - 0.05, 0.45, "expo.out"));
+          m.t1.style.opacity = AY.paso(t, m.t + 0.1, 0.25).toFixed(3);
+          if (m.t2) m.t2.style.opacity = AY.paso(t, m.t + 0.35, 0.3).toFixed(3);
+        });
+        if (TRAMO) {
+          AY.trazo($("tramop"), AY.paso(t, TRAMO.t - T0, 0.8, "power2.inOut"));
+          $("tramot").style.opacity = AY.paso(t, TRAMO.t - T0 + 0.5, 0.3).toFixed(3);
+        } else $("tramo").style.display = "none";
+        const k = CAMARA.map((c) => [c[0] - T0].concat(c.slice(1)));
+        const cam = [1, 2, 3].map((i) => AY.valor(k.map((c) => [c[0], c[i], c[4]]), t));
+        AY.camara($("cam"), cam[0], cam[1], cam[2]);
+        $("svg").style.opacity = (1 - AY.paso(t, 9.624 - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["linea-a"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

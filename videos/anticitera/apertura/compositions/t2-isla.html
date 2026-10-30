@@ -38,7 +38,7 @@
   <script>
     (function () {
       // Tiempos locales: la escena empieza en 6,8 s. Voz (absolutos): «Anticitera» 6,88; «isla» 8,16;
-      // «Creta» 9,26; «Peloponeso» 10,14; «baja» 13,77 (el barrido).
+      // «Creta» 9,46; «Peloponeso» 10,14; «baja» 13,77 (el barrido).
       const tl = gsap.timeline({ paused: true });
       const T = (absoluto) => absoluto - 6.8;
       tl.fromTo("#t2-linea", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, T(7.2));
@@ -50,8 +50,8 @@
       tl.fromTo("#t2-coordenadas", { opacity: 0, color: "#8a8780" }, { opacity: 1, duration: 0.2, ease: "power1.out" }, T(8.2));
       tl.to("#t2-coordenadas", { color: "#f3ede4", duration: 0.5, ease: "power2.out" }, T(8.4));
       // Cada rumbo en su palabra: la flecha se dibuja y el nombre aparece.
-      tl.fromTo("#t2-sur .t2-flecha", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, T(9.2));
-      tl.fromTo("#t2-sur span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(9.26));
+      tl.fromTo("#t2-sur .t2-flecha", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, T(9.4));
+      tl.fromTo("#t2-sur span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(9.46));
       tl.fromTo("#t2-norte .t2-flecha", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "expo.out" }, T(10.08));
       tl.fromTo("#t2-norte span", { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, T(10.14));
       // Todo sale antes del barrido hacia abajo.

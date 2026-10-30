@@ -1,0 +1,107 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #cosmos-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #cosmos-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.24em; fill: #f3ede4; }
+  </style>
+  <div id="root" data-composition-id="cosmos" data-width="1920" data-height="1080">
+    <!-- El frente según el modelo de la UCL (Freeth et al., 2021): anillos concéntricos en el orden del cosmos
+         griego (Luna, Mercurio, Venus, Sol, Marte, Júpiter, Saturno), cada uno con su marcador. Los planetas
+         avanzan y a ratos retroceden (un epiciclo simplificado); la leyenda, a la izquierda, con líneas guía. -->
+    <svg id="cosmos-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <g id="cosmos-anillos"></g><g id="cosmos-guias"></g><g id="cosmos-nombres"></g><g id="cosmos-marcas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 51.199;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("cosmos-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const W = { anillos: 3.440, sol: 4.720, marcador: 8.460, girando: 9.380 };
+      const CX = 1280, CY = 560;
+      // nombre, radio, velocidad media (°/s), amplitud y periodo del retroceso, ángulo inicial
+      const P = [["LUNA", 70, 60, 0, 1, 20], ["MERCURIO", 125, 25, 20, 1.3, 140], ["VENUS", 180, 18, 18, 2.0, 250],
+                 ["SOL", 235, 12, 0, 1, 330], ["MARTE", 290, 7, 10, 3.0, 60], ["JÚPITER", 345, 3, 5, 4.0, 190], ["SATURNO", 400, 1.5, 3, 5.0, 290]];
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      const filas = P.map(([n, r, w, a, per, g0], i) => {
+        const sol = n === "SOL";
+        const anillo = el("path", { d: AY.circulo(CX, CY, r), pathLength: 100,
+          style: `fill:none;stroke:${sol ? "#e8b66a" : "#f3ede4"};stroke-width:${sol ? 2 : 1.4};opacity:${sol ? 0.9 : 0.55}` }, $("anillos"));
+        const y = CY - r * 0.7, xr = CX - r * Math.sqrt(1 - 0.49);
+        const yl = 250 + (6 - i) * 46;   // la leyenda en columna, de Saturno (arriba) a Luna: las guías no se cruzan
+        const guia = el("path", { d: `M560,${yl - 9}L640,${yl - 9}L${xr.toFixed(1)},${y.toFixed(1)}`, pathLength: 100,
+          style: "fill:none;stroke:#e8b66a;stroke-width:1.2;opacity:0.7" }, $("guias"));
+        const tx = el("text", { x: 545, y: yl, class: "rotulo", "text-anchor": "end" }, $("nombres"));
+        tx.textContent = n;
+        const marca = el("circle", { r: sol ? 14 : n === "LUNA" ? 10 : 8, style: sol ? "fill:#e8b66a" : "fill:#f3ede4" }, $("marcas"));
+        return { anillo, guia, tx, marca, r, w, a, per, g0, i };
+      });
+      function dibujar(t) {
+        const tau = Math.max(0, t - W.girando);
+        filas.forEach((f) => {
+          AY.trazo(f.anillo, AY.paso(t, W.anillos - 0.3 + f.i * 0.12, 0.9, "power2.inOut"));
+          AY.trazo(f.guia, AY.paso(t, W.sol - 0.2 + f.i * 0.22, 0.5, "power2.out"));
+          f.tx.style.opacity = AY.paso(t, W.sol + f.i * 0.22, 0.3).toFixed(3);
+          const g = f.g0 + f.w * tau + f.a * Math.sin((2 * Math.PI * tau) / f.per);
+          const [x, y] = AY.pol(CX, CY, f.r, g);
+          f.marca.setAttribute("cx", x.toFixed(1)); f.marca.setAttribute("cy", y.toFixed(1));
+          f.marca.style.opacity = AY.paso(t, W.marcador - 0.4 + f.i * 0.06, 0.3).toFixed(3);
+        });
+        $("svg").style.opacity = (1 - AY.paso(t, 13.416 - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["cosmos"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

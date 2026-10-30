@@ -1,0 +1,93 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #rueda-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #rueda-svg path { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  </style>
+  <div id="root" data-composition-id="rueda" data-width="1920" data-height="1080">
+    <!-- Una rueda dentada que se dibuja encima de la de verdad, en la plancha: sigue su zoom y su paneo.
+         Corona de dientes triangulares, aro, buje y cuatro radios (la geometría de la apertura). -->
+    <svg id="rueda-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="rueda-dientes" pathLength="100"/><path id="rueda-cuerpo" pathLength="100"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 23.752;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("rueda-" + s);
+      const U = [0.66, 0.4], R0 = 70, N = 30, GIRO = 0;
+      const ENTRA = 1.620, SALE = 2.953;
+      function cuerpo(cx, cy, r, fase) {
+        const aro = r * 0.86, buje = Math.max(6, r * 0.13);
+        let d = AY.circulo(cx, cy, aro) + AY.circulo(cx, cy, buje);
+        for (let k = 0; k < 4; k++) {
+          const a = AY.rad(fase + k * 90 + 180 / N);
+          for (const lado of [-1, 1]) {
+            const o = lado * r * 0.045, ox = -Math.sin(a) * o, oy = Math.cos(a) * o;
+            d += `M${(cx + buje * Math.cos(a) + ox).toFixed(1)},${(cy + buje * Math.sin(a) + oy).toFixed(1)}` +
+                 `L${(cx + aro * Math.cos(a) + ox).toFixed(1)},${(cy + aro * Math.sin(a) + oy).toFixed(1)}`;
+          }
+        }
+        return d;
+      }
+      function dibujar(t) {
+        const [x, y, z] = AY.enPantalla(U[0], U[1], t + T0), r = R0 * z, fase = GIRO * t;
+        $("dientes").setAttribute("d", AY.dientes(x, y, r, N, fase));
+        $("cuerpo").setAttribute("d", cuerpo(x, y, r, fase));
+        // Se dibuja con un trazo que avanza y sale con un fundido corto.
+        AY.trazo($("dientes"), AY.paso(t, ENTRA, 0.8, "power2.inOut"));
+        AY.trazo($("cuerpo"), AY.paso(t, ENTRA + 0.14, 0.8, "power2.inOut"));
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.2, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["rueda"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

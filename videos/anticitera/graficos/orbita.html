@@ -1,0 +1,66 @@
+<template>
+  <style>
+/*FUENTES*/
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; }
+    #{{id}}-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.3em; fill: #f3ede4; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- La órbita de la Luna, con la excentricidad exagerada para que se vea: la Luna recorre la elipse según la
+         ley de Kepler y deja una marca cada mismo intervalo de tiempo; las marcas se separan cerca de la Tierra
+         (perigeo, donde va más deprisa) y se juntan lejos (apogeo). -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-elipse" class="l" pathLength="100"/>
+      <g id="{{id}}-marcas"></g>
+      <circle id="{{id}}-tierra" r="22" style="fill:#f3ede4"/>
+      <circle id="{{id}}-luna" r="13" style="fill:#e8b66a"/>
+      <text id="{{id}}-peri" class="rotulo" text-anchor="middle">PERIGEO</text>
+      <text id="{{id}}-apo" class="rotulo" text-anchor="middle">APOGEO</text>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const CX = 1180, CY = 560, A = 420, EXC = 0.62, B = A * Math.sqrt(1 - EXC * EXC), FX = CX - A * EXC;
+      const W = { orbita: {{w:órbita}}, elipse: {{w:elipse}}, cerca: {{w:cerca}}, deprisa: {{w:deprisa}} };
+      const P = 2 * (W.cerca + 0.1 - W.elipse);     // sale del apogeo en «elipse» y pasa por el perigeo en «cerca»
+      const N = 20;                                  // marcas por vuelta, a intervalos iguales de tiempo
+      $("elipse").setAttribute("d", `M${CX + A},${CY}a${A},${B} 0 1,0 ${-2 * A},0a${A},${B} 0 1,0 ${2 * A},0`);
+      $("tierra").setAttribute("cx", FX); $("tierra").setAttribute("cy", CY);
+      $("peri").setAttribute("x", CX - A - 34); $("peri").setAttribute("y", CY + 10); $("peri").setAttribute("text-anchor", "end");
+      $("apo").setAttribute("x", CX + A + 34); $("apo").setAttribute("y", CY + 10); $("apo").setAttribute("text-anchor", "start");
+      // Posición tras una fracción f de vuelta contada desde el apogeo (ecuación de Kepler por Newton).
+      function pos(f) {
+        const M = 2 * Math.PI * f + Math.PI;
+        let E = M;
+        for (let i = 0; i < 8; i++) E -= (E - EXC * Math.sin(E) - M) / (1 - EXC * Math.cos(E));
+        return [CX - A * Math.cos(E), CY - B * Math.sin(E)];
+      }
+      const marcas = [];
+      for (let k = 0; k <= N; k++) {
+        const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const [x, y] = pos(k / N);
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", "5");
+        c.setAttribute("style", "fill:#f3ede4");
+        $("marcas").appendChild(c);
+        marcas.push(c);
+      }
+      function dibujar(t) {
+        AY.trazo($("elipse"), AY.paso(t, W.orbita - 0.3, 0.9, "power2.inOut"));
+        $("tierra").style.opacity = AY.paso(t, W.orbita - 0.2, 0.4).toFixed(3);
+        const f = Math.max(0, (t - W.elipse) / P);
+        const [x, y] = pos(Math.min(f, 1.5));
+        $("luna").setAttribute("cx", x.toFixed(1)); $("luna").setAttribute("cy", y.toFixed(1));
+        $("luna").style.opacity = AY.paso(t, W.elipse - 0.3, 0.3).toFixed(3);
+        marcas.forEach((c, k) => { c.style.opacity = (f >= k / N ? 0.75 * AY.paso(t, W.elipse + (k / N) * P, 0.15) : 0).toFixed(3); });
+        $("peri").style.opacity = (0.85 * AY.paso(t, W.cerca - 0.2, 0.3)).toFixed(3);
+        $("apo").style.opacity = (0.85 * AY.paso(t, W.elipse + 0.2, 0.3)).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, {{dur}} - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

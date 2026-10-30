@@ -1,0 +1,126 @@
+<template>
+  <style>
+/*FUENTES*/
+    @font-face { font-family: "GFS Didot"; src: url("assets/fonts/didot-griego.woff2") format("woff2"); font-weight: 400; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    #{{id}}-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 1.2; stroke-linecap: round; }
+    #{{id}}-svg .glifo { font: 400 15px "GFS Didot", serif; fill: #e8b66a; text-anchor: middle; dominant-baseline: central; }
+    #{{id}}-svg .rotulo { font: 600 9px "Hanken Grotesk", sans-serif; letter-spacing: 0.24em; fill: #f3ede4; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- La cara de atrás (reconstrucción de Freeth et al.): arriba, la espiral metónica de 5 vueltas y 235 casillas
+         (19 años), con el dial de los juegos en su centro; abajo, la de saros, de 4 vueltas y 223 casillas, con los
+         signos de eclipse (Σ, Luna; Η, Sol) y detrás la rueda de 223 dientes que la mueve. Las agujas siguen el
+         surco con su pasador. Los rótulos pequeños se leen porque la cámara se acerca a ellos. -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <g id="{{id}}-cam">
+        <path id="{{id}}-e3" class="tinta" pathLength="100" style="opacity:0.45"/>
+        <path id="{{id}}-met" class="l" pathLength="100"/><path id="{{id}}-metc" class="tinta" pathLength="100"/>
+        <path id="{{id}}-sar" class="l" pathLength="100"/><path id="{{id}}-sarc" class="tinta" pathLength="100"/>
+        <g id="{{id}}-glifos"></g>
+        <g id="{{id}}-juegos"><path id="{{id}}-jd" class="l"/><text id="{{id}}-olimpia" class="rotulo" text-anchor="middle">OLIMPIA</text></g>
+        <g id="{{id}}-am"><path id="{{id}}-amp" class="l" style="stroke-width:3"/><circle id="{{id}}-amc" r="7" style="fill:#f3ede4"/></g>
+        <g id="{{id}}-as"><path id="{{id}}-asp" class="l" style="stroke-width:3"/><circle id="{{id}}-asc" r="7" style="fill:#f3ede4"/></g>
+        <circle cx="1240" cy="300" r="6" style="fill:#e8b66a"/><circle cx="1240" cy="800" r="6" style="fill:#e8b66a"/>
+        <g id="{{id}}-leyenda">
+          <text class="glifo" x="1520" y="712" style="font-size:22px">Σ</text><text class="rotulo" x="1540" y="715">LUNA</text>
+          <text class="glifo" x="1520" y="742" style="font-size:22px">Η</text><text class="rotulo" x="1540" y="745">SOL</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const W = { espirales: {{w:espirales}}, arriba: {{w:arriba}}, meses: {{w:meses}}, aguja: {{w:aguja}}, vuelta: {{w:vuelta}},
+        abajo: {{w:abajo}}, meses2: {{w:meses#3}}, saros: {{w:saros}}, igual: {{w:igual}}, casillas2: {{w:casillas#2}},
+        signos: {{w:signos}}, hora: {{w:hora}}, rueda: {{w:La rueda}}, dientes: {{w:dientes}}, dentro: {{w:Dentro}},
+        dial: {{w:dial}}, juegos: {{w:juegos}}, olimpicos: {{w:Olímpicos}} };
+      const M = [1240, 300], S = [1240, 800], R0 = 62, R1 = 240;
+      // Espiral de Arquímedes: radio que crece con el ángulo (desde arriba, como el reloj).
+      function espiral(c, vueltas) {
+        let d = "";
+        for (let i = 0; i <= vueltas * 180; i++) {
+          const g = (i / (vueltas * 180)) * vueltas * 360, r = R0 + (R1 - R0) * (i / (vueltas * 180));
+          const [x, y] = AY.pol(c[0], c[1], r, g - 90);
+          d += (i ? "L" : "M") + x.toFixed(1) + "," + y.toFixed(1);
+        }
+        return d;
+      }
+      const radio = (vueltas, g) => R0 + (R1 - R0) * (g / (vueltas * 360));
+      function casillas(c, vueltas, n) {
+        let d = "";
+        const paso = (R1 - R0) / vueltas;
+        for (let k = 0; k <= n; k++) {
+          const g = (k * vueltas * 360) / n, r = radio(vueltas, g);
+          const [x0, y0] = AY.pol(c[0], c[1], r - paso * 0.42, g - 90), [x1, y1] = AY.pol(c[0], c[1], r + paso * 0.42, g - 90);
+          d += `M${x0.toFixed(1)},${y0.toFixed(1)}L${x1.toFixed(1)},${y1.toFixed(1)}`;
+        }
+        return d;
+      }
+      $("met").setAttribute("d", espiral(M, 5)); $("metc").setAttribute("d", casillas(M, 5, 235));
+      $("sar").setAttribute("d", espiral(S, 4)); $("sarc").setAttribute("d", casillas(S, 4, 223));
+      // Signos de eclipse en las casillas de saros: cada 6 meses (a veces 5), Luna y Sol alternados.
+      const glifos = [];
+      for (let k = 2, i = 0; k < 223; k += (i % 3 === 2 ? 5 : 6), i++) {
+        const g = ((k + 0.5) * 4 * 360) / 223, [x, y] = AY.pol(S[0], S[1], radio(4, g), g - 90);
+        const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tx.setAttribute("class", "glifo"); tx.setAttribute("x", x.toFixed(1)); tx.setAttribute("y", y.toFixed(1));
+        tx.textContent = i % 2 ? "Η" : "Σ";
+        $("glifos").appendChild(tx);
+        glifos.push([tx, k / 223]);
+      }
+      // Dial de los juegos: cuatro sectores en el centro de la espiral de arriba.
+      let jd = AY.circulo(M[0], M[1], 46);
+      for (let k = 0; k < 4; k++) { const [x, y] = AY.pol(M[0], M[1], 46, k * 90 - 90); jd += `M${M[0]},${M[1]}L${x.toFixed(1)},${y.toFixed(1)}`; }
+      $("jd").setAttribute("d", jd);
+      $("olimpia").setAttribute("x", M[0] + 56); $("olimpia").setAttribute("y", M[1] - 30); $("olimpia").setAttribute("text-anchor", "start");
+      $("e3").setAttribute("d", AY.dientes(S[0], S[1], 262, 223, 0) + AY.circulo(S[0], S[1], 248));
+      function aguja(c, vueltas, g, p, a) {
+        const r = radio(vueltas, g), [x, y] = AY.pol(c[0], c[1], r, g - 90), [xe, ye] = AY.pol(c[0], c[1], R1 + 26, g - 90);
+        $(p).setAttribute("d", `M${c[0]},${c[1]}L${xe.toFixed(1)},${ye.toFixed(1)}`);
+        $(a).setAttribute("cx", x.toFixed(1)); $(a).setAttribute("cy", y.toFixed(1));
+      }
+      function dibujar(t) {
+        const pe = AY.paso(t, W.espirales - 0.4, 1.4, "power2.inOut");
+        AY.trazo($("met"), pe); AY.trazo($("sar"), pe);
+        AY.trazo($("metc"), AY.paso(t, W.meses - 1.2, 1.6, "power1.inOut"));
+        AY.trazo($("sarc"), AY.paso(t, W.meses2 - 1.0, 1.4, "power1.inOut"));
+        // Las agujas recorren su espiral: la de arriba al «recorre», la de abajo con el saros.
+        const gm = AY.valor([[W.aguja - 0.2, 40], [W.vuelta + 1.0, 5 * 360 * 0.62, "power1.inOut"], [W.vuelta + 60, 5 * 360 * 0.7]], t);
+        aguja(M, 5, gm, "amp", "amc");
+        $("am").style.opacity = AY.paso(t, W.aguja - 0.4, 0.4).toFixed(3);
+        const gs = AY.valor([[W.saros, 200], [W.igual + 0.5, 520, "power1.inOut"], [W.hora, 560, "sine.inOut"], [W.hora + 60, 700]], t);
+        aguja(S, 4, gs, "asp", "asc");
+        $("as").style.opacity = AY.paso(t, W.saros - 0.3, 0.4).toFixed(3);
+        // Signos de eclipse, que aparecen recorriendo la espiral, y su leyenda.
+        glifos.forEach(([tx, f]) => { tx.style.opacity = AY.paso(t, W.signos - 0.6 + f * 1.2, 0.2).toFixed(3); });
+        $("leyenda").style.opacity = (AY.paso(t, W.signos + 0.4, 0.4) * (1 - AY.paso(t, W.rueda - 0.3, 0.3))).toFixed(3);
+        // En el dial de los juegos, las espirales se apagan para que se lea.
+        const apaga = 1 - 0.7 * AY.paso(t, W.dial - 0.4, 0.8, "power2.inOut");
+        for (const n of ["met", "metc", "sar", "sarc", "glifos"]) $(n).style.opacity = apaga.toFixed(3);
+        $("am").style.opacity = (AY.paso(t, W.aguja - 0.4, 0.4) * apaga).toFixed(3);
+        // La rueda de 223 dientes detrás de la espiral de abajo; el dial de los juegos en la de arriba.
+        AY.trazo($("e3"), AY.paso(t, W.rueda - 0.2, 1.4, "power2.inOut"));
+        $("e3").setAttribute("transform", `rotate(${AY.valor([[W.rueda, 0], [W.rueda + 30, 40]], t).toFixed(2)} ${S[0]} ${S[1]})`);
+        $("juegos").style.opacity = AY.paso(t, W.dial - 0.3, 0.5).toFixed(3);
+        // Cámara: las dos espirales; arriba; abajo; los signos; la rueda; el dial de los juegos.
+        // La espiral queda a la derecha de la columna de texto (su borde izquierdo, a partir de x ≈ 1000 en pantalla).
+        const k = [[0, 0.9, 1240, 550], [W.arriba - 0.3, 0.9, 1240, 550], [W.arriba + 0.9, 1.72, 980, 300, "power2.inOut"],
+                   [W.abajo - 0.4, 1.72, 980, 300], [W.abajo + 0.8, 1.72, 980, 800, "power2.inOut"],
+                   [W.casillas2 - 0.5, 1.72, 980, 800], [W.casillas2 - 0.4, 3.4, 1390, 700], [W.hora + 0.2, 3.1, 1420, 730, "sine.inOut"],
+                   [W.rueda - 0.4, 3.1, 1420, 730], [W.rueda + 0.9, 1.45, 920, 800, "power2.inOut"],
+                   [W.dentro - 0.3, 1.45, 920, 800], [W.dentro + 1.1, 5.2, M[0] - 70, M[1], "power2.inOut"],
+                   [W.olimpicos, 5.4, M[0] - 70, M[1], "sine.inOut"]];
+        const cam = [1, 2, 3].map((i) => AY.valor(k.map((c) => [c[0], c[i], c[4]]), t));
+        AY.camara($("cam"), cam[0], cam[1], cam[2]);
+        $("svg").style.opacity = (1 - AY.paso(t, {{dur}} - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

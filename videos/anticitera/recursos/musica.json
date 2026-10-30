@@ -1,0 +1,15 @@
+{
+ "_nota": "Una pieza de 30 s por capítulo, en el orden de guion.json; audio/lecho.py la extiende a la duración del capítulo. MusicGen: solo uso no comercial.",
+ "duracion": 30,
+ "semilla": 7,
+ "piezas": [
+  "slow melancholic chamber underscore, solo cello and soft felt piano, dusty and intimate, gentle sustained strings, 66 bpm, no drums",
+  "curious investigative documentary underscore, pulsing low strings in steady eighth notes, soft piano motif, subtle analog synth texture, slowly building momentum, 84 bpm, no drums",
+  "warm wondrous cinematic underscore, celesta and harp arpeggios over soft strings, delicate and luminous, 76 bpm, no drums",
+  "nocturnal ethereal ambient score, slow evolving warm synth pad, distant soft choir, sparse piano notes, gentle circular motion, 70 bpm, no drums",
+  "tense dark cinematic underscore, low string ostinato, deep timpani swells, ominous low brass, building suspense, 72 bpm",
+  "majestic cosmic ambient score, slow rising strings, shimmering high pads, soft choir, vast and calm, 64 bpm, no drums",
+  "mysterious inquisitive documentary underscore, pizzicato strings, low clarinet melody, soft piano, light hand percussion, 90 bpm",
+  "emotional reflective cinematic finale, solo piano theme with warm strings slowly swelling, bittersweet and hopeful, 68 bpm, no drums"
+ ]
+}

@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- El movimiento retrógrado, sobre el cielo de la plancha: un planeta avanza entre las estrellas, se para,
+         retrocede y vuelve a avanzar, y deja su rastro. Sigue el zoom y el paneo de la plancha. -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-rastro" style="fill:none;stroke:#e8b66a;stroke-width:2;stroke-dasharray:2 9;stroke-linecap:round"/>
+      <circle id="{{id}}-planeta" r="9" style="fill:#f3ede4"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const U = {{p:centro}}, L = {{p:largo}}, R = {{p:radio}}, A0 = {{t:desde_t}}, A1 = {{t:hasta_t}}, SALE = {{t:sale}};
+      // Bucle centrado: x avanza con un círculo encima (epiciclo visto de canto), que lo hace retroceder a mitad.
+      const punto = (u, cx, cy, z) => [cx + z * (L * (u - 0.5) + R * Math.sin(2 * Math.PI * u)), cy + z * R * 0.5 * Math.cos(2 * Math.PI * u)];
+      function dibujar(t) {
+        const [cx, cy, z] = AY.enPantalla(U[0], U[1], t + T0);
+        const f = AY.paso(t, A0, A1 - A0, "none");
+        let d = "";
+        for (let i = 0; i <= 120 * f; i++) { const [x, y] = punto(i / 120, cx, cy, z); d += (i ? "L" : "M") + x.toFixed(1) + "," + y.toFixed(1); }
+        $("rastro").setAttribute("d", d || "M0,0");
+        const [px, py] = punto(f, cx, cy, z);
+        $("planeta").setAttribute("cx", px.toFixed(1)); $("planeta").setAttribute("cy", py.toFixed(1));
+        $("planeta").style.opacity = AY.paso(t, A0 - 0.2, 0.3).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.25, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

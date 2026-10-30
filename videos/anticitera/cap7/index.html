@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es" data-composition-variables='[
+  {"id":"color-ground","type":"color","label":"Fondo","default":"#0d1114"},
+  {"id":"color-ink","type":"color","label":"Texto","default":"#f3ede4"},
+  {"id":"color-accent","type":"color","label":"Acento","default":"#e8b66a"}
+]'>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>El mecanismo de Anticitera · VII. ¿Quién lo construyó?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root { --color-ground: #0d1114; --color-ink: #f3ede4; --color-accent: #e8b66a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--color-ground); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      #fondo { position: absolute; inset: 0; background: var(--color-ground); }
+    </style>
+  </head>
+  <body>
+    <!-- Generado por videos/anticitera/kit/montar.py desde montaje/cap7.py: editar allí y volver a montar. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="64.75" data-width="1920" data-height="1080">
+      <div id="fondo"></div>
+      <div id="planchas" data-composition-id="planchas" data-composition-src="compositions/planchas.html"
+        data-start="0" data-duration="64.75" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <div id="mapa-a" data-composition-id="mapa-a" data-composition-src="compositions/mapa-a.html"
+        data-start="10.827" data-duration="4.183" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="linea-a" data-composition-id="linea-a" data-composition-src="compositions/linea-a.html"
+        data-start="15.01" data-duration="9.624" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="mapa-b" data-composition-id="mapa-b" data-composition-src="compositions/mapa-b.html"
+        data-start="24.634" data-duration="8.947" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="t1" data-composition-id="t1" data-composition-src="compositions/t1.html"
+        data-start="0.0" data-duration="6.348" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t2" data-composition-id="t2" data-composition-src="compositions/t2.html"
+        data-start="6.348" data-duration="4.479" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t3" data-composition-id="t3" data-composition-src="compositions/t3.html"
+        data-start="10.827" data-duration="4.183" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t4" data-composition-id="t4" data-composition-src="compositions/t4.html"
+        data-start="15.01" data-duration="9.624" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t5" data-composition-id="t5" data-composition-src="compositions/t5.html"
+        data-start="24.634" data-duration="8.947" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t6" data-composition-id="t6" data-composition-src="compositions/t6.html"
+        data-start="33.581" data-duration="9.79" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t7" data-composition-id="t7" data-composition-src="compositions/t7.html"
+        data-start="43.371" data-duration="6.285" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t8" data-composition-id="t8" data-composition-src="compositions/t8.html"
+        data-start="49.656" data-duration="15.094" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="3.4" data-duration="58.751" data-track-index="10"
+        data-volume="1" data-fx-chain="{&quot;version&quot;: 1, &quot;nodes&quot;: [{&quot;type&quot;: &quot;highpass&quot;, &quot;id&quot;: &quot;v1&quot;, &quot;label&quot;: &quot;Quitar graves&quot;, &quot;params&quot;: {&quot;frequency&quot;: 90}}, {&quot;type&quot;: &quot;peaking&quot;, &quot;id&quot;: &quot;v2&quot;, &quot;label&quot;: &quot;Claridad&quot;, &quot;params&quot;: {&quot;frequency&quot;: 3000, &quot;gain&quot;: 2, &quot;q&quot;: 1}}, {&quot;type&quot;: &quot;limiter&quot;, &quot;id&quot;: &quot;v3&quot;, &quot;params&quot;: {&quot;limit&quot;: -1}}]}"></audio>
+      <audio id="musica" class="clip" src="assets/audio/musica.wav" data-start="0" data-duration="64.75" data-track-index="11"
+        data-timeline-role="music" data-automation="{&quot;version&quot;: 1, &quot;lanes&quot;: [{&quot;target&quot;: &quot;volume&quot;, &quot;points&quot;: [{&quot;t&quot;: 0.0, &quot;v&quot;: 0}, {&quot;t&quot;: 1.2, &quot;v&quot;: 0.34}, {&quot;t&quot;: 3.0, &quot;v&quot;: 0.34}, {&quot;t&quot;: 3.5, &quot;v&quot;: 0.2}, {&quot;t&quot;: 5.403, &quot;v&quot;: 0.2}, {&quot;t&quot;: 5.803, &quot;v&quot;: 0.32}, {&quot;t&quot;: 6.548, &quot;v&quot;: 0.32}, {&quot;t&quot;: 7.048, &quot;v&quot;: 0.2}, {&quot;t&quot;: 60.786, &quot;v&quot;: 0.2}, {&quot;t&quot;: 61.486, &quot;v&quot;: 0.36}, {&quot;t&quot;: 63.45, &quot;v&quot;: 0.36}, {&quot;t&quot;: 64.7, &quot;v&quot;: 0}]}]}"></audio>
+      <audio id="s0-olas" class="clip" src="assets/sfx/olas.wav" data-start="0.3" data-duration="6.448"
+        data-track-index="12" data-volume="0.18" data-media-start="8" data-fade-in="1.0" data-fade-out="0.5"></audio>
+      <audio id="s1-jarcias" class="clip" src="assets/sfx/jarcias.wav" data-start="0.6" data-duration="6.148"
+        data-track-index="13" data-volume="0.22" data-media-start="1" data-fade-in="0.8" data-fade-out="0.5"></audio>
+      <audio id="s2-monedas" class="clip" src="assets/sfx/monedas.wav" data-start="6.548" data-duration="1.6"
+        data-track-index="14" data-volume="0.3" data-fade-out="0.4"></audio>
+      <audio id="s3-whoosh" class="clip" src="assets/sfx/whoosh.mp3" data-start="10.777" data-duration="1.2"
+        data-track-index="15" data-volume="0.16"></audio>
+      <audio id="s4-paginas" class="clip" src="assets/sfx/paginas.wav" data-start="35.501" data-duration="1.4"
+        data-track-index="16" data-volume="0.2"></audio>
+      <audio id="s5-mercado" class="clip" src="assets/sfx/mercado.wav" data-start="43.371" data-duration="6.2"
+        data-track-index="17" data-volume="0.1" data-media-start="10" data-fade-in="0.6" data-fade-out="0.8"></audio>
+      <audio id="s6-olas" class="clip" src="assets/sfx/olas.wav" data-start="43.371" data-duration="6.2"
+        data-track-index="18" data-volume="0.12" data-media-start="40" data-fade-in="0.6" data-fade-out="0.8"></audio>
+      <audio id="s7-fuego" class="clip" src="assets/sfx/fuego.wav" data-start="49.656" data-duration="14.794"
+        data-track-index="19" data-volume="0.12" data-media-start="5" data-fade-in="0.8" data-fade-out="1.4"></audio>
+    </div>
+    <script>
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

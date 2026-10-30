@@ -24,6 +24,9 @@ mkdir -p "$P" "$A" "$X" "$F"
 
 paso "Voz (Supertonic-3 M1, con el tiempo de cada palabra)"
 [ -s "$A/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$RC/guion-apertura.json" -o "$A/voz.wav"
+# La composición se cronometró con la toma de la sesión 2 (Supertonic aún sin semilla): la toma de ahora
+# se ajusta a aquellos tiempos en las palabras que mueven un corte (tramos estirados menos de un 3 %).
+[ -s "$A/voz_ajustada.wav" ] || python3 "$REPO/voz/ajustar.py" "$A/voz.wav" "$RC/anclas-apertura.json" -o "$A/voz_ajustada.wav"
 
 paso "Música (MusicGen, las variantes en un lote)"
 if [ ! -s "$A/musica_1.wav" ]; then
@@ -80,7 +83,7 @@ for n in tormenta isla buzo estatuas fragmento; do
 done
 cp -f "$P/fragmento_lineas.png" "$d/img/"
 cp -f "$P/fragmento.jpg" "$d/img/"            # el fragmento no tiene paralaje: va sin capas
-cp -f "$A/voz.wav" "$d/audio/voz.wav"
+cp -f "$A/voz_ajustada.wav" "$d/audio/voz.wav"
 cp -f "$A/musica_1.wav" "$d/audio/musica.wav"      # la variante elegida: ver la bitácora
 copiar() { cp -f "$1" "$d/sfx/$2"; }
 copiar "$X/0740.wav" lluvia.wav; copiar "$X/0146.wav" viento.wav; copiar "$X/2444.wav" jarcias.wav

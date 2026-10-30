@@ -1,0 +1,44 @@
+<template>
+  <style>
+/*FUENTES*/
+    @font-face { font-family: "GFS Didot"; src: url("assets/fonts/didot-griego.woff2") format("woff2"); font-weight: 400; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    .{{id}}-l { position: absolute; color: #f3ede4; }
+    .{{id}}-g { font: 400 180px/1 "GFS Didot", serif; letter-spacing: 0.06em; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.5); }
+    .{{id}}-g span { display: inline-block; }
+    .{{id}}-t { margin-top: 18px; font: 600 28px/1 "Hanken Grotesk", sans-serif; letter-spacing: 0.32em; color: #e8b66a; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Texto en griego, letra a letra, con su traducción debajo: «ΨΞΒ» y «ΨΜΒ» son los números 462 y 442
+         escritos con letras, como en la tapa del mecanismo (Freeth et al., 2021). -->
+    <div id="{{id}}-capa"></div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const LINEAS = {{p:lineas}}, SALE = {{t:sale}};
+      const filas = LINEAS.map((l, i) => {
+        const d = document.createElement("div");
+        d.className = "{{id}}-l"; d.style.left = l.x + "px"; d.style.top = l.y + "px";
+        const g = document.createElement("div"); g.className = "{{id}}-g";
+        const letras = [...l.g].map((ch) => { const s = document.createElement("span"); s.textContent = ch; g.appendChild(s); return s; });
+        const tr = document.createElement("div"); tr.className = "{{id}}-t"; tr.textContent = l.trad;
+        d.appendChild(g); d.appendChild(tr); $("capa").appendChild(d);
+        return { d, letras, tr, t: l.t - T0 };
+      });
+      function dibujar(t) {
+        filas.forEach((f) => {
+          f.letras.forEach((s, k) => {
+            const p = AY.paso(t, f.t + k * 0.12, 0.24, "power3.out");
+            s.style.opacity = p.toFixed(3); s.style.filter = `blur(${(12 * (1 - p)).toFixed(1)}px)`;
+          });
+          f.tr.style.opacity = AY.paso(t, f.t + f.letras.length * 0.12 + 0.2, 0.3).toFixed(3);
+        });
+        $("capa").style.opacity = (1 - AY.paso(t, SALE, 0.2, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

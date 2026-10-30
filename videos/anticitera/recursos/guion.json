@@ -1,0 +1,75 @@
+{
+ "_nota": "Narración de los capítulos (la apertura está en guion-apertura.json). Números y nombres escritos como se dicen. Datos y fuentes en videos/anticitera/FUENTES.md.",
+ "capitulos": [
+  {"id": "cap1", "numero": "I", "titulo": "Un bulto olvidado", "frases": [
+   {"texto": "Atenas, Museo Arqueológico Nacional.", "pausa": 0.7},
+   {"texto": "Las estatuas del naufragio se llevan toda la atención. El bulto de bronce queda apartado, y al secarse, la madera que lo envolvía se encoge y lo parte en pedazos.", "pausa": 0.9},
+   {"texto": "El diecisiete de mayo de mil novecientos dos, el arqueólogo Valerios Stais se fija en uno de ellos. Incrustada en la piedra, hay una rueda dentada.", "pausa": 0.9},
+   {"texto": "Stais piensa en un reloj astronómico. Casi nadie le cree: algo así no encaja con lo que se sabe de la Antigüedad. Quizá, dicen, cayó al mar mucho después que el barco.", "pausa": 0.9},
+   {"texto": "Años más tarde, el filólogo alemán Albert Rem sospecha que es una calculadora del cielo. Tiene razón, pero no puede ver dentro.", "pausa": 0.8},
+   {"texto": "El bronce está soldado a la piedra y a la cal del fondo del mar. Durante medio siglo, nadie sabe cómo mirar a través de él.", "pausa": 1.2}
+  ]},
+  {"id": "cap2", "numero": "II", "titulo": "Ver a través del bronce", "frases": [
+   {"texto": "En mil novecientos cincuenta y uno llega a Atenas Derek de Solla Prais, un físico británico que se ha hecho historiador de la ciencia.", "pausa": 0.8},
+   {"texto": "Ocho años después publica un artículo con un título que escandaliza: un ordenador griego antiguo.", "pausa": 1.0},
+   {"texto": "En mil novecientos setenta y uno, con el físico griego Jaralambos Karakalos, atraviesa los fragmentos con rayos gamma. Por primera vez se ven las ruedas de dentro, y se pueden contar sus dientes.", "pausa": 0.9},
+   {"texto": "Su reconstrucción tiene errores. Máikel Rait, conservador del Museo de Ciencias de Londres, pasa décadas corrigiéndola, rueda a rueda, y construye modelos que funcionan.", "pausa": 0.9},
+   {"texto": "En dos mil cinco, un equipo internacional lleva hasta el museo un tomógrafo de rayos X de alta energía, y una técnica de luz que hace visibles los relieves más finos.", "pausa": 0.8},
+   {"texto": "Bajo la corrosión aparecen miles de letras griegas diminutas. Se lee más del doble de lo que se conocía.", "pausa": 0.9},
+   {"texto": "Son ochenta y dos fragmentos, con treinta ruedas dentadas. Apenas un tercio de la máquina. Y aun así, bastan para entender qué hacía.", "pausa": 1.2}
+  ]},
+  {"id": "cap3", "numero": "III", "titulo": "Una caja con el cielo dentro", "frases": [
+   {"texto": "Imagina una caja de madera del tamaño de una caja de zapatos, con una manivela en un costado.", "pausa": 0.8},
+   {"texto": "Al girarla, el tiempo avanza. Cada vuelta de la rueda mayor es un año.", "pausa": 0.9},
+   {"texto": "En el frente hay dos anillos: uno con los doce signos del zodíaco, y otro con los trescientos sesenta y cinco días del calendario egipcio.", "pausa": 0.8},
+   {"texto": "Una aguja marca la posición del Sol. Otra, la de la Luna. Y una pequeña esfera, mitad clara y mitad oscura, gira para mostrar su fase: creciente, llena, menguante, nueva.", "pausa": 0.9},
+   {"texto": "Debajo del anillo de los días hay una fila de agujeros diminutos. Volveremos a ellos.", "pausa": 0.9},
+   {"texto": "Todo eso lo mueven ruedas recortadas en láminas finas de bronce, con dientes triangulares tallados a mano.", "pausa": 0.8},
+   {"texto": "Pero lo más asombroso no está a la vista. Está en cómo se mueve la Luna.", "pausa": 1.2}
+  ]},
+  {"id": "cap4", "numero": "IV", "titulo": "La Luna que acelera", "frases": [
+   {"texto": "Si sigues a la Luna durante un mes, notarás algo extraño: no avanza siempre igual. A veces corre, y a veces se frena.", "pausa": 0.9},
+   {"texto": "Hoy sabemos por qué. Su órbita es una elipse, y cuando pasa más cerca de la Tierra, va más deprisa.", "pausa": 0.8},
+   {"texto": "Los griegos no conocían las elipses, pero el astrónomo Hiparco había explicado ese vaivén con círculos.", "pausa": 0.8},
+   {"texto": "Y alguien lo convirtió en bronce. Dos ruedas iguales, una sobre otra, con los ejes separados poco más de un milímetro. Un perno de la primera entra en una ranura de la segunda.", "pausa": 0.9},
+   {"texto": "Al girar, la segunda rueda se adelanta y se retrasa, una y otra vez. Igual que la Luna.", "pausa": 0.9},
+   {"texto": "Y hay más. El punto en el que la Luna corre más también se desplaza: da la vuelta al cielo en casi nueve años. Por eso todo el conjunto va montado sobre otra rueda, que gira despacio.", "pausa": 0.9},
+   {"texto": "Una teoría astronómica, convertida en un mecanismo. Pero la Luna servía para algo más inquietante: anunciar la oscuridad.", "pausa": 1.2}
+  ]},
+  {"id": "cap5", "numero": "V", "titulo": "Anunciar la oscuridad", "frases": [
+   {"texto": "En la cara de atrás hay dos grandes espirales.", "pausa": 0.8},
+   {"texto": "La de arriba cuenta diecinueve años: doscientos treinta y cinco meses lunares, lo que tardan las fases de la Luna en volver a caer en las mismas fechas. Sus casillas llevan los nombres de los meses de un calendario griego.", "pausa": 0.9},
+   {"texto": "Una aguja la recorre siguiendo el surco, vuelta a vuelta.", "pausa": 0.8},
+   {"texto": "La de abajo es más inquietante. Cuenta doscientos veintitrés meses, el ciclo de saros: dieciocho años y once días después de un eclipse, llega otro casi igual.", "pausa": 0.9},
+   {"texto": "En sus casillas hay pequeños signos. Avisan de los meses con eclipse de Sol o de Luna, y hasta de la hora.", "pausa": 0.8},
+   {"texto": "La rueda que mueve esa espiral tiene, justamente, doscientos veintitrés dientes.", "pausa": 0.9},
+   {"texto": "Dentro de la espiral de arriba, un dial pequeño marca algo más terrenal: los juegos. Los Olímpicos, y otros de toda Grecia, cada cuatro años.", "pausa": 0.9},
+   {"texto": "En la Antigüedad, predecir un eclipse era casi predecir el futuro. Esta máquina lo hacía con años de antelación.", "pausa": 1.2}
+  ]},
+  {"id": "cap6", "numero": "VI", "titulo": "Los cinco errantes", "frases": [
+   {"texto": "A simple vista se ven cinco planetas: Mercurio, Venus, Marte, Júpiter y Saturno. Los griegos los llamaban errantes, porque vagan entre las estrellas, y a veces parecen retroceder.", "pausa": 0.9},
+   {"texto": "De las ruedas que los movían casi no queda nada. Pero se conservó un trozo de la tapa delantera, con un texto.", "pausa": 0.9},
+   {"texto": "En dos mil veintiuno, un equipo de la Universidad de Londres leyó en él dos números: cuatrocientos sesenta y dos, junto a Venus, y cuatrocientos cuarenta y dos, junto a Saturno.", "pausa": 0.9},
+   {"texto": "Son ciclos de la astronomía antigua: tras cuatrocientos sesenta y dos años, los movimientos de Venus vuelven a coincidir con el calendario. Los de Saturno, tras cuatrocientos cuarenta y dos.", "pausa": 0.8},
+   {"texto": "Con esas cifras, el equipo reconstruyó un frente lleno de anillos: el Sol, la Luna y los cinco planetas, cada uno con su marcador, girando a su ritmo.", "pausa": 0.9},
+   {"texto": "Un cosmos entero, dentro de una caja. Aunque es una reconstrucción: falta demostrar que podía fabricarse con las técnicas de la época.", "pausa": 1.2}
+  ]},
+  {"id": "cap7", "numero": "VII", "titulo": "¿Quién lo construyó?", "frases": [
+   {"texto": "Nadie firmó la máquina. Pero dejó pistas.", "pausa": 0.8},
+   {"texto": "El barco se hundió hacia los años setenta o sesenta antes de Cristo. Lo dicen las monedas de Pérgamo y de Éfeso que llevaba a bordo.", "pausa": 0.8},
+   {"texto": "La máquina podría ser más antigua. Un estudio sitúa el comienzo de su espiral de eclipses en el año doscientos cinco antes de Cristo.", "pausa": 0.9},
+   {"texto": "Los meses de su calendario llevan nombres de Corinto, o de alguna de sus colonias. Una de ellas era Siracusa, la ciudad de Arquímedes.", "pausa": 0.8},
+   {"texto": "Más de un siglo después, Cicerón escribió que Arquímedes había construido una esfera que mostraba los movimientos del Sol, la Luna y los planetas. Y contó que su maestro, Posidonio, había hecho otra en Rodas, la isla de los astrónomos.", "pausa": 0.9},
+   {"texto": "Ninguna pista basta para dar un nombre. Pero dicen algo seguro: una máquina tan precisa no fue la primera. Detrás tuvo que haber una tradición de artesanos, y otras máquinas.", "pausa": 1.2}
+  ]},
+  {"id": "cap8", "numero": "VIII", "titulo": "Lo que el mar guardó", "frases": [
+   {"texto": "Después de Anticitera, el rastro se pierde. No se conserva nada tan complejo hasta los relojes astronómicos de la Europa del siglo catorce.", "pausa": 0.9},
+   {"texto": "El bronce valía dinero. Las otras máquinas, si existieron, acabaron probablemente fundidas. Esta se salvó porque se hundió.", "pausa": 1.0},
+   {"texto": "Y aún guarda preguntas. ¿Recuerdas los agujeros bajo el anillo de los días? En dos mil veinticuatro, dos astrónomos de Glásgou que estudian las ondas gravitacionales los contaron con sus métodos estadísticos.", "pausa": 0.8},
+   {"texto": "Lo más probable es que fueran trescientos cincuenta y cuatro: los días de un año lunar, no los del año del Sol.", "pausa": 0.9},
+   {"texto": "Otros dudan de que funcionara bien. Dos ingenieros argentinos calculan, en un estudio aún sin revisar, que con los errores medidos en sus dientes se habría atascado en pocos meses. Ellos mismos piden prudencia: el bronce lleva dos mil años deformándose.", "pausa": 1.0},
+   {"texto": "Quizá nunca sepamos quién lo hizo, ni cuántos hubo.", "pausa": 0.9},
+   {"texto": "Pero cada vez que alguien vuelve a mirarlo, la máquina responde un poco más. Un trozo de bronce verde que, hace más de dos mil años, ya sabía cuándo iba a oscurecerse el cielo.", "pausa": 0.3}
+  ]}
+ ]
+}

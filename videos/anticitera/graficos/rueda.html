@@ -1,0 +1,46 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg path { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Una rueda dentada que se dibuja encima de la de verdad, en la plancha: sigue su zoom y su paneo.
+         Corona de dientes triangulares, aro, buje y cuatro radios (la geometría de la apertura). -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-dientes" pathLength="100"/><path id="{{id}}-cuerpo" pathLength="100"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const U = {{p:centro}}, R0 = {{p:radio}}, N = {{p:dientes}}, GIRO = {{p:giro}};
+      const ENTRA = {{t:en}}, SALE = {{t:sale}};
+      function cuerpo(cx, cy, r, fase) {
+        const aro = r * 0.86, buje = Math.max(6, r * 0.13);
+        let d = AY.circulo(cx, cy, aro) + AY.circulo(cx, cy, buje);
+        for (let k = 0; k < 4; k++) {
+          const a = AY.rad(fase + k * 90 + 180 / N);
+          for (const lado of [-1, 1]) {
+            const o = lado * r * 0.045, ox = -Math.sin(a) * o, oy = Math.cos(a) * o;
+            d += `M${(cx + buje * Math.cos(a) + ox).toFixed(1)},${(cy + buje * Math.sin(a) + oy).toFixed(1)}` +
+                 `L${(cx + aro * Math.cos(a) + ox).toFixed(1)},${(cy + aro * Math.sin(a) + oy).toFixed(1)}`;
+          }
+        }
+        return d;
+      }
+      function dibujar(t) {
+        const [x, y, z] = AY.enPantalla(U[0], U[1], t + T0), r = R0 * z, fase = GIRO * t;
+        $("dientes").setAttribute("d", AY.dientes(x, y, r, N, fase));
+        $("cuerpo").setAttribute("d", cuerpo(x, y, r, fase));
+        // Se dibuja con un trazo que avanza y sale con un fundido corto.
+        AY.trazo($("dientes"), AY.paso(t, ENTRA, 0.8, "power2.inOut"));
+        AY.trazo($("cuerpo"), AY.paso(t, ENTRA + 0.14, 0.8, "power2.inOut"));
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.2, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

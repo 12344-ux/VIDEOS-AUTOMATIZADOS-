@@ -1,0 +1,83 @@
+<template>
+  <style>
+/*FUENTES*/
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.24em; fill: #f3ede4; }
+    #{{id}}-svg .sub { font: 500 26px "Hanken Grotesk", sans-serif; letter-spacing: 0.04em; fill: #e8b66a; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Línea de tiempo: la línea se dibuja de izquierda a derecha, con una marca pequeña por siglo, y cada
+         fecha aparece en la palabra que la nombra; un tramo puede quedar señalado (un hueco). -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <g id="{{id}}-cam">
+        <path id="{{id}}-linea" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;opacity:0.8"/>
+        <path id="{{id}}-siglos" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:1.5;opacity:0.45"/>
+        <g id="{{id}}-siglosT"></g>
+        <g id="{{id}}-tramo"><path id="{{id}}-tramop" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2"/><text id="{{id}}-tramot" class="sub" text-anchor="middle"></text></g>
+        <g id="{{id}}-marcas"></g>
+      </g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const RANGO = {{p:rango}}, MARCAS = {{p:marcas}}, DIBUJA = {{p:dibuja}}, CAMARA = {{p:camara}}, TRAMO = {{p:tramo}};
+      const X0 = 180, X1 = 1740, Y = 600;
+      const X = (a) => X0 + ((a - RANGO[0]) / (RANGO[1] - RANGO[0])) * (X1 - X0);
+      $("linea").setAttribute("d", `M${X0},${Y}L${X1},${Y}`);
+      let sd = "";
+      for (let a = Math.ceil(RANGO[0] / 100) * 100; a <= RANGO[1]; a += 100) sd += `M${X(a).toFixed(1)},${Y - 8}L${X(a).toFixed(1)},${Y + 8}`;
+      $("siglos").setAttribute("d", sd);
+      // Rótulo de cada siglo bajo su marca (cada dos si son muchos).
+      const nSiglos = Math.floor(RANGO[1] / 100) - Math.ceil(RANGO[0] / 100) + 1, salto = nSiglos > 8 ? 200 : 100;
+      for (let a = Math.ceil(RANGO[0] / salto) * salto; a <= RANGO[1]; a += salto) {
+        const tx = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        tx.setAttribute("x", X(a).toFixed(1)); tx.setAttribute("y", Y + 44); tx.setAttribute("text-anchor", "middle");
+        tx.setAttribute("style", 'font: 500 28px "Hanken Grotesk", sans-serif; fill: #f3ede4; opacity: 0.5');
+        tx.setAttribute("class", "siglo");
+        tx.textContent = a < 0 ? `${-a} a. C.` : a === 0 ? "1" : String(a);
+        $("siglosT").appendChild(tx);
+      }
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      const M = MARCAS.map((m) => {
+        const g = el("g", {}, $("marcas")), x = X(m.a), arriba = m.lado !== "aba", h = m.alto || 70;
+        const palo = el("path", { d: `M${x},${Y}L${x},${arriba ? Y - h : Y + h}`, pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2" }, g);
+        el("circle", { cx: x, cy: Y, r: 7, style: "fill:#e8b66a" }, g);
+        const ty = arriba ? Y - h - 46 : Y + h + 40;
+        const t1 = el("text", { x, y: ty, class: "rotulo", "text-anchor": m.ancla || "middle" }, g); t1.textContent = m.n;
+        let t2 = null;
+        if (m.s) { t2 = el("text", { x, y: ty + 36, class: "sub", "text-anchor": m.ancla || "middle" }, g); t2.textContent = m.s; }
+        return { g, palo, t1, t2, t: m.t - T0 };
+      });
+      if (TRAMO) {
+        const a = X(TRAMO.a0), b = X(TRAMO.a1), y = Y + 60;
+        $("tramop").setAttribute("d", `M${a},${y - 14}L${a},${y}L${b},${y}L${b},${y - 14}`);
+        $("tramot").setAttribute("x", ((a + b) / 2).toFixed(1)); $("tramot").setAttribute("y", y + 44); $("tramot").textContent = TRAMO.n;
+      }
+      function dibujar(t) {
+        const p = AY.paso(t, DIBUJA[0] - T0, DIBUJA[1], "power1.inOut");
+        AY.trazo($("linea"), p); AY.trazo($("siglos"), p);
+        $("siglosT").style.opacity = AY.paso(t, DIBUJA[0] - T0 + DIBUJA[1] * 0.6, 0.6).toFixed(3);
+        M.forEach((m) => {
+          m.g.style.opacity = AY.paso(t, m.t - 0.1, 0.2).toFixed(3);
+          AY.trazo(m.palo, AY.paso(t, m.t - 0.05, 0.45, "expo.out"));
+          m.t1.style.opacity = AY.paso(t, m.t + 0.1, 0.25).toFixed(3);
+          if (m.t2) m.t2.style.opacity = AY.paso(t, m.t + 0.35, 0.3).toFixed(3);
+        });
+        if (TRAMO) {
+          AY.trazo($("tramop"), AY.paso(t, TRAMO.t - T0, 0.8, "power2.inOut"));
+          $("tramot").style.opacity = AY.paso(t, TRAMO.t - T0 + 0.5, 0.3).toFixed(3);
+        } else $("tramo").style.display = "none";
+        const k = CAMARA.map((c) => [c[0] - T0].concat(c.slice(1)));
+        const cam = [1, 2, 3].map((i) => AY.valor(k.map((c) => [c[0], c[i], c[4]]), t));
+        AY.camara($("cam"), cam[0], cam[1], cam[2]);
+        $("svg").style.opacity = (1 - AY.paso(t, {{dur}} - 0.25, 0.22, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

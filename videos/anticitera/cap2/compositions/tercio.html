@@ -1,0 +1,94 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #tercio-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+  </style>
+  <div id="root" data-composition-id="tercio" data-width="1920" data-height="1080">
+    <!-- Lo que se conserva: la máquina entera como un círculo; dos tercios a trazos (perdidos) y uno que se
+         llena (los 82 fragmentos y sus 30 ruedas). Dentro del tercio, las 30 ruedas como puntos. -->
+    <svg id="tercio-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="tercio-perdido" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;stroke-dasharray:4 12;opacity:0.5"/>
+      <path id="tercio-sector" style="fill:#e8b66a;fill-opacity:0.18"/>
+      <path id="tercio-borde" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2.5;stroke-linejoin:round"/>
+      <g id="tercio-ruedas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 64.035;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("tercio-" + s);
+      const CX = 1310, CY = 540, R = 330, A0 = -90, A1 = 30;      // el tercio va de las 12 a las 4
+      const W = { son: 0.300, ruedas: 2.220, tercio: 4.462 };
+      const [x0, y0] = AY.pol(CX, CY, R, A0), [x1, y1] = AY.pol(CX, CY, R, A1);
+      $("perdido").setAttribute("d", `M${x1.toFixed(1)},${y1.toFixed(1)}A${R},${R} 0 1,1 ${x0.toFixed(1)},${y0.toFixed(1)}`);
+      const sector = `M${CX},${CY}L${x0.toFixed(1)},${y0.toFixed(1)}A${R},${R} 0 0,1 ${x1.toFixed(1)},${y1.toFixed(1)}Z`;
+      $("sector").setAttribute("d", sector); $("borde").setAttribute("d", sector);
+      // 30 ruedas repartidas por el tercio (posiciones fijas, sin azar).
+      const ruedas = [];
+      for (let k = 0; k < 30; k++) {
+        const f = (k + 0.5) / 30, r = R * (0.28 + 0.62 * ((k * 7) % 10) / 10), g = A0 + 12 + (A1 - A0 - 24) * ((k * 0.618) % 1);
+        const [x, y] = AY.pol(CX, CY, r, g), c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", String(5 + (k % 3) * 3));
+        c.setAttribute("style", "fill:none;stroke:#e8b66a;stroke-width:1.6");
+        $("ruedas").appendChild(c);
+        ruedas.push([c, f]);
+      }
+      function dibujar(t) {
+        AY.trazo($("perdido"), AY.paso(t, W.son - 0.3, 1.2, "power2.inOut"));
+        AY.trazo($("borde"), AY.paso(t, W.son, 1.0, "power2.inOut"));
+        $("sector").style.opacity = AY.paso(t, W.tercio - 0.1, 0.6, "power2.out").toFixed(3);
+        ruedas.forEach(([c, f]) => { c.style.opacity = AY.paso(t, W.ruedas - 0.2 + f * 0.9, 0.2).toFixed(3); });
+        $("svg").style.opacity = (1 - AY.paso(t, 11.895 - 0.8, 0.7, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["tercio"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>
