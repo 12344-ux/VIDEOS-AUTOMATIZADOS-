@@ -14,6 +14,39 @@ Otras dos opciones, para probar si YouTube deja hacer test de títulos:
 - Ganaba dinero y quebró: la trampa del flujo de caja
 - Beneficio no es caja: por qué quiebran empresas rentables
 
+## Miniatura con un generador de imágenes (ChatGPT)
+
+Una miniatura es una promesa: no repite el título, enseña lo que el vídeo va a resolver. Aquí, la paradoja (gana
+dinero y se hunde) y la respuesta que el espectador va a entender. Los prompts van en inglés, que estos modelos siguen
+mejor, con el texto en español entre comillas. Ninguno pide personas reales ni logotipos de marcas.
+
+**A · La paradoja (recomendada):**
+
+```
+YouTube thumbnail, 16:9 landscape, premium editorial business style, cinematic, high contrast, photorealistic.
+Right half: a well-dressed man in his late 30s in a tailored charcoal suit (not a real or famous person), seated at a dark wooden desk in a dim, empty 1970s department store with bare shelves behind him and one cold fluorescent light. He stares, serious and composed, at an open cash register drawer in front of him: the drawer is completely empty. Behind him, floating subtly in the dark air, a large glowing line chart: a thin white line rising steadily, and a thick deep crimson line (#B0122F) plunging down sharply.
+Left half: dark charcoal negative space (#0A0B0D) with bold text, flush left, in a heavy condensed geometric sans-serif (like Inter Tight ExtraBold), all caps:
+line 1, white (#F4F3F0): "GANABA DINERO"
+line 2, white letters on a solid crimson block (#B0122F): "Y QUEBRÓ"
+The text is huge and fills about 45% of the frame height, perfectly spelled with the accent on the Ó, and readable on a phone.
+Top right corner: a small solid crimson square with the white letters "BFM".
+Color palette only charcoal black, off-white and that crimson; desaturated, cold shadows; no green; no other text, no brand logos, no readable signs, no watermarks.
+```
+
+**B · El concepto:**
+
+```
+YouTube thumbnail, 16:9 landscape, premium minimalist business style, high contrast, photorealistic.
+Center-right: a close-up of two objects on a black desk under a single dramatic spotlight: on the left a printed financial report with a big rising white profit chart, on the right an open, completely empty cash register drawer.
+Left side: very large bold all-caps text in a heavy geometric sans-serif (like Inter Tight ExtraBold), white (#F4F3F0) on charcoal (#0A0B0D): "BENEFICIO", and below it "≠ CAJA" in white letters on a solid crimson block (#B0122F). Perfectly spelled, readable at small size.
+Top right corner: a small crimson square with the white letters "BFM".
+Palette only charcoal, off-white and crimson; no green; no other text, no brand logos, no watermarks.
+```
+
+Si el generador escribe mal el texto, pedirle la misma imagen **sin texto** («no text at all, keep the left half as
+dark empty space») y ponerle el texto con las fuentes de la marca en `miniatura/index.html`. Comparar la A, la B y la
+miniatura propia con «Probar y comparar» de YouTube, y comprobar siempre cómo se lee a tamaño de móvil.
+
 ## Descripción
 
 ```

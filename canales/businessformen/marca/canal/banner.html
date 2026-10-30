@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- BusinessForMen · banner del canal de YouTube (2560 × 1440). Lo que tiene que verse en todos los dispositivos va
+     dentro de la zona segura central de 1546 × 423 (#seguro); el escritorio enseña además la franja de 2560 × 423 y la
+     tele, todo. Lo saca sacar.js a salidas/businessformen/marca/canal/. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BusinessForMen · banner</title>
+    <style>
+      @font-face { font-family: "Inter Tight"; src: url("../../../../salidas/businessformen/marca/fuentes/intertight-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter Tight"; src: url("../../../../salidas/businessformen/marca/fuentes/intertight-500.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Plex Mono"; src: url("../../../../salidas/businessformen/marca/fuentes/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 2560px; height: 1440px; overflow: hidden; background: #0a0b0d; }
+      #root { position: relative; width: 2560px; height: 1440px; overflow: hidden; background: radial-gradient(ellipse 60% 70% at 50% 50%, #15171c 0%, #0a0b0d 70%); color: #f4f3f0; }
+      .capa { position: absolute; inset: 0; }
+      /* La retícula de la ruta Consejo, que se apaga hacia los bordes. */
+      #reticula { background-image: linear-gradient(rgba(244, 243, 240, 0.045) 2px, transparent 2px), linear-gradient(90deg, rgba(244, 243, 240, 0.045) 2px, transparent 2px);
+        background-size: 96px 96px; background-position: 16px 0; -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000 30%, transparent 80%); }
+      #grano { background: url("../../../../salidas/businessformen/marca/img/grano.png"); opacity: 0.07; mix-blend-mode: screen; }
+      /* La franja que se ve en el escritorio: una línea fina a cada lado de la zona segura. */
+      .filo { position: absolute; top: 719px; height: 2px; background: rgba(244, 243, 240, 0.16); }
+      #seguro { position: absolute; left: 507px; top: 508px; width: 1546px; height: 423px; display: flex; align-items: center; justify-content: center; }
+      #bloque { display: flex; align-items: center; gap: 52px; }
+      #cuadro { width: 196px; height: 196px; background: #b0122f; display: flex; align-items: center; justify-content: center; font: 800 86px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+      #nombre { font: 800 132px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; white-space: nowrap; }
+      #nombre b { font-weight: 800; color: #b0122f; }
+      #lema { margin-top: 30px; display: flex; align-items: center; gap: 22px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #8a8d93; white-space: nowrap; }
+      #temas { margin-top: 20px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #8a8d93; white-space: nowrap; }
+      #lema i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.14em 0.4em; }
+      #barra { position: absolute; left: 0; bottom: 0; width: 2560px; height: 10px; background: #b0122f; }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="reticula" class="capa"></div>
+      <div class="filo" style="left: 120px; width: 300px"></div>
+      <div class="filo" style="right: 120px; width: 300px"></div>
+      <div id="seguro">
+        <div id="bloque">
+          <div id="cuadro">BFM</div>
+          <div>
+            <div id="nombre">BUSINESS<b>FOR</b>MEN</div>
+            <div id="lema"><i>Mentalidad de negocios</i></div>
+            <div id="temas">Gestión · Finanzas · Marca · Negociación</div>
+          </div>
+        </div>
+      </div>
+      <div id="grano" class="capa"></div>
+      <div id="barra"></div>
+    </div>
+  </body>
+</html>

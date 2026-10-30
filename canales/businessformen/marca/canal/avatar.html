@@ -1,0 +1,21 @@
+<!doctype html>
+<!-- BusinessForMen · foto del canal (800 × 800): el cuadro rojo del logo; YouTube la recorta en círculo, así que las
+     iniciales caben en el círculo central. Lo saca sacar.js. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>BusinessForMen · foto del canal</title>
+    <style>
+      @font-face { font-family: "Inter Tight"; src: url("../../../../salidas/businessformen/marca/fuentes/intertight-800.woff2") format("woff2"); font-weight: 800; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 800px; height: 800px; overflow: hidden; }
+      #root { position: relative; width: 800px; height: 800px; background: radial-gradient(circle at 50% 42%, #c0163a 0%, #b0122f 45%, #8f0e26 100%); color: #f4f3f0;
+        display: flex; align-items: center; justify-content: center; font: 800 280px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+      #grano { position: absolute; inset: 0; background: url("../../../../salidas/businessformen/marca/img/grano.png"); opacity: 0.08; mix-blend-mode: screen; }
+      #ini { position: relative; margin-top: -8px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div id="grano"></div><div id="ini">BFM</div></div>
+  </body>
+</html>
