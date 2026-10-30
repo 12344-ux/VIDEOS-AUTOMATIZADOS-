@@ -506,7 +506,8 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   recorre, el sello PENDIENTE, el almacén que se queda sin color, la línea de los plazos y la gráfica que acaba en rojo.
 - **Medido:** voz de 143,3 s en 1 min 12 s (2,6 palabras por segundo, más rápida de lo calculado: el tramo de 2:43 del
   guion dura 2:23); tres imágenes de FLUX, 110 s la primera con la carga y 84 s las otras; cuatro músicas de 20 s en
-  un lote, unos 4 min.
+  un lote, unos 4 min; render, 205 s para 2 min 28 s (1,4 s por segundo de vídeo; todo CSS y SVG, sin WebGL); entrega
+  a −15,2 LUFS, 29 MB. Enviado al usuario.
 - **La música, otra vez:** la primera tanda («pulse», «driving electronic») salió con el 94 % y el 99 % de la energía
   bajo 150 Hz; en la segunda, las dos de cuerdas punteadas, con el 74 % y el 71 %. Se usan dos de cuerdas frotadas con
   marimba (0 % y 26 %).
