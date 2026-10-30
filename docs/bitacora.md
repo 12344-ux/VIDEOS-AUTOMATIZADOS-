@@ -260,6 +260,11 @@ El usuario eligió **4 pasos y 30 fps** (la calidad manda) y pidió probar el ED
   - 1120 + EDSR: 245 y 92; 960 + EDSR: 219 y 64 (960 + Lanczos: 116 y 44).
   - Para ganar tiempo no sirve: desde 960 o 1120 recupera los bordes pero no la textura fina, la misma
     clase de pérdida que con 3 pasos. Sí sirve para ampliar las planchas de 1280.
+  - En «manos» y «haz», 1280 + EDSR frente al camino de ahora: piel 210 frente a 160, latón 204 frente a
+    174, faro y reflejos 272 frente a 201, cielo 329 frente a 242; sin halos ni artefactos. Las estrellas
+    siguen todas, pero salen como puntos más finos y algo menos brillantes (sin el halo de la máscara de
+    enfoque): en un cielo nocturno que deba leerse, reforzarlas en el etalonaje.
+- Al reanudar la sesión otra vez, `./instalar.sh precargar` tardó 55 s: el disco ya estaba casi todo en local.
 - **llvmpipe**: Ubuntu responde (`archive.ubuntu.com`), así que se instalaron `libegl1` y `libegl-mesa0`
   (la parte EGL del Mesa 25.2.8 de la máquina). El shader de las planchas a 1920 × 1080, aislado: 51 ms
   por cuadro frente a 139 ms de SwiftShader (con desenfoque, 194 frente a 394).
