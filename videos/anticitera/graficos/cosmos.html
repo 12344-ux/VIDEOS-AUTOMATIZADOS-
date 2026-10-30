@@ -31,7 +31,7 @@
         const y = CY - r * 0.7, xr = CX - r * Math.sqrt(1 - 0.49);
         const yl = 250 + (6 - i) * 46;   // la leyenda en columna, de Saturno (arriba) a Luna: las guías no se cruzan
         const guia = el("path", { d: `M560,${yl - 9}L640,${yl - 9}L${xr.toFixed(1)},${y.toFixed(1)}`, pathLength: 100,
-          style: "fill:none;stroke:#e8b66a;stroke-width:1.2;opacity:0.7" }, $("guias"));
+          style: "fill:none;stroke:#e8b66a;stroke-width: 2.2;opacity:0.7" }, $("guias"));
         const tx = el("text", { x: 545, y: yl, class: "rotulo", "text-anchor": "end" }, $("nombres"));
         tx.textContent = n;
         const marca = el("circle", { r: sol ? 14 : n === "LUNA" ? 10 : 8, style: sol ? "fill:#e8b66a" : "fill:#f3ede4" }, $("marcas"));

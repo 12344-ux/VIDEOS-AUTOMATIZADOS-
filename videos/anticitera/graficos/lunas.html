@@ -1,0 +1,74 @@
+<template>
+  <style>
+/*FUENTES*/
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .et { font: 600 36px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #e8b66a;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 9px; stroke-linejoin: round; }
+    #{{id}}-svg .num { font: 500 26px "Hanken Grotesk", sans-serif; fill: #f3ede4; opacity: 0.7; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- La Luna noche a noche, a la misma hora: una fila de lunas sobre un arco del cielo (en coordenadas de la
+         plancha, así sigue su zoom), que aparecen una tras otra. El paso entre una y otra no es igual: más largo
+         donde la Luna «corre» y más corto donde «se frena» (exagerado para que se vea; de verdad, de 12° a 15°). -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="{{id}}-arco" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;stroke-dasharray:0.6 1.2;opacity:0"/>
+      <g id="{{id}}-lunas"></g><g id="{{id}}-marcas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const C = {{p:centro}}, R = {{p:radio}}, A0 = {{p:a0}}, A1 = {{p:a1}}, N = {{p:n}}, EXC = {{p:exc}}, FASE = {{p:fase}};
+      const T1 = {{t:empieza}}, PASO = {{p:paso}}, SALE = {{t:sale}}, RL = {{p:rluna}}, MARCAS = {{p:marcas}}, NUMEROS = {{p:numeros}};
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      // Ángulo de cada noche: el reparto F(x) = x + EXC·sen(2π(x − FASE))/2π, con velocidad 1 + EXC·cos(2π(x − FASE)).
+      const ang = (x) => A0 + (A1 - A0) * (x + (EXC * (Math.sin(2 * Math.PI * (x - FASE)) + Math.sin(2 * Math.PI * FASE))) / (2 * Math.PI));
+      const L = [];
+      for (let k = 0; k < N; k++) {
+        const g = el("g", {}, $("lunas"));
+        const c = el("circle", { r: RL, style: "fill:rgba(243,237,228,0.16);stroke:#f3ede4;stroke-width:2.6" }, g);
+        const tx = NUMEROS ? el("text", { class: "num", "text-anchor": "middle" }, g) : null;
+        if (tx) tx.textContent = String(k + 1);
+        L.push({ g, c, tx, a: ang(k / (N - 1)), t: T1 + k * PASO - T0 });
+      }
+      // Marcas: un rótulo junto a un tramo (entre la noche k y la k+1), con un arco corto de acento encima.
+      const M = MARCAS.map((m) => {
+        const g = el("g", {}, $("marcas"));
+        const tramo = el("path", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:5;stroke-linecap:round" }, g);
+        const tx = el("text", { class: "et", "text-anchor": "middle" }, g); tx.textContent = m.n;
+        return { m, g, tramo, tx, t: m.t - T0, sale: (m.sale == null ? SALE : m.sale) - T0 };
+      });
+      function dibujar(t) {
+        const [cx, cy, z] = AY.enPantalla(C[0], C[1], t + T0), r = R * z;
+        const pos = (a, dr) => [cx + (r + (dr || 0)) * Math.cos(AY.rad(a)), cy + (r + (dr || 0)) * Math.sin(AY.rad(a))];
+        L.forEach(({ g, c, tx, a, t: a0 }) => {
+          const [x, y] = pos(a);
+          c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", (RL * z).toFixed(1));
+          if (tx) { tx.setAttribute("x", x.toFixed(1)); tx.setAttribute("y", (y + RL * z + 34).toFixed(1)); }
+          const p = AY.paso(t, a0, 0.3, "power2.out");
+          g.style.opacity = p.toFixed(3);
+          g.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${(0.6 + 0.4 * p).toFixed(3)}) translate(${(-x).toFixed(1)} ${(-y).toFixed(1)})`);
+        });
+        const [ax, ay] = pos(A0), [bx, by] = pos(A1), grande = Math.abs(A1 - A0) > 180 ? 1 : 0, giro = A1 > A0 ? 1 : 0;
+        $("arco").setAttribute("d", `M${ax.toFixed(1)},${ay.toFixed(1)}A${r.toFixed(1)},${r.toFixed(1)} 0 ${grande},${giro} ${bx.toFixed(1)},${by.toFixed(1)}`);
+        $("arco").style.opacity = (0.45 * AY.paso(t, T1 - T0 - 0.2, 0.5)).toFixed(3);
+        M.forEach(({ m, g, tramo, tx, t: a0, sale }) => {
+          const aa = L[m.k].a, ab = L[m.k + 1].a, dr = -(RL + 26) * z;
+          const [x0, y0] = pos(aa, dr), [x1, y1] = pos(ab, dr), rr = r + dr;
+          tramo.setAttribute("d", `M${x0.toFixed(1)},${y0.toFixed(1)}A${rr.toFixed(1)},${rr.toFixed(1)} 0 0,${ab > aa ? 1 : 0} ${x1.toFixed(1)},${y1.toFixed(1)}`);
+          AY.trazo(tramo, AY.paso(t, a0, 0.5, "power2.inOut"));
+          const [tx0, ty0] = pos((aa + ab) / 2, dr - 46);
+          tx.setAttribute("x", tx0.toFixed(1)); tx.setAttribute("y", (ty0 + 12).toFixed(1));
+          tx.style.opacity = AY.paso(t, a0 + 0.25, 0.3).toFixed(3);
+          g.style.opacity = (1 - AY.paso(t, sale, 0.25, "power2.in")).toFixed(3);
+        });
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.3, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

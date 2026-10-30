@@ -7,9 +7,9 @@
     <!-- Lo que se conserva: la máquina entera como un círculo; dos tercios a trazos (perdidos) y uno que se
          llena (los 82 fragmentos y sus 30 ruedas). Dentro del tercio, las 30 ruedas como puntos. -->
     <svg id="tercio-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
-      <path id="tercio-perdido" style="fill:none;stroke:#f3ede4;stroke-width:2;stroke-dasharray:5 11"/>
-      <path id="tercio-sector" style="fill:#e8b66a;fill-opacity:0.18"/>
-      <path id="tercio-borde" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2.5;stroke-linejoin:round"/>
+      <path id="tercio-perdido" style="fill:none;stroke:#f3ede4;stroke-width:3;stroke-dasharray:8 12"/>
+      <path id="tercio-sector" style="fill:#e8b66a;fill-opacity:0.3"/>
+      <path id="tercio-borde" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:4;stroke-linejoin:round"/>
       <g id="tercio-ruedas"></g>
     </svg>
   </div>
@@ -57,7 +57,7 @@
         // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
         camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
       };
-      const T0 = 64.035;
+      const T0 = 67.797;
       function alBuscar(dibujar) {
         window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
         dibujar(0);
@@ -65,7 +65,7 @@
 
       const $ = (s) => document.getElementById("tercio-" + s);
       const CX = 1310, CY = 540, R = 330, A0 = -90, A1 = 30;      // el tercio va de las 12 a las 4
-      const W = { son: 0.300, ruedas: 2.220, tercio: 4.462 };
+      const W = { son: -3.462, ruedas: -1.542, tercio: 0.700 };
       const [x0, y0] = AY.pol(CX, CY, R, A0), [x1, y1] = AY.pol(CX, CY, R, A1);
       $("perdido").setAttribute("d", `M${x1.toFixed(1)},${y1.toFixed(1)}A${R},${R} 0 1,1 ${x0.toFixed(1)},${y0.toFixed(1)}`);
       const sector = `M${CX},${CY}L${x0.toFixed(1)},${y0.toFixed(1)}A${R},${R} 0 0,1 ${x1.toFixed(1)},${y1.toFixed(1)}Z`;
@@ -75,8 +75,8 @@
       for (let k = 0; k < 30; k++) {
         const f = (k + 0.5) / 30, r = R * (0.28 + 0.62 * ((k * 7) % 10) / 10), g = A0 + 12 + (A1 - A0 - 24) * ((k * 0.618) % 1);
         const [x, y] = AY.pol(CX, CY, r, g), c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", String(5 + (k % 3) * 3));
-        c.setAttribute("style", "fill:none;stroke:#e8b66a;stroke-width:1.6");
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", String(7 + (k % 3) * 4));
+        c.setAttribute("style", "fill:none;stroke:#e8b66a;stroke-width:2.5");
         $("ruedas").appendChild(c);
         ruedas.push([c, f]);
       }
@@ -85,7 +85,7 @@
         AY.trazo($("borde"), AY.paso(t, W.son, 1.0, "power2.inOut"));
         $("sector").style.opacity = AY.paso(t, W.tercio - 0.1, 0.6, "power2.out").toFixed(3);
         ruedas.forEach(([c, f]) => { c.style.opacity = AY.paso(t, W.ruedas - 0.2 + f * 0.9, 0.2).toFixed(3); });
-        $("svg").style.opacity = (1 - AY.paso(t, 11.895 - 0.8, 0.7, "power2.in")).toFixed(3);
+        $("svg").style.opacity = (1 - AY.paso(t, 8.133 - 0.8, 0.7, "power2.in")).toFixed(3);
       }
       alBuscar(dibujar);
       window.__timelines["tercio"] = gsap.timeline({ paused: true });

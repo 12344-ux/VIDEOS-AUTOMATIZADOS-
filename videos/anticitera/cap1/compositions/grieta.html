@@ -1,0 +1,115 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #grieta-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #grieta-svg .hondo { fill: #030405; stroke: none; }
+    #grieta-svg .canto { fill: none; stroke: rgba(243, 237, 228, 0.5); stroke-width: 1.6; stroke-linejoin: round; }
+  </style>
+  <div id="root" data-composition-id="grieta" data-width="1920" data-height="1080">
+    <!-- Grietas que se abren sobre la plancha: cada una es una línea quebrada (en coordenadas de la plancha, así
+         sigue su zoom y su paneo) que avanza desde su primer punto, con el fondo oscuro y un canto de luz al lado.
+         Los quiebros intermedios salen de una semilla: el mismo dibujo en cada render. -->
+    <svg id="grieta-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow><g id="grieta-g"></g></svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 9.435;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("grieta-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const GRIETAS = [{"pts": [[0.5, 0.35], [0.53, 0.47], [0.51, 0.59], [0.54, 0.73]], "t": 14.235, "dur": 0.7}, {"pts": [[0.7, 0.29], [0.67, 0.42], [0.71, 0.56], [0.69, 0.72]], "t": 14.635, "dur": 0.6}, {"pts": [[0.39, 0.57], [0.52, 0.5], [0.62, 0.54], [0.75, 0.47], [0.85, 0.5]], "t": 15.205, "dur": 0.35, "ancho": 10}], SALE = 5.890;
+      let semilla = 7;
+      const azar = () => { semilla = (semilla * 16807) % 2147483647; return semilla / 2147483647; };
+      // Quiebra cada tramo en pasos cortos con desvíos perpendiculares (en px de la plancha a 1920 × 1080).
+      const G = GRIETAS.map((g) => {
+        const pts = [];
+        for (let i = 0; i < g.pts.length - 1; i++) {
+          const [u0, v0] = g.pts[i], [u1, v1] = g.pts[i + 1];
+          const dx = (u1 - u0) * 1920, dy = (v1 - v0) * 1080, largo = Math.hypot(dx, dy), n = Math.max(2, Math.round(largo / 26));
+          for (let k = 0; k < n; k++) {
+            const f = k / n, d = k === 0 ? 0 : (azar() - 0.5) * 22;
+            pts.push([u0 + (dx * f - (dy / largo) * d) / 1920, v0 + (dy * f + (dx / largo) * d) / 1080]);
+          }
+        }
+        pts.push(g.pts[g.pts.length - 1]);
+        const hondo = document.createElementNS(NS, "path"), canto = document.createElementNS(NS, "path");
+        hondo.setAttribute("class", "hondo"); canto.setAttribute("class", "canto");
+        $("g").appendChild(hondo); $("g").appendChild(canto);
+        // Largo acumulado de cada punto (en fracción del total), para el ancho y para lo que ya se ha abierto.
+        const acum = [0];
+        for (let i = 1; i < pts.length; i++) acum.push(acum[i - 1] + Math.hypot((pts[i][0] - pts[i - 1][0]) * 1920, (pts[i][1] - pts[i - 1][1]) * 1080));
+        const total = acum[acum.length - 1];
+        return { pts, s: acum.map((a) => a / total), hondo, canto, t: g.t - T0, dur: g.dur || 0.5, ancho: g.ancho || 7 };
+      });
+      function dibujar(t) {
+        G.forEach(({ pts, s, hondo, canto, t: a, dur, ancho }) => {
+          // Se abre deprisa al principio (expo.out): el bronce cede de golpe y luego la grieta se alarga.
+          const q = AY.paso(t, a, dur, "expo.out");
+          if (q <= 0) { hondo.setAttribute("d", ""); canto.setAttribute("d", ""); return; }
+          const p = pts.map(([u, v]) => AY.enPantalla(u, v, t + T0)), z = p[0][2];
+          // Un hueco con ancho variable: más abierto en medio, afilado en los extremos y en la punta que avanza.
+          const izq = [], der = [], luz = [];
+          for (let i = 0; i < p.length && s[i] <= q + 1e-6; i++) {
+            const a0 = p[Math.max(0, i - 1)], a1 = p[Math.min(p.length - 1, i + 1)];
+            const dx = a1[0] - a0[0], dy = a1[1] - a0[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l;
+            const w = ancho * z * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, s[i]))), 0.55) * Math.min(1, (q - s[i]) / 0.12 + 0.15) / 2;
+            izq.push([p[i][0] + nx * w, p[i][1] + ny * w]); der.push([p[i][0] - nx * w, p[i][1] - ny * w]);
+            luz.push([p[i][0] - nx * (w + 1.8), p[i][1] - ny * (w + 1.8)]);
+          }
+          const f = (l) => l.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join("L");
+          hondo.setAttribute("d", izq.length > 1 ? `M${f(izq)}L${f(der.reverse())}Z` : "");
+          canto.setAttribute("d", luz.length > 1 ? `M${f(luz)}` : "");
+        });
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.2, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["grieta"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

@@ -1,0 +1,76 @@
+<template>
+  <style>
+/*FUENTES*/
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    /* Con un halo oscuro (trazo bajo el relleno) para leerse sobre cualquier textura de la plancha. */
+    #{{id}}-svg .et { font: 600 36px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #e8b66a;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 9px; stroke-linejoin: round; }
+    #{{id}}-svg .da { font: 500 46px "Hanken Grotesk", sans-serif; fill: #f3ede4;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 10px; stroke-linejoin: round; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Señalar en la imagen lo que nombra la voz: un aro sobre la cosa (sigue el zoom y el paneo de la plancha), un
+         foco que oscurece el resto si se pide, y una guía hasta su nombre y su dato. -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <defs><filter id="{{id}}-suave"><feGaussianBlur stdDeviation="40"/></filter></defs>
+      <g id="{{id}}-marcas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const MARCAS = {{p:marcas}};
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      const M = MARCAS.map((m, i) => {
+        const g = el("g", {}, $("marcas"));
+        let foco = null, hueco = null;
+        if (m.foco) {
+          const mk = el("mask", { id: `{{id}}-m${i}` }, g);
+          el("rect", { x: 0, y: 0, width: 1920, height: 1080, fill: "white" }, mk);
+          hueco = el("ellipse", { fill: "black", filter: "url(#{{id}}-suave)" }, mk);
+          foco = el("rect", { x: 0, y: 0, width: 1920, height: 1080, fill: "#05080a", mask: `url(#{{id}}-m${i})` }, g);
+        }
+        const aro = el("ellipse", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:3.5" }, g);
+        const guia = el("path", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2.5" }, g);
+        const t1 = el("text", { class: "et" }, g); t1.textContent = m.n || "";
+        const t2 = el("text", { class: "da" }, g); t2.textContent = m.s || "";
+        return { m, g, foco, hueco, aro, guia, t1, t2, t: m.t - T0, sale: m.sale - T0, rot: (m.cae ? 1.1 : 0) };
+      });
+      function dibujar(t) {
+        M.forEach(({ m, g, foco, hueco, aro, guia, t1, t2, t: a, sale, rot }) => {
+          const [x, y0, z] = AY.enPantalla(m.u, m.v, t + T0);
+          // cae: la marca baja desde más arriba hasta su sitio (algo que se hunde, que cae al fondo).
+          const y = m.cae ? y0 - m.cae * 1080 * (1 - AY.paso(t, a, 1.1, "power2.in")) : y0;
+          const rx = (m.rx || m.r) * z, ry = (m.ry || m.r) * z;
+          aro.setAttribute("cx", x.toFixed(1)); aro.setAttribute("cy", y.toFixed(1));
+          aro.setAttribute("rx", rx.toFixed(1)); aro.setAttribute("ry", ry.toFixed(1));
+          if (m.discontinua) {   // una suposición: aro a trazos que aparece en vez de dibujarse
+            aro.setAttribute("stroke-dasharray", "1.4 1.2");
+            aro.style.opacity = AY.paso(t, a, 0.35).toFixed(3);
+          } else AY.trazo(aro, AY.paso(t, a, 0.55, "power2.inOut"));
+          if (foco) {
+            hueco.setAttribute("cx", x.toFixed(1)); hueco.setAttribute("cy", y.toFixed(1));
+            hueco.setAttribute("rx", (rx * 1.25).toFixed(1)); hueco.setAttribute("ry", (ry * 1.25).toFixed(1));
+            foco.style.opacity = (0.55 * AY.paso(t, a - 0.1, 0.6, "power2.inOut")).toFixed(3);
+          }
+          // Guía: sale del aro en diagonal y sigue en horizontal hasta el texto.
+          const lado = m.lado === "izq" ? -1 : 1, arriba = m.vert === "aba" ? 1 : -1;
+          const x1 = x + lado * rx * 0.75, y1 = y + arriba * ry * 0.75;
+          const x2 = x1 + lado * 70, y2 = y1 + arriba * 60, x3 = x2 + lado * 60;
+          guia.setAttribute("d", `M${x1.toFixed(1)},${y1.toFixed(1)}L${x2.toFixed(1)},${y2.toFixed(1)}L${x3.toFixed(1)},${y2.toFixed(1)}`);
+          if (m.n || m.s) AY.trazo(guia, AY.paso(t, a + rot + 0.35, 0.45, "expo.out")); else guia.style.display = "none";
+          const ancla = lado > 0 ? "start" : "end", tx = x3 + lado * 18;
+          for (const [e, dy] of [[t1, arriba > 0 ? 44 : 12], [t2, arriba > 0 ? 96 : 64]]) { e.setAttribute("x", tx.toFixed(1)); e.setAttribute("y", (y2 + dy).toFixed(1)); e.setAttribute("text-anchor", ancla); }
+          t1.style.opacity = AY.paso(t, a + rot + 0.55, 0.25).toFixed(3);
+          t2.style.opacity = AY.paso(t, a + rot + 0.8, 0.3).toFixed(3);
+          g.style.opacity = (1 - AY.paso(t, sale, 0.25, "power2.in")).toFixed(3);
+        });
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

@@ -425,15 +425,40 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   duración exacta de su vídeo antes de unirlo.
 - Las imágenes son ilustraciones generadas: lo dice la tarjeta final, junto al aviso de voz sintética.
 
+### 7. Revisión tras la primera entrega (y pausa)
+
+- **Lo que dijo el usuario:** la edición bajó mucho respecto a la apertura de 35 s; en muchas partes no se entiende lo
+  que se ve (una plancha con glifos inventados mientras la voz habla de letras griegas) y quedó en «imágenes con voz».
+- **Diagnóstico** con `videos/anticitera/kit/auditar.py` (24 fotogramas por minuto, cada uno con lo que dice la voz en
+  ese instante): imágenes que no corresponden a lo dicho, planos de 8 a 20 s sin que pase nada, letra pequeña para
+  el móvil y esquemas finos y abstractos.
+- **Reglas de la revisión:** un plano por idea (de 3 a 6 s); en cada plano, una acción anclada a la palabra que la
+  nombra (un aro con guía y rótulo, un foco, el escáner, un golpe de zoom, un dibujo); etiquetas de 36 px y datos de
+  46 px; trazos más gruesos; cambiar las planchas que contradicen a la voz.
+- **Piezas nuevas** (en `graficos/`): `senal` (aros que siguen la cámara de la plancha, foco, guía y rótulo con halo
+  oscuro, aro a trazos que cae), `rayos` con `kit/rayosx.py` (un escáner que deja ver una versión «radiografía» de la
+  plancha con ruedas ocultas), `inscripcion` (letras griegas que aparecen con la luz rasante), `grieta` (grietas que se
+  abren con ancho variable) y `lunas` (la Luna noche a noche, con pasos desiguales). `frente` nombra las agujas, enciende
+  las fases una a una y se acerca a cada anillo cuando la voz lo nombra. `montar.py`: `D(..., tam=)`.
+- **Planchas nuevas:** `tapa2` (bronce liso, base de la inscripción), `fragmentos`, `vitrina2` y `bulto`; 86–88 s cada
+  una con FLUX.3 (la primera, 383 s con la carga del modelo).
+- **Hecho:** capítulos I y II rehechos, revisados y renderizados (`renders/cap1.mp4` y `cap2.mp4`; los de la primera
+  versión, en `renders/v1/`). El II se le envió al usuario como piloto, a 720p. El III tiene el montaje nuevo escrito
+  (`montaje/cap3.py`) sin revisar ni renderizar; del IV al VIII, sin revisar. Las versiones anteriores de los montajes,
+  en `montaje/capN_v1.py`.
+- **Decisión:** el usuario para aquí Anticitera, sin gastar más tiempo en este vídeo, y cambia de rumbo (un canal de
+  otro nicho, en discusión).
+
 ## Siguiente paso
 
-1. Que el usuario vea el documental (`salidas/anticitera/anticitera.mp4`, o la versión a 720p) y diga qué cambiar.
-   Lo que más mejoraría, en `videos/anticitera/REVIEW.md`: planchas nuevas para la vitrina y para Rodas, y oír la mezcla.
-2. Para subirlo: la descripción, con los avisos de IA y las fuentes, está en `videos/anticitera/DESCRIPCION.md`; los
-   capítulos, en `capitulos.txt`; los subtítulos, en `subtitulos.srt`. Uso no comercial (MusicGen).
-3. El segundo vídeo con el mismo kit: guion y `montaje/capN.py`; los gráficos de `graficos/` se reutilizan. Medir el
-   tiempo total de principio a fin, también el de Claude escribiendo los montajes.
-4. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
+1. Concretar el rumbo nuevo con el usuario: idioma, si se va a monetizar, el nombre y si el repositorio sigue siendo
+   público. Hasta decidir lo del repositorio, no apuntar aquí la marca ni los guiones.
+2. Si se monetiza: MusicGen no vale (CC BY-NC); comprobar la licencia del modelo de imagen y las condiciones de
+   Supertonic (Open RAIL-M: avisar de que la voz es sintética).
+3. Lo que se reutiliza de Anticitera: el motor y el kit (anclas a palabras, `senal`, contadores, gráficos que siguen la
+   cámara de la plancha, `auditar.py`, la unión y la entrega). El estilo documental de planchas 2.5D deja de ser el centro.
+4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
+   (en `renders/` solo están la apertura y los capítulos I y II nuevos; renderiza lo que falte).
 
 ## Primera idea de montaje (sustituida)
 

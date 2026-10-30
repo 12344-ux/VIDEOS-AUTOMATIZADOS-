@@ -82,7 +82,7 @@ class Parte:
 
 def E(texto, t): return Parte('e', texto, t)                                 # etiqueta con línea
 def N(texto, t, tam=132): return Parte('n', texto, t, tam=tam)               # nombre propio, letra a letra
-def D(texto, t, tacha=None): return Parte('d', texto, t, tacha=tacha)        # dato, de gris a tinta
+def D(texto, t, tacha=None, tam=None): return Parte('d', texto, t, tacha=tacha, tam=tam)   # dato, de gris a tinta
 def T(texto, t, em=None, tam=104): return Parte('t', texto, t, em=em, tam=tam)   # título, palabra a palabra
 def Q(texto, t, tam=60): return Parte('q', texto, t, tam=tam)                 # cita o frase destacada
 def P(texto, t): return Parte('p', texto, t)                                   # pie: créditos y fuentes, pequeño
@@ -278,8 +278,8 @@ CSS = f'''
     .blq {{ position: absolute; color: var(--color-ink, {TINTA}); }}
     .blq.der {{ text-align: right; }}
     .blq > * + * {{ margin-top: 22px; }}
-    .e {{ display: flex; align-items: center; gap: 22px; font: 600 28px/1 "Hanken Grotesk", sans-serif;
-      letter-spacing: 0.32em; color: var(--color-accent, {ACENTO}); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); }}
+    .e {{ display: flex; align-items: center; gap: 22px; font: 600 36px/1 "Hanken Grotesk", sans-serif;
+      letter-spacing: 0.24em; color: var(--color-accent, {ACENTO}); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6); }}
     .der .e {{ justify-content: flex-end; }}
     .e i {{ display: block; width: 72px; height: 2px; background: var(--color-accent, {ACENTO}); transform-origin: left center; }}
     .e span, .n span, .c span {{ display: inline-block; }}
@@ -288,7 +288,7 @@ CSS = f'''
       font-weight: 500; line-height: 0.9; font-variant-numeric: lining-nums tabular-nums; text-shadow: 0 6px 40px rgba(0, 0, 0, 0.45); }}
     .der .c {{ justify-content: flex-end; margin-left: 0; }}
     .c em {{ font-style: italic; font-size: 0.51em; }}
-    .d {{ font: 500 34px/1.3 "Hanken Grotesk", sans-serif; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6); font-variant-numeric: lining-nums; }}
+    .d {{ font: 500 46px/1.25 "Hanken Grotesk", sans-serif; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7); font-variant-numeric: lining-nums; }}
     .d b {{ position: relative; font-weight: 500; }}
     .d b u {{ position: absolute; left: -6px; right: -6px; top: 52%; height: 3px; background: var(--color-accent, {ACENTO}); transform-origin: left center; }}
     .t {{ font-family: "Cormorant Garamond", serif; font-weight: 500; line-height: 1.04; letter-spacing: -0.005em; text-shadow: 0 4px 34px rgba(0, 0, 0, 0.5); }}
@@ -296,7 +296,7 @@ CSS = f'''
     .t em {{ font-style: italic; color: var(--color-accent, {ACENTO}); }}
     .q {{ font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; line-height: 1.15; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }}
     .q span {{ display: inline-block; margin-right: 0.24em; }}
-    .pie {{ font: 500 28px/1.35 "Hanken Grotesk", sans-serif; letter-spacing: 0.02em; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6); }}
+    .pie {{ font: 500 30px/1.35 "Hanken Grotesk", sans-serif; letter-spacing: 0.02em; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6); }}
     .blq > .pie + .pie {{ margin-top: 6px; }}
     .m {{ font-family: "Cormorant Garamond", serif; font-weight: 500; line-height: 1.1; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }}
     .m span {{ display: inline-block; }}
@@ -355,7 +355,8 @@ def comp_textos(cid, tm, bloques, guias, avisos):
                 texto = html.escape(p.texto)
                 if p.k.get('tacha') is not None:
                     texto = f'<b>{texto}<u></u></b>'
-                partes.append(f'<div id="{pid}" class="d">{texto}</div>')
+                tam = f' style="font-size: {p.k["tam"]}px"' if p.k.get('tam') else ''
+                partes.append(f'<div id="{pid}" class="d"{tam}>{texto}</div>')
                 js.append(f'tl.fromTo("#{pid}", {{ opacity: 0, color: "{GRIS}" }}, {{ opacity: 1, duration: 0.2, ease: "power1.out" }}, {L(p.t)});')
                 js.append(f'tl.to("#{pid}", {{ color: "{TINTA}", duration: 0.5, ease: "power2.out" }}, {L(p.t + 0.2)});')
                 if p.k.get('tacha') is not None:
@@ -560,6 +561,9 @@ def copiar_recursos(cap, borrador):
         shutil.copy2(os.path.join(TRABAJO, 'fuentes', f), os.path.join(d, 'fonts', f))
     for f in cap.p_fuentes if hasattr(cap, 'p_fuentes') else []:
         shutil.copy2(os.path.join(TRABAJO, 'fuentes', f), os.path.join(d, 'fonts', f))
+    for g in cap.graficos:   # imágenes propias de un gráfico (la radiografía de una plancha, por ejemplo)
+        for f in g['p'].get('archivos', []):
+            shutil.copy2(os.path.join(P, f), os.path.join(d, 'img', f))
     for s in cap.sonidos:
         nombre = SFX[s['nombre']]
         src = os.path.join(SFX_HF, nombre[3:]) if nombre.startswith('hf:') else os.path.join(TRABAJO, 'sfx', nombre)

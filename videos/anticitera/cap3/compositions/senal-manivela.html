@@ -1,0 +1,126 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #senal-manivela-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    /* Con un halo oscuro (trazo bajo el relleno) para leerse sobre cualquier textura de la plancha. */
+    #senal-manivela-svg .et { font: 600 36px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #e8b66a;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 9px; stroke-linejoin: round; }
+    #senal-manivela-svg .da { font: 500 46px "Hanken Grotesk", sans-serif; fill: #f3ede4;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 10px; stroke-linejoin: round; }
+  </style>
+  <div id="root" data-composition-id="senal-manivela" data-width="1920" data-height="1080">
+    <!-- Señalar en la imagen lo que nombra la voz: un aro sobre la cosa (sigue el zoom y el paneo de la plancha), un
+         foco que oscurece el resto si se pide, y una guía hasta su nombre y su dato. -->
+    <svg id="senal-manivela-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <defs><filter id="senal-manivela-suave"><feGaussianBlur stdDeviation="40"/></filter></defs>
+      <g id="senal-manivela-marcas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 7.760;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("senal-manivela-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const MARCAS = [{"u": 0.56, "v": 0.635, "rx": 78, "ry": 118, "t": 8.16, "sale": 10.008, "n": "MANIVELA", "lado": "izq", "foco": true}];
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      const M = MARCAS.map((m, i) => {
+        const g = el("g", {}, $("marcas"));
+        let foco = null, hueco = null;
+        if (m.foco) {
+          const mk = el("mask", { id: `senal-manivela-m${i}` }, g);
+          el("rect", { x: 0, y: 0, width: 1920, height: 1080, fill: "white" }, mk);
+          hueco = el("ellipse", { fill: "black", filter: "url(#senal-manivela-suave)" }, mk);
+          foco = el("rect", { x: 0, y: 0, width: 1920, height: 1080, fill: "#05080a", mask: `url(#senal-manivela-m${i})` }, g);
+        }
+        const aro = el("ellipse", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:3.5" }, g);
+        const guia = el("path", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2.5" }, g);
+        const t1 = el("text", { class: "et" }, g); t1.textContent = m.n || "";
+        const t2 = el("text", { class: "da" }, g); t2.textContent = m.s || "";
+        return { m, g, foco, hueco, aro, guia, t1, t2, t: m.t - T0, sale: m.sale - T0, rot: (m.cae ? 1.1 : 0) };
+      });
+      function dibujar(t) {
+        M.forEach(({ m, g, foco, hueco, aro, guia, t1, t2, t: a, sale, rot }) => {
+          const [x, y0, z] = AY.enPantalla(m.u, m.v, t + T0);
+          // cae: la marca baja desde más arriba hasta su sitio (algo que se hunde, que cae al fondo).
+          const y = m.cae ? y0 - m.cae * 1080 * (1 - AY.paso(t, a, 1.1, "power2.in")) : y0;
+          const rx = (m.rx || m.r) * z, ry = (m.ry || m.r) * z;
+          aro.setAttribute("cx", x.toFixed(1)); aro.setAttribute("cy", y.toFixed(1));
+          aro.setAttribute("rx", rx.toFixed(1)); aro.setAttribute("ry", ry.toFixed(1));
+          if (m.discontinua) {   // una suposición: aro a trazos que aparece en vez de dibujarse
+            aro.setAttribute("stroke-dasharray", "1.4 1.2");
+            aro.style.opacity = AY.paso(t, a, 0.35).toFixed(3);
+          } else AY.trazo(aro, AY.paso(t, a, 0.55, "power2.inOut"));
+          if (foco) {
+            hueco.setAttribute("cx", x.toFixed(1)); hueco.setAttribute("cy", y.toFixed(1));
+            hueco.setAttribute("rx", (rx * 1.25).toFixed(1)); hueco.setAttribute("ry", (ry * 1.25).toFixed(1));
+            foco.style.opacity = (0.55 * AY.paso(t, a - 0.1, 0.6, "power2.inOut")).toFixed(3);
+          }
+          // Guía: sale del aro en diagonal y sigue en horizontal hasta el texto.
+          const lado = m.lado === "izq" ? -1 : 1, arriba = m.vert === "aba" ? 1 : -1;
+          const x1 = x + lado * rx * 0.75, y1 = y + arriba * ry * 0.75;
+          const x2 = x1 + lado * 70, y2 = y1 + arriba * 60, x3 = x2 + lado * 60;
+          guia.setAttribute("d", `M${x1.toFixed(1)},${y1.toFixed(1)}L${x2.toFixed(1)},${y2.toFixed(1)}L${x3.toFixed(1)},${y2.toFixed(1)}`);
+          if (m.n || m.s) AY.trazo(guia, AY.paso(t, a + rot + 0.35, 0.45, "expo.out")); else guia.style.display = "none";
+          const ancla = lado > 0 ? "start" : "end", tx = x3 + lado * 18;
+          for (const [e, dy] of [[t1, arriba > 0 ? 44 : 12], [t2, arriba > 0 ? 96 : 64]]) { e.setAttribute("x", tx.toFixed(1)); e.setAttribute("y", (y2 + dy).toFixed(1)); e.setAttribute("text-anchor", ancla); }
+          t1.style.opacity = AY.paso(t, a + rot + 0.55, 0.25).toFixed(3);
+          t2.style.opacity = AY.paso(t, a + rot + 0.8, 0.3).toFixed(3);
+          g.style.opacity = (1 - AY.paso(t, sale, 0.25, "power2.in")).toFixed(3);
+        });
+      }
+      alBuscar(dibujar);
+      window.__timelines["senal-manivela"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

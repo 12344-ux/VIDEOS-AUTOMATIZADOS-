@@ -13,7 +13,7 @@
     <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
       <defs><clipPath id="{{id}}-clip"><circle id="{{id}}-rev" cx="0" cy="0" r="0"/></clipPath></defs>
       <g id="{{id}}-cam">
-        <path id="{{id}}-costa" clip-path="url(#{{id}}-clip)" style="fill:rgba(243,237,228,0.1);stroke:rgba(243,237,228,0.5);stroke-width:1.2;stroke-linejoin:round"
+        <path id="{{id}}-costa" clip-path="url(#{{id}}-clip)" style="fill:rgba(243,237,228,0.1);stroke:rgba(243,237,228,0.5);stroke-width: 2.2;stroke-linejoin:round"
           d="/*DATOS:costa*/"/>
         <g id="{{id}}-arcos"></g>
         <g id="{{id}}-puntos"></g>
@@ -30,7 +30,7 @@
       // Los lugares: punto, anillo que se dibuja y su nombre (con una segunda línea en el acento).
       const P = PUNTOS.map((p) => {
         const g = el("g", {}, $("puntos"));
-        const anillo = el("path", { d: AY.circulo(p.x, p.y, 15), pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2" }, g);
+        const anillo = el("path", { d: AY.circulo(p.x, p.y, 15), pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:3.2" }, g);
         el("circle", { cx: p.x, cy: p.y, r: 6, style: "fill:#e8b66a" }, g);
         const dx = p.lado === "izq" ? -30 : 30, ancla = p.lado === "izq" ? "end" : "start";
         const dy = p.lado === "arr" ? -40 : p.lado === "aba" ? 52 : 10;
@@ -44,7 +44,7 @@
       const A = ARCOS.map((a) => {
         const mx = (a.de[0] + a.a[0]) / 2, my = (a.de[1] + a.a[1]) / 2 - Math.hypot(a.a[0] - a.de[0], a.a[1] - a.de[1]) * 0.22;
         const c = el("path", { d: `M${a.de[0]},${a.de[1]}Q${mx.toFixed(1)},${my.toFixed(1)} ${a.a[0]},${a.a[1]}`, pathLength: 100,
-          style: "fill:none;stroke:#e8b66a;stroke-width:2;stroke-linecap:round" }, $("arcos"));
+          style: "fill:none;stroke:#e8b66a;stroke-width: 3.2;stroke-linecap:round" }, $("arcos"));
         return { c, t: a.t - T0 };
       });
       $("rev").setAttribute("cx", REVELA.x); $("rev").setAttribute("cy", REVELA.y);

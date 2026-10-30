@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-capa { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+    #{{id}}-linea { position: absolute; top: 0; height: 1080px; width: 3px; margin-left: -1px; background: #e8f4ff;
+      box-shadow: 0 0 18px 4px rgba(170, 215, 255, 0.45); }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- El escáner: una línea barre la plancha y deja a su paso su versión de rayos X (kit/rayosx.py), alineada con la
+         plancha (sigue su zoom y su paneo): se ve lo que hay dentro del bronce. -->
+    <div id="{{id}}-capa"><img id="{{id}}-img" src="assets/img/{{p:imagen}}" alt=""></div>
+    <div id="{{id}}-linea"></div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const T1 = {{t:barre}}, T2 = {{t:termina}}, SALE = {{t:sale}};
+      function dibujar(t) {
+        const [x0, y0, z] = AY.enPantalla(0, 0, t + T0);
+        $("img").style.transform = `translate(${x0.toFixed(1)}px, ${y0.toFixed(1)}px) scale(${z.toFixed(4)})`;
+        const p = AY.paso(t, T1, T2 - T1, "power1.inOut");
+        $("capa").style.clipPath = `inset(0 ${(100 * (1 - p)).toFixed(2)}% 0 0)`;
+        $("linea").style.left = (1920 * p).toFixed(1) + "px";
+        $("linea").style.opacity = (AY.paso(t, T1 - 0.1, 0.15) * (1 - AY.paso(t, T2 - 0.05, 0.25))).toFixed(3);
+        $("capa").style.opacity = (1 - AY.paso(t, SALE, 0.35, "power2.inOut")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

@@ -6,9 +6,12 @@
     @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
     #root { position: absolute; inset: 0; overflow: hidden; }
     #frente-b-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
-    #frente-b-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-    #frente-b-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 1.6; stroke-linecap: round; }
-    #frente-b-svg .rotulo { font: 600 28px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #f3ede4; }
+    #frente-b-svg .l { fill: none; stroke: #e8b66a; stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; }
+    #frente-b-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 2.6; stroke-linecap: round; }
+    #frente-b-svg .rotulo { font: 600 33px "Hanken Grotesk", sans-serif; letter-spacing: 0.16em; fill: #f3ede4; }
+    #frente-b-svg .nombre { font: 600 36px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #e8b66a;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.75); stroke-width: 9px; stroke-linejoin: round; }
+    #frente-b-svg .fase { font: 600 40px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; }
   </style>
   <div id="root" data-composition-id="frente-b" data-width="1920" data-height="1080">
     <!-- El frente de la máquina (reconstrucción): la rueda mayor (223 dientes, una vuelta al año), el anillo del
@@ -26,10 +29,13 @@
         <path id="frente-b-agujeros" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:4;stroke-linecap:round"/>
         <g id="frente-b-sol"><path id="frente-b-solp" class="l" pathLength="100"/><circle id="frente-b-sold" r="13" style="fill:#e8b66a"/></g>
         <g id="frente-b-luna"><path id="frente-b-lunap" class="tinta" pathLength="100"/>
-          <circle id="frente-b-bola" r="30" style="fill:#0d1114;stroke:#f3ede4;stroke-width:1.6"/>
+          <circle id="frente-b-bola" r="30" style="fill:#0d1114;stroke:#f3ede4;stroke-width:2.6"/>
           <path id="frente-b-luz" style="fill:#f3ede4"/></g>
         <circle id="frente-b-eje" cx="1260" cy="540" r="7" style="fill:#e8b66a"/>
+        <text id="frente-b-solt" class="nombre">SOL</text><text id="frente-b-lunat" class="nombre">LUNA</text>
       </g>
+      <!-- En «b», las cuatro fases en lista, fuera de la cámara: la que nombra la voz se enciende. -->
+      <g id="frente-b-fases"></g>
     </svg>
   </div>
   <script>
@@ -140,6 +146,19 @@
         return `M${top}A${r},${r} 0 0,0 ${bot}A${rx},${r} 0 0,${k > 0 ? 1 : 0} ${top}Z`;
       }
 
+      const FASES = [["CRECIENTE", 90, "crec"], ["LLENA", 180, "llena"], ["MENGUANTE", 270, "meng"], ["NUEVA", 0, "nueva"]].map(([n, e, k], i) => {
+        const NS = "http://www.w3.org/2000/svg", y = 330 + i * 92;
+        const g = document.createElementNS(NS, "g"); $("fases").appendChild(g);
+        const bola = document.createElementNS(NS, "circle");
+        bola.setAttribute("cx", 176); bola.setAttribute("cy", y - 14); bola.setAttribute("r", 22);
+        bola.setAttribute("style", "fill:#0d1114;stroke:#f3ede4;stroke-width:2.4"); g.appendChild(bola);
+        const lz = document.createElementNS(NS, "path"); lz.setAttribute("d", luz(176, y - 14, 22, e === 0 ? 0.01 : e));
+        lz.setAttribute("style", "fill:#f3ede4"); g.appendChild(lz);
+        const tx = document.createElementNS(NS, "text"); tx.setAttribute("class", "fase"); tx.setAttribute("x", 226); tx.setAttribute("y", y);
+        tx.textContent = n; g.appendChild(tx);
+        return { g, tx, k };
+      });
+
       function dibujar(t) {
         // La rueda mayor: se dibuja, da una vuelta entera (un año) y queda al fondo cuando llega el frente.
         const giro = AY.valor([[W.gira - 0.3, 0], [W.vuelta, 18, "sine.inOut"], [W.ano + 0.7, 378, "power2.inOut"], [W.ano + 40, 378 + 160]], t);
@@ -177,10 +196,27 @@
         const pe = MODO === "a" ? AY.paso(t, W.esfera - 0.3, 0.4, "power2.out") : 1;
         $("bola").style.opacity = pe.toFixed(3); $("luz").style.opacity = pe.toFixed(3);
         $("eje").style.opacity = Math.max(ps, pl).toFixed(3);
+        // Los nombres, junto a la punta de cada aguja, cuando la voz los dice (en «b» ya no hacen falta).
+        const [stx, sty] = AY.pol(CX, CY, 410, sol), [ltx, lty] = AY.pol(CX, CY, 200, luna);
+        $("solt").setAttribute("x", (stx + 24).toFixed(1)); $("solt").setAttribute("y", (sty - 18).toFixed(1));
+        $("lunat").setAttribute("x", (ltx - 150).toFixed(1)); $("lunat").setAttribute("y", (lty + 16).toFixed(1));
+        $("solt").style.opacity = MODO === "a" ? AY.paso(t, W.sol + 0.1, 0.3).toFixed(3) : "0";
+        $("lunat").style.opacity = MODO === "a" ? AY.paso(t, W.luna + 0.1, 0.3).toFixed(3) : "0";
+        FASES.forEach(({ g, tx, k }, i) => {
+          if (MODO !== "b") { g.style.opacity = "0"; return; }
+          const fin = i < 3 ? W[FASES[i + 1].k] : W.debajo - 0.2;
+          const on = AY.paso(t, W[k] - 0.05, 0.15) * (1 - AY.paso(t, fin - 0.05, 0.15));
+          g.style.opacity = (AY.paso(t, W.crec - 0.8, 0.4) * (0.4 + 0.6 * on) * (1 - AY.paso(t, W.debajo, 0.4))).toFixed(3);
+          tx.style.fill = on > 0.5 ? "#e8b66a" : "#f3ede4";
+        });
         // Cámara: en «a» se acerca poco a poco; en «b» empieza cerca de la esfera y se aleja hasta los agujeros.
         let cam;
-        if (MODO === "a") cam = [AY.valor([[W.gira, 0.9], [W.frente, 0.96, "sine.inOut"], [W.dias, 1.0, "sine.inOut"], [W.sol, 1.0], [W.luna + 1.2, 1.16, "power2.inOut"]], t),
-          AY.valor([[W.gira, 1040], [W.sol, 1040], [W.luna + 1.2, 1150, "power2.inOut"]], t), 540];
+        if (MODO === "a") {
+          const K = [[W.gira, 0.9, 1040, 540], [W.frente, 0.96, 1040, 540, "sine.inOut"], [W.zod - 1.1, 1.0, 1040, 540, "sine.inOut"],
+            [W.zod - 0.2, 1.45, 1330, 300, "power2.inOut"], [W.cal - 0.3, 1.5, 1310, 290, "sine.inOut"], [W.cal + 0.6, 1.5, 1110, 235, "power2.inOut"],
+            [W.dias + 0.6, 1.55, 1100, 230, "sine.inOut"], [W.sol - 0.35, 1.0, 1040, 540, "power2.inOut"], [W.luna + 1.2, 1.16, 1150, 540, "power2.inOut"]];
+          cam = [1, 2, 3].map((i) => AY.valor(K.map((c) => [c[0], c[i], c[4]]), t));
+        }
         else cam = [AY.valor([[0, 1.62], [W.nueva + 0.6, 1.5, "sine.inOut"], [W.debajo + 1.2, 1.0, "power2.inOut"], [W.volv + 1.5, 1.06, "sine.inOut"]], t),
           AY.valor([[0, 1235], [W.nueva + 0.6, 1235], [W.debajo + 1.2, 1040, "power2.inOut"]], t), 540];
         AY.camara($("cam"), cam[0], cam[1], cam[2]);

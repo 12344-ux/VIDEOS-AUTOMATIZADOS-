@@ -7,9 +7,9 @@
     <!-- Lo que se conserva: la máquina entera como un círculo; dos tercios a trazos (perdidos) y uno que se
          llena (los 82 fragmentos y sus 30 ruedas). Dentro del tercio, las 30 ruedas como puntos. -->
     <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
-      <path id="{{id}}-perdido" style="fill:none;stroke:#f3ede4;stroke-width:2;stroke-dasharray:5 11"/>
-      <path id="{{id}}-sector" style="fill:#e8b66a;fill-opacity:0.18"/>
-      <path id="{{id}}-borde" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2.5;stroke-linejoin:round"/>
+      <path id="{{id}}-perdido" style="fill:none;stroke:#f3ede4;stroke-width:3;stroke-dasharray:8 12"/>
+      <path id="{{id}}-sector" style="fill:#e8b66a;fill-opacity:0.3"/>
+      <path id="{{id}}-borde" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:4;stroke-linejoin:round"/>
       <g id="{{id}}-ruedas"></g>
     </svg>
   </div>
@@ -28,8 +28,8 @@
       for (let k = 0; k < 30; k++) {
         const f = (k + 0.5) / 30, r = R * (0.28 + 0.62 * ((k * 7) % 10) / 10), g = A0 + 12 + (A1 - A0 - 24) * ((k * 0.618) % 1);
         const [x, y] = AY.pol(CX, CY, r, g), c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", String(5 + (k % 3) * 3));
-        c.setAttribute("style", "fill:none;stroke:#e8b66a;stroke-width:1.6");
+        c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", String(7 + (k % 3) * 4));
+        c.setAttribute("style", "fill:none;stroke:#e8b66a;stroke-width:2.5");
         $("ruedas").appendChild(c);
         ruedas.push([c, f]);
       }

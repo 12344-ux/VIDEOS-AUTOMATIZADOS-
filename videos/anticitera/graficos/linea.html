@@ -11,10 +11,10 @@
          fecha aparece en la palabra que la nombra; un tramo puede quedar señalado (un hueco). -->
     <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
       <g id="{{id}}-cam">
-        <path id="{{id}}-linea" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;opacity:0.8"/>
+        <path id="{{id}}-linea" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width: 3.2;opacity:0.8"/>
         <path id="{{id}}-siglos" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:1.5;opacity:0.45"/>
         <g id="{{id}}-siglosT"></g>
-        <g id="{{id}}-tramo"><path id="{{id}}-tramop" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:2"/><text id="{{id}}-tramot" class="sub" text-anchor="middle"></text></g>
+        <g id="{{id}}-tramo"><path id="{{id}}-tramop" pathLength="100" style="fill:none;stroke:#e8b66a;stroke-width:3.2"/><text id="{{id}}-tramot" class="sub" text-anchor="middle"></text></g>
         <g id="{{id}}-marcas"></g>
       </g>
     </svg>
@@ -44,7 +44,7 @@
       const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
       const M = MARCAS.map((m) => {
         const g = el("g", {}, $("marcas")), x = X(m.a), arriba = m.lado !== "aba", h = m.alto || 70;
-        const palo = el("path", { d: `M${x},${Y}L${x},${arriba ? Y - h : Y + h}`, pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:2" }, g);
+        const palo = el("path", { d: `M${x},${Y}L${x},${arriba ? Y - h : Y + h}`, pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:3.2" }, g);
         el("circle", { cx: x, cy: Y, r: 7, style: "fill:#e8b66a" }, g);
         const ty = arriba ? Y - h - 46 : Y + h + 40;
         const t1 = el("text", { x, y: ty, class: "rotulo", "text-anchor": m.ancla || "middle" }, g); t1.textContent = m.n;

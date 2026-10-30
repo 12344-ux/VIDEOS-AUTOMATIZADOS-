@@ -1,0 +1,124 @@
+<template>
+  <style>
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Cormorant Garamond"; src: url("assets/fonts/cormorant-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Hanken Grotesk"; src: url("assets/fonts/hanken-600.woff2") format("woff2"); font-weight: 600; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #lunas-avance-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #lunas-avance-svg .et { font: 600 36px "Hanken Grotesk", sans-serif; letter-spacing: 0.2em; fill: #e8b66a;
+      paint-order: stroke; stroke: rgba(5, 8, 10, 0.72); stroke-width: 9px; stroke-linejoin: round; }
+    #lunas-avance-svg .num { font: 500 26px "Hanken Grotesk", sans-serif; fill: #f3ede4; opacity: 0.7; }
+  </style>
+  <div id="root" data-composition-id="lunas-avance" data-width="1920" data-height="1080">
+    <!-- La Luna noche a noche, a la misma hora: una fila de lunas sobre un arco del cielo (en coordenadas de la
+         plancha, así sigue su zoom), que aparecen una tras otra. El paso entre una y otra no es igual: más largo
+         donde la Luna «corre» y más corto donde «se frena» (exagerado para que se vea; de verdad, de 12° a 15°). -->
+    <svg id="lunas-avance-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <path id="lunas-avance-arco" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2;stroke-dasharray:0.6 1.2;opacity:0"/>
+      <g id="lunas-avance-lunas"></g><g id="lunas-avance-marcas"></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de los gráficos (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo
+      // local t: el mismo cuadro en cada render.
+      const AY = {
+        // Valor de una lista de claves [t, v, curva] (la curva va de la clave anterior a esta).
+        valor(claves, t) {
+          if (t <= claves[0][0]) return claves[0][1];
+          for (let i = 1; i < claves.length; i++) {
+            const [t1, v1, curva] = claves[i], [t0, v0] = claves[i - 1];
+            if (t <= t1) return v0 + (v1 - v0) * gsap.parseEase(curva || "none")(t1 > t0 ? (t - t0) / (t1 - t0) : 1);
+          }
+          return claves[claves.length - 1][1];
+        },
+        // Avance 0 → 1 de algo que empieza en t0 y dura d, con su curva.
+        paso(t, t0, d, curva) { return gsap.parseEase(curva || "power2.out")(Math.min(1, Math.max(0, (t - t0) / d))); },
+        // Trazo que se dibuja (path con pathLength="100"): p de 0 a 1.
+        trazo(el, p) { el.setAttribute("stroke-dasharray", "100 120"); el.setAttribute("stroke-dashoffset", (110 * (1 - p)).toFixed(2)); },
+        // Entra con desenfoque y sale con fundido: opacidad y blur de un elemento entre a (entra) y s (sale).
+        visible(el, t, a, s, max) {
+          const e = AY.paso(t, a, 0.25, "power2.out"), f = 1 - AY.paso(t, s, 0.2, "power2.in");
+          el.style.opacity = ((max == null ? 1 : max) * e * f).toFixed(3);
+        },
+        rad: (g) => (g * Math.PI) / 180,
+        pol: (cx, cy, r, g) => [cx + r * Math.cos((g * Math.PI) / 180), cy + r * Math.sin((g * Math.PI) / 180)],
+        circulo: (cx, cy, r) => `M${cx + r},${cy}a${r},${r} 0 1,0 ${-2 * r},0a${r},${r} 0 1,0 ${2 * r},0`,
+        // Corona de dientes triangulares (n dientes, radio r) con la fase en grados.
+        dientes(cx, cy, r, n, fase) {
+          const alto = Math.min(14, (2 * r / n) * 1.1), pts = [];
+          for (let k = 0; k < n; k++) {
+            const a0 = AY.rad(fase) + (2 * Math.PI * k) / n, a1 = a0 + Math.PI / n;
+            pts.push([r + alto / 2, a0], [r - alto / 2, a1]);
+          }
+          return "M" + pts.map(([q, a]) => `${(cx + q * Math.cos(a)).toFixed(1)},${(cy + q * Math.sin(a)).toFixed(1)}`).join("L") + "Z";
+        },
+        // De un punto de la plancha (u, v en fracciones del cuadro) a la pantalla, con el zoom y el paneo que la
+        // plancha tiene en el instante tAbs del capítulo (sin el paralaje, que aquí es de unos pocos píxeles).
+        enPantalla(u, v, tAbs) {
+          const e = window.__planchasEstado ? window.__planchasEstado(tAbs) : { zoom: 1, panX: 0, panY: 0, centro: [0.5, 0.5] };
+          return [((u - e.centro[0] - e.panX) * e.zoom + e.centro[0]) * 1920, ((v - e.centro[1] - e.panY) * e.zoom + e.centro[1]) * 1080, e.zoom];
+        },
+        // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
+        camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
+      };
+      const T0 = 51.159;
+      function alBuscar(dibujar) {
+        window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
+        dibujar(0);
+      }
+
+      const $ = (s) => document.getElementById("lunas-avance-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const C = [0.5, 1.25], R = 1081, A0 = -70, A1 = -120, N = 8, EXC = 0.45, FASE = 0.15;
+      const T1 = 3.003, PASO = 0.17, SALE = 7.131, RL = 34, MARCAS = [], NUMEROS = false;
+      const el = (tipo, attrs, padre) => { const e = document.createElementNS(NS, tipo); for (const k in attrs) e.setAttribute(k, attrs[k]); padre.appendChild(e); return e; };
+      // Ángulo de cada noche: el reparto F(x) = x + EXC·sen(2π(x − FASE))/2π, con velocidad 1 + EXC·cos(2π(x − FASE)).
+      const ang = (x) => A0 + (A1 - A0) * (x + (EXC * (Math.sin(2 * Math.PI * (x - FASE)) + Math.sin(2 * Math.PI * FASE))) / (2 * Math.PI));
+      const L = [];
+      for (let k = 0; k < N; k++) {
+        const g = el("g", {}, $("lunas"));
+        const c = el("circle", { r: RL, style: "fill:rgba(243,237,228,0.16);stroke:#f3ede4;stroke-width:2.6" }, g);
+        const tx = NUMEROS ? el("text", { class: "num", "text-anchor": "middle" }, g) : null;
+        if (tx) tx.textContent = String(k + 1);
+        L.push({ g, c, tx, a: ang(k / (N - 1)), t: T1 + k * PASO - T0 });
+      }
+      // Marcas: un rótulo junto a un tramo (entre la noche k y la k+1), con un arco corto de acento encima.
+      const M = MARCAS.map((m) => {
+        const g = el("g", {}, $("marcas"));
+        const tramo = el("path", { pathLength: 100, style: "fill:none;stroke:#e8b66a;stroke-width:5;stroke-linecap:round" }, g);
+        const tx = el("text", { class: "et", "text-anchor": "middle" }, g); tx.textContent = m.n;
+        return { m, g, tramo, tx, t: m.t - T0, sale: (m.sale == null ? SALE : m.sale) - T0 };
+      });
+      function dibujar(t) {
+        const [cx, cy, z] = AY.enPantalla(C[0], C[1], t + T0), r = R * z;
+        const pos = (a, dr) => [cx + (r + (dr || 0)) * Math.cos(AY.rad(a)), cy + (r + (dr || 0)) * Math.sin(AY.rad(a))];
+        L.forEach(({ g, c, tx, a, t: a0 }) => {
+          const [x, y] = pos(a);
+          c.setAttribute("cx", x.toFixed(1)); c.setAttribute("cy", y.toFixed(1)); c.setAttribute("r", (RL * z).toFixed(1));
+          if (tx) { tx.setAttribute("x", x.toFixed(1)); tx.setAttribute("y", (y + RL * z + 34).toFixed(1)); }
+          const p = AY.paso(t, a0, 0.3, "power2.out");
+          g.style.opacity = p.toFixed(3);
+          g.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${(0.6 + 0.4 * p).toFixed(3)}) translate(${(-x).toFixed(1)} ${(-y).toFixed(1)})`);
+        });
+        const [ax, ay] = pos(A0), [bx, by] = pos(A1), grande = Math.abs(A1 - A0) > 180 ? 1 : 0, giro = A1 > A0 ? 1 : 0;
+        $("arco").setAttribute("d", `M${ax.toFixed(1)},${ay.toFixed(1)}A${r.toFixed(1)},${r.toFixed(1)} 0 ${grande},${giro} ${bx.toFixed(1)},${by.toFixed(1)}`);
+        $("arco").style.opacity = (0.45 * AY.paso(t, T1 - T0 - 0.2, 0.5)).toFixed(3);
+        M.forEach(({ m, g, tramo, tx, t: a0, sale }) => {
+          const aa = L[m.k].a, ab = L[m.k + 1].a, dr = -(RL + 26) * z;
+          const [x0, y0] = pos(aa, dr), [x1, y1] = pos(ab, dr), rr = r + dr;
+          tramo.setAttribute("d", `M${x0.toFixed(1)},${y0.toFixed(1)}A${rr.toFixed(1)},${rr.toFixed(1)} 0 0,${ab > aa ? 1 : 0} ${x1.toFixed(1)},${y1.toFixed(1)}`);
+          AY.trazo(tramo, AY.paso(t, a0, 0.5, "power2.inOut"));
+          const [tx0, ty0] = pos((aa + ab) / 2, dr - 46);
+          tx.setAttribute("x", tx0.toFixed(1)); tx.setAttribute("y", (ty0 + 12).toFixed(1));
+          tx.style.opacity = AY.paso(t, a0 + 0.25, 0.3).toFixed(3);
+          g.style.opacity = (1 - AY.paso(t, sale, 0.25, "power2.in")).toFixed(3);
+        });
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.3, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["lunas-avance"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

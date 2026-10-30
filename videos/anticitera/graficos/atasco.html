@@ -2,8 +2,8 @@
   <style>
     #root { position: absolute; inset: 0; overflow: hidden; }
     #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
-    #{{id}}-svg .l { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; }
-    #{{id}}-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 1.6; stroke-linejoin: round; }
+    #{{id}}-svg .l { fill: none; stroke: #e8b66a; stroke-width: 3.2; stroke-linejoin: round; }
+    #{{id}}-svg .tinta { fill: none; stroke: #f3ede4; stroke-width: 2.6; stroke-linejoin: round; }
   </style>
   <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
     <!-- Dos ruedas de dientes triangulares que engranan y giran hasta que, en el instante dado, se atascan: un
@@ -11,7 +11,7 @@
          punto de contacto. -->
     <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
       <path id="{{id}}-a" class="l" pathLength="100"/><path id="{{id}}-b" class="tinta" pathLength="100"/>
-      <path id="{{id}}-contacto" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:2"/>
+      <path id="{{id}}-contacto" pathLength="100" style="fill:none;stroke:#f3ede4;stroke-width:3.2"/>
     </svg>
   </div>
   <script>

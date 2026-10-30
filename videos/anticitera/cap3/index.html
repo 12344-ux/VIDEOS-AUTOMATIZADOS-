@@ -23,21 +23,37 @@
       <div id="fondo"></div>
       <div id="planchas" data-composition-id="planchas" data-composition-src="compositions/planchas.html"
         data-start="0" data-duration="59.19" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <div id="senal-caja" data-composition-id="senal-caja" data-composition-src="compositions/senal-caja.html"
+        data-start="3.2" data-duration="4.56" data-track-index="2" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="senal-manivela" data-composition-id="senal-manivela" data-composition-src="compositions/senal-manivela.html"
+        data-start="7.76" data-duration="2.498" data-track-index="2" data-track-kind="graphics" style="z-index: 3"></div>
       <div id="frente-a" data-composition-id="frente-a" data-composition-src="compositions/frente-a.html"
         data-start="10.258" data-duration="19.075" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="senal-esfera" data-composition-id="senal-esfera" data-composition-src="compositions/senal-esfera.html"
+        data-start="29.333" data-duration="3.37" data-track-index="2" data-track-kind="graphics" style="z-index: 3"></div>
       <div id="frente-b" data-composition-id="frente-b" data-composition-src="compositions/frente-b.html"
         data-start="32.703" data-duration="10.936" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="senal-laminas" data-composition-id="senal-laminas" data-composition-src="compositions/senal-laminas.html"
+        data-start="43.639" data-duration="4.41" data-track-index="2" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="senal-dientes" data-composition-id="senal-dientes" data-composition-src="compositions/senal-dientes.html"
+        data-start="48.049" data-duration="3.11" data-track-index="2" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="lunas-avance" data-composition-id="lunas-avance" data-composition-src="compositions/lunas-avance.html"
+        data-start="51.159" data-duration="8.031" data-track-index="2" data-track-kind="graphics" style="z-index: 2"></div>
       <div id="t1" data-composition-id="t1" data-composition-src="compositions/t1.html"
-        data-start="0.0" data-duration="10.258" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+        data-start="0.0" data-duration="7.76" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <div id="t2" data-composition-id="t2" data-composition-src="compositions/t2.html"
-        data-start="10.258" data-duration="19.075" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+        data-start="7.76" data-duration="2.498" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <div id="t3" data-composition-id="t3" data-composition-src="compositions/t3.html"
-        data-start="29.333" data-duration="3.37" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+        data-start="10.258" data-duration="19.075" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <div id="t4" data-composition-id="t4" data-composition-src="compositions/t4.html"
-        data-start="32.703" data-duration="10.936" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+        data-start="29.333" data-duration="3.37" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <div id="t5" data-composition-id="t5" data-composition-src="compositions/t5.html"
-        data-start="43.639" data-duration="7.52" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+        data-start="32.703" data-duration="10.936" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <div id="t6" data-composition-id="t6" data-composition-src="compositions/t6.html"
+        data-start="43.639" data-duration="4.41" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t7" data-composition-id="t7" data-composition-src="compositions/t7.html"
+        data-start="48.049" data-duration="3.11" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="t8" data-composition-id="t8" data-composition-src="compositions/t8.html"
         data-start="51.159" data-duration="8.031" data-track-index="4" data-track-kind="graphics" style="z-index: 5"></div>
       <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="3.4" data-duration="53.189" data-track-index="10"
         data-volume="1" data-fx-chain="{&quot;version&quot;: 1, &quot;nodes&quot;: [{&quot;type&quot;: &quot;highpass&quot;, &quot;id&quot;: &quot;v1&quot;, &quot;label&quot;: &quot;Quitar graves&quot;, &quot;params&quot;: {&quot;frequency&quot;: 90}}, {&quot;type&quot;: &quot;peaking&quot;, &quot;id&quot;: &quot;v2&quot;, &quot;label&quot;: &quot;Claridad&quot;, &quot;params&quot;: {&quot;frequency&quot;: 3000, &quot;gain&quot;: 2, &quot;q&quot;: 1}}, {&quot;type&quot;: &quot;limiter&quot;, &quot;id&quot;: &quot;v3&quot;, &quot;params&quot;: {&quot;limit&quot;: -1}}]}"></audio>
@@ -47,12 +63,18 @@
         data-track-index="12" data-volume="0.22" data-fade-out="0.6"></audio>
       <audio id="s1-tictac" class="clip" src="assets/sfx/tictac.wav" data-start="12.455" data-duration="2.4"
         data-track-index="13" data-volume="0.2" data-fade-in="0.2" data-fade-out="0.5"></audio>
-      <audio id="s2-clic" class="clip" src="assets/sfx/clic.wav" data-start="27.144" data-duration="0.5"
-        data-track-index="14" data-volume="0.22"></audio>
-      <audio id="s3-clic" class="clip" src="assets/sfx/clic.wav" data-start="28.458" data-duration="0.5"
-        data-track-index="15" data-volume="0.18"></audio>
-      <audio id="s4-escaner" class="clip" src="assets/sfx/escaner.wav" data-start="40.016" data-duration="1.0"
-        data-track-index="16" data-volume="0.14"></audio>
+      <audio id="s2-whoosh" class="clip" src="assets/sfx/whoosh.mp3" data-start="17.682" data-duration="0.575"
+        data-track-index="14" data-volume="0.08"></audio>
+      <audio id="s3-whoosh" class="clip" src="assets/sfx/whoosh.mp3" data-start="20.442" data-duration="0.575"
+        data-track-index="15" data-volume="0.08"></audio>
+      <audio id="s4-clic" class="clip" src="assets/sfx/clic.wav" data-start="27.144" data-duration="0.5"
+        data-track-index="16" data-volume="0.22"></audio>
+      <audio id="s5-clic" class="clip" src="assets/sfx/clic.wav" data-start="28.458" data-duration="0.5"
+        data-track-index="17" data-volume="0.18"></audio>
+      <audio id="s6-escaner" class="clip" src="assets/sfx/escaner.wav" data-start="40.016" data-duration="1.0"
+        data-track-index="18" data-volume="0.14"></audio>
+      <audio id="s7-lapiz" class="clip" src="assets/sfx/lapiz.wav" data-start="49.659" data-duration="1.2"
+        data-track-index="19" data-volume="0.16" data-fade-out="0.4"></audio>
     </div>
     <script>
       window.__timelines["main"] = gsap.timeline({ paused: true });

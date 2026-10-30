@@ -1,0 +1,72 @@
+<template>
+  <style>
+/*FUENTES*/
+    @font-face { font-family: "GFS Didot"; src: url("assets/fonts/didot-griego.woff2") format("woff2"); font-weight: 400; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #{{id}}-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+    #{{id}}-svg .gr { font: 400 34px "GFS Didot", serif; letter-spacing: 0.08em; }
+    #{{id}}-svg .tr { font: 500 46px "Hanken Grotesk", sans-serif; fill: #f3ede4; }
+    #{{id}}-svg .gg { font: 400 64px "GFS Didot", serif; fill: #f3ede4; letter-spacing: 0.06em; }
+  </style>
+  <div id="root" data-composition-id="{{id}}" data-width="1920" data-height="1080">
+    <!-- Letras griegas grabadas en el bronce que aparecen al pasar una luz rasante (como la técnica de 2005). El texto es
+         ilustrativo: palabras de la astronomía griega (Sol, Luna, los planetas, meses, eclipse), no la inscripción real.
+         Al final se destaca una palabra con su traducción. -->
+    <svg id="{{id}}-svg" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <defs>
+        <linearGradient id="{{id}}-luz" x1="0" x2="1"><stop offset="0" stop-color="#ffe2a8" stop-opacity="0"/>
+          <stop offset="0.5" stop-color="#ffe2a8" stop-opacity="0.22"/><stop offset="1" stop-color="#ffe2a8" stop-opacity="0"/></linearGradient>
+        <clipPath id="{{id}}-clip"><rect id="{{id}}-ventana" x="0" y="0" width="0" height="1080"/></clipPath>
+      </defs>
+      <g id="{{id}}-cam"><g clip-path="url(#{{id}}-clip)"><g id="{{id}}-sombra" class="gr" style="fill:rgba(255,236,200,0.22)"></g><g id="{{id}}-filas" class="gr" style="fill:rgba(12,22,18,0.88)"></g></g>
+      <rect id="{{id}}-haz" y="0" width="420" height="1080" fill="url(#{{id}}-luz)"/>
+      <g id="{{id}}-dest"><rect id="{{id}}-marco" style="fill:none;stroke:#e8b66a;stroke-width:3.5" rx="6"/>
+        <text id="{{id}}-gg" class="gg"></text><text id="{{id}}-tr" class="tr"></text></g></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const $ = (s) => document.getElementById("{{id}}-" + s);
+      const NS = "http://www.w3.org/2000/svg";
+      const AREA = {{p:area}}, T1 = {{t:barre}}, T2 = {{t:termina}}, SALE = {{t:sale}}, DEST = {{p:destaca}};
+      const PALABRAS = ["ΗΛΙΟΣ", "ΣΕΛΗΝΗ", "ΑΦΡΟΔΙΤΗ", "ΕΡΜΗΣ", "ΑΡΗΣ", "ΖΕΥΣ", "ΚΡΟΝΟΣ", "ΖΩΙΔΙΑΚΟΣ", "ΜΗΝΕΣ",
+        "ΕΤΗ", "ΚΥΚΛΟΣ", "ΑΣΤΕΡΕΣ", "ΕΚΛΕΙΨΙΣ", "ΗΜΕΡΑΙ", "ΣΦΑΙΡΑ", "ΧΡΟΝΟΣ", "ΠΛΑΝΗΤΑΙ", "ΓΝΩΜΩΝ", "ΚΑΙ", "ΤΟΥ", "ΤΗΣ"];
+      // Filas de palabras (orden fijo, sin azar), recortadas al ancho del área.
+      const [ax, ay, aw, ah] = AREA, alto = 52, filas = Math.floor(ah / alto);
+      let k = 0;
+      for (let f = 0; f < filas; f++) {
+        let linea = "";
+        while (linea.length < aw / 26) { linea += PALABRAS[(k * 7 + f * 3) % PALABRAS.length] + " "; k++; }
+        for (const [g, dx] of [["sombra", 1.5], ["filas", 0]]) {
+          const tx = document.createElementNS(NS, "text");
+          tx.setAttribute("x", ax + dx); tx.setAttribute("y", ay + f * alto + dx);
+          tx.setAttribute("textLength", aw); tx.setAttribute("lengthAdjust", "spacingAndGlyphs");
+          tx.textContent = linea.trim();
+          $(g).appendChild(tx);
+        }
+      }
+      if (DEST) { $("gg").textContent = DEST.g; $("tr").textContent = DEST.trad; }
+      function dibujar(t) {
+        const [x0, y0, z] = AY.enPantalla(0, 0, t + T0);
+        $("cam").setAttribute("transform", `translate(${x0.toFixed(1)} ${y0.toFixed(1)}) scale(${z.toFixed(4)})`);
+        const p = AY.paso(t, T1, T2 - T1, "power1.inOut"), x = -420 + p * (1920 + 420);
+        $("ventana").setAttribute("width", Math.max(0, x + 210).toFixed(1));
+        $("haz").setAttribute("x", x.toFixed(1));
+        $("haz").style.opacity = (AY.paso(t, T1 - 0.1, 0.2) * (1 - AY.paso(t, T2, 0.4))).toFixed(3);
+        if (DEST) {
+          const a = DEST.t - T0, pd = AY.paso(t, a, 0.5, "power2.out");
+          $("marco").setAttribute("x", DEST.x - 20); $("marco").setAttribute("y", DEST.y - 70);
+          $("marco").setAttribute("width", DEST.w); $("marco").setAttribute("height", 96);
+          $("gg").setAttribute("x", DEST.x); $("gg").setAttribute("y", DEST.y);
+          $("tr").setAttribute("x", DEST.x); $("tr").setAttribute("y", DEST.y + 90);
+          $("dest").style.opacity = pd.toFixed(3);
+          $("filas").style.opacity = (1 - 0.45 * pd).toFixed(3); $("sombra").style.opacity = (1 - 0.45 * pd).toFixed(3);
+        } else $("dest").style.display = "none";
+        $("svg").style.opacity = (1 - AY.paso(t, SALE, 0.25, "power2.in")).toFixed(3);
+      }
+      alBuscar(dibujar);
+      window.__timelines["{{id}}"] = gsap.timeline({ paused: true });
+    })();
+  </script>
+</template>

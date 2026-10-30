@@ -2,7 +2,7 @@
   <style>
     #root { position: absolute; inset: 0; overflow: hidden; }
     #rueda-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; }
-    #rueda-svg path { fill: none; stroke: #e8b66a; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    #rueda-svg path { fill: none; stroke: #e8b66a; stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; }
   </style>
   <div id="root" data-composition-id="rueda" data-width="1920" data-height="1080">
     <!-- Una rueda dentada que se dibuja encima de la de verdad, en la plancha: sigue su zoom y su paneo.
@@ -55,15 +55,15 @@
         // Cámara de un gráfico: el punto (x, y) queda en el centro de la pantalla con escala s.
         camara(el, s, x, y) { el.setAttribute("transform", `translate(960 540) scale(${s.toFixed(4)}) translate(${(-x).toFixed(2)} ${(-y).toFixed(2)})`); },
       };
-      const T0 = 23.752;
+      const T0 = 23.502;
       function alBuscar(dibujar) {
         window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0));
         dibujar(0);
       }
 
       const $ = (s) => document.getElementById("rueda-" + s);
-      const U = [0.66, 0.4], R0 = 70, N = 30, GIRO = 0;
-      const ENTRA = 1.620, SALE = 2.953;
+      const U = [0.6475, 0.398], R0 = 64, N = 24, GIRO = 0;
+      const ENTRA = 1.870, SALE = 3.203;
       function cuerpo(cx, cy, r, fase) {
         const aro = r * 0.86, buje = Math.max(6, r * 0.13);
         let d = AY.circulo(cx, cy, aro) + AY.circulo(cx, cy, buje);
