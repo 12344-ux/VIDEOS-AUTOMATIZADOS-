@@ -1,0 +1,36 @@
+<template>
+  <!-- R5 · «y nadie le gritaba»: GRITOS, tachado; «le ayudaban a arreglarlo»: llegan dos figuras junto a la que tiró de
+       la cuerda y LE AYUDABAN en rojo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .grito { position: absolute; left: 80px; top: 236px; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #8a8d93; }
+    #{{ID}} .grito i { position: absolute; left: -10px; right: -10px; top: 50%; height: 16px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} svg.c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fig { position: absolute; top: 520px; width: 140px; height: 300px; }
+    #{{ID}} .ayu { position: absolute; left: 80px; top: 900px; font: 800 92px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .ayu span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="grito">GRITOS<i></i></div>
+      <svg class="c" viewBox="0 0 1080 1920"><path d="M300,420 L300,560" style="fill:none;stroke:#cfc63a;stroke-width:10"/><circle cx="300" cy="560" r="14" fill="#cfc63a"/></svg>
+      <svg class="fig f1" style="left: 230px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+      <svg class="fig f2" style="left: 450px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#8a8d93"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#8a8d93"/></svg>
+      <svg class="fig f3" style="left: 640px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#8a8d93"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#8a8d93"/></svg>
+      <div class="ayu"><span>LE AYUDABAN</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".f1", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0);
+      tl.fromTo(".grito", { autoAlpha: 0, scale: 1.15 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: "expo.out", transformOrigin: "left center" }, w("nadie") - 0.1);
+      tl.fromTo(".grito i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("gritaba") - 0.05);
+      tl.fromTo(".f2", { autoAlpha: 0, x: 420 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("ayudaban") - 0.25);
+      tl.fromTo(".f3", { autoAlpha: 0, x: 420 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("ayudaban") - 0.12);
+      tl.fromTo(".ayu span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("ayudaban") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

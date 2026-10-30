@@ -1,0 +1,38 @@
+<template>
+  <!-- R2 · «la gente no compra productos»: palabra a palabra; PRODUCTOS se tacha en «compra lo que significan» y llega
+       SIGNIFICAN en un bloque rojo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .l { position: absolute; left: 80px; width: 900px; font: 800 110px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    #{{ID}} .l1 { top: 240px; }
+    #{{ID}} .l2 { top: 482px; }
+    #{{ID}} .l2 .pr { position: relative; display: inline-block; }
+    #{{ID}} .l2 .pr i { position: absolute; left: -6px; right: -6px; top: 52%; height: 14px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .l3 { top: 700px; }
+    #{{ID}} .l4 { top: 826px; }
+    #{{ID}} .l4 .bloque { display: inline-block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="l l1">La gente<br>no compra</div>
+      <div class="l l2"><span class="pr">productos.<i></i></span></div>
+      <div class="l l3">Compra lo que</div>
+      <div class="l l4"><span class="bloque">significan.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const p1 = trocea(".l1");
+      serie("La", 4, 1).forEach((t, i) => sube(p1[i], Math.max(0, t - 0.07), 0.4));
+      tl.fromTo(".l2 .pr", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, w("productos") - 0.08);
+      tl.fromTo(".l2 .pr i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("compra", 2) - 0.1);
+      tl.to([".l1", ".l2"], { opacity: 0.4, duration: 0.3 }, w("compra", 2) - 0.1);
+      const p3 = trocea(".l3");
+      serie("compra", 3, 2).forEach((t, i) => sube(p3[i], t - 0.07, 0.4));
+      tl.fromTo(".l4 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("significan") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,56 @@
+<template>
+  <!-- R12 → R9 · «IBM firma»: la firma se traza en primer plano y cae el sello FIRMADO; «cree que el negocio es la
+       máquina»: corte a la computadora y la frase, con LA MÁQUINA en un bloque rojo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .a { position: absolute; inset: 0; }
+    #{{ID}} .hoja { position: absolute; left: 60px; top: 330px; width: 960px; height: 640px; padding: 60px 64px; transform-origin: 30% 60%; }
+    #{{ID}} .hoja .por { font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #5e5950; }
+    #{{ID}} .hoja .raya { position: absolute; left: 64px; top: 450px; width: 720px; height: 4px; background: #141414; }
+    #{{ID}} .hoja svg { position: absolute; left: 70px; top: 170px; width: 720px; height: 280px; overflow: visible; }
+    #{{ID}} .hoja .sello { position: absolute; right: 70px; top: 470px; padding: 14px 22px; border: 6px solid #b0122f; color: #b0122f;
+      font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.14em; }
+    #{{ID}} .b { position: absolute; inset: 0; visibility: hidden; }
+    /* La computadora baja 260 px (y su borde de arriba se funde) para dejar arriba sitio a la frase. */
+    #{{ID}} .bajo { position: absolute; left: 0; top: 260px; width: 1080px; height: 1920px; -webkit-mask-image: linear-gradient(180deg, transparent 0px, #000 260px); mask-image: linear-gradient(180deg, transparent 0px, #000 260px); }
+    #{{ID}} .foto { transform-origin: 43% 32%; filter: saturate(0.8) contrast(1.05) brightness(0.85); }
+    #{{ID}} .frase { position: absolute; left: 80px; top: 214px; }
+    #{{ID}} .frase .bloque { display: inline-block; margin-top: 10px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="a">
+        <div class="hoja papel">
+          <div class="por">POR IBM</div>
+          <svg viewBox="0 0 470 120"><path pathLength="100" stroke-dasharray="100 100"
+            d="M8,92 C30,40 52,18 60,34 C70,56 44,96 58,98 C78,100 96,30 112,36 C126,42 104,92 122,90 C142,88 150,52 168,56 C182,60 170,86 186,84 C210,80 222,44 246,50 C262,54 248,84 266,82 C300,78 330,58 372,60 C398,61 420,70 452,64"
+            style="fill:none;stroke:#1d2a6b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"/></svg>
+          <div class="raya"></div>
+          <div class="sello">FIRMADO</div>
+        </div>
+      </div>
+      <div class="b">
+        <div class="bajo"><img class="foto" src="assets/img/pc1980.jpg" alt="" /></div>
+        <div class="titular frase"><span class="l1">El negocio es</span><br><span class="bloque">la máquina.</span></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".hoja", { scale: 1.12, rotation: -3 }, { scale: 1.2, rotation: -2, duration: 1.2, ease: "none" }, 0);
+      traza(".hoja svg path", w("i", 4) - 0.05, 0.42, "power1.inOut");
+      tl.fromTo(".hoja .sello", { autoAlpha: 0, scale: 1.8, rotation: 8 }, { autoAlpha: 1, scale: 1, rotation: -4, duration: 0.2, ease: "power4.in" }, w("firma") + 0.05);
+      // «Cree que…»: corte a la máquina (lo que IBM creía que era el negocio).
+      const tb = w("negocio") - 0.3;
+      tl.set(".b", { visibility: "visible" }, tb);
+      tl.set(".a", { visibility: "hidden" }, tb);
+      tl.fromTo(".foto", { scale: 1.16 }, { scale: 1.06, duration: DUR - tb, ease: "power2.out" }, tb);
+      const ps = trocea(".frase .l1");
+      [w("negocio") - 0.25, w("negocio"), w("es", 1)].forEach((t, i) => sube(ps[i], t - 0.07, 0.42));
+      tl.fromTo(".frase .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("máquina") - 0.12);
+      fin();
+    })();
+  </script>
+</template>

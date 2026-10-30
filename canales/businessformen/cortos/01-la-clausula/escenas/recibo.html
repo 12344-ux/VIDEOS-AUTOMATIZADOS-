@@ -1,0 +1,48 @@
+<template>
+  <!-- R8 · el recibo (recreación): lo que compra Microsoft y a quién; las dos partidas y el total que cuenta hasta
+       75.000 $ en «setenta y cinco mil dólares». Fuentes en pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .rec { position: absolute; left: 150px; top: 214px; width: 780px; height: 850px; padding: 46px 52px; transform-origin: 50% 0%; }
+    #{{ID}} .rec .cab { display: flex; justify-content: space-between; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #5e5950; }
+    #{{ID}} .rec .et { margin-top: 30px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #6d675d; }
+    #{{ID}} .rec .val { margin-top: 10px; font: 700 50px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.02em; color: #141414; }
+    #{{ID}} .rec .raya { margin: 34px 0 6px; border-top: 3px dashed #9a9285; }
+    #{{ID}} .rec .fila { display: flex; justify-content: space-between; white-space: nowrap; margin-top: 22px; font: 500 32px/1.1 "Plex Mono", monospace; color: #262626; }
+    #{{ID}} .rec .total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 34px; padding-top: 22px; border-top: 6px solid #141414; }
+    #{{ID}} .rec .total span { font: 500 32px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #262626; }
+    #{{ID}} .rec .total b { font: 800 104px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #b0122f; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="rec papel">
+        <div class="cab"><span>RECIBO · RECREACIÓN</span><span>1980–81</span></div>
+        <div class="b1"><div class="et">COMPRA</div><div class="val">Microsoft</div></div>
+        <div class="b2"><div class="et">PRODUCTO</div><div class="val">86-DOS, un sistema operativo</div></div>
+        <div class="b3"><div class="et">VENDEDOR</div><div class="val">Seattle Computer Products</div></div>
+        <div class="raya"></div>
+        <div class="fila f1"><span>Licencia · dic. 1980</span><span>25.000 $</span></div>
+        <div class="fila f2"><span>Derechos · jul. 1981</span><span>50.000 $</span></div>
+        <div class="total"><span>TOTAL</span><b class="num">0 $</b></div>
+      </div>
+      <div class="fuente">Fuentes: Computer History Museum · Wikipedia</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".rec", { y: 980, rotation: 4 }, { y: 0, rotation: 1.2, duration: 0.6, ease: "power3.out" }, 0);
+      tl.fromTo(".rec", { scale: 1 }, { scale: 1.04, duration: DUR - 0.6, ease: "none", immediateRender: false }, 0.6);
+      entra(".b1", w("compra") - 0.12, 0.35, 10);
+      entra(".b2", w("uno", 2) - 0.1, 0.35, 10);
+      entra(".b3", w("pequeña") - 0.1, 0.35, 10);
+      entra(".f1", w("por") - 0.15, 0.3, 8);
+      entra(".f2", w("por") + 0.12, 0.3, 8);
+      cuenta(".total b", 0, 75000, w("setenta") - 0.1, f("mil", 2) - w("setenta") + 0.25, { suf: " $", ease: "power3.out" });
+      tl.fromTo(".total b", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "expo.out", transformOrigin: "right center" }, f("mil", 2) + 0.12);
+      aparece(".fuente", 0.6, 0.3);
+      fin();
+    })();
+  </script>
+</template>

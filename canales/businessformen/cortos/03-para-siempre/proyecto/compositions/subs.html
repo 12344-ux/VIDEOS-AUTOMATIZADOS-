@@ -1,0 +1,57 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>En</span> <span>Japón</span></div>
+      <div class="g" id="sub1"><span>en</span> <span>1967</span></div>
+      <div class="g" id="sub2"><span>menos</span> <span>del</span> <span>5 %</span></div>
+      <div class="g" id="sub3"><span>de</span> <span>las</span> <span>novias</span></div>
+      <div class="g" id="sub4"><span>tenía</span> <span>anillo</span> <span>de</span> <span>diamantes</span></div>
+      <div class="g" id="sub5"><span>En</span> <span>1981</span></div>
+      <div class="g" id="sub6"><span>el</span> <span>60 %</span></div>
+      <div class="g" id="sub7"><span>Detrás</span> <span>estaba</span> <span>De Beers</span></div>
+      <div class="g" id="sub8"><span>el</span> <span>mayor</span> <span>vendedor</span></div>
+      <div class="g" id="sub9"><span>de</span> <span>diamantes</span> <span>del</span> <span>mundo</span></div>
+      <div class="g" id="sub10"><span>Y</span> <span>ya</span> <span>lo</span> <span>había</span></div>
+      <div class="g" id="sub11"><span>hecho</span> <span>en</span> <span>Estados</span> <span>Unidos</span></div>
+      <div class="g" id="sub12"><span>En</span> <span>1938</span></div>
+      <div class="g" id="sub13"><span>con</span> <span>el</span> <span>precio</span></div>
+      <div class="g" id="sub14"><span>hundido</span></div>
+      <div class="g" id="sub15"><span>contrató</span> <span>a</span> <span>una</span> <span>agencia</span></div>
+      <div class="g" id="sub16"><span>En</span> <span>1947</span></div>
+      <div class="g" id="sub17"><span>Después</span> <span>promovió</span></div>
+      <div class="g" id="sub18"><span>otra</span> <span>regla</span></div>
+      <div class="g" id="sub19"><span>gastarse</span> <span>dos</span> <span>meses</span></div>
+      <div class="g" id="sub20"><span>de</span> <span>sueldo</span></div>
+      <div class="g" id="sub21"><span>Tampoco</span> <span>era</span> <span>tradición</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[5.283,6.243,[[5.323,5.403],[5.443,5.843]]],[6.243,8.623,[[6.283,6.363],[6.423,8.243]]],[8.623,10.223,[[8.663,8.943],[8.983,9.123],[9.243,10.203]]],[10.223,11.003,[[10.263,10.323],[10.383,10.483],[10.603,10.963]]],[11.003,12.759,[[11.043,11.323],[11.363,11.643],[11.703,11.743],[11.803,12.383]]],[12.759,14.659,[[12.799,12.879],[12.919,14.499]]],[14.659,16.159,[[14.699,14.779],[14.819,15.859]]],[16.589,18.209,[[16.629,16.949],[17.029,17.289],[17.349,17.769]]],[18.209,19.169,[[18.249,18.309],[18.369,18.629],[18.709,19.149]]],[19.169,20.721,[[19.209,19.269],[19.329,19.809],[19.849,19.969],[20.009,20.309]]],[20.721,21.321,[[20.761,20.781],[20.841,20.941],[21.001,21.061],[21.121,21.301]]],[21.321,22.918,[[21.361,21.521],[21.561,21.601],[21.641,21.961],[22.021,22.381]]],[22.918,25.498,[[22.958,23.038],[23.098,25.058]]],[25.498,26.178,[[25.538,25.658],[25.718,25.778],[25.858,26.158]]],[26.178,27.038,[[26.218,26.618]]],[27.038,28.918,[[27.078,27.558],[27.618,27.638],[27.698,27.798],[27.858,28.478]]],[32.845,35.445,[[32.885,32.945],[33.005,35.265]]],[40.517,41.477,[[40.557,40.957],[41.037,41.437]]],[41.477,42.417,[[41.517,41.677],[41.757,42.077]]],[42.417,43.577,[[42.457,42.957],[43.037,43.177],[43.257,43.557]]],[43.577,44.471,[[43.617,43.657],[43.737,44.117]]],[44.471,45.891,[[44.511,44.871],[44.911,45.011],[45.071,45.591]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 53.744);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

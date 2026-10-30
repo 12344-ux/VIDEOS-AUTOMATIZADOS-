@@ -1,0 +1,154 @@
+<template>
+  <!-- R3 + R6 · Japón: 1967 y cien anillos (cien novias); en «menos del cinco por ciento» se encienden cuatro; 1967 rueda
+       a 1981 y en «el sesenta por ciento» se encienden sesenta en ola. Fuente en pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .pais { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .ano { position: absolute; left: 70px; top: 280px; font: 800 200px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .ano .rueda { display: inline-block; height: 0.86em; overflow: hidden; vertical-align: top; }
+    #{{ID}} .ano .rueda b { display: block; font-weight: 800; }
+    #{{ID}} .novias { position: absolute; left: 80px; top: 476px; }
+    #{{ID}} svg.rej { position: absolute; left: 80px; top: 540px; width: 860px; height: 460px; }
+    #{{ID}} svg.rej .a { fill: none; stroke: #5a5d63; stroke-width: 4; }
+    #{{ID}} .dato { position: absolute; left: 80px; top: 1010px; font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .dato span { display: inline-block; padding: 0.06em 0.16em 0.1em; }
+    #{{ID}} .dato .d1 { background: #f4f3f0; color: #0a0b0d; }
+    #{{ID}} .dato .d2 { position: absolute; left: 0; top: 0; background: #b0122f; white-space: nowrap; }
+    #{{ID}} .fuente { top: 1104px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono pais"><i>Japón</i></div>
+      <div class="ano num">19<span class="rueda"><b>67</b><b>81</b></span></div>
+      <div class="mono novias"><b>De cada 100 novias</b></div>
+      <svg class="rej" viewBox="0 0 860 460">
+        <circle class="a" cx="43" cy="22" r="15"/>
+        <circle class="a" cx="129" cy="22" r="15"/>
+        <circle class="a" cx="215" cy="22" r="15"/>
+        <circle class="a" cx="301" cy="22" r="15"/>
+        <circle class="a" cx="387" cy="22" r="15"/>
+        <circle class="a" cx="473" cy="22" r="15"/>
+        <circle class="a" cx="559" cy="22" r="15"/>
+        <circle class="a" cx="645" cy="22" r="15"/>
+        <circle class="a" cx="731" cy="22" r="15"/>
+        <circle class="a" cx="817" cy="22" r="15"/>
+        <circle class="a" cx="43" cy="68" r="15"/>
+        <circle class="a" cx="129" cy="68" r="15"/>
+        <circle class="a" cx="215" cy="68" r="15"/>
+        <circle class="a" cx="301" cy="68" r="15"/>
+        <circle class="a" cx="387" cy="68" r="15"/>
+        <circle class="a" cx="473" cy="68" r="15"/>
+        <circle class="a" cx="559" cy="68" r="15"/>
+        <circle class="a" cx="645" cy="68" r="15"/>
+        <circle class="a" cx="731" cy="68" r="15"/>
+        <circle class="a" cx="817" cy="68" r="15"/>
+        <circle class="a" cx="43" cy="114" r="15"/>
+        <circle class="a" cx="129" cy="114" r="15"/>
+        <circle class="a" cx="215" cy="114" r="15"/>
+        <circle class="a" cx="301" cy="114" r="15"/>
+        <circle class="a" cx="387" cy="114" r="15"/>
+        <circle class="a" cx="473" cy="114" r="15"/>
+        <circle class="a" cx="559" cy="114" r="15"/>
+        <circle class="a" cx="645" cy="114" r="15"/>
+        <circle class="a" cx="731" cy="114" r="15"/>
+        <circle class="a" cx="817" cy="114" r="15"/>
+        <circle class="a" cx="43" cy="160" r="15"/>
+        <circle class="a" cx="129" cy="160" r="15"/>
+        <circle class="a" cx="215" cy="160" r="15"/>
+        <circle class="a" cx="301" cy="160" r="15"/>
+        <circle class="a" cx="387" cy="160" r="15"/>
+        <circle class="a" cx="473" cy="160" r="15"/>
+        <circle class="a" cx="559" cy="160" r="15"/>
+        <circle class="a" cx="645" cy="160" r="15"/>
+        <circle class="a" cx="731" cy="160" r="15"/>
+        <circle class="a" cx="817" cy="160" r="15"/>
+        <circle class="a" cx="43" cy="206" r="15"/>
+        <circle class="a" cx="129" cy="206" r="15"/>
+        <circle class="a" cx="215" cy="206" r="15"/>
+        <circle class="a" cx="301" cy="206" r="15"/>
+        <circle class="a" cx="387" cy="206" r="15"/>
+        <circle class="a" cx="473" cy="206" r="15"/>
+        <circle class="a" cx="559" cy="206" r="15"/>
+        <circle class="a" cx="645" cy="206" r="15"/>
+        <circle class="a" cx="731" cy="206" r="15"/>
+        <circle class="a" cx="817" cy="206" r="15"/>
+        <circle class="a" cx="43" cy="252" r="15"/>
+        <circle class="a" cx="129" cy="252" r="15"/>
+        <circle class="a" cx="215" cy="252" r="15"/>
+        <circle class="a" cx="301" cy="252" r="15"/>
+        <circle class="a" cx="387" cy="252" r="15"/>
+        <circle class="a" cx="473" cy="252" r="15"/>
+        <circle class="a" cx="559" cy="252" r="15"/>
+        <circle class="a" cx="645" cy="252" r="15"/>
+        <circle class="a" cx="731" cy="252" r="15"/>
+        <circle class="a" cx="817" cy="252" r="15"/>
+        <circle class="a" cx="43" cy="298" r="15"/>
+        <circle class="a" cx="129" cy="298" r="15"/>
+        <circle class="a" cx="215" cy="298" r="15"/>
+        <circle class="a" cx="301" cy="298" r="15"/>
+        <circle class="a" cx="387" cy="298" r="15"/>
+        <circle class="a" cx="473" cy="298" r="15"/>
+        <circle class="a" cx="559" cy="298" r="15"/>
+        <circle class="a" cx="645" cy="298" r="15"/>
+        <circle class="a" cx="731" cy="298" r="15"/>
+        <circle class="a" cx="817" cy="298" r="15"/>
+        <circle class="a" cx="43" cy="344" r="15"/>
+        <circle class="a" cx="129" cy="344" r="15"/>
+        <circle class="a" cx="215" cy="344" r="15"/>
+        <circle class="a" cx="301" cy="344" r="15"/>
+        <circle class="a" cx="387" cy="344" r="15"/>
+        <circle class="a" cx="473" cy="344" r="15"/>
+        <circle class="a" cx="559" cy="344" r="15"/>
+        <circle class="a" cx="645" cy="344" r="15"/>
+        <circle class="a" cx="731" cy="344" r="15"/>
+        <circle class="a" cx="817" cy="344" r="15"/>
+        <circle class="a" cx="43" cy="390" r="15"/>
+        <circle class="a" cx="129" cy="390" r="15"/>
+        <circle class="a" cx="215" cy="390" r="15"/>
+        <circle class="a" cx="301" cy="390" r="15"/>
+        <circle class="a" cx="387" cy="390" r="15"/>
+        <circle class="a" cx="473" cy="390" r="15"/>
+        <circle class="a" cx="559" cy="390" r="15"/>
+        <circle class="a" cx="645" cy="390" r="15"/>
+        <circle class="a" cx="731" cy="390" r="15"/>
+        <circle class="a" cx="817" cy="390" r="15"/>
+        <circle class="a" cx="43" cy="436" r="15"/>
+        <circle class="a" cx="129" cy="436" r="15"/>
+        <circle class="a" cx="215" cy="436" r="15"/>
+        <circle class="a" cx="301" cy="436" r="15"/>
+        <circle class="a" cx="387" cy="436" r="15"/>
+        <circle class="a" cx="473" cy="436" r="15"/>
+        <circle class="a" cx="559" cy="436" r="15"/>
+        <circle class="a" cx="645" cy="436" r="15"/>
+        <circle class="a" cx="731" cy="436" r="15"/>
+        <circle class="a" cx="817" cy="436" r="15"/>
+      </svg>
+      <div class="dato"><span class="d1">MENOS DEL 5 %</span><span class="d2">EL 60 %</span></div>
+      <div class="fuente">Fuente: Edward J. Epstein, The Atlantic (1982)</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".pais", w("Japón") - 0.12, 0.35, 8);
+      const ano = $(".ano");
+      tl.fromTo(ano, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, w("mil", 2) - 0.05);
+      const as = $$(".rej .a");
+      // Los cien anillos se dibujan de golpe al decir «menos»; cuatro se encienden (menos del 5 %).
+      tl.fromTo(".rej", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35 }, 0.02);
+      [0, 1, 2, 3].forEach((i) => tl.to(as[i], { fill: "#f4f3f0", stroke: "#f4f3f0", duration: 0.12 }, w("cinco") + i * 0.06));
+      tl.fromTo(".dato .d1", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("ciento") - 0.1);
+      entra(".novias", 0.1, 0.35, 8);
+      // 1967 → 1981: las dos últimas cifras ruedan hacia arriba.
+      tl.fromTo(".ano .rueda b", { yPercent: 0 }, { yPercent: -100, duration: 0.45, ease: "power3.inOut" }, w("ochenta") - 0.15);
+      // «El sesenta por ciento»: se encienden en ola hasta sesenta, en rojo.
+      const t0 = w("sesenta", 2) - 0.05;
+      for (let i = 0; i < 60; i++) tl.to(as[i], { fill: "#b0122f", stroke: "#b0122f", duration: 0.1 }, t0 + i * 0.012);
+      tl.to(".dato .d1", { autoAlpha: 0, duration: 0.12 }, t0);
+      tl.fromTo(".dato .d2", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, t0 + 0.1);
+      aparece(".fuente", w("novias"), 0.3);
+      fin();
+    })();
+  </script>
+</template>

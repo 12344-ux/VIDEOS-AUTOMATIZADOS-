@@ -1,0 +1,49 @@
+<template>
+  <!-- R3 → R6 · 1993, cifra a cifra; dos barras del valor en bolsa: la de IBM, alta y gris; la de Microsoft, que sube y la
+       pasa en «vale más». Casi iguales: en enero de 1993 se separaban por décimas. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .ano { position: absolute; left: 80px; top: 196px; font: 800 250px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .ano span { display: inline-block; }
+    #{{ID}} .que { position: absolute; left: 80px; top: 430px; }
+    #{{ID}} .barra { position: absolute; bottom: 860px; width: 300px; height: 470px; transform-origin: 50% 100%; }
+    #{{ID}} .ibm { left: 120px; background: #8a8d93; }
+    #{{ID}} .ms { left: 560px; background: #b0122f; }
+    #{{ID}} .base { position: absolute; left: 80px; width: 860px; top: 1060px; height: 4px; background: #f4f3f0; }
+    #{{ID}} .et { position: absolute; top: 1078px; width: 300px; text-align: center; font: 800 52px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; }
+    #{{ID}} .et.e1 { left: 120px; color: #b9bcc2; }
+    #{{ID}} .et.e2 { left: 560px; }
+    #{{ID}} .mas { position: absolute; left: 560px; top: 482px; width: 300px; text-align: center; font: 800 64px/1 "Inter Tight", sans-serif; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="ano num"><span>1</span><span>9</span><span>9</span><span>3</span></div>
+      <div class="mono que"><b>Valor en bolsa · enero</b></div>
+      <div class="barra ibm"></div>
+      <div class="barra ms"></div>
+      <div class="base"></div>
+      <div class="et e1">IBM</div>
+      <div class="et e2">MICROSOFT</div>
+      <div class="mas">+</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const dig = $$(".ano span");
+      [w("mil", 3), w("novecientos", 2), w("noventa"), w("tres")].forEach((t, i) =>
+        tl.fromTo(dig[i], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: 0.32, ease: "expo.out" }, t - 0.04));
+      entra(".que", w("noventa") - 0.1, 0.4, 10);
+      tl.fromTo(".base", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", transformOrigin: "left center" }, 0.05);
+      tl.fromTo(".ibm", { scaleY: 0 }, { scaleY: 1, duration: 0.7, ease: "expo.out" }, 0.15);
+      aparece(".e1", 0.3, 0.3);
+      aparece(".e2", w("máicrosoft", 2) - 0.1, 0.3);
+      // Microsoft sube despacio y pasa a IBM justo en «vale más».
+      tl.fromTo(".ms", { scaleY: 0.08 }, { scaleY: 1.035, duration: w("más") - w("máicrosoft", 2) + 0.15, ease: "power2.in" }, w("máicrosoft", 2) - 0.05);
+      tl.to(".ibm", { scaleY: 0.985, opacity: 0.7, duration: 0.5, ease: "power2.out" }, w("más") + 0.05);
+      tl.fromTo(".mas", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, w("más") + 0.02);
+      fin();
+    })();
+  </script>
+</template>

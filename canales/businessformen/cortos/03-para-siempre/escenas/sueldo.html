@@ -1,0 +1,43 @@
+<template>
+  <!-- R3 + R1 corto · «después promovió otra regla»: 2 enorme, MESES DE SUELDO; «tampoco era tradición»: el sello rojo
+       TAMPOCO ERA TRADICIÓN cae encima. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .regla { position: absolute; left: 80px; top: 236px; }
+    #{{ID}} .otra { position: absolute; left: 80px; top: 286px; font-size: 100px; }
+    #{{ID}} .dos { position: absolute; left: 50px; top: 400px; font: 800 470px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.06em; }
+    #{{ID}} .meses { position: absolute; left: 80px; top: 836px; }
+    #{{ID}} .sello { position: absolute; left: 150px; top: 520px; padding: 22px 30px 26px; background: #b0122f; color: #f4f3f0;
+      font: 800 92px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.03em; text-transform: uppercase; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45); }
+    #{{ID}} .sello { -webkit-mask-image: url("assets/img/desgaste.png"); mask-image: url("assets/img/desgaste.png"); -webkit-mask-size: 360px; mask-size: 360px; }
+    #{{ID}} .fuente { top: 1112px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono regla"><i>Años 80</i> &nbsp;<b>De Beers</b></div>
+      <div class="titular otra">Otra regla:</div>
+      <div class="dos num">2</div>
+      <div class="titular meses">Meses de<br>sueldo</div>
+      <div class="sello" data-layout-allow-overlap>Tampoco era<br>tradición</div>
+      <div class="fuente">Fuente: anuncios de De Beers de los años 80</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".regla", 0, 0.35, 8);
+      const po = trocea(".otra");
+      [w("otra"), w("regla")].forEach((t, i) => sube(po[i], t - 0.07, 0.42));
+      tl.to(".otra", { opacity: 0.4, duration: 0.3 }, w("dos") - 0.15);
+      tl.fromTo(".dos", { autoAlpha: 0, scale: 1.3 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "expo.out", transformOrigin: "20% 60%" }, w("dos") - 0.12);
+      const ps = trocea(".meses");
+      [w("meses"), w("de", 6), w("sueldo")].forEach((t, i) => sube(ps[i], t - 0.06, 0.42));
+      aparece(".fuente", w("dos") + 0.1, 0.3);
+      tl.to([".dos", ".meses", ".otra"], { opacity: 0.35, duration: 0.25 }, w("Tampoco") - 0.1);
+      tl.fromTo(".sello", { autoAlpha: 0, scale: 1.7, rotation: -14 }, { autoAlpha: 1, scale: 1, rotation: -5, duration: 0.24, ease: "power4.in" }, w("Tampoco") - 0.1);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -7, y: 5, duration: 0.05 }, { x: 5, y: -3, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, w("Tampoco") + 0.14);
+      fin();
+    })();
+  </script>
+</template>

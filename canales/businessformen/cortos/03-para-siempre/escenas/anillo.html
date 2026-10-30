@@ -1,0 +1,32 @@
+<template>
+  <!-- R9 · el anillo, a sangre (fotograma 0 = miniatura): 1.500 AÑOS DE TRADICIÓN, quieto; en «cambiados en solo
+       catorce», el bloque rojo CAMBIADOS EN 14. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    /* El anillo baja 260 px (la imagen es negra arriba): el texto va encima, sin tocarlo. */
+    #{{ID}} .bajo { position: absolute; left: 0; top: 260px; width: 1080px; height: 1920px; }
+    #{{ID}} .foto { transform-origin: 50% 36%; filter: contrast(1.05); }
+    #{{ID}} .mil { position: absolute; left: 66px; top: 190px; font: 800 230px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .de { position: absolute; left: 80px; top: 408px; font-size: 76px; }
+    #{{ID}} .cat { position: absolute; left: 80px; top: 506px; font: 800 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .cat span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="bajo"><img class="foto" src="assets/img/anillo.jpg" alt="" /></div>
+      <div class="mil num">1.500</div>
+      <div class="titular de">años de tradición</div>
+      <div class="cat"><span>CAMBIADOS EN 14</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1 }, { scale: 1.08, duration: DUR, ease: "none" }, 0);
+      tl.fromTo(".cat span", { autoAlpha: 0, scaleX: 0.25 }, { autoAlpha: 1, scaleX: 1, duration: 0.32, ease: "expo.out", transformOrigin: "left center" }, w("cambiados") - 0.08);
+      tl.fromTo(".cat span", { scale: 1 }, { keyframes: [{ scale: 1.06, duration: 0.08 }, { scale: 1, duration: 0.25 }], transformOrigin: "left center", immediateRender: false }, w("catorce") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

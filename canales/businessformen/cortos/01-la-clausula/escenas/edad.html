@@ -1,0 +1,27 @@
+<template>
+  <!-- R3 · «con un chico de veinticinco años»: 25 que cuenta y aterriza; el nombre en mono. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .quien { position: absolute; left: 80px; top: 330px; }
+    #{{ID}} .n { position: absolute; left: 50px; top: 430px; font: 800 600px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.06em; }
+    #{{ID}} .anos { position: absolute; left: 86px; top: 960px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono quien"><i>Bill Gates</i> &nbsp;<b>Microsoft · 1980</b></div>
+      <div class="n num">0</div>
+      <div class="anos"><span class="bloque">AÑOS</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      entra(".quien", 0, 0.35, 12);
+      cuenta(".n", 0, 25, 0.05, w("veinticinco") + 0.3, { crudo: true, ease: "power1.inOut" });
+      tl.fromTo(".n", { scale: 1.1 }, { scale: 1, duration: 0.5, ease: "expo.out", transformOrigin: "left center" }, w("veinticinco") - 0.08);
+      tl.fromTo(".anos", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, w("años") - 0.08);
+      fin();
+    })();
+  </script>
+</template>

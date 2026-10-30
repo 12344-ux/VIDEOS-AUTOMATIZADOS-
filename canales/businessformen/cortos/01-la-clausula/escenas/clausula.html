@@ -1,0 +1,56 @@
+<template>
+  <!-- R7 + R12 · la cláusula: el contrato llega; en «cláusula» la cámara se acerca al punto 2 y el subrayado rojo lo
+       recorre con la voz («podrá vendérselo también a otros fabricantes»). Texto resumido, no literal: lo dice. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mesa { position: absolute; left: 70px; top: 230px; width: 900px; height: 880px; transform-origin: 50% 64%; }
+    #{{ID}} .hoja { position: absolute; inset: 0; padding: 46px 52px; }
+    #{{ID}} .cab { display: flex; justify-content: space-between; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #5e5950; }
+    #{{ID}} .regla { height: 5px; background: #141414; margin: 18px 0 30px; }
+    #{{ID}} .doc { font: 700 60px/1 "Bodoni Moda", serif; }
+    #{{ID}} .pto { position: relative; margin-top: 36px; padding-left: 70px; font: 600 46px/1.28 "Inter Tight", sans-serif; letter-spacing: -0.01em; color: #262626; }
+    #{{ID}} .pto .k { position: absolute; left: 0; top: 0; font: 500 40px/1.45 "Plex Mono", monospace; color: #6d675d; }
+    #{{ID}} .p2 .ln { position: relative; white-space: nowrap; }
+    #{{ID}} .p2 .ln .t { display: inline-block; }
+    #{{ID}} .p2 .ln .c { position: absolute; left: -0.12em; top: 0; padding: 0 0.12em; background: #b0122f; color: #f4f3f0; }
+    #{{ID}} .nota { position: absolute; left: 52px; bottom: 44px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #6d675d; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mesa">
+        <div class="hoja papel">
+          <div class="cab"><span>IBM · MICROSOFT</span><span>NOV. 1980</span></div>
+          <div class="regla"></div>
+          <div class="doc">Contrato de licencia</div>
+          <div class="pto p1"><span class="k">1.</span>IBM usa el sistema de Microsoft.</div>
+          <div class="pto p2" data-layout-allow-overlap><span class="k">2.</span>
+            <div class="ln"><span class="t">Microsoft podrá venderlo</span><span class="c">Microsoft podrá venderlo</span></div>
+            <div class="ln"><span class="t">también a otros fabricantes.</span><span class="c">también a otros fabricantes.</span></div></div>
+          <div class="nota">RECREACIÓN · TEXTO RESUMIDO, NO LITERAL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // El contrato vuelve (el mismo papel del gancho) y se acerca al punto 2 en «cláusula».
+      tl.fromTo(".mesa", { y: 1000, rotation: -6 }, { y: 0, rotation: -1.5, duration: 0.6, ease: "power3.out" }, 0);
+      tl.fromTo(".p1", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.2);
+      tl.fromTo(".p2", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, w("cláusula") - 0.15);
+      tl.to(".mesa", { scale: 1.16, rotation: 0, duration: 0.8, ease: "power2.inOut" }, w("cláusula") - 0.25);
+      tl.to(".p1", { opacity: 0.35, duration: 0.4 }, w("cláusula"));
+      // El subrayado rojo recorre el punto 2 renglón a renglón, con la voz: «podrá vendérselo» y «también a otros fabricantes».
+      const c = $$(".p2 .ln .c"), t = $$(".p2 .ln .t");
+      const linea = (k, t0, d) => {
+        tl.fromTo(c[k], { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: d, ease: "power1.inOut" }, t0);
+        tl.fromTo(t[k], { clipPath: "inset(0% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 100%)", duration: d, ease: "power1.inOut" }, t0);
+      };
+      linea(0, w("podrá") - 0.3, f("vendérselo") - w("podrá") + 0.3);
+      linea(1, w("también") - 0.05, f("fabricantes") - w("también"));
+      tl.to(".mesa", { scale: 1.24, duration: 0.6, ease: "power2.out" }, w("otros") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

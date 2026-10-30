@@ -1,0 +1,42 @@
+<template>
+  <!-- R3 + R5 · «uno de cada cinco trabajadores no se presentaba»: 1 DE CADA 5, cinco figuras; la quinta se queda en
+       vacío y llega NO SE PRESENTABA en rojo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .tit { position: absolute; left: 80px; top: 230px; font: 800 170px/0.9 "Inter Tight", sans-serif; letter-spacing: -0.045em; }
+    #{{ID}} .fila { position: absolute; left: 90px; top: 500px; display: flex; gap: 30px; }
+    #{{ID}} .fila svg { width: 140px; height: 300px; overflow: visible; }
+    #{{ID}} .no { position: absolute; left: 80px; top: 880px; font: 800 92px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .no span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+    #{{ID}} .dia { position: absolute; left: 80px; top: 1046px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="tit">1 de cada 5</div>
+      <div class="fila">
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg class="falta" viewBox="0 0 140 300"><g class="lleno"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></g>
+          <g class="hueco" style="fill:none;stroke:#8a8d93;stroke-width:5;stroke-dasharray:14 10"><circle cx="70" cy="46" r="38"/><rect x="20" y="106" width="100" height="192" rx="38"/></g></svg>
+      </div>
+      <div class="no"><span>NO SE PRESENTABA</span></div>
+      <div class="mono dia"><b>Un día normal en la fábrica</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea(".tit");
+      [w("Uno"), w("de", 3), w("cada"), w("cinco")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.4));
+      $$(".fila svg").forEach((el, i) => tl.fromTo(el, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.02 + i * 0.06));
+      tl.fromTo(".falta .hueco", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, w("no") - 0.05);
+      tl.fromTo(".falta .lleno", { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, w("no") - 0.05);
+      tl.fromTo(".no span", { autoAlpha: 0, scaleX: 0.25 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("no") - 0.1);
+      entra(".dia", w("trabajadores", 1) + 0.1, 0.4, 10);
+      fin();
+    })();
+  </script>
+</template>

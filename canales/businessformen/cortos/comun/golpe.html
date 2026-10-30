@@ -1,0 +1,64 @@
+<template>
+  <!-- R1 · golpe rojo de un corto: corte a campo rojo y la frase palabra a palabra con la voz. Un segundo bloque sube al
+       primero (que se queda a media luz); con «firma», el cuadro BFM cierra el golpe. Parámetros: b1, b2 (texto, <br> para
+       partir líneas), etq (una etiqueta en mono arriba, o "") y conf = {"b1": {"palabra", "n", "y", "tam"}, "b2": {…} o null,
+       "etq": {"palabra", "n"} o null, "firma": true/false, "firma_t": segundos}. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}}.esc { background: #b0122f; }
+    #{{ID}} .b { position: absolute; left: 80px; width: 900px; font-weight: 800; line-height: 0.95; letter-spacing: -0.04em;
+      text-transform: uppercase; color: #f4f3f0; transform-origin: left top; }
+    #{{ID}} .etq { position: absolute; left: 80px; top: 236px; color: rgba(244, 243, 240, 0.9); }
+    #{{ID}} .etq b { color: #f4f3f0; }
+    #{{ID}} .etq.grande { font: 700 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: none; }
+    #{{ID}} .etq.grande b { font-weight: 700; }
+    #{{ID}} .firma { position: absolute; left: 80px; top: 1050px; display: flex; align-items: center; gap: 22px; }
+    #{{ID}} .firma .cuadro { width: 78px; height: 78px; background: #0a0b0d; color: #f4f3f0; display: flex; align-items: center;
+      justify-content: center; font: 800 30px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; }
+    #{{ID}} .firma .nombre { font: 500 30px/1 "Plex Mono", monospace; letter-spacing: 0.16em; color: rgba(244, 243, 240, 0.78); }
+    #{{ID}} .firma .nombre b { font-weight: 500; color: #f4f3f0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono etq"><b>{{p:etq}}</b></div>
+      <div class="b b1">{{p:b1}}</div>
+      <div class="b b2">{{p:b2}}</div>
+      <div class="firma"><div class="cuadro">BFM</div><div class="nombre">BUSINESS<b>FOR</b>MEN</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      // Corte a rojo: el campo entra un poco grande y se asienta (la causa del corte es la frase que llega).
+      tl.fromTo(RAIZ, { scale: 1.035 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
+      const bloque = (sel, c) => {
+        const el = $(sel);
+        el.style.top = c.y + "px";
+        el.style.fontSize = c.tam + "px";
+        const ps = trocea(el);
+        serie(c.palabra, ps.length, c.n || 1).forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.42));
+        return el;
+      };
+      if (C.etq && C.etq.grande) {
+        $(".etq").classList.add("grande");
+        const pe = trocea(".etq b");
+        serie(C.etq.palabra, pe.length, C.etq.n || 1).forEach((t, i) => sube(pe[i], Math.max(0, t - 0.07), 0.4));
+      } else if (C.etq) entra(".etq", w(C.etq.palabra, C.etq.n || 1) - 0.1, 0.35, 10);
+      else $(".etq").remove();
+      bloque(".b1", C.b1);
+      if (C.b2) {
+        bloque(".b2", C.b2);
+        // El segundo bloque empuja al primero: sube y se queda a media luz.
+        const t2 = w(C.b2.palabra, C.b2.n || 1) - 0.12;
+        tl.to(".b1", { y: C.b2.sube != null ? C.b2.sube : -40, opacity: 0.42, duration: 0.45, ease: "expo.out" }, t2);
+      } else {
+        $(".b2").remove();
+      }
+      if (C.firma) entra(".firma", C.firma_t != null ? C.firma_t : Math.min(DUR - 0.9, 1.2), 0.45, 14);
+      else $(".firma").remove();
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,52 @@
+<template>
+  <!-- R9 + R8 · la computadora de 1980: el año arriba, sobre la pared; en su pantalla se escribe, como en un arranque,
+       IBM PC · SISTEMA OPERATIVO: NO ENCONTRADO, con la voz; en «primera computadora» la cámara entra en la pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mundo { position: absolute; inset: 0; transform-origin: 43% 32%; }
+    #{{ID}} .foto { filter: saturate(0.85) contrast(1.05) brightness(0.95); }
+    #{{ID}} .crt { position: absolute; left: 262px; top: 462px; width: 410px; height: 300px; font: 500 34px/1.32 "Plex Mono", monospace;
+      letter-spacing: 0.04em; color: #7be29a; text-shadow: 0 0 10px rgba(123, 226, 154, 0.75), 0 0 2px rgba(123, 226, 154, 0.9); }
+    #{{ID}} .crt div { visibility: hidden; white-space: nowrap; }
+    #{{ID}} .crt .err { color: #f4f3f0; background: #b0122f; text-shadow: none; display: inline-block; padding: 0 0.2em; }
+    #{{ID}} .crt .cur { display: inline-block; width: 0.6em; height: 0.9em; margin-left: 0.15em; vertical-align: -0.1em; background: #7be29a; box-shadow: 0 0 10px rgba(123, 226, 154, 0.8); }
+    #{{ID}} .ano { position: absolute; left: 76px; top: 178px; font: 800 190px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; color: transparent;
+      -webkit-text-stroke: 3px rgba(244, 243, 240, 0.85); }
+    #{{ID}} .ano span { display: inline-block; }
+    #{{ID}} .pc { position: absolute; left: 80px; top: 1046px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mundo">
+        <img class="foto" src="assets/img/pc1980.jpg" alt="" />
+        <div class="crt" data-layout-allow-overlap>
+          <div class="c1">&gt; IBM PC</div>
+          <div class="c2">&gt; SISTEMA</div>
+          <div class="c3">&nbsp; OPERATIVO:</div>
+          <div class="c4">&nbsp; <span class="err">NO ENCONTRADO</span><span class="cur"></span></div>
+        </div>
+      </div>
+      <div class="capa velo"></div>
+      <div class="ano num"><span>1</span><span>9</span><span>8</span><span>0</span></div>
+      <div class="mono pc"><i>Su primera computadora personal</i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".mundo", { scale: 1.0 }, { scale: 1.06, duration: w("primera"), ease: "none" }, 0);
+      const dig = $$(".ano span");
+      [w("Mil"), w("novecientos"), w("ochenta"), w("ochenta") + 0.12].forEach((t, i) =>
+        tl.fromTo(dig[i], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: 0.32, ease: "expo.out" }, t - 0.04));
+      // La pantalla escribe con la voz, renglón a renglón.
+      [[".c1", w("i", 2)], [".c2", w("sistema")], [".c3", w("operativo")], [".c4", f("operativo") + 0.1]].forEach(([s, t]) => tl.set(s, { visibility: "visible" }, t - 0.05));
+      tl.fromTo(".crt .cur", { opacity: 1 }, { keyframes: [{ opacity: 0, duration: 0.01, delay: 0.4 }, { opacity: 1, duration: 0.01, delay: 0.4 }, { opacity: 0, duration: 0.01, delay: 0.4 }, { opacity: 1, duration: 0.01, delay: 0.4 }] }, f("operativo") + 0.1);
+      // «Para su primera computadora»: la cámara entra en la pantalla.
+      tl.to(".ano", { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, w("primera") - 0.1);
+      tl.to(".mundo", { scale: 1.45, duration: 1.4, ease: "power2.inOut" }, w("primera") - 0.1);
+      entra(".pc", w("para") - 0.05, 0.4, 12);
+      fin();
+    })();
+  </script>
+</template>

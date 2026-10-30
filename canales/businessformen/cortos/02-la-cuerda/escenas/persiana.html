@@ -1,0 +1,61 @@
+<template>
+  <!-- R11 + R14 · la persiana. Modo «cierra»: 1982 cifra a cifra, GENERAL MOTORS, y en «cerró» la persiana baja sobre
+       todo y cae CERRADA. Modo «abre»: empieza cerrada (el plano anterior), 1984 en ella, y en «reabrieron» sube y deja
+       ver TOYOTA AL MANDO. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .ano { position: absolute; left: 60px; top: 520px; font: 800 330px/0.8 "Inter Tight", sans-serif; letter-spacing: -0.05em;
+      color: transparent; -webkit-text-stroke: 3px rgba(244, 243, 240, 0.85); }
+    #{{ID}} .ano span { display: inline-block; }
+    #{{ID}} .quien { position: absolute; left: 80px; top: 300px; }
+    #{{ID}} .pers { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 3; background: #1b1d21;
+      background-image: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 58px, rgba(0, 0, 0, 0.55) 58px, rgba(0, 0, 0, 0.55) 64px); }
+    #{{ID}} .pers .borde { position: absolute; left: 0; right: 0; bottom: 0; height: 26px; background: #2c2f35; }
+    #{{ID}} .cerrada { position: absolute; left: 80px; top: 860px; z-index: 4; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+    #{{ID}} .cerrada span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+    #{{ID}} .m84 { position: absolute; left: 80px; top: 300px; z-index: 5; }
+    #{{ID}} .nuevo { position: absolute; left: 80px; top: 560px; }
+    #{{ID}} .nuevo .bloque { display: inline-block; margin-top: 12px; }
+    #{{ID}} .nombre { position: absolute; left: 80px; top: 1046px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="ano num"><span>1</span><span>9</span><span>8</span><span>2</span></div>
+      <div class="mono quien"><b>General Motors la cierra</b></div>
+      <div class="mono m84"><i>1984</i> &nbsp;<b>dos años después</b></div>
+      <div class="titular nuevo"><span class="l1">Reabierta,</span><br><span class="l2">con Toyota</span><br><span class="bloque">al mando</span></div>
+      <div class="mono nombre"><i>NUMMI</i> &nbsp;<b>Toyota y General Motors</b></div>
+      <div class="pers"><div class="borde"></div></div>
+      <div class="cerrada"><span>CERRADA</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = "{{p:modo}}";
+      if (modo === "cierra") {
+        [".m84", ".nuevo", ".nombre"].forEach((s) => $(s).remove());
+        const dig = $$(".ano span");
+        [w("mil"), w("novecientos"), w("ochenta"), w("dos")].forEach((t, i) =>
+          tl.fromTo(dig[i], { autoAlpha: 0, yPercent: 18 }, { autoAlpha: 1, yPercent: 0, duration: 0.32, ease: "expo.out" }, t - 0.04));
+        entra(".quien", 0, 0.35, 10);
+        // «La cerró»: la persiana baja de golpe sobre todo; luego cae el sello.
+        tl.fromTo(".pers", { yPercent: -100 }, { yPercent: 0, duration: 0.5, ease: "power3.in" }, w("cerró") - 0.45);
+        tl.fromTo(RAIZ, { y: 0 }, { keyframes: [{ y: 8, duration: 0.05 }, { y: -4, duration: 0.05 }, { y: 0, duration: 0.07 }] }, w("cerró") + 0.05);
+        tl.fromTo(".cerrada span", { autoAlpha: 0, scale: 1.5, rotation: -8 }, { autoAlpha: 1, scale: 1, rotation: -3, duration: 0.2, ease: "power4.in" }, w("cerró") + 0.08);
+      } else {
+        [".ano", ".quien"].forEach((s) => $(s).remove());
+        // Empieza como acabó el plano anterior: persiana bajada y CERRADA. «Dos años después»: 1984; «reabrieron»: sube.
+        tl.fromTo(".cerrada", { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.2, ease: "power2.in" }, w("reabrieron") - 0.4);
+        tl.fromTo(".m84", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, w("Dos", 2) + 0.1);
+        tl.fromTo(".pers", { yPercent: 0 }, { yPercent: -100, duration: 0.75, ease: "power2.inOut" }, w("reabrieron") - 0.3);
+        const ps = trocea(".nuevo .l1").concat(trocea(".nuevo .l2"));
+        [w("reabrieron"), w("con"), w("Toyota")].forEach((t, i) => sube(ps[i], t - 0.02, 0.42));
+        tl.fromTo(".nuevo .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("al") - 0.1);
+        entra(".nombre", w("reabrieron") + 0.3, 0.4, 10);
+      }
+      fin();
+    })();
+  </script>
+</template>

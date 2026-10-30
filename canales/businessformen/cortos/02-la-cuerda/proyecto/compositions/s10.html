@@ -1,0 +1,138 @@
+<template>
+  <!-- R5 · «y nadie le gritaba»: GRITOS, tachado; «le ayudaban a arreglarlo»: llegan dos figuras junto a la que tiró de
+       la cuerda y LE AYUDABAN en rojo. -->
+  <style>
+    /* Marca BusinessForMen (ruta Consejo): grafito, blanco y carmesí; Inter Tight e IBM Plex Mono. */
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0a0b0d; color: #f4f3f0; font-family: "Inter Tight", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 30px/1.25 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    .esc .mono b { font-weight: 500; color: #f4f3f0; }
+    .esc .mono i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.08em 0.34em; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .fuerte { font-weight: 800; letter-spacing: -0.032em; line-height: 1.0; }
+    .esc .bloque { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; }
+    .esc .rojo { background: #b0122f; }
+    .esc .cortina { position: absolute; inset: 0; background: #b0122f; z-index: 40; visibility: hidden; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    /* Índice de una lista que se recorre en varias escenas (las reglas): un cuadro por punto, el actual en rojo. */
+    .esc .idx { position: absolute; left: 150px; top: 100px; display: flex; gap: 12px; }
+    .esc .idx i { width: 50px; height: 50px; border: 3px solid #8a8d93; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+      font: 800 28px/1 "Inter Tight", sans-serif; font-style: normal; color: #8a8d93; }
+    .esc .idx i.on { background: #b0122f; border-color: #b0122f; color: #f4f3f0; }
+
+    /* Cortos verticales de BusinessForMen (1080 × 1920). Lo que se lee va entre x 80–940 e y 200–1130: arriba, la barra
+       del móvil; a la derecha, los botones de las apps; abajo, de 1168 a 1320, los subtítulos, y debajo, el texto y la
+       interfaz de cada app (solo textura ahí). Cifras y titulares, más grandes que en horizontal. */
+    .esc .mono { font-size: 34px; }
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 500 28px/1.3 "Plex Mono", monospace;
+      letter-spacing: 0.06em; color: rgba(244, 243, 240, 0.6); }
+    .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    /* Velo para leer sobre una imagen: oscuro arriba (la barra del móvil) y de la mitad hacia abajo (texto y apps). */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+      rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
+    .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
+    .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }
+
+    #s10 .grito { position: absolute; left: 80px; top: 236px; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #8a8d93; }
+    #s10 .grito i { position: absolute; left: -10px; right: -10px; top: 50%; height: 16px; background: #b0122f; transform-origin: left center; }
+    #s10 svg.c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #s10 .fig { position: absolute; top: 520px; width: 140px; height: 300px; }
+    #s10 .ayu { position: absolute; left: 80px; top: 900px; font: 800 92px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #s10 .ayu span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="s10" data-width="1080" data-height="1920">
+    <div id="s10" class="esc">
+      <div class="grito">GRITOS<i></i></div>
+      <svg class="c" viewBox="0 0 1080 1920"><path d="M300,420 L300,560" style="fill:none;stroke:#cfc63a;stroke-width:10"/><circle cx="300" cy="560" r="14" fill="#cfc63a"/></svg>
+      <svg class="fig f1" style="left: 230px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+      <svg class="fig f2" style="left: 450px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#8a8d93"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#8a8d93"/></svg>
+      <svg class="fig f3" style="left: 640px" viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#8a8d93"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#8a8d93"/></svg>
+      <div class="ayu"><span>LE AYUDABAN</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de las escenas (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo local.
+      const W = {"esta":[[0.12,0.36]],"era":[[0.44,0.56]],"la":[[0.64,0.68],[13.714,13.774],[15.874,15.934],[30.728,30.788],[45.192,45.232],[47.375,47.435]],"peor":[[0.76,0.96]],"fábrica":[[1.06,1.44]],"de":[[1.5,1.58],[2.04,2.1],[3.611,3.651],[8.119,8.179],[29.688,29.768]],"autos":[[1.7,2.0],[21.333,21.593]],"estados":[[2.12,2.48]],"unidos":[[2.56,2.94]],"uno":[[3.411,3.571]],"cada":[[3.731,3.911]],"cinco":[[4.031,4.291]],"trabajadores":[[4.351,5.031],[18.669,19.329]],"no":[[5.151,5.231],[44.412,44.472]],"se":[[5.291,5.371]],"presentaba":[[5.431,5.971]],"y":[[6.339,6.359],[12.094,12.114],[17.969,17.989],[30.308,30.328],[31.627,31.647]],"hubo":[[6.419,6.579]],"quien":[[6.659,6.799],[38.555,38.695]],"escondió":[[6.839,7.219]],"botellas":[[7.299,7.759]],"dentro":[[7.819,8.079]],"las":[[8.219,8.339],[40.964,41.064]],"puertas":[[8.419,8.859]],"para":[[9.239,9.419]],"que":[[9.499,9.579],[27.868,27.948]],"sonaran":[[9.639,10.099]],"en":[[10.674,10.734],[37.115,37.175],[40.464,40.524]],"mil":[[10.774,10.934]],"novecientos":[[10.974,11.534]],"ochenta":[[11.614,12.014]],"dos":[[12.174,12.394],[14.674,14.814]],"yéneral":[[12.774,13.174],[34.64,35.02]],"mótors":[[13.294,13.654],[35.06,35.36]],"cerró":[[13.854,14.114]],"años":[[14.894,15.074]],"después":[[15.114,15.534]],"reabrieron":[[16.014,16.514]],"con":[[16.594,16.714],[18.069,18.169],[22.113,22.213]],"toyota":[[16.774,17.134]],"al":[[17.154,17.214]],"mando":[[17.274,17.554]],"los":[[18.209,18.289],[19.973,20.073]],"mismos":[[18.349,18.609]],"a":[[19.893,19.913],[33.467,33.487],[38.495,38.515]],"tres":[[20.173,20.353]],"meses":[[20.433,20.813]],"sus":[[21.093,21.233],[37.235,37.375]],"salían":[[21.653,21.993]],"una":[[22.273,22.393],[25.519,25.619],[43.205,43.285]],"calidad":[[22.473,22.873]],"casi":[[22.973,23.233]],"perfecta":[[23.353,23.913]],"qué":[[24.611,24.691]],"cambió":[[24.751,25.051]],"cuerda":[[25.699,25.999]],"cualquier":[[26.808,27.188]],"operario":[[27.248,27.768]],"viera":[[28.008,28.288]],"un":[[28.408,28.488]],"fallo":[[28.608,28.888]],"podía":[[28.968,29.248]],"tirar":[[29.348,29.608]],"ella":[[29.868,30.108]],"parar":[[30.408,30.648]],"línea":[[30.848,31.188]],"nadie":[[31.727,31.947]],"le":[[32.007,32.067],[32.887,32.947],[39.455,39.515]],"gritaba":[[32.107,32.547]],"ayudaban":[[32.987,33.447]],"arreglarlo":[[33.527,34.067]],"quiso":[[35.4,35.56]],"copiarlo":[[35.62,36.02]],"puso":[[36.375,36.615]],"cuerdas":[[36.695,37.055]],"fábricas":[[37.475,37.955]],"pero":[[38.315,38.455]],"tiraba":[[38.755,39.155]],"gritaban":[[39.575,40.035]],"algunas":[[40.584,40.884]],"cortaron":[[41.144,41.584]],"puedes":[[42.465,42.725],[44.552,44.792]],"copiar":[[42.785,43.125],[44.852,45.112]],"herramienta":[[43.325,43.905]],"confianza":[[45.292,45.832]],"el":[[46.475,46.535]],"problema":[[46.595,46.915]],"nunca":[[46.975,47.195]],"fue":[[47.235,47.335]],"gente":[[47.475,47.775]]}, T0 = 31.477, DUR = 2.963;
+      const RAIZ = document.getElementById("s10");
+      const limpia = (s) => s.toLowerCase().replace(/[^\wáéíóúüñ]/g, "");
+      // w("palabra", n): cuándo empieza la aparición n de esa palabra, en el tiempo de la escena; f(): cuándo acaba.
+      const w = (p, n = 1, fin = false) => {
+        const l = W[limpia(p)];
+        if (!l || !l[n - 1]) throw new Error(`s10: no está «${p}» (${n})`);
+        return l[n - 1][fin ? 1 : 0] - T0;
+      };
+      const f = (p, n = 1) => w(p, n, true);
+      // serie("palabra", k, n): el comienzo de las k palabras seguidas desde la aparición n de esa palabra.
+      const L = [["esta",0.12,0.36],["era",0.44,0.56],["la",0.64,0.68],["peor",0.76,0.96],["fábrica",1.06,1.44],["de",1.5,1.58],["autos",1.7,2.0],["de",2.04,2.1],["estados",2.12,2.48],["unidos",2.56,2.94],["uno",3.411,3.571],["de",3.611,3.651],["cada",3.731,3.911],["cinco",4.031,4.291],["trabajadores",4.351,5.031],["no",5.151,5.231],["se",5.291,5.371],["presentaba",5.431,5.971],["y",6.339,6.359],["hubo",6.419,6.579],["quien",6.659,6.799],["escondió",6.839,7.219],["botellas",7.299,7.759],["dentro",7.819,8.079],["de",8.119,8.179],["las",8.219,8.339],["puertas",8.419,8.859],["para",9.239,9.419],["que",9.499,9.579],["sonaran",9.639,10.099],["en",10.674,10.734],["mil",10.774,10.934],["novecientos",10.974,11.534],["ochenta",11.614,12.014],["y",12.094,12.114],["dos",12.174,12.394],["yéneral",12.774,13.174],["mótors",13.294,13.654],["la",13.714,13.774],["cerró",13.854,14.114],["dos",14.674,14.814],["años",14.894,15.074],["después",15.114,15.534],["la",15.874,15.934],["reabrieron",16.014,16.514],["con",16.594,16.714],["toyota",16.774,17.134],["al",17.154,17.214],["mando",17.274,17.554],["y",17.969,17.989],["con",18.069,18.169],["los",18.209,18.289],["mismos",18.349,18.609],["trabajadores",18.669,19.329],["a",19.893,19.913],["los",19.973,20.073],["tres",20.173,20.353],["meses",20.433,20.813],["sus",21.093,21.233],["autos",21.333,21.593],["salían",21.653,21.993],["con",22.113,22.213],["una",22.273,22.393],["calidad",22.473,22.873],["casi",22.973,23.233],["perfecta",23.353,23.913],["qué",24.611,24.691],["cambió",24.751,25.051],["una",25.519,25.619],["cuerda",25.699,25.999],["cualquier",26.808,27.188],["operario",27.248,27.768],["que",27.868,27.948],["viera",28.008,28.288],["un",28.408,28.488],["fallo",28.608,28.888],["podía",28.968,29.248],["tirar",29.348,29.608],["de",29.688,29.768],["ella",29.868,30.108],["y",30.308,30.328],["parar",30.408,30.648],["la",30.728,30.788],["línea",30.848,31.188],["y",31.627,31.647],["nadie",31.727,31.947],["le",32.007,32.067],["gritaba",32.107,32.547],["le",32.887,32.947],["ayudaban",32.987,33.447],["a",33.467,33.487],["arreglarlo",33.527,34.067],["yéneral",34.64,35.02],["mótors",35.06,35.36],["quiso",35.4,35.56],["copiarlo",35.62,36.02],["puso",36.375,36.615],["cuerdas",36.695,37.055],["en",37.115,37.175],["sus",37.235,37.375],["fábricas",37.475,37.955],["pero",38.315,38.455],["a",38.495,38.515],["quien",38.555,38.695],["tiraba",38.755,39.155],["le",39.455,39.515],["gritaban",39.575,40.035],["en",40.464,40.524],["algunas",40.584,40.884],["las",40.964,41.064],["cortaron",41.144,41.584],["puedes",42.465,42.725],["copiar",42.785,43.125],["una",43.205,43.285],["herramienta",43.325,43.905],["no",44.412,44.472],["puedes",44.552,44.792],["copiar",44.852,45.112],["la",45.192,45.232],["confianza",45.292,45.832],["el",46.475,46.535],["problema",46.595,46.915],["nunca",46.975,47.195],["fue",47.235,47.335],["la",47.375,47.435],["gente",47.475,47.775]];
+      const serie = (p, k, n = 1) => {
+        const i = L.map((q, j) => (q[0] === limpia(p) ? j : -1)).filter((j) => j >= 0)[n - 1];
+        if (i == null) throw new Error(`s10: no está «${p}» (${n})`);
+        return L.slice(i, i + k).map((q) => q[1] - T0);
+      };
+      const $ = (s) => RAIZ.querySelector(s);
+      const $$ = (s) => Array.from(RAIZ.querySelectorAll(s));
+      // Cifras a la española: punto de miles y signo menos tipográfico.
+      const fmt = (n, signo) => {
+        const a = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return (n < 0 ? "−" : signo && n > 0 ? "+" : "") + a;
+      };
+      const tl = gsap.timeline({ paused: true });
+      // Sube desde su máscara: 140 % para que las tildes de las mayúsculas (Á, É, Ú) no asomen antes de tiempo.
+      const sube = (sel, t, d = 0.45, ease = "expo.out") => tl.fromTo(sel, { yPercent: 140 }, { yPercent: 0, duration: d, ease }, t);
+      const entra = (sel, t, d = 0.45, dy = 26) => tl.fromTo(sel, { autoAlpha: 0, y: dy }, { autoAlpha: 1, y: 0, duration: d, ease: "expo.out" }, t);
+      const aparece = (sel, t, d = 0.3, max = 1) => tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: max, duration: d, ease: "power2.out" }, t);
+      const sale = (sel, t, d = 0.2) => tl.to(sel, { autoAlpha: 0, duration: d, ease: "power2.in" }, t);
+      // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
+      const cuenta = (el, desde, hasta, t, d, o = {}) => {
+        el = typeof el === "string" ? $(el) : el;
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
+        pinta();
+        tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
+      };
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
+      // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
+      const trocea = (el) => {
+        el = typeof el === "string" ? $(el) : el;
+        // Respeta los <br>: cada renglón se trocea por separado.
+        el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map((h) => h.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean)
+          .map((p) => `<span class="pal"><span>${p}</span></span>`).join("")).join("<br>");
+        return Array.from(el.querySelectorAll(".pal > span"));
+      };
+      // Cortinas rojas: la que se lleva la escena (sale) y la que se retira al empezar (entra).
+      const cortina = (modo, d) => {
+        const c = document.createElement("div");
+        c.className = "cortina"; RAIZ.appendChild(c);
+        if (modo === "entra") tl.fromTo(c, { scaleX: 1, autoAlpha: 1, transformOrigin: "right center" }, { scaleX: 0, duration: d || 0.42, ease: "power4.out" }, 0);
+        else tl.fromTo(c, { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" }, { scaleX: 1, duration: d || 0.3, ease: "power4.in" }, DUR - (d || 0.3));
+      };
+      // Dibujos en función del tiempo (lo que GSAP no interpola bien: un punto que recorre un círculo, por ejemplo).
+      const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
+      // Avance 0 → 1 entre t0 y t0 + d, con su curva.
+      const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
+      const fin = () => { tl.set({}, {}, DUR); window.__timelines["s10"] = tl; };
+
+      tl.fromTo(".f1", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0);
+      tl.fromTo(".grito", { autoAlpha: 0, scale: 1.15 }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: "expo.out", transformOrigin: "left center" }, w("nadie") - 0.1);
+      tl.fromTo(".grito i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("gritaba") - 0.05);
+      tl.fromTo(".f2", { autoAlpha: 0, x: 420 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("ayudaban") - 0.25);
+      tl.fromTo(".f3", { autoAlpha: 0, x: 420 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "expo.out" }, w("ayudaban") - 0.12);
+      tl.fromTo(".ayu span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("ayudaban") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

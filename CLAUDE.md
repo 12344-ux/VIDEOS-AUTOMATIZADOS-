@@ -13,7 +13,9 @@ masculino que quiere hacerse un caballero profesional con mentalidad de negocios
 no llevan capítulos: un solo hilo, la esencia. Tono: rigor, elegancia y ética, nunca el discurso «alfa».
 **Regla del canal: SE DEBE ENTENDER. Si no se entiende, no comunica.** Edición **«HIPER PRO»** (término del usuario:
 de estudio, de agencia, de élite): si hablamos de éxito, predicamos con el ejemplo. Anticitera (`videos/anticitera/`)
-quedó en pausa; su motor y su kit se reutilizan. Mismo método de trabajo y mismas licencias hasta que el usuario
+quedó en pausa; su motor y su kit se reutilizan. Además de los vídeos largos, el canal tiene **cortos verticales** para
+Reels, TikTok y Facebook (`canales/businessformen/cortos/`, con sus reglas en su README): el mismo archivo para las tres
+apps, sin logos de ninguna ni «sígueme», gancho en el fotograma 0 y final en bucle. Mismo método de trabajo y mismas licencias hasta que el usuario
 avise de que se monetiza (entonces, música e imágenes con licencia comercial).
 
 **Edición de nivel agencia, no «imagen + voz».** Lo que pasa en pantalla (cuándo, dónde, cómo, efectos,
@@ -132,8 +134,13 @@ Para trabajar con HyperFrames, leer antes sus guías en
   energía bajo 150 Hz. Funcionan las cuerdas frotadas en ostinato con marimba. Pedir varias candidatas y medir.
 - Los golpes `impact-bass` de HyperFrames son subgrave puro y, a volumen 0,3–0,4, suben 5 LU por encima de la voz:
   entregar con `GRAVES=-20 PICO=-2 video/entregar.sh … -15 copiar` (comprime bajo 120 Hz sin recodificar el vídeo).
-- Medir los graves de cada pieza de MusicGen antes de usarla: dos salieron con el 65–98 % de la energía bajo
-  150 Hz, que en un móvil no suena (ver la bitácora, sesión 3).
+- Medir los graves de cada pieza de MusicGen antes de usarla (`audio/graves.py`): dos salieron con el 65–98 % de la
+  energía bajo 150 Hz, que en un móvil no suena (ver la bitácora, sesión 3). La misma descripción con otra semilla
+  puede salir con el 0 % o con el 85 %. Y mirar su energía por tramos: algunas se apagan a los 15–25 s.
+- `mix-blend-mode: destination-out` no existe en CSS (el sello salía rosado): el desgaste de un sello va con
+  `mask-image: url(desgaste.png)`.
+- En vertical, las mayúsculas de Inter Tight 800 ocupan unos 0,6 em por letra: calcular el ancho de cada línea
+  (cabe en unos 880 px) o el titular parte en un renglón más y pisa lo de debajo.
 
 ## Cómo decidir
 

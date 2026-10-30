@@ -1,0 +1,38 @@
+<template>
+  <!-- R9 + R1 corto · la cuerda de verdad: SI VE UN FALLO; en «tirar de ella» el plano baja con el tirón; en «parar la
+       línea» cruza una banda roja, LÍNEA PARADA, y todo se queda quieto. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mueve { position: absolute; inset: 0; }
+    #{{ID}} .foto { transform-origin: 50% 35%; filter: saturate(0.85) contrast(1.05) brightness(0.92); }
+    #{{ID}} .si { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .quien { position: absolute; left: 80px; top: 760px; }
+    #{{ID}} .banda { position: absolute; left: 0; top: 880px; width: 1080px; height: 190px; background: #b0122f; display: flex; align-items: center; padding-left: 80px;
+      font: 800 110px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; color: #f4f3f0; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mueve"><img class="foto" src="assets/img/cuerda.jpg" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="mono si"><i>Si veía un fallo</i></div>
+      <div class="titular quien">Cualquier<br>operario</div>
+      <div class="banda">LÍNEA PARADA</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.08 }, { scale: 1.14, duration: w("parar"), ease: "none" }, 0);
+      const ps = trocea(".quien");
+      [w("Cualquier"), w("operario")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.42));
+      entra(".si", w("fallo") - 0.12, 0.35, 8);
+      // El tirón: todo el plano baja con la cuerda y vuelve un poco.
+      tl.fromTo(".mueve", { y: 0 }, { keyframes: [{ y: 70, duration: 0.18, ease: "power3.in" }, { y: 46, duration: 0.3, ease: "power2.out" }] }, w("tirar") - 0.02);
+      tl.to(".quien", { opacity: 0.35, duration: 0.3 }, w("tirar"));
+      tl.to(".quien", { autoAlpha: 0, duration: 0.15 }, w("parar") - 0.12);
+      tl.fromTo(".banda", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power4.out" }, w("parar") - 0.08);
+      fin();
+    })();
+  </script>
+</template>

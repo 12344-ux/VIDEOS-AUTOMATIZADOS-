@@ -1,0 +1,44 @@
+<template>
+  <!-- R9 + R2 · la máquina de escribir de 1947: el año, la redactora (Frances Gerety, N. W. Ayer) y, con la voz, la frase
+       que se escribe letra a letra en su idioma original, con la campanilla al final. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .sube { position: absolute; left: 0; top: -150px; width: 1080px; height: 1920px; transform: scale(1.09); transform-origin: 50% 0%; }
+    #{{ID}} .foto { transform-origin: 50% 30%; filter: saturate(0.85) contrast(1.05) brightness(0.9); }
+    #{{ID}} .ano { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .ano b { background: rgba(10, 11, 13, 0.8); padding: 0.1em 0.3em; }
+    #{{ID}} .quien { position: absolute; left: 80px; top: 870px; width: 860px; font: 600 50px/1.15 "Inter Tight", sans-serif; color: #c9cbd0; }
+    #{{ID}} .quien b { color: #f4f3f0; font-weight: 800; }
+    #{{ID}} .lema { position: absolute; left: 80px; top: 1000px; width: 900px; font: italic 500 104px/1.02 "Bodoni Moda", serif; letter-spacing: -0.01em; }
+    #{{ID}} .lema span { visibility: hidden; }
+    #{{ID}} .trad { position: absolute; left: 80px; top: 1236px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="sube" data-layout-allow-overflow><img class="foto" src="assets/img/maquina.jpg" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="capa" style="top: 760px; background: rgba(10, 11, 13, 0.72)"></div>
+      <div class="mono ano"><i>1947</i> &nbsp;<b>N. W. Ayer, la agencia</b></div>
+      <div class="quien">Una redactora, <b>Frances Gerety</b>, lo resume en una frase:</div>
+      <div class="lema">«A Diamond<br>Is Forever»</div>
+      <div class="mono trad"><b>Un diamante es para siempre</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.02 }, { scale: 1.1, duration: DUR, ease: "none" }, 0);
+      entra(".ano", w("cuarenta") - 0.1, 0.35, 8);
+      entra(".quien", w("redactora") - 0.12, 0.4, 12);
+      // La frase, letra a letra, de «un diamante» a «siempre» (lo que tarda la voz en decirla).
+      const lema = $(".lema");
+      lema.innerHTML = lema.innerHTML.split(/(<br>)/).map((tr) => tr === "<br>" ? tr : tr.split("").map((c) => `<span>${c}</span>`).join("")).join("");
+      const ls = $$(".lema span"), t0 = w("un", 4) - 0.05, t1 = f("siempre") - 0.05;
+      ls.forEach((s, i) => tl.set(s, { visibility: "visible" }, t0 + (t1 - t0) * i / (ls.length - 1)));
+      tl.to(".quien", { opacity: 0.75, duration: 0.3 }, t0);
+      entra(".trad", t0 + 0.2, 0.35, 8);
+      fin();
+    })();
+  </script>
+</template>

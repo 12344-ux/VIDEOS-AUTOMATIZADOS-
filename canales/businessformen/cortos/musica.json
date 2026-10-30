@@ -1,0 +1,44 @@
+{
+ "_nota": "MusicGen (estéreo, small), lotes de cuatro candidatas de 30 s. Instrumentos del registro medio (los graves no suenan en un móvil): se mide cada una con audio/graves.py. Primera tanda (semilla 21): la 1 salió con el 85 % de la energía bajo 150 Hz y la 2 con el 99 % (descartadas); la 3 (arpa y celesta, 0 %) es la del corto 3 y la 4 (piano eléctrico y violines, 1 %), la segunda parte del corto 2. Segunda tanda (semilla 33): tensión sin graves. Medidas de la segunda: 0 %, 45 %, 0 % y 0 % bajo 150 Hz; la 1 se queda casi en silencio a los 15 s. Elegidas: corto 1, la 4 de la segunda (cuerdas y marimba en ostinato, 110 bpm); corto 2, la 3 de la segunda (piano y arpa con reloj) hasta la pregunta y la 4 de la primera desde la cuerda; corto 3, la 3 de la primera (arpa y celesta), que se apaga a los 25 s: se le quitan 5,5 s del final.",
+ "semilla": 21,
+ "duracion": 30,
+ "candidatas": [
+  "driving investigative underscore, staccato violins and violas ostinato, marimba, light snare and hi-hat, building tension, 108 bpm, no bass",
+  "tense industrial underscore, bowed cello and viola ostinato in the middle register, metallic mallet percussion, steady pulse, 96 bpm, no bass, no drums",
+  "elegant luxurious minimal underscore, plucked harp and celesta arpeggios, soft sustained violins, refined and mysterious, 84 bpm, no drums, no bass",
+  "confident modern underscore, clean electric piano and staccato violins in the middle register, light shaker, focused and positive, 100 bpm"
+ ],
+ "semilla_2": 33,
+ "candidatas_2": [
+  "tense investigative underscore, staccato violins and violas ostinato in the middle register, ticking woodblock, marimba, suspenseful, 104 bpm, no bass, no drums",
+  "dark tense underscore, tremolo violins and pizzicato violas in the middle register, ticking clock, uneasy and serious, 92 bpm, no bass, no drums",
+  "suspenseful minimal underscore, staccato piano and plucked harp in the high register, ticking percussion, 100 bpm, no bass, no drums",
+  "driving modern underscore, staccato strings and marimba ostinato in the middle register, light shaker, determined, 110 bpm, no bass"
+ ],
+ "lechos": {
+  "01-la-clausula/lecho": {
+   "pieza": "v2/pieza_4",
+   "duracion": 52,
+   "entrada": 0.05,
+   "recorte": 1.5
+  },
+  "02-la-cuerda/tension": {
+   "pieza": "v2/pieza_3",
+   "duracion": 28,
+   "entrada": 0.05,
+   "recorte": 1.5
+  },
+  "02-la-cuerda/cuerda": {
+   "pieza": "pieza_4",
+   "duracion": 28,
+   "entrada": 0.3,
+   "recorte": 1.5
+  },
+  "03-para-siempre/lecho": {
+   "pieza": "pieza_3",
+   "duracion": 57,
+   "entrada": 0.05,
+   "recorte": 5.5
+  }
+ }
+}

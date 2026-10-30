@@ -1,0 +1,38 @@
+<template>
+  <!-- R15 + R3 · «y con los mismos trabajadores»: vuelven las cinco figuras del principio, enteras; LOS MISMOS y el dato,
+       con su fuente. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .tit { position: absolute; left: 80px; top: 230px; }
+    #{{ID}} .tit .bloque { display: inline-block; }
+    #{{ID}} .fila { position: absolute; left: 90px; top: 500px; display: flex; gap: 30px; }
+    #{{ID}} .fila svg { width: 140px; height: 300px; }
+    #{{ID}} .dato { position: absolute; left: 80px; top: 870px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+    #{{ID}} .dato small { display: block; margin-top: 14px; font: 500 34px/1.25 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8d93; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="titular tit"><span class="bloque">Los mismos</span></div>
+      <div class="fila">
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+        <svg viewBox="0 0 140 300"><circle cx="70" cy="46" r="40" fill="#f4f3f0"/><rect x="18" y="104" width="104" height="196" rx="40" fill="#f4f3f0"/></svg>
+      </div>
+      <div class="dato num">+85 %<small>venía de la fábrica cerrada</small></div>
+      <div class="fuente">Fuentes: This American Life · Wikipedia</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      $$(".fila svg").forEach((el, i) => tl.fromTo(el, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, i * 0.07));
+      tl.fromTo(".tit .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("mismos") - 0.15);
+      entra(".dato", 0.2, 0.45, 16);
+      aparece(".fuente", 0.3, 0.3);
+      fin();
+    })();
+  </script>
+</template>

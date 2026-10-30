@@ -1,0 +1,7 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280 (vertical) y EDSR a 1080 × 1920. El sujeto, en la mitad de arriba: abajo van los subtítulos y la interfaz de las apps.",
+ "planchas": [
+  {"nombre": "pc1980", "semilla": 41, "prompt": "a beige early-1980s personal computer with a bulky CRT monitor and a separate keyboard on a dark wooden office desk, the monitor screen is black with a single small glowing green cursor, dim office at night lit by one desk lamp, vertical composition with the computer in the upper half of the frame and the bottom third falling into dark shadow, cinematic editorial photography, low-key lighting, muted desaturated colors, 35mm film grain, no text, no logos, no brand names, no watermark"},
+  {"nombre": "clones", "semilla": 52, "prompt": "endless rows of identical beige 1980s personal computers with CRT monitors on long tables in a dim warehouse, strong one-point perspective vanishing into darkness, cold overhead lights, vertical composition with the rows in the upper two thirds of the frame and the bottom third in deep shadow, cinematic editorial photography, low-key lighting, muted desaturated colors, 35mm film grain, no text, no logos, no brand names, no watermark"}
+ ]
+}

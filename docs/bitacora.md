@@ -562,9 +562,76 @@ estaba. El trabajo de la sesión 2 estaba en otra rama sin unir: se trajo por av
   ámbito con las ayudas). Un `tl.set(…, 0)` no se pinta en el primer fotograma de la escena: lo que nace oculto va con
   CSS o con `fromTo`.
 
+## Sesión 4 — 30 de octubre de 2026, tarde
+
+Máquina nueva (Xeon con AMX). El trabajo de la sesión 3 estaba en otra rama sin unir: se trajo por avance rápido. La
+instalación se hizo en dos pasadas: el `instalar.sh` de `main` y luego el nuevo, que añade EDSR y el EGL de Mesa.
+
+### 1. Tres cortos verticales para Reels, TikTok y Facebook
+
+- **Pedido del usuario:** tres vídeos cortos del canal para las tres apps; investigar temas, tipo de vídeo y edición;
+  ganchos más agresivos; sin «sígueme» al final ni logos de las apps, para subir el mismo archivo a las tres.
+- **Investigación** (búsquedas web; casi todo guías de marketing, sin datos oficiales): el gancho decide en 1–3 s y el
+  fotograma 0 hace de portada; lo educativo funciona en 30–60 s; muchos lo ven sin sonido (subtítulos quemados);
+  zonas seguras distintas en cada guía (se tomó la más conservadora); el bucle hace que se vuelva a ver; Instagram no
+  recomienda Reels con marca de agua de otra app (Mosseri, 2021) y el logo propio no penaliza; TikTok y Meta piden
+  marcar el contenido generado con IA. Las reglas quedaron en `canales/businessformen/cortos/README.md`.
+- **Temas** (casos reales, lejos de los ya muy vistos como Blockbuster o Kodak), uno por área del canal:
+  «La cláusula» (negociación: IBM y la cláusula de Microsoft), «La cuerda» (organización: la fábrica de Fremont, NUMMI
+  y la cuerda andon) y «Para siempre» (marca: De Beers y el anillo de diamantes). Cada dato con dos fuentes, leídas
+  aquí cuando se pudo (la transcripción de This American Life, Wikipedia); en `GUION.md` de cada corto.
+- **Formatos:** el error de un gigante, antes y después con giro, el mito desmontado. Gancho escrito en el fotograma 0,
+  un golpe rojo para la lección (dos en el 3) con la firma BFM dentro, y bucle: el último plano vuelve al primero.
+
+### 2. El kit, en vertical
+
+- `kit/montar.py`: `formato(1080, 1920, voz0=0.1, cola=…)`, subtítulos quemados (`subtitulos()`, grupos de 1–4
+  palabras con la palabra que suena en un bloque rojo; `sin_subtitulos()` donde la pantalla ya lo escribe), plantillas
+  comunes (`cortos/comun/golpe.html`), efectos propios en `<trabajo>/sfx/` y `kit/corto.css` (zona segura: lo que se lee
+  entre x 80–940 e y 200–1130; subtítulos de 1168 a 1320). Los vídeos horizontales siguen igual.
+- Los subtítulos no parten nombres («Estados | Unidos») ni cantidades («75.000 | dólares») y escriben «5 %»: el «por
+  ciento» se marca antes de pasar las cifras, que si no convierten «ciento» en «100».
+- Efectos reales de BigSoundBank (CC0): firma a lápiz, papel, caja registradora, puerta de coche, copa, persiana,
+  cuerda, cuchillo, timbre industrial y máquina de escribir con campanilla. `audio/graves.py` mide los graves.
+
+### 3. Recursos y tiempos (Xeon con AMX)
+
+- **Voz:** el primer corto, 2 min 55 s (carga en frío de Supertonic y del alineador); los otros dos, 28 s cada uno.
+  Duraciones: 47,8, 48,1 y 52,7 s.
+- **Música:** cuatro candidatas de 30 s en 10 min 9 s. Dos salieron con el 85 % y el 99 % de la energía bajo 150 Hz
+  (unas cuerdas en staccato que con otra semilla habían dado un 0 %): segunda tanda, 13 min 7 s compartiendo la CPU, con
+  tres limpias. Además de los graves hay que mirar la energía por tramos: una se apagaba a los 15 s y otra a los 25 s.
+- **Imágenes:** siete de FLUX.3 a 720 × 1280, 87–97 s cada una (337 s la primera, con la carga) y EDSR a 1080 × 1920 en
+  6 s. Todas valieron a la primera; tres pidieron recolocar el texto (el anillo en el centro; la fábrica limpia, clara).
+- `check`, unos 20 s por corto; `snapshot --review`, 45 s.
+
+### 4. La revisión
+
+- `check` encontró: el bloque de la firma pisado por la frase del golpe (las frases de 150 px partían en tres renglones:
+  las mayúsculas de Inter Tight 800 ocupan unos 0,6 em por letra), textos que no duraban lo que se tarda en leerlos,
+  «FOR» negro sobre rojo (2,8:1) y texto oscuro bajo el subrayado rojo de la cláusula.
+- **Revisión de director** con las hojas de fotogramas: tras el gancho había casi un segundo de negro (el 25 aparecía
+  al decirlo: ahora cuenta desde el corte), arranques de escena vacíos (las cinco figuras, la rejilla de anillos y la
+  línea del precio están desde el corte), el golpe rojo vacío medio segundo (la etiqueta va grande, palabra a palabra)
+  y el sello rosado: `mix-blend-mode: destination-out` no existe en CSS; el desgaste va con `mask-image`, como en el vídeo 1.
+- Lo que el dibujo sí casa: la cuerda dibujada cae en la misma x y con el mismo amarillo que la de la foto, así que el
+  corte de «una cuerda» a la imagen es un corte casado.
+
+### 5. Render y entrega
+
+- **Render** (`--quality high --crf 20`): 85, 78 y 84 s para 48,8, 49,2 y 53,8 s de vídeo (1,6–1,7 s por segundo; todo
+  CSS y SVG). **Entrega** con `GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`: −14,3, −14,4 y −14,4 LUFS, pico real
+  −1,7/−1,8 dBTP; 19, 11 y 10 MB. 1080 × 1920, 30 fps, H.264 y AAC: el mismo archivo para las tres apps.
+- Los fotogramas sacados de los MP4 coinciden con la revisión. El sonido empieza a los 0,11 s y llega hasta el último
+  fotograma (`hf.sh audio`): el bucle no tiene silencio. Medido, no escuchado.
+- Lo más flojo: los arranques de tres escenas (De Beers, «General Motors quiso copiarlo», «La gente no compra»), unos
+  0,2 s casi en negro antes de la primera palabra; y la música, elegida por la descripción y las medidas, sin oírla.
+- Para subir, `PUBLICACION.md` de cada corto: texto, etiquetas, fuentes y el aviso de IA (voz, imágenes y música).
+
 ## Siguiente paso
 
-1. Que el usuario vea el vídeo 1 completo y diga qué cambiar o si se sube así (y qué miniatura).
+1. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
+   cambiar o si se suben así.
 2. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
 3. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`

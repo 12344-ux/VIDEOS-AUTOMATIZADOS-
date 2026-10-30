@@ -1,0 +1,42 @@
+<template>
+  <!-- R9 + R6 · la fábrica limpia y ordenada; A LOS 3 MESES y una barra de calidad que se llena hasta casi el final en
+       «calidad casi perfecta», con su fuente. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 32%; filter: saturate(0.85) contrast(1.04); }
+    #{{ID}} .tarjeta { position: absolute; left: 0; top: 700px; width: 1080px; height: 1220px; background: rgba(10, 11, 13, 0.9); }
+    #{{ID}} .tres { position: absolute; left: 80px; top: 744px; }
+    #{{ID}} .et { position: absolute; left: 80px; top: 892px; width: 860px; display: flex; justify-content: space-between; }
+    #{{ID}} .pista { position: absolute; left: 80px; top: 944px; width: 860px; height: 30px; background: rgba(244, 243, 240, 0.18); }
+    #{{ID}} .pista i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #f4f3f0; transform-origin: left center; }
+    #{{ID}} .casi { position: absolute; left: 80px; top: 1000px; font: 800 72px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .casi span { display: inline-block; background: #b0122f; padding: 0.06em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/fabrica_limpia.jpg" alt="" />
+      <div class="tarjeta"></div>
+      <div class="titular tres" style="font-size: 104px">A los 3 meses</div>
+      <div class="mono et"><b>Calidad de sus autos</b><b>100</b></div>
+      <div class="pista"><i></i></div>
+      <div class="casi"><span>CASI PERFECTA</span></div>
+      <div class="fuente">Fuente: Maryann Keller, «Rude Awakening»</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.1 }, { scale: 1.02, duration: DUR, ease: "power1.out" }, 0);
+      tl.fromTo(".tarjeta", { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: "expo.out" }, 0);
+      const ps = trocea(".tres");
+      [w("A"), w("los", 2), w("tres"), w("meses")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.06), 0.4));
+      entra(".et", w("autos", 2) - 0.1, 0.35, 8);
+      aparece(".pista", w("autos", 2) - 0.1, 0.25);
+      tl.fromTo(".pista i", { scaleX: 0 }, { scaleX: 0.96, duration: f("perfecta") - w("salían") + 0.1, ease: "power2.inOut" }, w("salían") - 0.05);
+      tl.fromTo(".casi span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("casi") - 0.1);
+      aparece(".fuente", 0.6, 0.3);
+      fin();
+    })();
+  </script>
+</template>

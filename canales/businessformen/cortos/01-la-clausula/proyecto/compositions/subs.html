@@ -1,0 +1,60 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>1980</span></div>
+      <div class="g" id="sub1"><span>IBM</span> <span>necesita</span> <span>un</span> <span>sistema</span></div>
+      <div class="g" id="sub2"><span>operativo</span> <span>para</span> <span>su</span> <span>primera</span></div>
+      <div class="g" id="sub3"><span>computadora</span></div>
+      <div class="g" id="sub4"><span>Bill Gates</span> <span>se</span> <span>lo</span> <span>promete</span></div>
+      <div class="g" id="sub5"><span>Pero</span> <span>no</span> <span>tiene</span></div>
+      <div class="g" id="sub6"><span>ninguno</span></div>
+      <div class="g" id="sub7"><span>Así</span> <span>que</span> <span>le</span> <span>compra</span></div>
+      <div class="g" id="sub8"><span>uno</span> <span>a</span> <span>una</span> <span>pequeña</span></div>
+      <div class="g" id="sub9"><span>empresa</span> <span>por</span> <span>75.000</span> <span>dólares</span></div>
+      <div class="g" id="sub10"><span>Y</span> <span>en</span> <span>el</span> <span>contrato</span></div>
+      <div class="g" id="sub11"><span>con</span> <span>IBM</span> <span>mete</span></div>
+      <div class="g" id="sub12"><span>una</span> <span>cláusula</span></div>
+      <div class="g" id="sub13"><span>podrá</span> <span>vendérselo</span></div>
+      <div class="g" id="sub14"><span>también</span> <span>a</span> <span>otros</span></div>
+      <div class="g" id="sub15"><span>fabricantes</span></div>
+      <div class="g" id="sub16"><span>IBM</span> <span>firma</span></div>
+      <div class="g" id="sub17"><span>Pero</span> <span>llegan</span> <span>los</span> <span>clones</span></div>
+      <div class="g" id="sub18"><span>otras</span> <span>marcas</span> <span>copian</span></div>
+      <div class="g" id="sub19"><span>su</span> <span>computadora</span></div>
+      <div class="g" id="sub20"><span>Y</span> <span>le</span> <span>compran</span></div>
+      <div class="g" id="sub21"><span>el</span> <span>sistema</span> <span>a</span> <span>Microsoft</span></div>
+      <div class="g" id="sub22"><span>En</span> <span>1993</span></div>
+      <div class="g" id="sub23"><span>Microsoft</span> <span>ya</span> <span>vale</span></div>
+      <div class="g" id="sub24"><span>más</span> <span>que</span> <span>IBM</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[5.871,7.515,[[5.911,7.091]]],[7.515,9.295,[[7.555,7.915],[7.975,8.475],[8.555,8.615],[8.695,9.195]]],[9.295,11.035,[[9.335,9.975],[10.255,10.415],[10.495,10.575],[10.655,10.975]]],[11.035,12.23,[[11.075,11.795]]],[12.23,13.743,[[12.27,12.71],[12.77,12.83],[12.89,12.93],[13.01,13.43]]],[13.743,14.363,[[13.783,13.963],[14.043,14.103],[14.163,14.343]]],[14.363,15.344,[[14.403,14.783]]],[15.344,16.284,[[15.384,15.564],[15.644,15.724],[15.784,15.844],[15.924,16.224]]],[16.284,17.124,[[16.324,16.444],[16.484,16.504],[16.524,16.644],[16.744,17.104]]],[17.124,20.245,[[17.164,17.604],[17.684,17.804],[17.904,19.224],[19.284,19.744]]],[20.245,21.185,[[20.285,20.305],[20.365,20.425],[20.465,20.545],[20.625,21.125]]],[21.185,22.345,[[21.225,21.345],[21.405,21.905],[22.025,22.285]]],[22.345,23.505,[[22.385,22.505],[22.585,23.125]]],[23.505,24.505,[[23.545,23.765],[23.845,24.445]]],[24.505,25.625,[[24.545,24.925],[25.025,25.045],[25.165,25.485]]],[25.625,26.936,[[25.665,26.365]]],[26.936,27.927,[[26.976,27.236],[27.316,27.576]]],[30.067,31.707,[[30.107,30.247],[30.327,30.587],[30.627,30.727],[30.827,31.247]]],[31.707,32.947,[[31.747,31.987],[32.067,32.427],[32.547,32.907]]],[32.947,34.283,[[32.987,33.087],[33.147,33.867]]],[34.283,34.843,[[34.323,34.343],[34.423,34.463],[34.523,34.823]]],[34.843,36.684,[[34.883,34.943],[35.003,35.403],[35.443,35.463],[35.523,36.223]]],[36.684,38.824,[[36.724,36.804],[36.844,38.464]]],[38.824,39.944,[[38.864,39.464],[39.504,39.624],[39.704,39.904]]],[39.944,41.344,[[39.984,40.164],[40.244,40.344],[40.404,41.044]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 48.751);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

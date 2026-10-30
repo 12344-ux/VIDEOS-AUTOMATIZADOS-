@@ -1,0 +1,39 @@
+<template>
+  <!-- R9 · la fábrica, a sangre. Modo «gancho» (fotograma 0 = miniatura): LA PEOR FÁBRICA DE EE. UU., quieto; el lugar
+       en mono. Modo «cierre»: la misma imagen y EL PROBLEMA NUNCA FUE LA GENTE palabra a palabra; acaba como empieza el
+       gancho, así que al volver al principio del bucle solo cambia la frase. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 30%; filter: saturate(0.7) contrast(1.08) brightness(0.88); }
+    #{{ID}} .donde { position: absolute; left: 80px; top: 214px; }
+    #{{ID}} .tit { position: absolute; left: 80px; top: 700px; width: 880px; }
+    #{{ID}} .tit .l { display: block; white-space: nowrap; }
+    #{{ID}} .tit .bloque { display: inline-block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/fabrica.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="mono donde"><i>Fremont, California</i> &nbsp;<b>General Motors</b></div>
+      <div class="titular tit">{{p:titulo}}</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = "{{p:modo}}";
+      const M = modo === "gancho" ? [{ scale: 1 }, { scale: 1.07, ease: "none" }] : [{ scale: 1.06 }, { scale: 1, ease: "power1.out" }];
+      tl.fromTo(".foto", M[0], Object.assign({ duration: DUR }, M[1]), 0);
+      if (modo === "gancho") {
+        entra(".donde", w("fábrica") - 0.1, 0.4, 10);
+      } else {
+        $(".donde").remove();
+        const ps = trocea(".tit .l1").concat(trocea(".tit .l2"));
+        [w("El"), w("problema"), w("nunca"), w("fue")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.06), 0.4));
+        tl.fromTo(".tit .l3 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.28, ease: "expo.out", transformOrigin: "left center" }, w("gente") - 0.2);
+      }
+      fin();
+    })();
+  </script>
+</template>

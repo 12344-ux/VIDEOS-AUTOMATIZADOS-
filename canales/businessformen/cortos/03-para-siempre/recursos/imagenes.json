@@ -1,0 +1,7 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280 (vertical) y EDSR a 1080 × 1920. El sujeto, en la mitad de arriba: abajo van los subtítulos y la interfaz de las apps.",
+ "planchas": [
+  {"nombre": "anillo", "semilla": 91, "prompt": "macro photograph of a single diamond solitaire engagement ring with a thin platinum band standing upright on black velvet, one narrow beam of cold light making the facets sparkle, deep black background, vertical composition with the ring in the upper middle of the frame and the bottom third pure black, luxury editorial photography, high contrast, 35mm film grain, no text, no logos, no brand names, no watermark"},
+  {"nombre": "maquina", "semilla": 97, "prompt": "a black 1940s typewriter on a dark wooden desk in a dim old advertising agency office, a blank sheet of paper in the roller, warm light from a green banker's desk lamp, vertical composition with the typewriter in the upper half of the frame and the bottom third falling into dark shadow, cinematic editorial photography, low-key lighting, muted desaturated colors, 35mm film grain, no text, no logos, no brand names, no watermark"}
+ ]
+}

@@ -1,0 +1,42 @@
+<template>
+  <!-- R9 + R14 · los clones: un almacén de computadoras iguales; CLONES cae arriba; «otras marcas copian su computadora»:
+       la cámara entra en el mar de copias; «le compran el sistema a Microsoft»: una luz roja lo inunda todo de delante
+       atrás y llega CON EL SISTEMA DE MICROSOFT. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mundo { position: absolute; inset: 0; transform-origin: 56% 12%; }
+    #{{ID}} .foto { filter: saturate(0.8) contrast(1.06); }
+    #{{ID}} .rojo { position: absolute; inset: 0; background: #b0122f; mix-blend-mode: multiply; }
+    #{{ID}} .tit { position: absolute; left: 66px; top: 186px; font: 800 236px/0.9 "Inter Tight", sans-serif; letter-spacing: -0.05em;
+      text-shadow: 0 8px 40px rgba(0, 0, 0, 0.6); }
+    #{{ID}} .copian { position: absolute; left: 80px; top: 420px; }
+    #{{ID}} .copian b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #{{ID}} .dest { position: absolute; left: 80px; top: 1010px; font: 800 70px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .dest span { display: inline-block; background: #b0122f; padding: 0.06em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mundo"><img class="foto" src="assets/img/clones.jpg" alt="" /><div class="rojo"></div></div>
+      <div class="capa velo"></div>
+      <div class="tit">CLONES</div>
+      <div class="mono copian"><b>Otras marcas · la misma computadora</b></div>
+      <div class="dest"><span>CON EL SISTEMA</span><br><span>DE MICROSOFT</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".mundo", { scale: 1.06 }, { scale: 1.0, duration: w("otras") - 0.1, ease: "power2.out" }, 0);
+      tl.fromTo(".tit", { autoAlpha: 0, scale: 1.25 }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in", transformOrigin: "left center" }, w("clones") - 0.2);
+      // «Otras marcas copian su computadora»: la cámara entra en el mar de copias.
+      tl.to(".mundo", { scale: 1.22, duration: f("computadora", 2) - w("otras") + 0.4, ease: "power2.inOut" }, w("otras") - 0.1);
+      entra(".copian", w("marcas") - 0.1, 0.35, 8);
+      // «Le compran el sistema a Microsoft»: la luz roja entra de delante atrás.
+      tl.fromTo(".rojo", { clipPath: "inset(100% 0% 0% 0%)", opacity: 0.9 }, { clipPath: "inset(0% 0% 0% 0%)", opacity: 0.9, duration: w("máicrosoft", 1) - w("compran") + 0.3, ease: "power2.inOut" }, w("compran") - 0.1);
+      $$(".dest span").forEach((s, i) => tl.fromTo(s, { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, (i ? w("máicrosoft", 1) : w("sistema", 2)) - 0.1));
+      tl.to(".copian", { autoAlpha: 0, duration: 0.2 }, w("sistema", 2) - 0.1);
+      fin();
+    })();
+  </script>
+</template>

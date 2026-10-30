@@ -8,6 +8,10 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 
 **El canal en marcha es BusinessForMen** (negocios, en español; marca «Consejo»: grafito, blanco y carmesí). Su **primer vídeo, «Por qué quiebran empresas que ganan dinero», está terminado: 6 min 19 s**, 43 escenas de edición hechas a mano en HyperFrames y ancladas palabra a palabra a la voz (`canales/businessformen/kit/` y `canales/businessformen/videos/01-flujo-de-caja/`), con su miniatura, su descripción con fuentes y sus subtítulos (`PUBLICACION.md`). Las reglas de edición del canal están en `canales/businessformen/EDICION.md`.
 
+**Y tres cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 48–54 s: «La
+cláusula» (negociación), «La cuerda» (organización) y «Para siempre» (marca). El mismo archivo vale para las tres apps:
+sin logos de ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados y final en bucle.
+
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
 descripción corta anclada a las palabras de la narración (`videos/anticitera/kit/`), con dibujos animados para cada
@@ -36,6 +40,7 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Guion a partir del prompt | Lo escribe Claude en la sesión, con los datos comprobados en la web | ✅ probado en Anticitera |
 | Montaje de agencia (BusinessForMen) | Una subcomposición por escena, con la marca y anclada a las palabras | ✅ `canales/businessformen/kit/montar.py` |
 | Subtítulos | SRT desde los tiempos de la voz, con nombres y cifras bien escritos | ✅ `canales/businessformen/kit/subtitulos.py` |
+| Cortos verticales | El mismo kit en 1080 × 1920: subtítulos quemados, zona segura de las apps y bucle | ✅ `canales/businessformen/cortos/` |
 
 ## Empezar en una sesión nueva
 

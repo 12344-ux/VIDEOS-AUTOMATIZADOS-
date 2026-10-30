@@ -1,0 +1,68 @@
+<template>
+  <!-- R7 + R1 · el contrato, recreado en tipografía (no imita ningún documento real). Modo «gancho» (fotograma 0 =
+       miniatura): «IBM FIRMÓ ESTO.», la firma que se traza en «firmó» y el sello rojo en «peores». Modo «cierre»: el
+       mismo plano con «IBM SOLO MIRÓ EL PRECIO.»; al volver al principio del bucle solo cambia el titular. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .tit { position: absolute; left: 80px; top: 196px; width: 880px; }
+    #{{ID}} .tit .l { display: block; white-space: nowrap; }
+    #{{ID}} .tit .bloque { display: inline-block; }
+    #{{ID}} .mesa { position: absolute; left: 110px; top: 520px; width: 860px; height: 600px; transform-origin: 50% 40%; }
+    #{{ID}} .hoja { position: absolute; inset: 0; padding: 44px 52px; }
+    #{{ID}} .cab { display: flex; justify-content: space-between; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #5e5950; }
+    #{{ID}} .regla { height: 5px; background: #141414; margin: 18px 0 26px; }
+    #{{ID}} .doc { font: 700 66px/1 "Bodoni Moda", serif; letter-spacing: -0.01em; }
+    #{{ID}} .partes { margin-top: 14px; font: 500 34px/1.2 "Plex Mono", monospace; letter-spacing: 0.06em; color: #262626; }
+    #{{ID}} .lineas { margin-top: 30px; }
+    #{{ID}} .lineas i { display: block; height: 12px; margin-bottom: 18px; background: #cbc4b5; }
+    #{{ID}} .pie { position: absolute; left: 52px; bottom: 40px; width: 470px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #5e5950; }
+    #{{ID}} .pie .raya { height: 3px; background: #141414; margin-bottom: 12px; }
+    #{{ID}} svg.firma { position: absolute; left: 66px; bottom: 92px; width: 440px; height: 112px; overflow: visible; }
+    #{{ID}} .sello { position: absolute; left: 40px; top: 236px; padding: 22px 30px 26px; background: #b0122f; color: #f4f3f0;
+      font: 800 64px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.03em; text-transform: uppercase; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45); }
+    #{{ID}} .sello { -webkit-mask-image: url("assets/img/desgaste.png"); mask-image: url("assets/img/desgaste.png"); -webkit-mask-size: 360px; mask-size: 360px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="titular tit">{{p:titulo}}</div>
+      <div class="mesa">
+        <div class="hoja papel">
+          <div class="cab"><span>RECREACIÓN</span><span>NOVIEMBRE DE 1980</span></div>
+          <div class="regla"></div>
+          <div class="doc">Contrato de licencia</div>
+          <div class="partes">IBM · MICROSOFT</div>
+          <div class="lineas"><i></i><i style="width: 91%"></i><i></i><i style="width: 76%"></i></div>
+          <div class="pie"><div class="raya"></div>POR IBM</div>
+          <svg class="firma" viewBox="0 0 470 120"><path pathLength="100" stroke-dasharray="100 100"
+            d="M8,92 C30,40 52,18 60,34 C70,56 44,96 58,98 C78,100 96,30 112,36 C126,42 104,92 122,90 C142,88 150,52 168,56 C182,60 170,86 186,84 C210,80 222,44 246,50 C262,54 248,84 266,82 C300,78 330,58 372,60 C398,61 420,70 452,64"
+            style="fill:none;stroke:#1d2a6b;stroke-width:5;stroke-linecap:round;stroke-linejoin:round"/></svg>
+        </div>
+        <div class="sello">Uno de los peores<br>de la historia</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = "{{p:modo}}";
+      // El mundo se mueve despacio y el titular queda quieto. El cierre acaba justo como empieza el gancho (scale 1 y
+      // −2,2°): al volver al principio del bucle solo cambia el titular.
+      const M = modo === "gancho" ? [{ scale: 1, rotation: -2.2 }, { scale: 1.045, rotation: -1.4, ease: "none" }]
+                                  : [{ scale: 1.06, rotation: -1.6 }, { scale: 1, rotation: -2.2, ease: "power1.out" }];
+      tl.fromTo(".mesa", M[0], Object.assign({ duration: DUR }, M[1]), 0);
+      if (modo === "gancho") {
+        traza("svg.firma path", w("firmó") - 0.02, 0.62, "power1.inOut");
+        tl.fromTo(".sello", { autoAlpha: 0, scale: 1.7, rotation: -14 }, { autoAlpha: 1, scale: 1, rotation: -5, duration: 0.24, ease: "power4.in" }, w("peores") - 0.2);
+        tl.fromTo(".hoja", { x: 0, y: 0 }, { keyframes: [{ x: -7, y: 5, duration: 0.05 }, { x: 5, y: -3, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, w("peores") + 0.04);
+      } else {
+        // Cierre: la firma ya está.
+        $(".sello").remove();
+        const ps = trocea(".tit .l1");
+        [w("i", 6), w("solo", 2), w("miró")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.06), 0.4));
+        tl.fromTo(".tit .l2 .bloque", { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "expo.out", transformOrigin: "left center" }, w("precio", 2) - 0.28);
+      }
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,8 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280 (vertical) y EDSR a 1080 × 1920. El sujeto, en la mitad de arriba: abajo van los subtítulos y la interfaz de las apps.",
+ "planchas": [
+  {"nombre": "fabrica", "semilla": 61, "prompt": "a gritty early-1980s car assembly line inside a dark run-down factory, half-built car bodies hanging from an overhead conveyor, harsh greenish fluorescent light, haze, litter on the floor, two workers seen from behind far away, vertical composition with the assembly line in the upper half of the frame and the bottom third falling into dark shadow, cinematic editorial photography, low-key lighting, muted desaturated colors, 35mm film grain, no text, no logos, no brand names, no watermark"},
+  {"nombre": "cuerda", "semilla": 72, "prompt": "close-up of a single thin yellow nylon cord hanging straight down from a steel rail above a car assembly line, the cord sharp in the center of the frame, the clean factory softly out of focus behind it with warm lights, vertical composition with the cord in the upper two thirds of the frame and the bottom third in dark shadow, cinematic editorial photography, low-key lighting, muted colors, 35mm film grain, no text, no logos, no brand names, no watermark"},
+  {"nombre": "fabrica_limpia", "semilla": 83, "prompt": "a clean, bright and orderly 1980s car assembly line, white car bodies moving in a neat row, workers in clean uniforms seen from behind working calmly in a small team, warm even light, vertical composition with the line in the upper half of the frame and the bottom third darker, cinematic editorial photography, soft natural lighting, muted colors, 35mm film grain, no text, no logos, no brand names, no watermark"}
+ ]
+}

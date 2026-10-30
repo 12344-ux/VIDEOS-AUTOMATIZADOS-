@@ -1,0 +1,53 @@
+<template>
+  <!-- R5 + R2 · General Motors copia: seis cuerdas bajan en sus fábricas; «a quien tiraba, le gritaban»: una se mueve y
+       llega LE GRITABAN con un temblor; «en algunas, las cortaron»: se cortan y caen, y LAS CORTARON en rojo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .gm { position: absolute; left: 80px; top: 226px; font-size: 100px; }
+    #{{ID}} .cop { position: absolute; left: 80px; top: 334px; font-size: 100px; }
+    #{{ID}} .cd { position: absolute; top: 470px; width: 10px; height: 420px; }
+    #{{ID}} .cd .arr, #{{ID}} .cd .aba { position: absolute; left: 0; width: 10px; background: #cfc63a; }
+    #{{ID}} .cd .arr { top: 0; height: 230px; }
+    #{{ID}} .cd .aba { top: 230px; height: 190px; }
+    #{{ID}} .cd .aba::after { content: ""; position: absolute; left: -9px; bottom: -14px; width: 28px; height: 28px; border-radius: 50%; background: #cfc63a; }
+    #{{ID}} .frase { position: absolute; left: 80px; top: 960px; font: 800 104px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+    #{{ID}} .frase span { display: inline-block; }
+    #{{ID}} .f2 span { background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="titular gm">General Motors</div>
+      <div class="titular cop">Quiso copiarlo</div>
+      <div class="cd" style="left: 150px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="cd" style="left: 300px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="cd" style="left: 450px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="cd" style="left: 600px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="cd" style="left: 750px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="cd" style="left: 900px"><i class="arr"></i><i class="aba"></i></div>
+      <div class="frase f1"><span>LE GRITABAN.</span></div>
+      <div class="frase f2"><span>LAS CORTARON.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const pg = trocea(".gm");
+      [w("yéneral", 2), w("mótors", 2)].forEach((t, i) => sube(pg[i], Math.max(0, t - 0.07), 0.42));
+      const ps = trocea(".cop");
+      [w("quiso"), w("copiarlo")].forEach((t, i) => sube(ps[i], t - 0.07, 0.42));
+      // «Puso cuerdas en sus fábricas»: bajan una tras otra.
+      $$(".cd").forEach((el, i) => tl.fromTo(el, { autoAlpha: 0, y: -600 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power3.out" }, w("cuerdas") - 0.2 + i * 0.12));
+      tl.to([".gm", ".cop"], { opacity: 0.35, duration: 0.3 }, w("pero") - 0.1);
+      // «A quien tiraba»: la tercera baja de un tirón; «le gritaban», con un temblor.
+      tl.fromTo($$(".cd")[2], { y: 0 }, { keyframes: [{ y: 60, duration: 0.16, ease: "power3.in" }, { y: 40, duration: 0.25, ease: "power2.out" }] }, w("tiraba") - 0.02);
+      tl.fromTo(".f1", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.12 }, w("gritaban") - 0.12);
+      tl.fromTo(".f1 span", { x: 0 }, { keyframes: [{ x: -10, duration: 0.04 }, { x: 9, duration: 0.04 }, { x: -6, duration: 0.04 }, { x: 4, duration: 0.04 }, { x: 0, duration: 0.05 }] }, w("gritaban"));
+      // «Las cortaron»: la parte de abajo de cada cuerda cae.
+      tl.to(".f1", { autoAlpha: 0, duration: 0.15 }, w("cortaron") - 0.2);
+      $$(".cd .aba").forEach((el, i) => tl.to(el, { y: 1400, rotation: (i % 2 ? 14 : -12), duration: 0.9, ease: "power2.in" }, w("cortaron") - 0.05 + i * 0.04));
+      tl.fromTo(".f2 span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("cortaron") + 0.05);
+      fin();
+    })();
+  </script>
+</template>

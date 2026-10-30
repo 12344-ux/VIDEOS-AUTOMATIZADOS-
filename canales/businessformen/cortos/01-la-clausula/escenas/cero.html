@@ -1,0 +1,35 @@
+<template>
+  <!-- R2 → R3 · «Bill Gates se lo promete»: el nombre y LO PROMETE en rojo; «pero no tiene ninguno»: un 0 enorme cae con
+       un temblor; debajo, qué es lo que no tenía. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .que { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .nom { position: absolute; left: 80px; top: 520px; }
+    #{{ID}} .prom { position: absolute; left: 80px; top: 660px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .prom span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.08em; }
+    #{{ID}} .cero { position: absolute; left: 40px; top: 560px; font: 800 640px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.06em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="titular nom">Bill Gates</div>
+      <div class="prom"><span>LO PROMETE</span></div>
+      <div class="cero">0</div>
+      <div class="mono que"><i>Microsoft</i> &nbsp;<b>sistemas operativos propios</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea(".nom");
+      [w("Bil"), w("Guéits")].forEach((t, i) => sube(ps[i], t - 0.07, 0.42));
+      tl.fromTo(".prom span", { autoAlpha: 0, scaleX: 0.2 }, { autoAlpha: 1, scaleX: 1, duration: 0.28, ease: "expo.out", transformOrigin: "left center" }, w("promete") - 0.08);
+      // «Pero…»: lo prometido se queda arriba, a media luz.
+      tl.to([".nom", ".prom"], { y: -222, opacity: 0.35, duration: 0.45, ease: "expo.inOut" }, w("Pero") - 0.1);
+      tl.fromTo(".cero", { autoAlpha: 0, scale: 1.5, y: -40 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.2, ease: "power4.in", transformOrigin: "30% 50%" }, w("ninguno") - 0.18);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -9, y: 6, duration: 0.05 }, { x: 7, y: -4, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.06 }] }, w("ninguno") + 0.03);
+      aparece(".que", 0, 0.3);
+      fin();
+    })();
+  </script>
+</template>

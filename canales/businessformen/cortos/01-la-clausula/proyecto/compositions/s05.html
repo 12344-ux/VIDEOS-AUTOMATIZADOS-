@@ -1,0 +1,150 @@
+<template>
+  <!-- R8 · el recibo (recreación): lo que compra Microsoft y a quién; las dos partidas y el total que cuenta hasta
+       75.000 $ en «setenta y cinco mil dólares». Fuentes en pantalla. -->
+  <style>
+    /* Marca BusinessForMen (ruta Consejo): grafito, blanco y carmesí; Inter Tight e IBM Plex Mono. */
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0a0b0d; color: #f4f3f0; font-family: "Inter Tight", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 30px/1.25 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    .esc .mono b { font-weight: 500; color: #f4f3f0; }
+    .esc .mono i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.08em 0.34em; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .fuerte { font-weight: 800; letter-spacing: -0.032em; line-height: 1.0; }
+    .esc .bloque { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; }
+    .esc .rojo { background: #b0122f; }
+    .esc .cortina { position: absolute; inset: 0; background: #b0122f; z-index: 40; visibility: hidden; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    /* Índice de una lista que se recorre en varias escenas (las reglas): un cuadro por punto, el actual en rojo. */
+    .esc .idx { position: absolute; left: 150px; top: 100px; display: flex; gap: 12px; }
+    .esc .idx i { width: 50px; height: 50px; border: 3px solid #8a8d93; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+      font: 800 28px/1 "Inter Tight", sans-serif; font-style: normal; color: #8a8d93; }
+    .esc .idx i.on { background: #b0122f; border-color: #b0122f; color: #f4f3f0; }
+
+    /* Cortos verticales de BusinessForMen (1080 × 1920). Lo que se lee va entre x 80–940 e y 200–1130: arriba, la barra
+       del móvil; a la derecha, los botones de las apps; abajo, de 1168 a 1320, los subtítulos, y debajo, el texto y la
+       interfaz de cada app (solo textura ahí). Cifras y titulares, más grandes que en horizontal. */
+    .esc .mono { font-size: 34px; }
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 500 28px/1.3 "Plex Mono", monospace;
+      letter-spacing: 0.06em; color: rgba(244, 243, 240, 0.6); }
+    .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    /* Velo para leer sobre una imagen: oscuro arriba (la barra del móvil) y de la mitad hacia abajo (texto y apps). */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+      rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
+    .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
+    .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }
+
+    #s05 .rec { position: absolute; left: 150px; top: 214px; width: 780px; height: 850px; padding: 46px 52px; transform-origin: 50% 0%; }
+    #s05 .rec .cab { display: flex; justify-content: space-between; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #5e5950; }
+    #s05 .rec .et { margin-top: 30px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #6d675d; }
+    #s05 .rec .val { margin-top: 10px; font: 700 50px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.02em; color: #141414; }
+    #s05 .rec .raya { margin: 34px 0 6px; border-top: 3px dashed #9a9285; }
+    #s05 .rec .fila { display: flex; justify-content: space-between; white-space: nowrap; margin-top: 22px; font: 500 32px/1.1 "Plex Mono", monospace; color: #262626; }
+    #s05 .rec .total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 34px; padding-top: 22px; border-top: 6px solid #141414; }
+    #s05 .rec .total span { font: 500 32px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #262626; }
+    #s05 .rec .total b { font: 800 104px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #b0122f; }
+  </style>
+  <div data-composition-id="s05" data-width="1080" data-height="1920">
+    <div id="s05" class="esc">
+      <div class="rec papel">
+        <div class="cab"><span>RECIBO · RECREACIÓN</span><span>1980–81</span></div>
+        <div class="b1"><div class="et">COMPRA</div><div class="val">Microsoft</div></div>
+        <div class="b2"><div class="et">PRODUCTO</div><div class="val">86-DOS, un sistema operativo</div></div>
+        <div class="b3"><div class="et">VENDEDOR</div><div class="val">Seattle Computer Products</div></div>
+        <div class="raya"></div>
+        <div class="fila f1"><span>Licencia · dic. 1980</span><span>25.000 $</span></div>
+        <div class="fila f2"><span>Derechos · jul. 1981</span><span>50.000 $</span></div>
+        <div class="total"><span>TOTAL</span><b class="num">0 $</b></div>
+      </div>
+      <div class="fuente">Fuentes: Computer History Museum · Wikipedia</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de las escenas (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo local.
+      const W = {"i":[[0.18,0.2],[7.555,7.575],[21.405,21.425],[26.976,26.996],[40.404,40.424],[46.051,46.071]],"be":[[0.26,0.32],[7.655,7.715],[21.485,21.565],[27.036,27.096],[40.484,40.564],[46.111,46.191]],"eme":[[0.4,0.56],[7.795,7.915],[21.665,21.905],[27.156,27.236],[40.644,41.044],[46.271,46.411]],"firmó":[[0.66,0.96]],"uno":[[1.28,1.46],[16.324,16.444]],"de":[[1.52,1.58],[2.8,2.86],[4.288,4.348]],"los":[[1.64,1.74],[30.627,30.727]],"peores":[[1.86,2.18]],"contratos":[[2.28,2.74]],"la":[[2.9,2.94],[28.967,29.027]],"historia":[[2.98,3.42]],"con":[[3.768,3.868],[21.225,21.345]],"un":[[3.908,3.968],[8.555,8.615]],"chico":[[4.028,4.248]],"veinticinco":[[4.408,4.948]],"años":[[5.048,5.308]],"mil":[[5.911,6.071],[19.084,19.224],[36.844,36.984]],"novecientos":[[6.111,6.611],[37.044,37.584]],"ochenta":[[6.691,7.091]],"necesita":[[7.975,8.475]],"sistema":[[8.695,9.195],[35.003,35.403]],"operativo":[[9.335,9.975]],"para":[[10.255,10.415]],"su":[[10.495,10.575],[32.987,33.087]],"primera":[[10.655,10.975]],"computadora":[[11.075,11.795],[33.147,33.867]],"bil":[[12.27,12.43]],"guéits":[[12.49,12.71]],"se":[[12.77,12.83]],"lo":[[12.89,12.93],[44.702,44.742]],"promete":[[13.01,13.43]],"pero":[[13.783,13.963],[30.107,30.247]],"no":[[14.043,14.103],[43.025,43.085]],"tiene":[[14.163,14.343]],"ninguno":[[14.403,14.783]],"así":[[15.384,15.564]],"que":[[15.644,15.724],[28.187,28.247],[40.244,40.344],[44.782,44.862]],"le":[[15.784,15.844],[34.423,34.463]],"compra":[[15.924,16.224]],"a":[[16.484,16.504],[25.025,25.045],[35.443,35.463]],"una":[[16.524,16.644],[22.385,22.505],[41.805,41.925]],"pequeña":[[16.744,17.104]],"empresa":[[17.164,17.604]],"por":[[17.684,17.804]],"setenta":[[17.904,18.404]],"y":[[18.644,18.684],[20.285,20.305],[34.323,34.343],[38.084,38.104]],"cinco":[[18.764,19.024]],"dólares":[[19.284,19.744]],"en":[[20.365,20.425],[36.724,36.804],[41.685,41.745]],"el":[[20.465,20.545],[28.287,28.347],[34.883,34.943],[43.625,43.665],[46.971,47.011]],"contrato":[[20.625,21.125]],"mete":[[22.025,22.285]],"cláusula":[[22.585,23.125]],"podrá":[[23.545,23.765]],"vendérselo":[[23.845,24.445]],"también":[[24.545,24.925]],"otros":[[25.165,25.485]],"fabricantes":[[25.665,26.365]],"firma":[[27.316,27.576]],"cree":[[27.967,28.127]],"negocio":[[28.387,28.807]],"es":[[28.847,28.907]],"máquina":[[29.067,29.447]],"llegan":[[30.327,30.587]],"clones":[[30.827,31.247]],"otras":[[31.747,31.987]],"marcas":[[32.067,32.427]],"copian":[[32.547,32.907]],"compran":[[34.523,34.823]],"máicrosoft":[[35.523,36.223],[38.864,39.464]],"noventa":[[37.664,38.004]],"tres":[[38.204,38.464]],"ya":[[39.504,39.624]],"vale":[[39.704,39.904]],"más":[[39.984,40.164]],"negociación":[[41.985,42.605]],"mires":[[43.145,43.345]],"solo":[[43.405,43.585],[46.531,46.711]],"precio":[[43.725,44.085],[47.071,47.451]],"mira":[[44.482,44.662]],"te":[[44.902,44.962]],"quedas":[[45.022,45.362]],"miró":[[46.771,46.931]]}, T0 = 15.234, DUR = 4.831;
+      const RAIZ = document.getElementById("s05");
+      const limpia = (s) => s.toLowerCase().replace(/[^\wáéíóúüñ]/g, "");
+      // w("palabra", n): cuándo empieza la aparición n de esa palabra, en el tiempo de la escena; f(): cuándo acaba.
+      const w = (p, n = 1, fin = false) => {
+        const l = W[limpia(p)];
+        if (!l || !l[n - 1]) throw new Error(`s05: no está «${p}» (${n})`);
+        return l[n - 1][fin ? 1 : 0] - T0;
+      };
+      const f = (p, n = 1) => w(p, n, true);
+      // serie("palabra", k, n): el comienzo de las k palabras seguidas desde la aparición n de esa palabra.
+      const L = [["i",0.18,0.2],["be",0.26,0.32],["eme",0.4,0.56],["firmó",0.66,0.96],["uno",1.28,1.46],["de",1.52,1.58],["los",1.64,1.74],["peores",1.86,2.18],["contratos",2.28,2.74],["de",2.8,2.86],["la",2.9,2.94],["historia",2.98,3.42],["con",3.768,3.868],["un",3.908,3.968],["chico",4.028,4.248],["de",4.288,4.348],["veinticinco",4.408,4.948],["años",5.048,5.308],["mil",5.911,6.071],["novecientos",6.111,6.611],["ochenta",6.691,7.091],["i",7.555,7.575],["be",7.655,7.715],["eme",7.795,7.915],["necesita",7.975,8.475],["un",8.555,8.615],["sistema",8.695,9.195],["operativo",9.335,9.975],["para",10.255,10.415],["su",10.495,10.575],["primera",10.655,10.975],["computadora",11.075,11.795],["bil",12.27,12.43],["guéits",12.49,12.71],["se",12.77,12.83],["lo",12.89,12.93],["promete",13.01,13.43],["pero",13.783,13.963],["no",14.043,14.103],["tiene",14.163,14.343],["ninguno",14.403,14.783],["así",15.384,15.564],["que",15.644,15.724],["le",15.784,15.844],["compra",15.924,16.224],["uno",16.324,16.444],["a",16.484,16.504],["una",16.524,16.644],["pequeña",16.744,17.104],["empresa",17.164,17.604],["por",17.684,17.804],["setenta",17.904,18.404],["y",18.644,18.684],["cinco",18.764,19.024],["mil",19.084,19.224],["dólares",19.284,19.744],["y",20.285,20.305],["en",20.365,20.425],["el",20.465,20.545],["contrato",20.625,21.125],["con",21.225,21.345],["i",21.405,21.425],["be",21.485,21.565],["eme",21.665,21.905],["mete",22.025,22.285],["una",22.385,22.505],["cláusula",22.585,23.125],["podrá",23.545,23.765],["vendérselo",23.845,24.445],["también",24.545,24.925],["a",25.025,25.045],["otros",25.165,25.485],["fabricantes",25.665,26.365],["i",26.976,26.996],["be",27.036,27.096],["eme",27.156,27.236],["firma",27.316,27.576],["cree",27.967,28.127],["que",28.187,28.247],["el",28.287,28.347],["negocio",28.387,28.807],["es",28.847,28.907],["la",28.967,29.027],["máquina",29.067,29.447],["pero",30.107,30.247],["llegan",30.327,30.587],["los",30.627,30.727],["clones",30.827,31.247],["otras",31.747,31.987],["marcas",32.067,32.427],["copian",32.547,32.907],["su",32.987,33.087],["computadora",33.147,33.867],["y",34.323,34.343],["le",34.423,34.463],["compran",34.523,34.823],["el",34.883,34.943],["sistema",35.003,35.403],["a",35.443,35.463],["máicrosoft",35.523,36.223],["en",36.724,36.804],["mil",36.844,36.984],["novecientos",37.044,37.584],["noventa",37.664,38.004],["y",38.084,38.104],["tres",38.204,38.464],["máicrosoft",38.864,39.464],["ya",39.504,39.624],["vale",39.704,39.904],["más",39.984,40.164],["que",40.244,40.344],["i",40.404,40.424],["be",40.484,40.564],["eme",40.644,41.044],["en",41.685,41.745],["una",41.805,41.925],["negociación",41.985,42.605],["no",43.025,43.085],["mires",43.145,43.345],["solo",43.405,43.585],["el",43.625,43.665],["precio",43.725,44.085],["mira",44.482,44.662],["lo",44.702,44.742],["que",44.782,44.862],["te",44.902,44.962],["quedas",45.022,45.362],["i",46.051,46.071],["be",46.111,46.191],["eme",46.271,46.411],["solo",46.531,46.711],["miró",46.771,46.931],["el",46.971,47.011],["precio",47.071,47.451]];
+      const serie = (p, k, n = 1) => {
+        const i = L.map((q, j) => (q[0] === limpia(p) ? j : -1)).filter((j) => j >= 0)[n - 1];
+        if (i == null) throw new Error(`s05: no está «${p}» (${n})`);
+        return L.slice(i, i + k).map((q) => q[1] - T0);
+      };
+      const $ = (s) => RAIZ.querySelector(s);
+      const $$ = (s) => Array.from(RAIZ.querySelectorAll(s));
+      // Cifras a la española: punto de miles y signo menos tipográfico.
+      const fmt = (n, signo) => {
+        const a = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return (n < 0 ? "−" : signo && n > 0 ? "+" : "") + a;
+      };
+      const tl = gsap.timeline({ paused: true });
+      // Sube desde su máscara: 140 % para que las tildes de las mayúsculas (Á, É, Ú) no asomen antes de tiempo.
+      const sube = (sel, t, d = 0.45, ease = "expo.out") => tl.fromTo(sel, { yPercent: 140 }, { yPercent: 0, duration: d, ease }, t);
+      const entra = (sel, t, d = 0.45, dy = 26) => tl.fromTo(sel, { autoAlpha: 0, y: dy }, { autoAlpha: 1, y: 0, duration: d, ease: "expo.out" }, t);
+      const aparece = (sel, t, d = 0.3, max = 1) => tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: max, duration: d, ease: "power2.out" }, t);
+      const sale = (sel, t, d = 0.2) => tl.to(sel, { autoAlpha: 0, duration: d, ease: "power2.in" }, t);
+      // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
+      const cuenta = (el, desde, hasta, t, d, o = {}) => {
+        el = typeof el === "string" ? $(el) : el;
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
+        pinta();
+        tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
+      };
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
+      // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
+      const trocea = (el) => {
+        el = typeof el === "string" ? $(el) : el;
+        // Respeta los <br>: cada renglón se trocea por separado.
+        el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map((h) => h.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean)
+          .map((p) => `<span class="pal"><span>${p}</span></span>`).join("")).join("<br>");
+        return Array.from(el.querySelectorAll(".pal > span"));
+      };
+      // Cortinas rojas: la que se lleva la escena (sale) y la que se retira al empezar (entra).
+      const cortina = (modo, d) => {
+        const c = document.createElement("div");
+        c.className = "cortina"; RAIZ.appendChild(c);
+        if (modo === "entra") tl.fromTo(c, { scaleX: 1, autoAlpha: 1, transformOrigin: "right center" }, { scaleX: 0, duration: d || 0.42, ease: "power4.out" }, 0);
+        else tl.fromTo(c, { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" }, { scaleX: 1, duration: d || 0.3, ease: "power4.in" }, DUR - (d || 0.3));
+      };
+      // Dibujos en función del tiempo (lo que GSAP no interpola bien: un punto que recorre un círculo, por ejemplo).
+      const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
+      // Avance 0 → 1 entre t0 y t0 + d, con su curva.
+      const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
+      const fin = () => { tl.set({}, {}, DUR); window.__timelines["s05"] = tl; };
+
+      tl.fromTo(".rec", { y: 980, rotation: 4 }, { y: 0, rotation: 1.2, duration: 0.6, ease: "power3.out" }, 0);
+      tl.fromTo(".rec", { scale: 1 }, { scale: 1.04, duration: DUR - 0.6, ease: "none", immediateRender: false }, 0.6);
+      entra(".b1", w("compra") - 0.12, 0.35, 10);
+      entra(".b2", w("uno", 2) - 0.1, 0.35, 10);
+      entra(".b3", w("pequeña") - 0.1, 0.35, 10);
+      entra(".f1", w("por") - 0.15, 0.3, 8);
+      entra(".f2", w("por") + 0.12, 0.3, 8);
+      cuenta(".total b", 0, 75000, w("setenta") - 0.1, f("mil", 2) - w("setenta") + 0.25, { suf: " $", ease: "power3.out" });
+      tl.fromTo(".total b", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "expo.out", transformOrigin: "right center" }, f("mil", 2) + 0.12);
+      aparece(".fuente", 0.6, 0.3);
+      fin();
+    })();
+  </script>
+</template>

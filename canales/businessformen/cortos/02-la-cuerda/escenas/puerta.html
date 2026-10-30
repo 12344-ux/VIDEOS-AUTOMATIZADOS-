@@ -1,0 +1,42 @@
+<template>
+  <!-- R12 · el sabotaje: una puerta de coche dibujada a línea; en «dentro de las puertas» se abre su interior y caen dos
+       botellas; en «sonaran», tiemblan. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .sab { position: absolute; left: 80px; top: 226px; width: 860px; }
+    #{{ID}} svg.puerta { position: absolute; left: 90px; top: 330px; width: 860px; height: 700px; overflow: visible; }
+    #{{ID}} .nota { position: absolute; left: 80px; top: 1046px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono sab"><i>Sabotaje</i> &nbsp;<b>para que el cliente oyera ruidos</b></div>
+      <svg class="puerta" viewBox="0 0 860 700">
+        <path class="marco" pathLength="100" stroke-dasharray="100 100" d="M60,640 L60,300 C60,160 150,60 330,40 L800,40 L800,640 Z"
+          style="fill:none;stroke:#f4f3f0;stroke-width:7;stroke-linejoin:round"/>
+        <path class="ventana" pathLength="100" stroke-dasharray="100 100" d="M110,300 C110,190 180,105 340,90 L750,90 L750,300 Z"
+          style="fill:none;stroke:#8a8d93;stroke-width:5;stroke-linejoin:round"/>
+        <rect class="tirador" x="600" y="340" width="120" height="22" rx="11" fill="#8a8d93"/>
+        <rect class="panel" x="110" y="390" width="640" height="210" style="fill:#16181c;stroke:#f4f3f0;stroke-width:4;stroke-dasharray:16 12"/>
+        <g class="bot b1"><path d="M250,592 L250,500 C250,482 262,470 270,460 L270,430 L294,430 L294,460 C302,470 314,482 314,500 L314,592 Z" fill="#b0122f"/></g>
+        <g class="bot b2"><path d="M520,592 L520,500 C520,482 532,470 540,460 L540,430 L564,430 L564,460 C572,470 584,482 584,500 L584,592 Z" fill="#b0122f"/></g>
+      </svg>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      traza(".puerta .marco", 0, 0.55, "power2.inOut");
+      traza(".puerta .ventana", 0.2, 0.5, "power2.inOut");
+      aparece(".puerta .tirador", 0.5, 0.25);
+      entra(".sab", 0.15, 0.4, 10);
+      tl.fromTo(".puerta .panel", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, w("dentro") - 0.15);
+      tl.fromTo(".puerta .b1", { autoAlpha: 0, y: -260 }, { autoAlpha: 1, y: 0, duration: 0.42, ease: "power3.in" }, w("botellas") - 0.1);
+      tl.fromTo(".puerta .b2", { autoAlpha: 0, y: -260 }, { autoAlpha: 1, y: 0, duration: 0.42, ease: "power3.in" }, w("botellas") + 0.18);
+      // «Para que sonaran»: las botellas tiemblan dentro del panel.
+      [".b1", ".b2"].forEach((s, k) => tl.fromTo(".puerta " + s, { rotation: 0 }, { keyframes: [{ rotation: -6, duration: 0.06 }, { rotation: 5, duration: 0.06 },
+        { rotation: -4, duration: 0.06 }, { rotation: 3, duration: 0.06 }, { rotation: 0, duration: 0.08 }], transformOrigin: "50% 100%" }, w("sonaran") - 0.05 + k * 0.05));
+      fin();
+    })();
+  </script>
+</template>
