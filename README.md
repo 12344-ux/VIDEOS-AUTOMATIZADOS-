@@ -10,8 +10,8 @@ Las piezas ya funcionan y están medidas, y hay tres vídeos de prueba de 10 s, 
 ([estilos/](estilos/README.md)). El estilo elegido es el A, editorial cinematográfico. Nicho del primer
 canal: historia y misterios; primer vídeo, «El mecanismo de Anticitera» (8–10 min). Antes de empezarlo se
 aceleró el proceso: el render del estilo A tarda un tercio y la entrega ya no recomprime (ver la
-[bitácora](docs/bitacora.md#2-velocidad-dónde-se-va-el-tiempo-y-qué-se-ganó)). Falta unir todo en el
-flujo de vídeos largos.
+[bitácora](docs/bitacora.md#2-velocidad-dónde-se-va-el-tiempo-y-qué-se-ganó)). Ya está la apertura de 34 s
+(`videos/anticitera/`, reproducible con `preparar-apertura.sh --render`); falta el vídeo largo por capítulos.
 
 | Pieza | Herramienta | Estado |
 | --- | --- | --- |
@@ -137,6 +137,7 @@ video/entregar.sh           versión de entrega: −15 LUFS y archivo más liger
 video/renderizar_canvas.mjs escena HTML animada → MP4
 video/plantilla_titulo.html plantilla de título animado
 estilos/                    las tres pruebas de estilo en HyperFrames y su preparar.sh
+videos/anticitera/          el primer vídeo: guion, prompts, preparar-apertura.sh y la apertura en HyperFrames
 docs/                       bitácora, investigaciones (imagen y edición), estilo, entorno y resultados
 CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 ```

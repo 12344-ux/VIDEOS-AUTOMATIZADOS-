@@ -1,0 +1,52 @@
+1
+00:00:01,200 --> 00:00:02,640
+Primavera de mil novecientos.
+
+2
+00:00:03,417 --> 00:00:05,777
+Una tormenta empuja a un barco de buzos
+
+3
+00:00:05,797 --> 00:00:08,417
+de esponjas hasta Anticitera, una isla
+
+4
+00:00:08,437 --> 00:00:10,917
+perdida entre Creta y el Peloponeso.
+
+5
+00:00:11,688 --> 00:00:13,748
+Cuando el mar se calma, uno de ellos
+
+6
+00:00:13,768 --> 00:00:15,648
+baja a cuarenta y cinco metros.
+
+7
+00:00:16,043 --> 00:00:16,803
+Y ve estatuas.
+
+8
+00:00:17,153 --> 00:00:19,253
+Un naufragio de hace más de dos mil años.
+
+9
+00:00:20,242 --> 00:00:21,782
+Entre los restos sacan un bulto
+
+10
+00:00:21,802 --> 00:00:23,662
+de bronce, verde y corroído.
+
+11
+00:00:23,943 --> 00:00:25,343
+Dentro hay ruedas dentadas.
+
+12
+00:00:26,283 --> 00:00:28,603
+Sin saberlo, acababan de encontrar el
+
+13
+00:00:28,623 --> 00:00:30,803
+ordenador más antiguo que se conoce.
+

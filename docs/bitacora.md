@@ -286,14 +286,41 @@ El usuario eligió **4 pasos y 30 fps** (la calidad manda) y pidió probar el ED
 | Cargar FLUX en una sesión reanudada | 11 min | en segundo plano (precarga) |
 | Planchas FLUX.3, 4 pasos, 1280 × 720 | 191 min | 191 min (+7 min si se amplían con EDSR) |
 | Voz y tiempos de palabras | no cabía en la RAM | ~9 min |
-| Música | 17 min | ~9 min |
-| Render a 30 fps | 175 min | ~59 min |
+| Música | 17 min | ~25 min (con pistas de 30 s, medido en la apertura; en lote) |
+| Render a 30 fps | 175 min | ~56 min (6,2 s por segundo, medido en la apertura) |
 | Entrega | ~40 min | ~2 min |
-| **Total de máquina** | **~7,5 h** | **~4,6 h** |
+| **Total de máquina** | **~7,5 h** | **~4,8 h** |
 
 Las planchas son ya el 70 % del tiempo y, con 4 pasos a 1280 × 720, solo bajan en una máquina con AMX
 (138–211 s por plancha en la sesión 1, frente a 328 s aquí). Mientras se generan, Claude escribe las
 composiciones, así que ese tiempo no se suma al suyo.
+
+### 4. La apertura de «El mecanismo de Anticitera» (34 s)
+
+El usuario pidió hacerla de una vez, sin paradas. Proyecto en `videos/anticitera/` (guion, prompts, semillas
+y `preparar-apertura.sh` para rehacerlo todo; la composición en `apertura/`, con SPEC.md, STORYLINES.md y
+REVIEW.md). Datos comprobados en la Wikipedia: Kontos y los buzos de Symi, 1900, 45 m; el mecanismo, sacado en
+1901 como un solo bulto y visto con un engranaje en 1902; la rueda mayor, de 13 cm y 223 dientes.
+
+- Forma: un zoom continuo en el que cada plano abre el siguiente (el rayo trae el amanecer, el barrido baja
+  al buzo, la oscuridad del fondo descubre las estatuas, un oscurecido lleva al bronce, el escáner revela la
+  rueda y se atraviesa su buje). El título solo lo dice la pantalla, tras la última palabra de la voz.
+- El escáner revela los contornos de la propia plancha (`lineas_rueda.py`: bordes de Canny solo en la corona,
+  los radios y el buje), así que cuadra con la imagen por construcción. El tren de ruedas del título usa
+  dientes del mecanismo real (64, 38, 48 y 24), engranados y girando con sus relaciones.
+- Tiempos en esta máquina (sin AMX): voz 29,7 s en 43 s; música, 2 variantes de 30 s en lote en 573 s (2,2
+  veces lo que salía extrapolando desde pistas de 10 s); 5 planchas de 312–375 s; EDSR 11–12,5 s cada una;
+  profundidad y capas 2–2,5 s. Recursos en total: 38 min 40 s. Render: 34 s en 210 s (6,2 s por segundo de
+  vídeo, llvmpipe y 2 Chromium), 86 MB; la entrega, a −14,9 LUFS copiando el vídeo.
+- La revisión (check, `snapshot --review`, costuras y hoja de móvil) encontró y se corrigió: la franja
+  borrosa de las capas 2.5D en la isla y las estatuas (`capas25d.py --suavidad 0.012 --margen 12`), flechas
+  que parecían barras, una línea guía sobre un rótulo, un dato bajo una rueda, el empuje lento del fondo al
+  final (un tic de vídeo generado), dos tiempos de lectura cortos, la tormenta inicial demasiado floja
+  (−34,6 dB de media frente a −18,5 con la voz: subida 8–10 dB) y la música solo 7 dB bajo la voz (ahora ~10).
+- Música: la variante 1, elegida midiendo (la 2 tenía el 71 % de la energía bajo 150 Hz, inaudible en un móvil).
+- `subtitulos.srt` para YouTube, sacado de los tiempos de cada palabra (`subtitulos.py`, sin palabras sueltas).
+- Aviso de la licencia de Supertonic en pantalla al final: «Voz sintética generada por IA».
+- Al reanudar la sesión otra vez, la precarga tardó 7 min 32 s.
 
 ### Decisiones (sesión 2)
 
@@ -318,10 +345,9 @@ composiciones, así que ese tiempo no se suma al suyo.
 ## Siguiente paso
 
 1. La decisión sobre EDSR, de arriba.
-2. La apertura de 30 s de «El mecanismo de Anticitera» en el estilo A, con la voz M1, de principio a fin y
-   revisada con el método de HyperFrames (P0, P1, P2) y `snapshot --review`: sirve de tráiler y de primer
-   bloque del vídeo.
-3. El vídeo completo por capítulos, en el orden de arriba, midiendo cada paso.
+2. ~~La apertura de 30 s~~ (hecha: `videos/anticitera/apertura`, 34 s). Que el usuario la vea y opine.
+3. El vídeo completo por capítulos, en el orden de arriba, con un kit de componentes del estilo A sacado de
+   la apertura (plancha 2.5D, rótulo con línea, cifra que cuenta, escáner, ruedas, título), midiendo cada paso.
 4. Pendiente de probar: `remove-background` de HyperFrames frente a BiRefNet, y MusicGen medium.
 
 ## Primera idea de montaje (sustituida)

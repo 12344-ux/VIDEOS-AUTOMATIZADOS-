@@ -32,7 +32,7 @@ SHOTS:   cuadros (30 fps) · movimiento principal · lo que se lee · sonido · 
   T4  486–645   estatuas: la luz las descubre en «estatuas» (16,2 s) y empuje lento · «NAUFRAGIO ROMANO ·
                 SIGLO I a. C.» · fondo submarino · corte con oscurecido del 40 % en «bulto» (21,5 s)
   T5  645–789   fragmento: empuje hacia la rueda · en «Dentro hay ruedas dentadas» una línea de escáner
-                barre el bronce y deja dibujada la rueda; dato «RUEDA PRINCIPAL · 13 cm · 223 DIENTES» ·
+                barre el bronce y deja dibujada la rueda; dato «RUEDA MAYOR · 13 cm de diámetro · 223 dientes» ·
                 tic-tac de mecanismo · zoom a través del centro de la rueda (26,3 s)
   T6  789–1020  el fragmento muy de cerca y oscurecido; el tren de ruedas se dibuja y gira · tras «conoce»,
                 «El mecanismo de Anticitera» palabra a palabra (31,0 s), «SIGLO II a. C. · 30 ENGRANAJES

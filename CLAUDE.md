@@ -101,7 +101,10 @@ Para trabajar con HyperFrames, leer antes sus guías en
   unos 40 min, y con peor calidad.
 - Una narración larga se alinea frase a frase (`voz/alinear.py --frases`, lo hace `narrar.py`): entera,
   la atención de wav2vec2 no cabe en la RAM.
-- MusicGen rinde más en lote: varias piezas en una sola llamada (4 a la vez, 1,7 veces más rápido).
+- MusicGen rinde más en lote: varias piezas en una sola llamada (4 a la vez, 1,7 veces más rápido). Con
+  pistas de 30 s es mucho más lento que extrapolando desde 10 s: 2 a la vez tardaron 573 s.
+- Para esperar a que acabe un proceso, no usar `pgrep -f` con un texto que también aparece en el propio
+  bucle de espera: se encuentra a sí mismo y no termina nunca.
 - Cargar cada modelo una vez por trabajo: voz y música antes que FLUX, o después de todo el lote de planchas.
 
 ## Cómo decidir

@@ -77,9 +77,10 @@
           // El centro de zoom es el buje de la rueda (medido en la plancha: 1403, 502 px): el empuje la deja
           // quieta en pantalla y luego se atraviesa. compositions/rueda.html repite este zoom.
           centro: [0.7307, 0.4648],
-          zoom: [[21.5, 1.04], [23.85, 1.12, "power2.out"], [26.2, 1.12], [26.7, 2.6, "power3.in"], [34, 3.1, "sine.out"]],
-          radial: [[21.5, 0], [26.25, 0], [26.62, 0.05, "power3.in"], [27.2, 0.016, "power2.out"]],
-          brillo: [[21.5, 1], [26.6, 1], [27.3, 0.3, "power2.out"]],
+          // Dentro, el fondo queda quieto: el movimiento lo ponen las ruedas (un empuje lento al final delata).
+          zoom: [[21.5, 1.04], [23.85, 1.12, "power2.out"], [26.2, 1.12], [26.7, 2.6, "power3.in"]],
+          radial: [[21.5, 0], [26.25, 0], [26.62, 0.05, "power3.in"], [27.2, 0.03, "power2.out"]],
+          brillo: [[21.5, 1], [26.6, 1], [27.3, 0.24, "power2.out"]],
           luzI: [[21.5, 0.15]], luzR: [[21.5, 0.25]],
           ventana: [0.26, 0.5, 0.64], ventanaI: [[21.5, 0.35], [26.6, 0.35], [27.3, 0.55, "power2.out"]],
         },
