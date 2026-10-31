@@ -1,0 +1,61 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>En</span> <span>1948</span></div>
+      <div class="g" id="sub1"><span>los</span> <span>hermanos</span> <span>McDonald</span></div>
+      <div class="g" id="sub2"><span>cerraron</span> <span>su</span> <span>restaurante</span></div>
+      <div class="g" id="sub3"><span>Y</span> <span>les</span> <span>iba</span></div>
+      <div class="g" id="sub4"><span>bien</span></div>
+      <div class="g" id="sub5"><span>Vendían</span> <span>25</span> <span>cosas</span></div>
+      <div class="g" id="sub6"><span>Pero</span> <span>la</span> <span>mayor</span></div>
+      <div class="g" id="sub7"><span>parte</span> <span>del</span> <span>dinero</span></div>
+      <div class="g" id="sub8"><span>salía</span> <span>de</span> <span>una</span> <span>sola</span></div>
+      <div class="g" id="sub9"><span>la</span> <span>hamburguesa</span></div>
+      <div class="g" id="sub10"><span>Así</span> <span>que</span> <span>tacharon</span></div>
+      <div class="g" id="sub11"><span>16</span></div>
+      <div class="g" id="sub12"><span>Quitaron</span> <span>los</span> <span>platos</span></div>
+      <div class="g" id="sub13"><span>los</span> <span>cubiertos</span> <span>y</span> <span>a</span> <span>los</span></div>
+      <div class="g" id="sub14"><span>camareros</span> <span>que</span> <span>servían</span></div>
+      <div class="g" id="sub15"><span>en</span> <span>los</span> <span>coches</span></div>
+      <div class="g" id="sub16"><span>Y</span> <span>con</span> <span>el</span> <span>tiempo</span></div>
+      <div class="g" id="sub17"><span>que</span> <span>ahorraban</span></div>
+      <div class="g" id="sub18"><span>bajaron</span> <span>la</span> <span>hamburguesa</span></div>
+      <div class="g" id="sub19"><span>de</span> <span>30</span> <span>a</span> <span>15</span> <span>centavos</span></div>
+      <div class="g" id="sub20"><span>Al</span> <span>principio</span> <span>vendieron</span></div>
+      <div class="g" id="sub21"><span>menos</span></div>
+      <div class="g" id="sub22"><span>Después</span></div>
+      <div class="g" id="sub23"><span>no</span> <span>daban</span> <span>abasto</span></div>
+      <div class="g" id="sub24"><span>Ese</span> <span>sistema</span> <span>es</span> <span>el</span> <span>que</span></div>
+      <div class="g" id="sub25"><span>copió</span> <span>medio</span> <span>mundo</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[0.08,2.36,[[0.12,0.2],[0.26,2.08]]],[2.36,3.64,[[2.4,2.5],[2.58,2.98],[3.06,3.62]]],[3.64,5.519,[[3.68,4.16],[4.24,4.34],[4.44,5.12]]],[5.519,5.959,[[5.559,5.579],[5.639,5.719],[5.819,5.939]]],[5.959,6.741,[[5.999,6.179]]],[6.741,8.377,[[6.781,7.101],[7.141,7.621],[7.701,8.021]]],[8.377,9.097,[[8.417,8.557],[8.637,8.697],[8.757,9.037]]],[9.097,10.017,[[9.137,9.417],[9.457,9.577],[9.617,9.957]]],[10.017,11.377,[[10.057,10.377],[10.437,10.477],[10.557,10.677],[10.777,11.057]]],[11.377,12.697,[[11.417,11.477],[11.517,12.117]]],[12.697,13.437,[[12.737,12.897],[12.957,13.037],[13.097,13.437]]],[13.437,14.297,[[13.477,13.997]]],[14.647,16.027,[[14.687,15.087],[15.147,15.247],[15.347,15.747]]],[16.027,17.267,[[16.067,16.187],[16.247,16.827],[17.007,17.027],[17.067,17.107],[17.147,17.247]]],[17.267,18.467,[[17.307,17.827],[17.927,18.007],[18.067,18.447]]],[18.467,19.447,[[18.507,18.547],[18.587,18.687],[18.767,19.147]]],[19.751,20.471,[[19.791,19.811],[19.891,19.991],[20.031,20.111],[20.171,20.451]]],[20.471,21.351,[[20.511,20.611],[20.651,21.171]]],[21.351,22.451,[[21.391,21.811],[21.871,21.911],[21.951,22.451]]],[22.451,24.311,[[22.491,22.551],[22.631,23.031],[23.091,23.111],[23.171,23.451],[23.511,24.011]]],[24.736,25.756,[[24.776,24.836],[24.896,25.336],[25.396,25.736]]],[25.756,26.484,[[25.796,26.076]]],[26.484,26.844,[[26.524,26.824]]],[26.844,27.824,[[26.884,26.944],[26.984,27.144],[27.184,27.524]]],[28.199,29.139,[[28.239,28.379],[28.459,28.799],[28.839,28.899],[28.959,29.019],[29.059,29.139]]],[29.139,30.319,[[29.179,29.419],[29.479,29.699],[29.739,30.019]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", color: "#f4f3f0", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 37.195);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,58 @@
+<template>
+  <!-- El pegamento que «apenas pegaba» (el dibujo que explica la idea), sobre el laboratorio en penumbra: una hoja de papel
+       y una nota amarilla. «apenas»: la nota cae y se queda pegada (PEGA… APENAS); «despegaba»: se levanta por una esquina
+       y la hoja queda limpia (SIN DEJAR MARCA); «pegar»: vuelve a bajar y se queda (Y VUELVE A PEGAR). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.24) saturate(0.6); transform: scale(1.06); }
+    #{{ID}} .hoja { position: absolute; left: 170px; top: 560px; width: 740px; height: 540px; background: #e9e3d6;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55); visibility: hidden; }
+    #{{ID}} .hoja i { position: absolute; left: 60px; height: 8px; background: rgba(40, 38, 34, 0.16); }
+    #{{ID}} .nota { position: absolute; left: 380px; top: 640px; width: 320px; height: 320px; background: #f3d35f;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28); transform-origin: 0% 100%; visibility: hidden; }
+    #{{ID}} .nota::after { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 70px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0)); }
+    #{{ID}} .sombra { position: absolute; left: 380px; top: 640px; width: 320px; height: 320px; background: rgba(0, 0, 0, 0.35);
+      filter: blur(18px); opacity: 0; }
+    #{{ID}} .et { position: absolute; left: 80px; font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase;
+      white-space: nowrap; visibility: hidden; }
+    #{{ID}} .et span { display: inline-block; background: rgba(10, 11, 13, 0.86); padding: 0.32em 0.5em 0.28em; border-left: 8px solid #b0122f; }
+    #{{ID}} .e1 { top: 300px; } #{{ID}} .e2 { top: 390px; } #{{ID}} .e3 { top: 480px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/laboratorio.jpg" alt="" />
+      <div class="hoja"><i style="top: 70px; width: 520px"></i><i style="top: 110px; width: 600px"></i><i style="top: 150px; width: 440px"></i>
+        <i style="top: 440px; width: 560px"></i><i style="top: 480px; width: 380px"></i></div>
+      <div class="sombra"></div>
+      <div class="nota"></div>
+      <div class="et e1"><span>1 · Pega… apenas</span></div>
+      <div class="et e2"><span>2 · Se despega sin marca</span></div>
+      <div class="et e3"><span>3 · Y vuelve a pegar</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.06 }, { scale: 1.12, duration: DUR, ease: "none" }, 0);
+      tl.fromTo(".hoja", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, 0.05);
+      const etq = (sel, t) => tl.fromTo(sel, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t);
+      // «apenas pegaba»: la nota cae y se queda.
+      const t1 = Math.max(0.3, w("apenas") - 0.1);
+      tl.fromTo(".nota", { autoAlpha: 0, y: -120, scale: 1.08, rotation: -4 }, { autoAlpha: 1, y: 0, scale: 1, rotation: 0, duration: 0.35, ease: "power3.in" }, t1);
+      etq(".e1", t1 + 0.3);
+      // «se despegaba»: se levanta desde una esquina (la sombra crece) y la hoja queda limpia.
+      const t2 = w("despegaba") - 0.05;
+      tl.to(".nota", { rotation: -14, y: -70, x: 30, duration: 0.45, ease: "power2.out" }, t2);
+      tl.to(".sombra", { opacity: 0.9, y: 30, x: 40, duration: 0.45, ease: "power2.out" }, t2);
+      etq(".e2", w("marca") - 0.1);
+      // «volver a pegar»: baja otra vez y se queda.
+      const t3 = w("volver") - 0.05;
+      tl.to(".nota", { rotation: 0, y: 0, x: 0, duration: 0.3, ease: "power3.in" }, t3);
+      tl.to(".sombra", { opacity: 0, y: 0, x: 0, duration: 0.3, ease: "power3.in" }, t3);
+      etq(".e3", f("pegar") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

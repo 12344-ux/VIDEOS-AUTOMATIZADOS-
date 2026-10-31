@@ -1,0 +1,62 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>En</span> <span>1968</span></div>
+      <div class="g" id="sub1"><span>un</span> <span>químico</span> <span>de</span> <span>3M</span> <span>buscaba</span></div>
+      <div class="g" id="sub2"><span>un</span> <span>pegamento</span> <span>muy</span> <span>fuerte</span></div>
+      <div class="g" id="sub3"><span>Le</span> <span>salió</span> <span>uno</span> <span>que</span> <span>apenas</span></div>
+      <div class="g" id="sub4"><span>pegaba</span></div>
+      <div class="g" id="sub5"><span>Se</span> <span>despegaba</span> <span>sin</span></div>
+      <div class="g" id="sub6"><span>dejar</span> <span>marca</span></div>
+      <div class="g" id="sub7"><span>y</span> <span>se</span> <span>podía</span></div>
+      <div class="g" id="sub8"><span>volver</span> <span>a</span> <span>pegar</span></div>
+      <div class="g" id="sub9"><span>No</span> <span>servía</span> <span>para</span> <span>nada</span></div>
+      <div class="g" id="sub10"><span>Durante</span> <span>años</span> <span>lo</span> <span>enseñó</span></div>
+      <div class="g" id="sub11"><span>en</span> <span>la</span> <span>empresa</span></div>
+      <div class="g" id="sub12"><span>y</span> <span>nadie</span> <span>le</span> <span>encontró</span></div>
+      <div class="g" id="sub13"><span>un</span> <span>uso</span></div>
+      <div class="g" id="sub14"><span>Hasta</span> <span>que</span> <span>un</span> <span>compañero</span></div>
+      <div class="g" id="sub15"><span>que</span> <span>cantaba</span> <span>en</span> <span>un</span> <span>coro</span></div>
+      <div class="g" id="sub16"><span>perdía</span> <span>las</span> <span>páginas</span></div>
+      <div class="g" id="sub17"><span>los</span> <span>papelitos</span> <span>se</span> <span>le</span> <span>caían</span></div>
+      <div class="g" id="sub18"><span>del</span> <span>libro</span></div>
+      <div class="g" id="sub19"><span>Se</span> <span>acordó</span> <span>de</span> <span>aquel</span></div>
+      <div class="g" id="sub20"><span>pegamento</span></div>
+      <div class="g" id="sub21"><span>un</span> <span>papel</span> <span>que</span> <span>pega…</span></div>
+      <div class="g" id="sub22"><span>y</span> <span>se</span> <span>despega</span></div>
+      <div class="g" id="sub23"><span>En</span> <span>1980</span> <span>salió</span></div>
+      <div class="g" id="sub24"><span>a</span> <span>la</span> <span>venta</span></div>
+      <div class="g" id="sub25"><span>Hoy</span> <span>lo</span> <span>ves</span></div>
+      <div class="g" id="sub26"><span>en</span> <span>cualquier</span> <span>oficina</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[0.08,2.32,[[0.12,0.18],[0.24,1.96]]],[2.32,4.06,[[2.36,2.44],[2.5,2.88],[2.94,3.0],[3.1,3.52],[3.6,4.02]]],[4.06,6.017,[[4.1,4.16],[4.22,4.78],[4.88,5.06],[5.16,5.56]]],[6.017,7.017,[[6.057,6.117],[6.177,6.397],[6.477,6.577],[6.617,6.677],[6.737,6.977]]],[7.017,7.989,[[7.057,7.397]]],[7.989,8.869,[[8.029,8.129],[8.189,8.649],[8.749,8.869]]],[8.869,9.909,[[8.909,9.169],[9.269,9.589]]],[9.909,10.509,[[9.949,9.969],[10.049,10.109],[10.189,10.469]]],[10.509,11.803,[[10.549,10.809],[10.869,10.889],[10.949,11.229]]],[11.803,13.114,[[11.843,11.883],[11.963,12.243],[12.323,12.463],[12.523,12.743]]],[13.114,14.414,[[13.154,13.514],[13.634,13.874],[13.934,13.994],[14.054,14.414]]],[14.414,15.434,[[14.454,14.494],[14.534,14.594],[14.634,15.094]]],[15.434,16.494,[[15.474,15.494],[15.574,15.834],[15.894,15.954],[15.994,16.414]]],[16.494,17.194,[[16.534,16.594],[16.674,16.894]]],[17.568,19.188,[[17.608,17.848],[17.908,17.988],[18.048,18.108],[18.168,18.808]]],[19.188,20.788,[[19.228,19.328],[19.408,19.848],[19.908,19.948],[20.008,20.088],[20.168,20.448]]],[20.788,22.388,[[20.828,21.148],[21.228,21.328],[21.408,21.888]]],[22.388,23.908,[[22.428,22.528],[22.608,23.228],[23.308,23.388],[23.448,23.508],[23.568,23.888]]],[23.908,24.974,[[23.948,24.088],[24.148,24.428]]],[24.974,25.834,[[25.014,25.094],[25.154,25.434],[25.494,25.534],[25.594,25.794]]],[25.834,26.914,[[25.874,26.394]]],[26.914,28.276,[[26.954,27.034],[27.094,27.354],[27.394,27.494],[27.574,27.834]]],[28.276,29.256,[[28.316,28.336],[28.416,28.496],[28.556,28.956]]],[29.627,31.327,[[29.667,29.727],[29.767,30.947],[31.047,31.327]]],[31.327,32.272,[[31.367,31.407],[31.447,31.487],[31.547,31.867]]],[32.272,32.712,[[32.312,32.412],[32.472,32.532],[32.572,32.692]]],[32.712,33.992,[[32.752,32.812],[32.852,33.192],[33.252,33.692]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", color: "#f4f3f0", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 43.288);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

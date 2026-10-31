@@ -997,6 +997,36 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   arreglaba el bucle, pero recortaba unos 5 dB de los picos de la voz y el AAC acababa a −0,4 dBTP. Las entregas
   anteriores, también el Ford m2 publicado, son del método viejo.
 
+### 7. Tres cortos más con la nueva receta: McDonald's, Post-it y Blockbuster
+
+- **Pedido del usuario:** «crea 3 videos cortos más para BFM con esta nueva receta» (la voz M2, sin música y solo efectos,
+  con historias sencillas y la imagen a pantalla completa).
+- **Temas, medidos con el rastreador** (Shorts en español, 10 años): los hermanos McDonald, con «El verdadero origen de
+  McDonald's» a 427.000 vistas (260 veces su canal) y otros dos de 445.000 y 517.000; el Post-it «inventado por error», a
+  764.000 (70×) y 152.000 (1.634×); y Blockbuster y Netflix, a 2,7 M (24×). Se quedaron fuera Ratner y Tylenol (casi sin
+  Shorts en español), Airbnb y los cereales (113.000, en la media de su canal), Steve Jobs en 1997 y la mesa de IKEA. Una
+  idea por corto y lecciones distintas: organización (quitar), innovación (el error con uso) y clientes (cobrar por lo
+  que les enfada; no es la de Kodak).
+- **Datos contrastados** en el `GUION.md` de cada uno. Lo que no se usa: la cocina dibujada con tiza en una pista de
+  tenis (sale en *El fundador*, no en las fuentes), el número de camareros, el año exacto del coro de Art Fry, que el
+  jefe de Blockbuster «se riera» y la multa de *Apolo 13*.
+- **Voces M2** (`recursos/modelo-voz`: `preparar.sh` elige ya la voz de cada corto): 36,2, 42,3 y 40,8 s.
+- **Escenas dibujadas:** la carta de 1948 con 25 líneas y las 16 que se tachan (el contador baja de 25 a 9); la nota que
+  pega, se despega sin dejar marca y vuelve a pegar; y dos barras a la misma escala, las multas (800 M$) y lo que pedía
+  Netflix (50 M$), con el NO.
+- **El sonido**, con la receta: en McDonald's, gente hablando fuera del puesto, la plancha de la cocina, los platos y los
+  cubiertos que se llevan, el timbre del mostrador en los 15 centavos y los pedidos que no dan abasto; en Post-it, el aire
+  de un despacho, el líquido que vierte el químico, la nota que pega y se despega (una cinta adhesiva), la nave de la
+  iglesia, las páginas del libro y los teclados de la oficina; en Blockbuster, el videoclub, el tique de las multas que
+  se imprime, el sobre en el buzón, el NO y la persiana metálica que baja y golpea con la cortina de la lección. Primera
+  revisión: 7, 4 y 4 avisos y algunos huecos (el ambiente muy bajo en un plano y los fundidos de los cruces, que no se
+  solapaban); con los volúmenes que caben y los cruces adelantados 0,25 s, 0 avisos y ningún hueco.
+- **`preparar.sh`:** en una máquina recién arrancada se puso a generar con MusicGen las tres tandas de música de los
+  cortos 1–6 (unos 30 min) antes de las imágenes, aunque estos cortos no llevan música; ahora genera solo las tandas que
+  usan los lechos de los cortos pedidos. Y baja los efectos que piden los montajes (en una sesión nueva faltaban).
+- **Imágenes:** en curso.
+- **Render y entrega:** en curso.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),

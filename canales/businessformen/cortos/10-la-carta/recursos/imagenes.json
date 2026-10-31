@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Sin los arcos dorados (llegaron en 1953) ni ningún rótulo: el puesto de 1948 sin marca.",
+ "planchas": [
+  {
+   "nombre": "puesto",
+   "semilla": 111,
+   "prompt": "A small octagonal roadside hamburger stand in California in 1948, white walls and large glass service windows lit from inside, a few rounded 1940s cars parked in front, palm trees, late afternoon golden light, customers in 1940s clothes seen from behind, the stand in the center of the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "cocina",
+   "semilla": 112,
+   "prompt": "Inside a small 1948 hamburger stand kitchen: a long stainless steel griddle with rows of identical small hamburger patties, cooks in white paper hats and white uniforms working side by side in a line, seen from the side and from behind with no faces visible, bright clean light, steam rising, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "hamburguesa",
+   "semilla": 113,
+   "prompt": "Close-up of three small 1940s hamburgers wrapped in plain white paper and a paper cup on a stainless steel counter, no plates, no cutlery, warm light, shallow depth of field, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "cola",
+   "semilla": 114,
+   "prompt": "A long line of people in 1940s clothes queuing in the sun at the glass service window of a small white roadside hamburger stand, seen from behind, the line receding toward the window, summer afternoon light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}

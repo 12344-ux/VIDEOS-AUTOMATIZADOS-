@@ -1,0 +1,253 @@
+<template>
+  <!-- Una imagen a pantalla completa con su cámara y lo que pasa encima, anclado a las palabras de la voz (la misma plantilla
+       que en el canal de supervivencia, con la marca de BusinessForMen).
+       Todo va en el parámetro conf (JSON) de montaje.py:
+         foto, camara [escala0, escala1, x1, y1], origen, brillo, techo (oscurece el cielo), lluvia, destellos [ancla…],
+         temblores [ancla…], agua {en, hasta, y} (el agua sube hasta y), haz {en} (una linterna que entra),
+         cuenta {etiqueta, x, y, pasos [[valor, ancla]…]} y textos [{html, clase, x, y, ancho, centro, en, modo, sale}…]
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase] (["palabra", n, d, "fin"]:
+       desde que acaba). La palabra, una sola (el w() de JavaScript no acepta dos).
+       Clases de texto: nota (mono), titular, grande, cifra, sello (bloque carmesí), etiqueta (rótulo con fondo).
+       Modos: entra, aparece, sello, escribe (a máquina), grande. -->
+  <style>
+    /* Marca BusinessForMen (ruta Consejo): grafito, blanco y carmesí; Inter Tight e IBM Plex Mono. */
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0a0b0d; color: #f4f3f0; font-family: "Inter Tight", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 30px/1.25 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    .esc .mono b { font-weight: 500; color: #f4f3f0; }
+    .esc .mono i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.08em 0.34em; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .fuerte { font-weight: 800; letter-spacing: -0.032em; line-height: 1.0; }
+    .esc .bloque { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; }
+    .esc .rojo { background: #b0122f; }
+    .esc .cortina { position: absolute; inset: 0; background: #b0122f; z-index: 40; visibility: hidden; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    /* Índice de una lista que se recorre en varias escenas (las reglas): un cuadro por punto, el actual en rojo. */
+    .esc .idx { position: absolute; left: 150px; top: 100px; display: flex; gap: 12px; }
+    .esc .idx i { width: 50px; height: 50px; border: 3px solid #8a8d93; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+      font: 800 28px/1 "Inter Tight", sans-serif; font-style: normal; color: #8a8d93; }
+    .esc .idx i.on { background: #b0122f; border-color: #b0122f; color: #f4f3f0; }
+
+    /* Cortos verticales de BusinessForMen (1080 × 1920). Lo que se lee va entre x 80–940 e y 200–1130: arriba, la barra
+       del móvil; a la derecha, los botones de las apps; abajo, de 1168 a 1320, los subtítulos, y debajo, el texto y la
+       interfaz de cada app (solo textura ahí). Cifras y titulares, más grandes que en horizontal. */
+    .esc .mono { font-size: 34px; }
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 500 28px/1.3 "Plex Mono", monospace;
+      letter-spacing: 0.06em; color: rgba(244, 243, 240, 0.6); }
+    .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    /* Velo para leer sobre una imagen, ligero (31-oct-2026: con el anterior, oscuro de la mitad hacia abajo, «la imagen se
+       veía como la mitad»): la barra del móvil y los titulares arriba, y una franja suave detrás de los subtítulos
+       (1100–1380 px); el resto de la foto, a la vista, también abajo. El de antes queda como .velo-denso. */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.62) 0%, rgba(10, 11, 13, 0.2) 17%, rgba(10, 11, 13, 0) 30%,
+      rgba(10, 11, 13, 0) 52%, rgba(10, 11, 13, 0.38) 60%, rgba(10, 11, 13, 0.46) 68%, rgba(10, 11, 13, 0.18) 80%, rgba(10, 11, 13, 0) 100%); }
+    .esc .velo-denso { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+      rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
+    .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
+    .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }
+
+    #s07 .foto { transform-origin: 50% 50%; }
+    #s07 .techo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.78) 0%, rgba(10, 11, 13, 0.45) 18%, rgba(10, 11, 13, 0) 36%); display: none; }
+    #s07 .lluvia { position: absolute; inset: -200px; opacity: 0.32; display: none;
+      background: repeating-linear-gradient(102deg, rgba(220, 230, 240, 0) 0 22px, rgba(220, 230, 240, 0.5) 22px 24px); }
+    #s07 .agua { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden;
+      background: linear-gradient(180deg, rgba(150, 190, 190, 0.35) 0, rgba(12, 32, 34, 0.55) 6px, rgba(6, 16, 18, 0.72) 100%);
+      border-top: 3px solid rgba(190, 220, 220, 0.55); }
+    #s07 .haz { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; mix-blend-mode: screen;
+      background: radial-gradient(ellipse 420px 560px at 50% 45%, rgba(235, 245, 255, 0.42) 0%, rgba(200, 225, 240, 0.16) 45%, rgba(0, 0, 0, 0) 75%); }
+    #s07 .flash { background: #f4f6ff; opacity: 0; }
+    #s07 .t { position: absolute; visibility: hidden; }
+    #s07 .t.nota { font: 500 40px/1.3 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #s07 .t.titular { font: 800 112px/0.94 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap;
+      text-shadow: 0 4px 36px rgba(0, 0, 0, 0.75); }
+    #s07 .t.grande { font: 800 300px/0.84 "Inter Tight", sans-serif; letter-spacing: -0.05em; text-transform: uppercase; text-shadow: 0 6px 50px rgba(0, 0, 0, 0.8); }
+    #s07 .t.cifra { font: 800 240px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; white-space: nowrap; text-shadow: 0 6px 50px rgba(0, 0, 0, 0.8); }
+    #s07 .t.cifra small { font-size: 0.32em; letter-spacing: -0.01em; margin-left: 0.12em; }
+    #s07 .t.sello { font: 800 92px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+    #s07 .t.sello span, #s07 .t .bloque { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; text-shadow: none; }
+    #s07 .t.etiqueta { font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+    #s07 .t.etiqueta span { display: inline-block; background: rgba(10, 11, 13, 0.86); padding: 0.32em 0.5em 0.28em; border-left: 8px solid #b0122f; }
+    #s07 .t b { font-weight: inherit; color: #f4f3f0; background: #b0122f; padding: 0 0.12em; }
+    #s07 .t.cuenta { font: 800 200px/0.9 "Inter Tight", sans-serif; letter-spacing: -0.04em; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #s07 .t.cuenta small { display: block; font: 500 36px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; color: #f4f3f0; margin-bottom: 10px;
+      text-transform: uppercase; }
+  </style>
+  <div data-composition-id="s07" data-width="1080" data-height="1920">
+    <div id="s07" class="esc">
+      <img class="foto" src="assets/img/puesto.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="capa techo"></div>
+      <div class="agua"></div>
+      <div class="haz"></div>
+      <div class="lluvia"></div>
+      <div class="textos"></div>
+      <div class="capa flash"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de las escenas (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo local.
+      const W = {"en":[[0.12,0.2],[18.507,18.547]],"mil":[[0.26,0.42]],"novecientos":[[0.5,1.08]],"cuarenta":[[1.16,1.58]],"y":[[1.7,1.72],[5.559,5.579],[17.007,17.027],[19.791,19.811]],"ocho":[[1.84,2.08]],"los":[[2.4,2.5],[15.147,15.247],[16.067,16.187],[17.147,17.247],[18.587,18.687]],"hermanos":[[2.58,2.98]],"mac":[[3.06,3.24]],"dónald":[[3.3,3.62]],"cerraron":[[3.68,4.16],[34.015,34.395]],"su":[[4.24,4.34]],"restaurante":[[4.44,5.12],[34.615,35.175]],"les":[[5.639,5.719]],"iba":[[5.819,5.939]],"bien":[[5.999,6.179]],"vendían":[[6.781,7.101]],"veinticinco":[[7.141,7.621]],"cosas":[[7.701,8.021]],"pero":[[8.417,8.557]],"la":[[8.637,8.697],[11.417,11.477],[21.871,21.911]],"mayor":[[8.757,9.037]],"parte":[[9.137,9.417]],"del":[[9.457,9.577]],"dinero":[[9.617,9.957]],"salía":[[10.057,10.377]],"de":[[10.437,10.477],[22.491,22.551]],"una":[[10.557,10.677]],"sola":[[10.777,11.057]],"hamburguesa":[[11.517,12.117],[21.951,22.451]],"así":[[12.737,12.897]],"que":[[12.957,13.037],[17.927,18.007],[20.511,20.611],[29.059,29.139],[32.571,32.651],[35.235,35.315]],"tacharon":[[13.097,13.437]],"dieciséis":[[13.477,13.997]],"quitaron":[[14.687,15.087]],"platos":[[15.347,15.747]],"cubiertos":[[16.247,16.827]],"a":[[17.067,17.107],[23.091,23.111]],"camareros":[[17.307,17.827]],"servían":[[18.067,18.447]],"coches":[[18.767,19.147]],"con":[[19.891,19.991]],"el":[[20.031,20.111],[28.959,29.019]],"tiempo":[[20.171,20.451]],"ahorraban":[[20.651,21.171]],"bajaron":[[21.391,21.811]],"treinta":[[22.631,23.031]],"quince":[[23.171,23.451]],"centavos":[[23.511,24.011]],"al":[[24.776,24.836]],"principio":[[24.896,25.336]],"vendieron":[[25.396,25.736]],"menos":[[25.796,26.076]],"después":[[26.524,26.824]],"no":[[26.884,26.944],[31.093,31.153]],"daban":[[26.984,27.144]],"abasto":[[27.184,27.524]],"ese":[[28.239,28.379]],"sistema":[[28.459,28.799]],"es":[[28.839,28.899],[31.193,31.253],[32.091,32.151]],"copió":[[29.179,29.419]],"medio":[[29.479,29.699]],"mundo":[[29.739,30.019]],"crecer":[[30.673,31.013]],"añadir":[[31.353,31.673]],"quitar":[[32.211,32.431]],"lo":[[32.491,32.531]],"sobra":[[32.711,32.971]],"por":[[33.635,33.735]],"eso":[[33.775,33.935]],"un":[[34.475,34.535]],"funcionaba":[[35.375,35.895]]}, T0 = 27.859, DUR = 2.264;
+      const RAIZ = document.getElementById("s07");
+      const limpia = (s) => s.toLowerCase().replace(/[^\wáéíóúüñ]/g, "");
+      // w("palabra", n): cuándo empieza la aparición n de esa palabra, en el tiempo de la escena; f(): cuándo acaba.
+      const w = (p, n = 1, fin = false) => {
+        const l = W[limpia(p)];
+        if (!l || !l[n - 1]) throw new Error(`s07: no está «${p}» (${n})`);
+        return l[n - 1][fin ? 1 : 0] - T0;
+      };
+      const f = (p, n = 1) => w(p, n, true);
+      // serie("palabra", k, n): el comienzo de las k palabras seguidas desde la aparición n de esa palabra.
+      const L = [["en",0.12,0.2],["mil",0.26,0.42],["novecientos",0.5,1.08],["cuarenta",1.16,1.58],["y",1.7,1.72],["ocho",1.84,2.08],["los",2.4,2.5],["hermanos",2.58,2.98],["mac",3.06,3.24],["dónald",3.3,3.62],["cerraron",3.68,4.16],["su",4.24,4.34],["restaurante",4.44,5.12],["y",5.559,5.579],["les",5.639,5.719],["iba",5.819,5.939],["bien",5.999,6.179],["vendían",6.781,7.101],["veinticinco",7.141,7.621],["cosas",7.701,8.021],["pero",8.417,8.557],["la",8.637,8.697],["mayor",8.757,9.037],["parte",9.137,9.417],["del",9.457,9.577],["dinero",9.617,9.957],["salía",10.057,10.377],["de",10.437,10.477],["una",10.557,10.677],["sola",10.777,11.057],["la",11.417,11.477],["hamburguesa",11.517,12.117],["así",12.737,12.897],["que",12.957,13.037],["tacharon",13.097,13.437],["dieciséis",13.477,13.997],["quitaron",14.687,15.087],["los",15.147,15.247],["platos",15.347,15.747],["los",16.067,16.187],["cubiertos",16.247,16.827],["y",17.007,17.027],["a",17.067,17.107],["los",17.147,17.247],["camareros",17.307,17.827],["que",17.927,18.007],["servían",18.067,18.447],["en",18.507,18.547],["los",18.587,18.687],["coches",18.767,19.147],["y",19.791,19.811],["con",19.891,19.991],["el",20.031,20.111],["tiempo",20.171,20.451],["que",20.511,20.611],["ahorraban",20.651,21.171],["bajaron",21.391,21.811],["la",21.871,21.911],["hamburguesa",21.951,22.451],["de",22.491,22.551],["treinta",22.631,23.031],["a",23.091,23.111],["quince",23.171,23.451],["centavos",23.511,24.011],["al",24.776,24.836],["principio",24.896,25.336],["vendieron",25.396,25.736],["menos",25.796,26.076],["después",26.524,26.824],["no",26.884,26.944],["daban",26.984,27.144],["abasto",27.184,27.524],["ese",28.239,28.379],["sistema",28.459,28.799],["es",28.839,28.899],["el",28.959,29.019],["que",29.059,29.139],["copió",29.179,29.419],["medio",29.479,29.699],["mundo",29.739,30.019],["crecer",30.673,31.013],["no",31.093,31.153],["es",31.193,31.253],["añadir",31.353,31.673],["es",32.091,32.151],["quitar",32.211,32.431],["lo",32.491,32.531],["que",32.571,32.651],["sobra",32.711,32.971],["por",33.635,33.735],["eso",33.775,33.935],["cerraron",34.015,34.395],["un",34.475,34.535],["restaurante",34.615,35.175],["que",35.235,35.315],["funcionaba",35.375,35.895]];
+      const serie = (p, k, n = 1) => {
+        const i = L.map((q, j) => (q[0] === limpia(p) ? j : -1)).filter((j) => j >= 0)[n - 1];
+        if (i == null) throw new Error(`s07: no está «${p}» (${n})`);
+        return L.slice(i, i + k).map((q) => q[1] - T0);
+      };
+      const $ = (s) => RAIZ.querySelector(s);
+      const $$ = (s) => Array.from(RAIZ.querySelectorAll(s));
+      // Cifras a la española: punto de miles y signo menos tipográfico.
+      const fmt = (n, signo) => {
+        const a = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return (n < 0 ? "−" : signo && n > 0 ? "+" : "") + a;
+      };
+      const tl = gsap.timeline({ paused: true });
+      // Sube desde su máscara: 140 % para que las tildes de las mayúsculas (Á, É, Ú) no asomen antes de tiempo.
+      const sube = (sel, t, d = 0.45, ease = "expo.out") => tl.fromTo(sel, { yPercent: 140 }, { yPercent: 0, duration: d, ease }, t);
+      const entra = (sel, t, d = 0.45, dy = 26) => tl.fromTo(sel, { autoAlpha: 0, y: dy }, { autoAlpha: 1, y: 0, duration: d, ease: "expo.out" }, t);
+      const aparece = (sel, t, d = 0.3, max = 1) => tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: max, duration: d, ease: "power2.out" }, t);
+      const sale = (sel, t, d = 0.2) => tl.to(sel, { autoAlpha: 0, duration: d, ease: "power2.in" }, t);
+      // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
+      const cuenta = (el, desde, hasta, t, d, o = {}) => {
+        el = typeof el === "string" ? $(el) : el;
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
+        pinta();
+        tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
+      };
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
+      // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
+      const trocea = (el) => {
+        el = typeof el === "string" ? $(el) : el;
+        // Respeta los <br>: cada renglón se trocea por separado.
+        el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map((h) => h.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean)
+          .map((p) => `<span class="pal"><span>${p}</span></span>`).join("")).join("<br>");
+        return Array.from(el.querySelectorAll(".pal > span"));
+      };
+      // Cortinas rojas: la que se lleva la escena (sale) y la que se retira al empezar (entra).
+      const cortina = (modo, d) => {
+        const c = document.createElement("div");
+        c.className = "cortina"; RAIZ.appendChild(c);
+        if (modo === "entra") tl.fromTo(c, { scaleX: 1, autoAlpha: 1, transformOrigin: "right center" }, { scaleX: 0, duration: d || 0.42, ease: "power4.out" }, 0);
+        else tl.fromTo(c, { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" }, { scaleX: 1, duration: d || 0.3, ease: "power4.in" }, DUR - (d || 0.3));
+      };
+      // Dibujos en función del tiempo (lo que GSAP no interpola bien: un punto que recorre un círculo, por ejemplo).
+      const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
+      // Avance 0 → 1 entre t0 y t0 + d, con su curva.
+      const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
+      // Entrada de la escena sobre la anterior (montar.py: escena(…, entrada=…)); la anterior sigue debajo mientras dura.
+      const ENTRADA = {"tipo": "barrido", "d": 0.42};
+      const entradaEscena = () => {
+        if (!ENTRADA) return;
+        const d = ENTRADA.d, t = ENTRADA.tipo, filo = (css) => { const f = document.createElement("div"); f.style.cssText = "position:absolute;z-index:60;background:#b0122f;" + css; RAIZ.appendChild(f); return f; };
+        const x = ENTRADA.x != null ? ENTRADA.x : 1080 / 2, y = ENTRADA.y != null ? ENTRADA.y : 1920 / 2;
+        // [recorte inicial, recorte final, curva, fracción de la duración]
+        const CLIP = {
+          cortina: ["inset(0% 100% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.in", 0.5],
+          barrido: ["inset(0% 0% 0% 100%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          subida: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          iris: [`circle(0% at ${x}px ${y}px)`, `circle(150% at ${x}px ${y}px)`, "power2.in", 1],
+        }[t];
+        tl.fromTo(RAIZ, { clipPath: CLIP[0] }, { clipPath: CLIP[1], duration: d * CLIP[3], ease: CLIP[2] }, 0);
+        if (t === "cortina") {
+          // El rojo cruza la escena anterior de izquierda a derecha y, al retirarse, descubre esta.
+          const c = filo("left:0;top:0;width:100%;height:100%;");
+          tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d / 2, ease: "power3.out", transformOrigin: "right center" }, d / 2);
+        } else if (t === "barrido" || t === "subida") {
+          // El filo rojo va con el borde de la escena que entra.
+          const f = t === "barrido" ? filo("left:0;top:0;width:10px;height:100%;") : filo("left:0;top:0;width:100%;height:10px;");
+          tl.fromTo(f, t === "barrido" ? { x: 1080 } : { y: 1920 }, Object.assign(t === "barrido" ? { x: 0 } : { y: 0 }, { duration: d, ease: "power3.inOut" }), 0);
+          tl.to(f, { autoAlpha: 0, duration: 0.12 }, d);
+        }
+      };
+      // 2.5D por capas (imagen/capas25d.py): el fondo se mueve poco y el frente recortado, más; la cámara parece avanzar.
+      const profundidad = (t0, d, o = {}) => {
+        tl.fromTo(o.fondo || ".fondo25", { scale: o.f0 || 1, x: 0, y: 0 }, { scale: o.f1 || 1.05, x: o.fx || 0, y: o.fy || 0, duration: d, ease: o.ease || "none" }, t0);
+        tl.fromTo(o.frente || ".frente25", { scale: o.s0 || 1, x: 0, y: 0 }, { scale: o.s1 || 1.13, x: o.sx || 0, y: o.sy || 0, duration: d, ease: o.ease || "none" }, t0);
+      };
+      const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s07"] = tl; };
+
+      const C = {"camara": [1.18, 1.06, 0, 0], "textos": [{"html": "Lo copió<br>medio mundo", "clase": "sello", "x": 80, "y": 880, "en": ["copió", 1, -0.05], "modo": "sello"}]};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      const cam = C.camara || [1.0, 1.08, 0, 0];
+      const foto = $(".foto");
+      if (C.origen) foto.style.transformOrigin = C.origen;
+      if (C.brillo != null) foto.style.filter = `brightness(${C.brillo})`;
+      tl.fromTo(foto, { scale: cam[0], x: 0, y: 0 }, { scale: cam[1], x: cam[2], y: cam[3], duration: DUR, ease: "none" }, 0);
+      if (C.techo) $(".techo").style.display = "block";
+      if (C.lluvia) {
+        $(".lluvia").style.display = "block";
+        alBuscar((t) => { $(".lluvia").style.transform = `translate(${-(t * 260) % 120}px, ${(t * 900) % 240}px)`; });
+      }
+      (C.destellos || []).forEach((a) => tl.fromTo($(".flash"), { opacity: 0 }, { keyframes: [{ opacity: 0.85, duration: 0.04 }, { opacity: 0.1, duration: 0.08 }, { opacity: 0.6, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, A(a)));
+      (C.temblores || []).forEach((a) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -9, y: 5, duration: 0.05 }, { x: 7, y: -4, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, A(a)));
+      if (C.agua) {
+        const g = C.agua, t0 = A(g.en), t1 = g.hasta != null ? A(g.hasta) : t0 + 1.5;
+        tl.set($(".agua"), { visibility: "visible" }, t0);
+        tl.fromTo($(".agua"), { y: 1920 }, { y: g.y, duration: t1 - t0, ease: "power1.inOut", immediateRender: false }, t0);
+      }
+      if (C.haz) tl.fromTo($(".haz"), { autoAlpha: 0, x: -360, y: 40 }, { autoAlpha: 1, x: 0, y: 0, duration: 1.4, ease: "power2.out" }, A(C.haz.en));
+      if (C.cuenta) {
+        const c = C.cuenta, el = document.createElement("div");
+        el.className = "t cuenta num";
+        el.innerHTML = `<small>${c.etiqueta}</small><span class="n"></span>`;
+        el.style.left = (c.x ?? 80) + "px"; el.style.top = (c.y ?? 236) + "px";
+        $(".textos").appendChild(el);
+        const pasos = c.pasos.map(([v, a]) => [v, A(a)]);
+        aparece(el, Math.max(0, pasos[0][1] - 0.05), 0.25);
+        alBuscar((t) => { let v = pasos[0][0]; pasos.forEach(([x, tt]) => { if (t >= tt) v = x; }); el.querySelector(".n").textContent = String(v); });
+        pasos.slice(1).forEach(([, tt]) => tl.fromTo(el.querySelector(".n"), { scale: 1.12, transformOrigin: "left center" }, { scale: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, tt));
+      }
+      (C.textos || []).forEach((s) => {
+        const el = document.createElement("div");
+        el.className = "t " + (s.clase || "nota");
+        el.style.left = (s.x ?? 80) + "px"; el.style.top = (s.y ?? 236) + "px";
+        if (s.ancho) el.style.width = s.ancho + "px";
+        if (s.centro) { el.style.textAlign = "center"; el.style.left = "0px"; el.style.width = "1080px"; }
+        $(".textos").appendChild(el);
+        const t = A(s.en), modo = s.modo || "entra";
+        if (modo === "escribe") {
+          const txt = s.html, d = s.duracion || txt.length * 0.045;
+          el.style.visibility = "visible";
+          alBuscar((x) => { el.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t) / d)))); });
+        } else {
+          el.innerHTML = s.clase === "sello" || s.clase === "etiqueta" ? `<span>${s.html}</span>` : s.html;
+          if (modo === "sello") {
+            tl.fromTo(el, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1);
+            tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -7, duration: 0.05 }, { x: 5, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.12);
+          } else if (modo === "grande") {
+            tl.fromTo(el, { autoAlpha: 0, scale: 1.15, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, t - 0.08);
+          } else if (modo === "aparece") {
+            aparece(el, t, 0.35);
+          } else {
+            entra(el, t, 0.4, 20);
+          }
+        }
+        if (s.sale) tl.to(el, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, A(s.sale));
+      });
+      fin();
+    })();
+  </script>
+</template>

@@ -15,6 +15,9 @@ Consejo.
 | 7 | `07-el-sueldo` | Gestión de equipos | La paradoja y su respuesta | «Pagó el doble · para ahorrar» sobre la cadena de montaje |
 | 8 | `08-la-formula` | Marca | El error contra la intuición | «Ganó 200.000 catas · y fue un desastre» sobre la lata |
 | 9 | `09-la-camara` | Estrategia | La empresa que inventó su propio final | «Kodak inventó esto · en 1975» sobre el prototipo |
+| 10 | `10-la-carta` | Organización | La paradoja y su respuesta | «Cerraron lo que funcionaba · y les fue mejor» sobre el puesto de 1948 |
+| 11 | `11-el-pegamento` | Innovación | El error que acabó siendo el producto | «El pegamento que no pegaba · está en tu escritorio» sobre las notas |
+| 12 | `12-la-multa` | Estrategia y clientes | La ironía de una cifra | «800 millones en multas · y quebró» sobre el videoclub |
 
 Los cortos 4–6 se hicieron para que **se entiendan más y con mejor edición**: temas cotidianos y una sola idea, menos
 fechas y nombres, la voz un 4 % más pausada, un dibujo que explica cada mecanismo (la regla del ancla, las dos barras
@@ -63,8 +66,10 @@ datos de las plataformas, así que son orientativas) y de la guía de vídeo ver
 11. **La imagen, a pantalla completa** (31-oct): el velo del kit es ligero (oscurece la barra del móvil y los titulares
     de arriba y una franja suave detrás de los subtítulos); con el de antes, oscuro de la mitad hacia abajo, «la imagen
     se veía como la mitad». Los prompts piden que el motivo llene el encuadre.
-12. **La versión sin música, solo con efectos** (31-oct, el usuario, en el corto 7: «la voz del canal de supervivencia,
-    sin música de fondo y solo efectos de sonido, como transiciones o efectos adicionales»; `montar.py --variante m2`).
+12. **Sin música, solo con efectos, y la voz M2:** la receta de los cortos nuevos desde el 10. El usuario la pidió en el
+    7 («la voz del canal de supervivencia, sin música de fondo y solo efectos de sonido, como transiciones o efectos
+    adicionales»; `montar.py --variante m2`), «se movió más» y la llevó a los 8 y 9. Los nuevos la tienen de serie
+    (`recursos/modelo-voz` y el sonido en su `montaje.py`, sin variante).
     El ambiente de cada sitio, bajo y nunca callado del todo: la fábrica a unos 15 LU bajo la voz donde se ve, más baja en
     lo demás, y bajo la lección el aire de la nave vacía (callado del todo, las pausas de la voz son silencios). Un whoosh
     distinto en cada corte, con los cortes que abren frase 0,38 s antes de ella para que caiga en la pausa; y el golpe de

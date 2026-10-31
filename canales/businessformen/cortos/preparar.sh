@@ -44,9 +44,11 @@ EOF
 for c in "${CORTOS[@]}"; do
   # recursos/velocidad (opcional): la duración relativa de la voz (1,04 = un 4 % más pausada).
   vel=$(cat "$AQUI/$c/recursos/velocidad" 2>/dev/null || echo 1.0)
-  paso "Voz de $c: Supertonic-3 M1 (velocidad $vel), frase a frase y alineada"
+  # recursos/modelo-voz (opcional): la voz del corto (por defecto, la M1 de BFM; desde el 10, la M2 de supervivencia).
+  modelo=$(cat "$AQUI/$c/recursos/modelo-voz" 2>/dev/null || echo supertonic-M1)
+  paso "Voz de $c: $modelo (velocidad $vel), frase a frase y alineada"
   mkdir -p "$S/$c"/{voz,musica,img}
-  [ -s "$S/$c/voz/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz/voz.wav" --velocidad "$vel"
+  [ -s "$S/$c/voz/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz/voz.wav" --voz "$modelo" --velocidad "$vel"
   # recursos/variantes.json (opcional): otras versiones del corto con otra voz, en voz-<variante>/ (montar.py --variante).
   [ -s "$AQUI/$c/recursos/variantes.json" ] && python3 -c "import json; [print(k, x['voz'], x.get('velocidad', 1.0)) for k, x in json.load(open('$AQUI/$c/recursos/variantes.json')).items() if not k.startswith('_')]" |
     while read -r var voz velv; do
@@ -63,14 +65,21 @@ mapfile -t faltan < <(for c in "${CORTOS[@]}"; do grep -oE "sonido\('[0-9]{4}'" 
 
 paso "Música: MusicGen, tandas de cuatro candidatas de 30 s (musica.json)"
 python3 "$REPO/imagen/generar.py" --parar >/dev/null 2>&1 || true
-python3 -c "import json; [print(t['carpeta'] or '.', t['semilla']) for t in json.load(open('$AQUI/musica.json'))['tandas']]" |
+# Solo las tandas que usan los lechos de los cortos pedidos (los cortos sin música, desde el 10, no piden ninguna: en una
+# máquina nueva, generar las de los demás eran unos 30 min de MusicGen para nada).
+python3 - "$AQUI/musica.json" "${CORTOS[@]}" <<'EOF' |
+import json, sys
+d, cortos = json.load(open(sys.argv[1])), sys.argv[2:]
+usadas = {(v['pieza'].rsplit('/', 1)[0] if '/' in v['pieza'] else '.') for k, v in d['lechos'].items() if k.split('/')[0] in cortos}
+[print(t['carpeta'] or '.', t['semilla']) for t in d['tandas'] if (t['carpeta'] or '.') in usadas]
+EOF
   while read -r carpeta semilla; do
     [ -s "$S/musica/$carpeta/pieza_4.wav" ] && continue
     mkdir -p "$S/musica/$carpeta"
     mapfile -t desc < <(python3 -c "import json; [print(x) for t in json.load(open('$AQUI/musica.json'))['tandas'] if (t['carpeta'] or '.') == '$carpeta' for x in t['candidatas']]")
     "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$S/musica/$carpeta/pieza.wav" --duracion 30 --semilla "$semilla" </dev/null
   done
-python3 "$REPO/audio/graves.py" "$S"/musica/pieza_*.wav "$S"/musica/v*/pieza_*.wav
+python3 "$REPO/audio/graves.py" "$S"/musica/pieza_*.wav "$S"/musica/v*/pieza_*.wav 2>/dev/null || true
 # Los lechos de cada corto, sin entrada (el bucle no puede empezar en silencio): ver «lechos» en musica.json.
 python3 -c "import json; [print(k, v['pieza'], v['duracion'], v['entrada'], v['recorte']) for k, v in json.load(open('$AQUI/musica.json'))['lechos'].items()]" |
   while read -r destino pieza dura entrada recorte; do

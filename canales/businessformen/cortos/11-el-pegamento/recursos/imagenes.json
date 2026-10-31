@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Las notas, en blanco y sin marca; las personas, sin cara.",
+ "planchas": [
+  {
+   "nombre": "notas",
+   "semilla": 121,
+   "prompt": "Close-up of a dark wooden desk with a few square pale yellow sticky notes, blank with no writing, stuck on the edge of a computer monitor and on an open notebook, a pen beside them, soft morning light, shallow depth of field, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "laboratorio",
+   "semilla": 122,
+   "prompt": "A 1968 chemistry laboratory at a large American company: a chemist in a white lab coat seen from behind and from the side with no face visible, pouring a thick clear liquid from a glass beaker, flasks and test tubes on a long bench, warm light through tall windows, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "coro",
+   "semilla": 123,
+   "prompt": "A church choir in the 1970s: a man in a choir robe seen from the side and from behind holding an open hymn book, small paper slips falling out of the book in mid air, warm light through stained glass windows, other singers blurred in the background, no faces visible, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "oficina",
+   "semilla": 124,
+   "prompt": "An office glass wall covered with dozens of square pale yellow sticky notes in neat columns, blank notes with no writing, a hand placing one more note, soft daylight, shallow depth of field, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Sin logotipos ni carátulas reales: estanterías y sobres sin marca.",
+ "planchas": [
+  {
+   "nombre": "tienda",
+   "semilla": 131,
+   "prompt": "Interior of a large video rental store around the year 2000 at night: long aisles of shelves full of DVD and VHS cases with plain blank covers, cold blue and warm yellow fluorescent light, a customer seen from behind browsing, the aisle receding into the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "sobre",
+   "semilla": 132,
+   "prompt": "Close-up of a DVD in a plain red paper mailing envelope lying on a doormat just inside a front door, morning light through the door glass, shallow depth of field, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "reunion",
+   "semilla": 133,
+   "prompt": "A corporate boardroom in the year 2000: a long polished table, an older businessman in a dark suit seen from behind at the head of the table, two younger men in casual clothes seen from behind across the table, city skyline at dusk through tall windows, no faces visible, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "cerrada",
+   "semilla": 134,
+   "prompt": "An abandoned video rental store: empty metal shelves, a few scattered plastic DVD cases on a dusty floor, papers, dim grey daylight through dirty windows, the empty aisle receding into the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}
