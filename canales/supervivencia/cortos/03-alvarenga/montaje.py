@@ -46,7 +46,7 @@ escena('s11', 'puntos', w('Ezequiel', 2, mas=-0.12), fondo='noche',
                  aparecen=[0.0, 0.25], apaga=dict(en=['muere', 1, -0.05], menos=[0]),
                  sello=dict(html='4 meses', en=['cuatro', 1, -0.05], x=80, y=300)))
 escena('s12', 'foto', w('Y José', mas=-0.12), foto='noche',
-       conf=dict(camara=[1.0, 1.06, 0, 0], textos=[dict(html='Solo.', clase='grande', y=520, centro=True, en=['solo', 1, -0.05], modo='grande')]))
+       conf=dict(camara=[1.0, 1.06, 0, 0], textos=[dict(html='Solo.', clase='grande', y=330, centro=True, en=['solo', 1, -0.05], modo='grande')]))
 escena('s13', 'mapa', w('Pasan', mas=-0.12), modo='meses', **PAC)
 escena('s14', 'foto', w('Hasta que', mas=-0.12), foto='atolon',
        conf=dict(camara=[1.0, 1.12, 0, -20], techo=True, textos=[
