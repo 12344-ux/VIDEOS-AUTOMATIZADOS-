@@ -1,0 +1,44 @@
+<template>
+  <!-- R9 + R8 · «en vez de esconderlo, lo puso en un anuncio»: los directivos, a oscuras, ante la pantalla; en ella pasan
+       las críticas una por una (en su sitio, en su perspectiva) y una etiqueta los señala: SUS DIRECTIVOS, ESCUCHÁNDOLAS. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mundo { position: absolute; inset: 0; transform-origin: 50% 30%; }
+    #{{ID}} .foto { filter: saturate(0.85) contrast(1.06); }
+    #{{ID}} .pant { position: absolute; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    #{{ID}} .pant div { position: absolute; left: 0; right: 0; text-align: center; font: 800 1px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.02em; color: #141414; visibility: hidden; }
+    #{{ID}} .vez { position: absolute; left: 80px; top: 214px; }
+    #{{ID}} .vez b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #{{ID}} .dir { position: absolute; left: 80px; top: 1100px; }
+    #{{ID}} .dir b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mundo"><img class="foto" src="assets/img/reunion.jpg" alt="" />
+        <div class="pant" style="left: {{p:px}}px; top: {{p:py}}px; width: {{p:pw}}px; height: {{p:ph}}px">
+          <div class="q0" style="font-size: {{p:pt}}px"><span style="background:#b0122f;color:#f4f3f0;padding:0 0.15em">ANUNCIO</span></div>
+          <div class="q1" style="font-size: {{p:pt}}px">«Sabe a cartón»</div>
+          <div class="q2" style="font-size: {{p:pt}}px">«La salsa, a kétchup»</div></div></div>
+      <div class="capa velo"></div>
+      <div class="mono vez"><i>En vez de esconderlo</i></div>
+      <div class="mono dir"><i>Sus directivos</i> &nbsp;<b>escuchándolas</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".mundo", { scale: 1.0 }, { scale: 1.1, duration: DUR, ease: "none" }, 0);
+      entra(".vez", 0, 0.35, 8);
+      tl.set(".q0", { visibility: "visible" }, w("anuncio") - 0.1);
+      tl.set(".q0", { visibility: "hidden" }, w("críticas") - 0.1);
+      // Las críticas, una por una, en la pantalla de la sala.
+      const t0 = w("críticas") - 0.1, t1 = w("una", 2) + 0.15;
+      tl.set(".q1", { visibility: "visible" }, t0);
+      tl.set(".q1", { visibility: "hidden" }, t1);
+      tl.set(".q2", { visibility: "visible" }, t1);
+      entra(".dir", w("directivos") - 0.12, 0.35, 10);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,33 @@
+<template>
+  <!-- R9 · la pizza mala, en su caja; la cámara se acerca. Sin 2.5D: la pizza es una superficie que se aleja poco a poco
+       y cualquier corte por profundidad la cruzaba con una franja borrosa. Fotograma 0 = miniatura: LO DIJO EN LA TELE:
+       SU PIZZA ERA MALA, quieto. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .capa25 { position: absolute; inset: 0; transform-origin: 50% 30%; }
+    #{{ID}} .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo25 img { filter: saturate(0.75) contrast(1.06); }
+    #{{ID}} .tele { position: absolute; left: 80px; top: 214px; }
+    #{{ID}} .tele b { background: rgba(10, 11, 13, 0.78); padding: 0.1em 0.3em; }
+    #{{ID}} .tit { position: absolute; left: 80px; top: 1010px; width: 900px; }
+    #{{ID}} .tit .l { display: block; white-space: nowrap; }
+    #{{ID}} .tit .bloque { display: inline-block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/pizza.jpg" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="mono tele"><i>Lo dijo en la tele</i> &nbsp;<b>en un anuncio</b></div>
+      <div class="titular tit"><span class="l">Su pizza</span><span class="l"><span class="bloque">era mala.</span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".fondo25", { scale: 1, y: 0 }, { scale: 1.09, y: 16, duration: DUR, ease: "none" }, 0);
+      tl.fromTo(".tit .bloque", { scale: 1 }, { keyframes: [{ scale: 1.06, duration: 0.1 }, { scale: 1, duration: 0.25 }], transformOrigin: "left center", immediateRender: false }, w("mala") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,41 @@
+<template>
+  <!-- R6 · el dato, para que se entienda: dos barras enteras. En la de lo que ingresa, las cuotas son una raya (1,9 %); en la
+       del beneficio, más de la mitad (51 %). Con la voz y con su fuente (informe anual de 2025). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .cab { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .fila { position: absolute; left: 80px; width: 860px; }
+    #{{ID}} .f1 { top: 330px; }
+    #{{ID}} .f2 { top: 700px; }
+    #{{ID}} .que { font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: uppercase; }
+    #{{ID}} .barra { position: relative; margin-top: 26px; height: 130px; background: #2a2d33; overflow: hidden; }
+    #{{ID}} .barra i { position: absolute; left: 0; top: 0; height: 130px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .f1 .barra i { width: 1.93%; min-width: 12px; }
+    #{{ID}} .f2 .barra i { width: 51.3%; }
+    #{{ID}} .dato { margin-top: 22px; font: 800 72px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .dato small { display: block; margin-top: 10px; font: 500 30px/1.2 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cbd0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono cab"><i>Cuotas de socio</i> &nbsp;<b>ejercicio 2025</b></div>
+      <div class="fila f1"><div class="que">De lo que ingresa</div><div class="barra"><i></i></div><div class="dato d1 num">1,9 %<small>menos del 2 %</small></div></div>
+      <div class="fila f2"><div class="que">De su beneficio</div><div class="barra"><i></i></div><div class="dato d2 num">51 %<small>más de la mitad</small></div></div>
+      <div class="fuente">Fuente: Costco, informe anual 2025 · cuotas, 5.323 M$ · ingresos, 275.235 M$ · beneficio operativo, 10.383 M$</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".cab", 0, 0.3);
+      aparece(".fuente", 0.3, 0.3);
+      // Las dos barras enteras están desde el corte; la parte roja se llena con la voz.
+      tl.fromTo([".f1 .que", ".f1 .barra", ".f2 .que", ".f2 .barra"], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out", stagger: 0.06 }, 0);
+      tl.fromTo(".f1 .barra i", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, w("menos") - 0.05);
+      entra(".d1", w("dos") - 0.1, 0.35, 10);
+      tl.fromTo(".f2 .barra i", { scaleX: 0 }, { scaleX: 1, duration: f("mitad") - w("más") + 0.2, ease: "power2.inOut" }, w("más") - 0.1);
+      entra(".d2", w("mitad") - 0.1, 0.35, 10);
+      fin();
+    })();
+  </script>
+</template>

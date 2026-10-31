@@ -1,0 +1,36 @@
+<template>
+  <!-- R8 · lo que decían los clientes, en dos comentarios genéricos (sin marca de ninguna red): «la masa sabe a cartón» y
+       «la salsa, a kétchup», que llegan con la voz; arriba, quién y cuándo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .quien { position: absolute; left: 80px; top: 236px; font: 800 120px/0.95 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+    #{{ID}} .quien small { display: block; margin-top: 16px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: #8a8d93; }
+    #{{ID}} .com { position: absolute; left: 80px; width: 860px; padding: 34px 40px 36px 150px; background: #f1ede4; color: #141414; border-radius: 26px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); }
+    #{{ID}} .com::before { content: ""; position: absolute; left: 40px; top: 34px; width: 80px; height: 80px; border-radius: 50%; background: #c9c3b6; }
+    #{{ID}} .com .who { font: 500 26px/1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #6d675d; }
+    #{{ID}} .com .txt { margin-top: 12px; font: 700 64px/1.05 "Inter Tight", sans-serif; letter-spacing: -0.02em; }
+    #{{ID}} .com .txt b { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; font-weight: 800; }
+    #{{ID}} .c1 { top: 520px; }
+    #{{ID}} .c2 { top: 790px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="quien"><span class="nm">DOMINO'S</span><small>2009 · lo que decían sus clientes</small></div>
+      <div class="com c1"><div class="who">CLIENTE</div><div class="txt">«La masa sabe a <b>cartón</b>»</div></div>
+      <div class="com c2"><div class="who">CLIENTE</div><div class="txt">«La salsa, a <b>kétchup</b>»</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea(".quien .nm");
+      sube(ps[0], 0, 0.45);
+      tl.fromTo(".quien small", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, w("dos") - 0.1);
+      tl.fromTo(".c1", { autoAlpha: 0, y: 60, rotation: -3 }, { autoAlpha: 1, y: 0, rotation: -1.5, duration: 0.45, ease: "back.out(1.4)" }, w("masa") - 0.25);
+      tl.fromTo(".c2", { autoAlpha: 0, y: 60, rotation: 3 }, { autoAlpha: 1, y: 0, rotation: 1.2, duration: 0.45, ease: "back.out(1.4)" }, w("salsa") - 0.25);
+      fin();
+    })();
+  </script>
+</template>

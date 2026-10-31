@@ -1,0 +1,43 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>Era</span> <span>Domino&#x27;s</span></div>
+      <div class="g" id="sub1"><span>en</span> <span>2009</span></div>
+      <div class="g" id="sub2"><span>En</span> <span>vez</span> <span>de</span> <span>esconderlo</span></div>
+      <div class="g" id="sub3"><span>lo</span> <span>puso</span> <span>en</span> <span>un</span> <span>anuncio</span></div>
+      <div class="g" id="sub4"><span>las</span> <span>críticas</span></div>
+      <div class="g" id="sub5"><span>una</span> <span>por</span> <span>una</span></div>
+      <div class="g" id="sub6"><span>y</span> <span>a</span> <span>sus</span> <span>directivos</span></div>
+      <div class="g" id="sub7"><span>escuchándolas</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[5.091,5.831,[[5.131,5.251],[5.331,5.771]]],[5.831,7.157,[[5.871,5.951],[6.011,6.771]]],[12.385,13.965,[[12.425,12.505],[12.565,12.685],[12.745,12.785],[12.825,13.485]]],[13.965,15.685,[[14.005,14.065],[14.165,14.425],[14.465,14.525],[14.565,14.625],[14.685,15.205]]],[15.685,16.865,[[15.725,15.865],[15.965,16.505]]],[16.865,17.965,[[16.905,17.065],[17.145,17.245],[17.325,17.565]]],[17.965,19.065,[[18.005,18.025],[18.105,18.125],[18.205,18.345],[18.425,19.025]]],[19.065,20.245,[[19.105,19.945]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 43.055);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

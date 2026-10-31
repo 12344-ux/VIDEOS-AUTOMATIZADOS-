@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Recursos de los cortos verticales de BusinessForMen, en salidas/businessformen/cortos/<corto>/ (lo que ya exista no
-# se repite): la base de la marca (fuentes y texturas), la voz de cada corto, la música y las imágenes.
-#   canales/businessformen/cortos/preparar.sh
-# Orden pensado para la RAM: la voz y la música antes que FLUX (no caben a la vez con el servidor de imágenes).
+# se repite): la base de la marca (fuentes y texturas), la voz de cada corto, la música, las imágenes y sus capas 2.5D.
+#   canales/businessformen/cortos/preparar.sh                       todos los cortos
+#   canales/businessformen/cortos/preparar.sh 04-el-ancla 05-el-perrito
+# Orden pensado para la RAM: la voz y la música antes que FLUX (no caben a la vez con el servidor de imágenes); la
+# profundidad, después de apagarlo.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/../../.." && pwd)"
@@ -13,7 +15,7 @@ MARCA="$REPO/salidas/businessformen/marca"
 PYP="$H/piper/bin/python"
 PYF="$H/fastsdcpu/env/bin/python"
 JSD=https://cdn.jsdelivr.net/npm
-CORTOS=(01-la-clausula 02-la-cuerda 03-para-siempre)
+if [ $# -gt 0 ]; then CORTOS=("$@"); else mapfile -t CORTOS < <(cd "$AQUI" && ls -d [0-9][0-9]-*/ | tr -d /); fi
 mkdir -p "$S/musica" "$MARCA"/{img,fuentes}
 paso() { printf '\n== %s (%s)\n' "$*" "$(date +%H:%M:%S)"; }
 
@@ -40,32 +42,30 @@ Image.fromarray(np.dstack([np.full_like(alfa, 255)] * 3 + [alfa]), 'RGBA').save(
 EOF
 
 for c in "${CORTOS[@]}"; do
-  paso "Voz de $c: Supertonic-3 M1, frase a frase y alineada"
+  # recursos/velocidad (opcional): la duración relativa de la voz (1,04 = un 4 % más pausada).
+  vel=$(cat "$AQUI/$c/recursos/velocidad" 2>/dev/null || echo 1.0)
+  paso "Voz de $c: Supertonic-3 M1 (velocidad $vel), frase a frase y alineada"
   mkdir -p "$S/$c"/{voz,musica,img}
-  [ -s "$S/$c/voz/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz/voz.wav"
+  [ -s "$S/$c/voz/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz/voz.wav" --velocidad "$vel"
 done
 
-paso "Música: MusicGen, cuatro candidatas de 30 s en un lote"
+paso "Música: MusicGen, tandas de cuatro candidatas de 30 s (musica.json)"
 python3 "$REPO/imagen/generar.py" --parar >/dev/null 2>&1 || true
-if [ ! -s "$S/musica/pieza_4.wav" ]; then
-  mapfile -t desc < <(python3 -c "import json; [print(x) for x in json.load(open('$AQUI/musica.json'))['candidatas']]")
-  "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$S/musica/pieza.wav" --duracion 30 \
-    --semilla "$(python3 -c "import json; print(json.load(open('$AQUI/musica.json'))['semilla'])")"
-fi
-# Segunda tanda: dos de la primera salieron casi todo graves (ver musica.json).
-if [ ! -s "$S/musica/v2/pieza_4.wav" ]; then
-  mkdir -p "$S/musica/v2"
-  mapfile -t desc < <(python3 -c "import json; [print(x) for x in json.load(open('$AQUI/musica.json'))['candidatas_2']]")
-  "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$S/musica/v2/pieza.wav" --duracion 30 \
-    --semilla "$(python3 -c "import json; print(json.load(open('$AQUI/musica.json'))['semilla_2'])")"
-fi
-python3 "$REPO/audio/graves.py" "$S"/musica/pieza_*.wav "$S"/musica/v2/pieza_*.wav
+python3 -c "import json; [print(t['carpeta'] or '.', t['semilla']) for t in json.load(open('$AQUI/musica.json'))['tandas']]" |
+  while read -r carpeta semilla; do
+    [ -s "$S/musica/$carpeta/pieza_4.wav" ] && continue
+    mkdir -p "$S/musica/$carpeta"
+    mapfile -t desc < <(python3 -c "import json; [print(x) for t in json.load(open('$AQUI/musica.json'))['tandas'] if (t['carpeta'] or '.') == '$carpeta' for x in t['candidatas']]")
+    "$PYF" "$REPO/audio/musica_ia.py" "${desc[@]}" -o "$S/musica/$carpeta/pieza.wav" --duracion 30 --semilla "$semilla" </dev/null
+  done
+python3 "$REPO/audio/graves.py" "$S"/musica/pieza_*.wav "$S"/musica/v*/pieza_*.wav
 # Los lechos de cada corto, sin entrada (el bucle no puede empezar en silencio): ver «lechos» en musica.json.
 python3 -c "import json; [print(k, v['pieza'], v['duracion'], v['entrada'], v['recorte']) for k, v in json.load(open('$AQUI/musica.json'))['lechos'].items()]" |
   while read -r destino pieza dura entrada recorte; do
     mkdir -p "$(dirname "$S/$destino")/musica"
     f="$S/$(dirname "$destino")/musica/$(basename "$destino").wav"
-    [ -s "$f" ] || python3 "$REPO/audio/lecho.py" "$S/musica/$pieza.wav" "$dura" -o "$f" --entrada "$entrada" --recorte "$recorte" --cruce 3
+    [ -s "$f" ] || [ ! -s "$S/musica/$pieza.wav" ] || \
+      python3 "$REPO/audio/lecho.py" "$S/musica/$pieza.wav" "$dura" -o "$f" --entrada "$entrada" --recorte "$recorte" --cruce 3
   done
 
 paso "Imágenes: FLUX.3, 720 × 1280, ampliadas con EDSR a 1080 × 1920"
@@ -75,23 +75,36 @@ aqui, s, cortos = sys.argv[1], sys.argv[2], sys.argv[3:]
 lote = []
 for c in cortos:
     for p in json.load(open(os.path.join(aqui, c, 'recursos', 'imagenes.json')))['planchas']:
-        if not os.path.exists(os.path.join(s, c, 'img', p['nombre'] + '.jpg')):
+        if not os.path.exists(os.path.join(s, c, 'img', p['nombre'] + '.png')):
             lote.append({"prompt": p["prompt"], "salida": os.path.join(s, c, 'img', p['nombre'] + '.png'), "ancho": 720,
                          "alto": 1280, "semilla": p["semilla"], "modelo": "flux3"})
 print(json.dumps(lote))
 EOF
 if [ "$(cat "$S/lote-imagenes.json")" != "[]" ]; then
   python3 "$REPO/imagen/generar.py" --lote "$S/lote-imagenes.json"
-  python3 "$REPO/imagen/generar.py" --parar >/dev/null 2>&1 || true
 fi
+python3 "$REPO/imagen/generar.py" --parar >/dev/null 2>&1 || true
 for c in "${CORTOS[@]}"; do
   for f in "$S/$c"/img/*.png; do
     [ -e "$f" ] || continue
-    case "$f" in *_1920.png) continue ;; esac
+    case "$f" in *_1920.png|*_frente.png|*_prof.png|*_mapa.png) continue ;; esac
     j="${f%.png}.jpg"
     [ -s "$j" ] && continue
     "$PYF" "$REPO/imagen/ampliar.py" "$f" -o "${f%.png}_1920.png" --tamano 1080x1920
     python3 -c "from PIL import Image; Image.open('${f%.png}_1920.png').convert('RGB').save('$j', quality=93)"
   done
+done
+
+# «umbral» (opcional): la profundidad del corte entre frente y fondo, si la automática parte el objeto.
+paso "2.5D: profundidad (Depth Anything V2 Small) y capas de las imágenes con «capas»"
+for c in "${CORTOS[@]}"; do
+  python3 -c "import json; [print(p['nombre'], p.get('umbral', '')) for p in json.load(open('$AQUI/$c/recursos/imagenes.json'))['planchas'] if p.get('capas')]" |
+    while read -r n umbral; do
+      i="$S/$c/img/$n.jpg"
+      [ -s "$i" ] || continue
+      [ -s "$S/$c/img/${n}_mapa.png" ] || "$PYF" "$REPO/imagen/profundidad.py" "$i" -o "$S/$c/img/${n}_mapa.png" </dev/null
+      [ -s "$S/$c/img/${n}_frente.png" ] || "$PYF" "$REPO/imagen/capas25d.py" "$i" "$S/$c/img/${n}_mapa.png" -o "$S/$c/img/$n" \
+        --suavidad 0.012 --margen 12 ${umbral:+--umbral "$umbral"} </dev/null
+    done
 done
 printf '\nListo en %d min %d s: %s\n' $((SECONDS / 60)) $((SECONDS % 60)) "$S"

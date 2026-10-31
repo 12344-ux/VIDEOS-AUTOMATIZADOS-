@@ -1,0 +1,35 @@
+<template>
+  <!-- R13 · «¿Cómo gana dinero una empresa así?»: la pregunta, palabra a palabra; «no vendiendo»: tachado; «cobrando la
+       entrada»: la respuesta en un bloque rojo, con una entrada de cine (el ticket) que se corta. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .preg { position: absolute; left: 80px; top: 260px; width: 900px; font: 800 120px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.04em; text-transform: uppercase; }
+    #{{ID}} .no { position: absolute; left: 80px; top: 560px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; color: #c9cbd0; }
+    #{{ID}} .no i { position: absolute; left: -8px; right: -8px; top: 52%; height: 14px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .si { position: absolute; left: 80px; top: 700px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .si span { display: inline-block; background: #b0122f; padding: 0.04em 0.16em 0.1em; }
+    #{{ID}} .ticket { position: absolute; left: 600px; top: 880px; width: 330px; height: 170px; border: 5px dashed #c9cbd0; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.14em; color: #f4f3f0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="preg">¿Cómo gana<br>dinero así?</div>
+      <div class="no">NO VENDIENDO.<i></i></div>
+      <div class="si"><span>COBRANDO<br>LA ENTRADA.</span></div>
+      <div class="ticket">ENTRADA</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea(".preg");
+      [w("cómo"), w("gana"), w("dinero"), w("así")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.4));
+      tl.fromTo(".no", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, w("no") - 0.1);
+      tl.fromTo(".no i", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.inOut" }, f("vendiendo") + 0.05);
+      tl.fromTo(".si span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("cobrando") - 0.1);
+      tl.fromTo(".ticket", { autoAlpha: 0, rotation: 12, y: 60 }, { autoAlpha: 1, rotation: -6, y: 0, duration: 0.45, ease: "back.out(1.6)" }, w("entrada") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

@@ -9,9 +9,18 @@ Consejo.
 | 1 | `01-la-clausula` | Negociación | El error de un gigante | «IBM firmó esto.» sobre el contrato |
 | 2 | `02-la-cuerda` | Organización interna | Antes y después, con giro | «La peor fábrica de EE. UU.» |
 | 3 | `03-para-siempre` | Marca | El mito desmontado | «1.500 años de tradición» sobre el anillo |
+| 4 | `04-el-ancla` | Precios y negociación | Un caso famoso y el experimento que lo explica | «999 $» en la pantalla del auditorio |
+| 5 | `05-el-perrito` | Modelo de negocio | La paradoja y su respuesta | «El mismo precio desde 1985» sobre el perrito |
+| 6 | `06-la-pizza` | Marketing y honestidad | El giro contra la intuición | «Lo dijo en la tele: su pizza era mala» |
+
+Los cortos 4–6 se hicieron para que **se entiendan más y con mejor edición**: temas cotidianos y una sola idea, menos
+fechas y nombres, la voz un 4 % más pausada, un dibujo que explica cada mecanismo (la regla del ancla, las dos barras
+de las cuotas, la columna de ventas), el 2.5D por capas en las fotos donde el objeto se recorta sobre un fondo liso (en las demás, acercamiento), el texto dentro de las pantallas de las fotos y
+transiciones que solapan las escenas (`entrada=` en `escena()`: la cortina roja de la marca, barridos con filo rojo,
+subidas e iris desde un objeto). Ninguna escena empieza vacía.
 
 ```bash
-canales/businessformen/cortos/preparar.sh                     # marca, voces, música e imágenes (en salidas/…/cortos/)
+canales/businessformen/cortos/preparar.sh [corto…]             # marca, voces, música, imágenes y capas 2.5D (en salidas/…/cortos/)
 python3 canales/businessformen/kit/montar.py cortos/01-la-clausula
 cd canales/businessformen/cortos/01-la-clausula/proyecto && ../../../../../video/hf.sh check --json
 ../../../../../video/hf.sh render -o salida.mp4 --quality high --crf 20 --quiet

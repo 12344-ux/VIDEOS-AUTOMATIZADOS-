@@ -139,6 +139,8 @@ Para trabajar con HyperFrames, leer antes sus guías en
   puede salir con el 0 % o con el 85 %. Y mirar su energía por tramos: algunas se apagan a los 15–25 s.
 - `mix-blend-mode: destination-out` no existe en CSS (el sello salía rosado): el desgaste de un sello va con
   `mask-image: url(desgaste.png)`.
+- El 2.5D por capas (`imagen/capas25d.py`) solo vale si el corte sigue el contorno de un objeto sobre un fondo liso: en
+  una mesa, un pasillo o una pizza en su caja deja una franja borrosa. Mirarlo a tamaño real en el MP4, no en la hoja.
 - En vertical, las mayúsculas de Inter Tight 800 ocupan unos 0,6 em por letra: calcular el ancho de cada línea
   (cabe en unos 880 px) o el titular parte en un renglón más y pisa lo de debajo.
 

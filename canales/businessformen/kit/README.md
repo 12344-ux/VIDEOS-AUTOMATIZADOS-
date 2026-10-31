@@ -22,6 +22,27 @@ cd canales/businessformen/videos/<vídeo>/proyecto && ../../../../../video/hf.sh
   son las animaciones de la marca.
 - `marca.css` y `ayuda.js`: lo que comparten todas las escenas.
 
+## Cortos verticales, transiciones y 2.5D (sesión 4)
+
+- `formato(1080, 1920, voz0=0.1, cola=…)`, `subtitulos()` y `sin_subtitulos(desde, hasta)` en `montaje.py`: el lienzo
+  vertical y los subtítulos quemados (ver `../cortos/README.md`). `/*CORTO*/` mete `corto.css` en una plantilla.
+- `escena(…, entrada="cortina" | "barrido" | "subida" | {"tipo": "iris", "x": …, "y": …})`: la escena entra sobre la
+  anterior, que sigue debajo mientras dura la transición (0,4–0,5 s; el anfitrión de la anterior se alarga). Cada escena
+  va encima de la anterior (`z-index`) y en pistas alternas del Studio. La entrada es un `clip-path` sobre la raíz de la
+  escena, así que no choca con los temblores (que mueven la raíz con `x`/`y`).
+- `profundidad(t0, d, {f1, s1, sx, sy, …})` en `ayuda.js`: el 2.5D por capas. La plantilla pone dos capas
+  (`.fondo25` con `<n>_fondo.jpg` y `.frente25` con `<n>_frente.png`, de `imagen/capas25d.py`) y el frente se mueve más
+  que el fondo. Lo que tiene que moverse con una capa (un precio en una pantalla de la foto) va dentro de esa capa.
+  **Solo sirve si el corte sigue el contorno de algo sobre un fondo liso** (el auditorio y su público, el perrito y el
+  vaso sobre negro): en una superficie que se aleja poco a poco (una mesa vista en picado, un pasillo, una pizza en su
+  caja) cualquier corte la cruza y deja una franja borrosa que se ve aunque el paralaje sea pequeño. Ahí, acercamiento
+  sin capas. Si el corte automático parte el objeto, `"umbral"` en `imagenes.json` (ver `../cortos/preparar.sh`), y
+  mirar el resultado a tamaño real al principio y al final del movimiento: el hueco rellenado asoma donde no se espera
+  (el interior de un vaso, que está más lejos que su borde).
+- `aparece(sel, 0, d)` deja el elemento invisible en el fotograma 0 (el `fromTo` empieza en opacidad 0): lo que tiene
+  que estar en la miniatura no se anima, se deja puesto.
+- Una plantilla que no está en `escenas/` se busca en `../comun/` (el golpe rojo de los cortos).
+
 ## Lo que hay que saber (medido o roto al hacer el vídeo 1)
 
 - HyperFrames encierra el CSS de cada subcomposición bajo `[data-composition-id="…"]`: la raíz de la plantilla no

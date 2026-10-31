@@ -1,0 +1,170 @@
+<template>
+  <!-- R9 + R8 · el almacén (la cámara avanza por el pasillo, hacia el fondo) y, en «cuota de socio», una tarjeta de socio
+       genérica (ninguna marca imitada) que gira hasta quedar de frente con CUOTA ANUAL. Sin 2.5D: las estanterías se alejan
+       sin corte y las capas salían con franjas dobles. -->
+  <style>
+    /* Marca BusinessForMen (ruta Consejo): grafito, blanco y carmesí; Inter Tight e IBM Plex Mono. */
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0a0b0d; color: #f4f3f0; font-family: "Inter Tight", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 30px/1.25 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    .esc .mono b { font-weight: 500; color: #f4f3f0; }
+    .esc .mono i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.08em 0.34em; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .fuerte { font-weight: 800; letter-spacing: -0.032em; line-height: 1.0; }
+    .esc .bloque { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; }
+    .esc .rojo { background: #b0122f; }
+    .esc .cortina { position: absolute; inset: 0; background: #b0122f; z-index: 40; visibility: hidden; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    /* Índice de una lista que se recorre en varias escenas (las reglas): un cuadro por punto, el actual en rojo. */
+    .esc .idx { position: absolute; left: 150px; top: 100px; display: flex; gap: 12px; }
+    .esc .idx i { width: 50px; height: 50px; border: 3px solid #8a8d93; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+      font: 800 28px/1 "Inter Tight", sans-serif; font-style: normal; color: #8a8d93; }
+    .esc .idx i.on { background: #b0122f; border-color: #b0122f; color: #f4f3f0; }
+
+    /* Cortos verticales de BusinessForMen (1080 × 1920). Lo que se lee va entre x 80–940 e y 200–1130: arriba, la barra
+       del móvil; a la derecha, los botones de las apps; abajo, de 1168 a 1320, los subtítulos, y debajo, el texto y la
+       interfaz de cada app (solo textura ahí). Cifras y titulares, más grandes que en horizontal. */
+    .esc .mono { font-size: 34px; }
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 500 28px/1.3 "Plex Mono", monospace;
+      letter-spacing: 0.06em; color: rgba(244, 243, 240, 0.6); }
+    .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    /* Velo para leer sobre una imagen: oscuro arriba (la barra del móvil) y de la mitad hacia abajo (texto y apps). */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+      rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
+    .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
+    .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }
+
+    #s05 .capa25 { position: absolute; inset: 0; transform-origin: 54% 40%; }
+    #s05 .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #s05 .fondo25 img { filter: saturate(0.8) contrast(1.05); }
+    #s05 .hay { position: absolute; left: 80px; top: 226px; }
+    #s05 .hay b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #s05 .p3d { position: absolute; left: 140px; top: 640px; perspective: 1500px; }
+    #s05 .tarjeta { width: 800px; height: 480px; border-radius: 34px; padding: 50px 56px; position: relative;
+      background: linear-gradient(135deg, #c2163a 0%, #8a0f24 100%); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); }
+    #s05 .tarjeta .tipo { font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; color: #f4f3f0; }
+    #s05 .tarjeta .chip { position: absolute; left: 56px; top: 170px; width: 110px; height: 82px; border-radius: 12px; background: linear-gradient(135deg, #e8d7a8, #b89a5a); }
+    #s05 .tarjeta .num { position: absolute; left: 56px; bottom: 120px; font: 500 46px/1 "Plex Mono", monospace; letter-spacing: 0.14em; color: #f4f3f0; }
+    #s05 .tarjeta .cuota { position: absolute; left: 56px; bottom: 46px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.12em; color: rgba(244, 243, 240, 0.9); }
+  </style>
+  <div data-composition-id="s05" data-width="1080" data-height="1920">
+    <div id="s05" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/almacen.jpg" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="mono hay"><i>Para entrar</i> &nbsp;<b>hay que ser socio</b></div>
+      <div class="p3d"><div class="tarjeta"><div class="tipo">SOCIO</div><div class="chip"></div><div class="num">0000 · 2026</div><div class="cuota">CUOTA ANUAL</div></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de las escenas (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo local.
+      const W = {"este":[[0.12,0.3]],"perrito":[[0.38,0.72],[17.554,17.974],[37.027,37.387],[45.002,45.382]],"caliente":[[0.78,1.28]],"con":[[1.7,1.84],[7.588,7.708]],"bebida":[[1.9,2.28]],"cuesta":[[2.78,3.02]],"lo":[[3.08,3.14],[32.388,32.428]],"mismo":[[3.2,3.44]],"desde":[[3.52,3.74]],"mil":[[3.82,3.98]],"novecientos":[[4.04,4.58]],"ochenta":[[4.66,5.02]],"y":[[5.1,5.12],[6.66,6.68],[10.888,10.908],[46.802,46.822]],"cinco":[[5.22,5.54]],"un":[[6.04,6.14],[12.134,12.214],[41.312,41.352],[46.282,46.342]],"dólar":[[6.24,6.56],[46.422,46.722]],"medio":[[6.76,7.08],[10.988,11.308],[46.902,47.242]],"la":[[7.748,7.808],[24.259,24.319],[34.716,34.776],[38.8,38.86]],"inflación":[[7.848,8.408]],"hoy":[[8.908,9.028]],"costaría":[[9.128,9.628]],"unos":[[9.728,9.908]],"cuatro":[[10.008,10.308]],"dólares":[[10.388,10.808]],"cuando":[[11.874,12.094]],"directivo":[[12.254,12.694]],"de":[[12.734,12.814],[28.195,28.235],[32.248,32.308],[34.616,34.676],[35.196,35.256],[40.852,40.912],[43.472,43.532]],"cóstco":[[12.914,13.334],[26.195,26.595]],"quiso":[[13.594,13.834]],"subirlo":[[13.914,14.394]],"el":[[14.794,14.854],[17.414,17.474],[36.887,36.967],[37.687,37.747],[44.882,44.922]],"cofundador":[[14.934,15.594]],"le":[[15.694,15.754]],"respondió":[[15.834,16.354]],"si":[[16.894,17.014]],"subes":[[17.094,17.354]],"te":[[18.354,18.434]],"mato":[[18.494,18.794]],"arréglatelas":[[19.217,19.897]],"cómo":[[20.736,20.916]],"gana":[[20.976,21.176]],"dinero":[[21.236,21.516]],"una":[[21.576,21.676],[27.675,27.795]],"empresa":[[21.716,22.056]],"así":[[22.116,22.276]],"no":[[22.806,22.866],[37.447,37.507]],"vendiendo":[[22.906,23.366]],"cobrando":[[23.819,24.199]],"entrada":[[24.359,24.759]],"para":[[25.395,25.535],[39.26,39.4]],"comprar":[[25.615,25.935]],"en":[[25.995,26.055]],"hay":[[26.935,27.055]],"que":[[27.095,27.175],[32.508,32.588]],"pagar":[[27.255,27.555]],"cuota":[[27.895,28.155]],"socio":[[28.315,28.615]],"cada":[[28.675,28.875]],"año":[[29.015,29.275]],"esas":[[29.828,30.088]],"cuotas":[[30.188,30.548]],"son":[[30.648,30.808]],"menos":[[30.908,31.168]],"del":[[31.228,31.368]],"dos":[[31.468,31.608]],"por":[[31.708,31.828],[44.522,44.622]],"ciento":[[31.908,32.188]],"ingresa":[[32.648,33.168]],"pero":[[33.556,33.716]],"equivalen":[[33.776,34.256]],"a":[[34.336,34.356]],"más":[[34.416,34.556]],"mitad":[[34.836,35.156]],"su":[[35.316,35.416]],"beneficio":[[35.456,36.056]],"es":[[37.567,37.627],[38.66,38.74]],"negocio":[[37.807,38.247]],"razón":[[38.92,39.2]],"volver":[[39.46,39.8]],"antes":[[40.552,40.792]],"subir":[[40.972,41.252]],"precio":[[41.432,41.872]],"pregúntate":[[42.192,42.732]],"dónde":[[42.812,43.072]],"ganas":[[43.132,43.412]],"verdad":[[43.572,43.932]],"eso":[[44.662,44.822]],"sigue":[[45.462,45.722]],"costando":[[45.782,46.222]]}, T0 = 25.195, DUR = 4.433;
+      const RAIZ = document.getElementById("s05");
+      const limpia = (s) => s.toLowerCase().replace(/[^\wáéíóúüñ]/g, "");
+      // w("palabra", n): cuándo empieza la aparición n de esa palabra, en el tiempo de la escena; f(): cuándo acaba.
+      const w = (p, n = 1, fin = false) => {
+        const l = W[limpia(p)];
+        if (!l || !l[n - 1]) throw new Error(`s05: no está «${p}» (${n})`);
+        return l[n - 1][fin ? 1 : 0] - T0;
+      };
+      const f = (p, n = 1) => w(p, n, true);
+      // serie("palabra", k, n): el comienzo de las k palabras seguidas desde la aparición n de esa palabra.
+      const L = [["este",0.12,0.3],["perrito",0.38,0.72],["caliente",0.78,1.28],["con",1.7,1.84],["bebida",1.9,2.28],["cuesta",2.78,3.02],["lo",3.08,3.14],["mismo",3.2,3.44],["desde",3.52,3.74],["mil",3.82,3.98],["novecientos",4.04,4.58],["ochenta",4.66,5.02],["y",5.1,5.12],["cinco",5.22,5.54],["un",6.04,6.14],["dólar",6.24,6.56],["y",6.66,6.68],["medio",6.76,7.08],["con",7.588,7.708],["la",7.748,7.808],["inflación",7.848,8.408],["hoy",8.908,9.028],["costaría",9.128,9.628],["unos",9.728,9.908],["cuatro",10.008,10.308],["dólares",10.388,10.808],["y",10.888,10.908],["medio",10.988,11.308],["cuando",11.874,12.094],["un",12.134,12.214],["directivo",12.254,12.694],["de",12.734,12.814],["cóstco",12.914,13.334],["quiso",13.594,13.834],["subirlo",13.914,14.394],["el",14.794,14.854],["cofundador",14.934,15.594],["le",15.694,15.754],["respondió",15.834,16.354],["si",16.894,17.014],["subes",17.094,17.354],["el",17.414,17.474],["perrito",17.554,17.974],["te",18.354,18.434],["mato",18.494,18.794],["arréglatelas",19.217,19.897],["cómo",20.736,20.916],["gana",20.976,21.176],["dinero",21.236,21.516],["una",21.576,21.676],["empresa",21.716,22.056],["así",22.116,22.276],["no",22.806,22.866],["vendiendo",22.906,23.366],["cobrando",23.819,24.199],["la",24.259,24.319],["entrada",24.359,24.759],["para",25.395,25.535],["comprar",25.615,25.935],["en",25.995,26.055],["cóstco",26.195,26.595],["hay",26.935,27.055],["que",27.095,27.175],["pagar",27.255,27.555],["una",27.675,27.795],["cuota",27.895,28.155],["de",28.195,28.235],["socio",28.315,28.615],["cada",28.675,28.875],["año",29.015,29.275],["esas",29.828,30.088],["cuotas",30.188,30.548],["son",30.648,30.808],["menos",30.908,31.168],["del",31.228,31.368],["dos",31.468,31.608],["por",31.708,31.828],["ciento",31.908,32.188],["de",32.248,32.308],["lo",32.388,32.428],["que",32.508,32.588],["ingresa",32.648,33.168],["pero",33.556,33.716],["equivalen",33.776,34.256],["a",34.336,34.356],["más",34.416,34.556],["de",34.616,34.676],["la",34.716,34.776],["mitad",34.836,35.156],["de",35.196,35.256],["su",35.316,35.416],["beneficio",35.456,36.056],["el",36.887,36.967],["perrito",37.027,37.387],["no",37.447,37.507],["es",37.567,37.627],["el",37.687,37.747],["negocio",37.807,38.247],["es",38.66,38.74],["la",38.8,38.86],["razón",38.92,39.2],["para",39.26,39.4],["volver",39.46,39.8],["antes",40.552,40.792],["de",40.852,40.912],["subir",40.972,41.252],["un",41.312,41.352],["precio",41.432,41.872],["pregúntate",42.192,42.732],["dónde",42.812,43.072],["ganas",43.132,43.412],["de",43.472,43.532],["verdad",43.572,43.932],["por",44.522,44.622],["eso",44.662,44.822],["el",44.882,44.922],["perrito",45.002,45.382],["sigue",45.462,45.722],["costando",45.782,46.222],["un",46.282,46.342],["dólar",46.422,46.722],["y",46.802,46.822],["medio",46.902,47.242]];
+      const serie = (p, k, n = 1) => {
+        const i = L.map((q, j) => (q[0] === limpia(p) ? j : -1)).filter((j) => j >= 0)[n - 1];
+        if (i == null) throw new Error(`s05: no está «${p}» (${n})`);
+        return L.slice(i, i + k).map((q) => q[1] - T0);
+      };
+      const $ = (s) => RAIZ.querySelector(s);
+      const $$ = (s) => Array.from(RAIZ.querySelectorAll(s));
+      // Cifras a la española: punto de miles y signo menos tipográfico.
+      const fmt = (n, signo) => {
+        const a = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return (n < 0 ? "−" : signo && n > 0 ? "+" : "") + a;
+      };
+      const tl = gsap.timeline({ paused: true });
+      // Sube desde su máscara: 140 % para que las tildes de las mayúsculas (Á, É, Ú) no asomen antes de tiempo.
+      const sube = (sel, t, d = 0.45, ease = "expo.out") => tl.fromTo(sel, { yPercent: 140 }, { yPercent: 0, duration: d, ease }, t);
+      const entra = (sel, t, d = 0.45, dy = 26) => tl.fromTo(sel, { autoAlpha: 0, y: dy }, { autoAlpha: 1, y: 0, duration: d, ease: "expo.out" }, t);
+      const aparece = (sel, t, d = 0.3, max = 1) => tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: max, duration: d, ease: "power2.out" }, t);
+      const sale = (sel, t, d = 0.2) => tl.to(sel, { autoAlpha: 0, duration: d, ease: "power2.in" }, t);
+      // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
+      const cuenta = (el, desde, hasta, t, d, o = {}) => {
+        el = typeof el === "string" ? $(el) : el;
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
+        pinta();
+        tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
+      };
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
+      // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
+      const trocea = (el) => {
+        el = typeof el === "string" ? $(el) : el;
+        // Respeta los <br>: cada renglón se trocea por separado.
+        el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map((h) => h.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean)
+          .map((p) => `<span class="pal"><span>${p}</span></span>`).join("")).join("<br>");
+        return Array.from(el.querySelectorAll(".pal > span"));
+      };
+      // Cortinas rojas: la que se lleva la escena (sale) y la que se retira al empezar (entra).
+      const cortina = (modo, d) => {
+        const c = document.createElement("div");
+        c.className = "cortina"; RAIZ.appendChild(c);
+        if (modo === "entra") tl.fromTo(c, { scaleX: 1, autoAlpha: 1, transformOrigin: "right center" }, { scaleX: 0, duration: d || 0.42, ease: "power4.out" }, 0);
+        else tl.fromTo(c, { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" }, { scaleX: 1, duration: d || 0.3, ease: "power4.in" }, DUR - (d || 0.3));
+      };
+      // Dibujos en función del tiempo (lo que GSAP no interpola bien: un punto que recorre un círculo, por ejemplo).
+      const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
+      // Avance 0 → 1 entre t0 y t0 + d, con su curva.
+      const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
+      // Entrada de la escena sobre la anterior (montar.py: escena(…, entrada=…)); la anterior sigue debajo mientras dura.
+      const ENTRADA = {"tipo": "subida", "d": 0.42};
+      const entradaEscena = () => {
+        if (!ENTRADA) return;
+        const d = ENTRADA.d, t = ENTRADA.tipo, filo = (css) => { const f = document.createElement("div"); f.style.cssText = "position:absolute;z-index:60;background:#b0122f;" + css; RAIZ.appendChild(f); return f; };
+        const x = ENTRADA.x != null ? ENTRADA.x : 1080 / 2, y = ENTRADA.y != null ? ENTRADA.y : 1920 / 2;
+        // [recorte inicial, recorte final, curva, fracción de la duración]
+        const CLIP = {
+          cortina: ["inset(0% 100% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.in", 0.5],
+          barrido: ["inset(0% 0% 0% 100%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          subida: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          iris: [`circle(0% at ${x}px ${y}px)`, `circle(150% at ${x}px ${y}px)`, "power2.in", 1],
+        }[t];
+        tl.fromTo(RAIZ, { clipPath: CLIP[0] }, { clipPath: CLIP[1], duration: d * CLIP[3], ease: CLIP[2] }, 0);
+        if (t === "cortina") {
+          // El rojo cruza la escena anterior de izquierda a derecha y, al retirarse, descubre esta.
+          const c = filo("left:0;top:0;width:100%;height:100%;");
+          tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d / 2, ease: "power3.out", transformOrigin: "right center" }, d / 2);
+        } else if (t === "barrido" || t === "subida") {
+          // El filo rojo va con el borde de la escena que entra.
+          const f = t === "barrido" ? filo("left:0;top:0;width:10px;height:100%;") : filo("left:0;top:0;width:100%;height:10px;");
+          tl.fromTo(f, t === "barrido" ? { x: 1080 } : { y: 1920 }, Object.assign(t === "barrido" ? { x: 0 } : { y: 0 }, { duration: d, ease: "power3.inOut" }), 0);
+          tl.to(f, { autoAlpha: 0, duration: 0.12 }, d);
+        }
+      };
+      // 2.5D por capas (imagen/capas25d.py): el fondo se mueve poco y el frente recortado, más; la cámara parece avanzar.
+      const profundidad = (t0, d, o = {}) => {
+        tl.fromTo(o.fondo || ".fondo25", { scale: o.f0 || 1, x: 0, y: 0 }, { scale: o.f1 || 1.05, x: o.fx || 0, y: o.fy || 0, duration: d, ease: o.ease || "none" }, t0);
+        tl.fromTo(o.frente || ".frente25", { scale: o.s0 || 1, x: 0, y: 0 }, { scale: o.s1 || 1.13, x: o.sx || 0, y: o.sy || 0, duration: d, ease: o.ease || "none" }, t0);
+      };
+      const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s05"] = tl; };
+
+      tl.fromTo(".fondo25", { scale: 1 }, { scale: 1.14, duration: DUR, ease: "power1.inOut" }, 0);
+      entra(".hay", 0.1, 0.35, 8);
+      tl.fromTo(".tarjeta", { autoAlpha: 0, y: 700, rotationX: 55, rotationZ: -14 }, { autoAlpha: 1, y: 0, rotationX: 8, rotationZ: -4, duration: 0.75, ease: "power3.out" }, w("cuota") - 0.45);
+      fin();
+    })();
+  </script>
+</template>

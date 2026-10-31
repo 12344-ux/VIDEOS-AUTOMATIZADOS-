@@ -1,0 +1,6 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280 (vertical) y EDSR a 1080 × 1920. «capas»: además, profundidad y capas para el 2.5D (imagen/capas25d.py). La pantalla, en blanco: el precio se pone encima, en su perspectiva.",
+ "planchas": [
+  {"nombre": "escenario", "semilla": 104, "capas": true, "prompt": "a dark modern auditorium seen from the back rows, a huge glowing blank white presentation screen above a stage, a single small presenter silhouette standing on the stage, rows of audience heads in silhouette in the foreground, vertical composition with the screen in the upper half of the frame and the bottom third in dark shadow, cinematic editorial photography, low-key lighting, muted colors, 35mm film grain, no text, no logos, no brand names, no watermark"}
+ ]
+}

@@ -1,0 +1,46 @@
+<template>
+  <!-- R7 · la amenaza: un directivo quiere subirlo (1,50 → 1,75 $); el cofundador, Jim Sinegal, responde y la frase cae
+       entre comillas, con TE MATO en rojo y luego «Arréglatelas». La fuente, en pantalla (lo contó Craig Jelinek). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .sube { position: absolute; left: 80px; top: 236px; font: 800 120px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; }
+    #{{ID}} .sube .a { color: #f4f3f0; }
+    #{{ID}} .sube .fl { display: inline-block; margin: 0 0.18em; color: #8a8d93; }
+    #{{ID}} .sube .b { position: relative; display: inline-block; color: #c9cbd0; }
+    #{{ID}} .sube .b i { position: absolute; left: -8px; right: -8px; top: 52%; height: 14px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .quien { position: absolute; left: 80px; top: 420px; }
+    #{{ID}} .cita { position: absolute; left: 80px; top: 500px; width: 900px; font: italic 500 104px/1.04 "Bodoni Moda", serif; }
+    #{{ID}} .cita .mato { font-style: normal; font: 800 112px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; background: #b0122f; padding: 0 0.14em 0.04em; display: inline-block; }
+    #{{ID}} .arr { position: absolute; left: 80px; top: 900px; font: italic 500 104px/1 "Bodoni Moda", serif; color: #f4f3f0; }
+    #{{ID}} .fuente { top: 1060px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="sube num"><span class="a">1,50 $</span><span class="fl">→</span><span class="b">1,75 $<i></i></span></div>
+      <div class="mono quien"><i>El cofundador, Jim Sinegal</i></div>
+      <div class="cita"><span class="c1">«Si subes el perrito,</span> <span class="mato">TE MATO.»</span></div>
+      <div class="arr">«Arréglatelas».</div>
+      <div class="fuente">Lo contó Craig Jelinek, su sucesor, en 2018</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // El directivo quiere subirlo: 1,50 → 1,75 $ (desde el corte).
+      tl.fromTo(".sube .a", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "expo.out" }, 0);
+      tl.fromTo(".sube .fl", { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, w("quiso") - 0.15);
+      tl.fromTo(".sube .b", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, w("subirlo") - 0.1);
+      entra(".quien", w("cofundador") - 0.12, 0.35, 8);
+      // La frase, palabra a palabra; TE MATO cae con un temblor y tacha la subida.
+      const pal = trocea(".cita .c1");
+      [w("si"), w("subes"), w("el", 2), w("perrito", 2)].forEach((t, i) => sube(pal[i], t - 0.07, 0.4));
+      tl.fromTo(".cita .mato", { autoAlpha: 0, scale: 1.4 }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in", transformOrigin: "30% 60%" }, w("te") - 0.08);
+      tl.fromTo(".sube .b i", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power3.inOut" }, w("mato") + 0.05);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -8, y: 5, duration: 0.05 }, { x: 6, y: -3, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, w("mato") + 0.05);
+      tl.fromTo(".arr", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, w("arréglatelas") - 0.1);
+      aparece(".fuente", w("arréglatelas"), 0.3);
+      fin();
+    })();
+  </script>
+</template>

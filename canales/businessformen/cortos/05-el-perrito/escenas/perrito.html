@@ -1,0 +1,56 @@
+<template>
+  <!-- R9 en 2.5D · el perrito: fondo y frente recortado (el perrito y el vaso) a distinta velocidad, con la etiqueta de
+       precio pegada. Modo «gancho» (fotograma 0 = miniatura): EL MISMO PRECIO DESDE 1985. Modo «razon»: NO ES EL
+       NEGOCIO → ES LA RAZÓN PARA VOLVER. Modo «cierre»: POR ESO SIGUE COSTANDO 1,50 $, y acaba como empieza el gancho. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .capa25 { position: absolute; inset: 0; transform-origin: 50% 32%; }
+    #{{ID}} .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo25 img { filter: saturate(0.9) contrast(1.04); }
+    #{{ID}} .tag { position: absolute; left: {{p:tx}}px; top: {{p:ty}}px; width: 250px; height: 250px; border-radius: 50%; background: #b0122f;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); }
+    #{{ID}} .tag b { font: 800 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; color: #f4f3f0; }
+    #{{ID}} .tag small { margin-top: 8px; font: 500 28px/1 "Plex Mono", monospace; letter-spacing: 0.1em; color: rgba(244, 243, 240, 0.9); }
+    #{{ID}} .tit { position: absolute; left: 80px; top: 980px; width: 900px; font-size: 96px; }
+    #{{ID}} .tit .l { display: block; white-space: nowrap; }
+    #{{ID}} .tit .bloque { display: inline-block; }
+    #{{ID}} .tit .tacha { position: relative; display: inline-block; color: #c9cbd0; }
+    #{{ID}} .tit .tacha i { position: absolute; left: -8px; right: -8px; top: 52%; height: 14px; background: #b0122f; transform-origin: left center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/perrito_fondo.jpg" alt="" /></div>
+      <div class="capa25 frente25" data-layout-allow-overflow><img src="assets/img/perrito_frente.png" alt="" />
+        <div class="tag"><b class="num">1,50 $</b><small>CON BEBIDA</small></div></div>
+      <div class="capa velo" data-layout-allow-occlusion></div>
+      <div class="titular tit">{{p:titulo}}</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = "{{p:modo}}";
+      // La cámara: en el gancho y en la razón se acerca; en el cierre vuelve hasta el encuadre del gancho (el bucle).
+      if (modo === "cierre") profundidad(0, DUR, { f0: 1.05, f1: 1, s0: 1.12, s1: 1, ease: "power1.out" });
+      else profundidad(0, DUR, { f1: 1.05, s1: 1.12 });
+      tl.fromTo(".tag", { rotation: -8 }, { rotation: -8, duration: 0.01 }, 0);
+      if (modo === "gancho") {
+        tl.fromTo(".tag", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: 0.12 }, { scale: 1, duration: 0.3 }], immediateRender: false }, w("dólar") - 0.05);
+      } else if (modo === "razon") {
+        const l2 = $(".tit .l2");
+        tl.fromTo(".tit .tacha i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("negocio") + 0.2);
+        tl.fromTo(".tit .l1", { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0);
+        tl.to(".tit .l1", { opacity: 0.45, duration: 0.3 }, w("es", 2) - 0.1);
+        const ps = trocea(".tit .l2");
+        serie("es", 3, 2).forEach((t, i) => sube(ps[i], t - 0.07, 0.4));
+        tl.fromTo(".tit .l3 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("para", 2) - 0.1);
+      } else {
+        const ps = trocea(".tit .l1");
+        [w("por", 2), w("eso"), w("sigue")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.4));
+        tl.fromTo(".tit .l2 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("costando") - 0.1);
+      }
+      fin();
+    })();
+  </script>
+</template>

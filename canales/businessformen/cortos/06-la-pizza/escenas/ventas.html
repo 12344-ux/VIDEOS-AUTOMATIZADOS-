@@ -1,0 +1,49 @@
+<template>
+  <!-- R6 + R3 · el resultado: las ventas en los mismos locales, el trimestre de antes (100) y el de después (114,3), a escala;
+       la cifra cuenta hasta +14,3 % en «catorce por ciento». Fuente en pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .cab { position: absolute; left: 80px; top: 226px; width: 860px; }
+    #{{ID}} .col { position: absolute; bottom: 860px; width: 330px; transform-origin: 50% 100%; }
+    #{{ID}} .c1 { left: 130px; height: 420px; background: #8a8d93; }
+    #{{ID}} .c2 { left: 580px; height: 480px; background: #b0122f; }
+    #{{ID}} .base { position: absolute; left: 80px; width: 860px; top: 1060px; height: 4px; background: #f4f3f0; }
+    #{{ID}} .e { position: absolute; top: 1080px; width: 330px; text-align: center; font: 500 28px/1.25 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cbd0; }
+    #{{ID}} .e1 { left: 130px; }
+    #{{ID}} .e2 { left: 580px; }
+    #{{ID}} .mas { position: absolute; left: 470px; top: 360px; width: 560px; text-align: right; font: 800 150px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+    #{{ID}} .fuente { top: 1150px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono cab"><i>Ventas en los mismos locales</i> &nbsp;<b>EE.&nbsp;UU.</b></div>
+      <div class="col c1"></div>
+      <div class="col c2"></div>
+      <div class="base"></div>
+      <div class="mas num">+0 %</div>
+      <div class="e e1">Trimestre de antes</div>
+      <div class="e e2">Los 3 meses siguientes</div>
+      <div class="fuente">Fuente: Domino's, primer trimestre de 2010 frente al de 2009</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".cab", 0, 0.3);
+      tl.fromTo(".base", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out", transformOrigin: "left center" }, 0);
+      tl.fromTo(".c1", { scaleY: 0 }, { scaleY: 1, duration: 0.55, ease: "expo.out" }, 0.1);
+      aparece(".e1", 0.3, 0.3);
+      // La segunda columna arranca a la altura de la primera y sube un 14,3 % en «subieron un catorce por ciento».
+      tl.fromTo(".c2", { scaleY: 0 }, { scaleY: 420 / 480, duration: 0.55, ease: "expo.out" }, w("ventas") - 0.1);
+      aparece(".e2", w("ventas") - 0.1, 0.3);
+      tl.to(".c2", { scaleY: 1, duration: f("ciento") - w("subieron"), ease: "power2.inOut" }, w("subieron") - 0.05);
+      aparece(".mas", w("subieron") - 0.1, 0.2);
+      const m = $(".mas"), o = { x: 0 };
+      tl.fromTo(o, { x: 0 }, { x: 143, duration: f("ciento") - w("subieron"), ease: "power2.inOut",
+        onUpdate: () => { m.textContent = "+" + (o.x / 10).toFixed(1).replace(".", ",") + " %"; } }, w("subieron") - 0.05);
+      aparece(".fuente", w("subieron"), 0.3);
+      fin();
+    })();
+  </script>
+</template>
