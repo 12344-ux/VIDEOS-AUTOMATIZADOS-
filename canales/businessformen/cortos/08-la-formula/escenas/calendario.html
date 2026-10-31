@@ -4,7 +4,7 @@
   <style>
 /*MARCA*/
 /*CORTO*/
-    #{{ID}} .foto { transform-origin: 50% 60%; }
+    #{{ID}} .foto { transform-origin: 50% 100%; }   /* la fila de arriba del estante (latas con letras), fuera */
     #{{ID}} .rej { position: absolute; left: 90px; top: 520px; width: 900px; display: grid; grid-template-columns: repeat(10, 72px); gap: 16px 18px; }
     #{{ID}} .rej i { display: block; width: 72px; height: 50px; border: 3px solid rgba(244, 243, 240, 0.55); box-sizing: border-box; }
     #{{ID}} .cont { position: absolute; left: 80px; top: 236px; }
@@ -28,14 +28,14 @@
 /*AYUDA*/
       const rej = $(".rej"), dias = [];
       for (let i = 0; i < 79; i++) { const d = document.createElement("i"); rej.appendChild(d); dias.push(d); }
-      tl.fromTo(".foto", { filter: "brightness(0.25) saturate(0.6)", scale: 1.04 }, { filter: "brightness(0.25) saturate(0.6)", scale: 1.04, duration: 0.01 }, 0);
+      tl.fromTo(".foto", { filter: "brightness(0.25) saturate(0.6)", scale: 1.32 }, { filter: "brightness(0.25) saturate(0.6)", scale: 1.32, duration: 0.01 }, 0);
       const t0 = Math.max(0.05, w("Setenta") - 0.1), t1 = f("días") + 0.1;
       dias.forEach((d, i) => tl.to(d, { backgroundColor: "#b0122f", borderColor: "#b0122f", duration: 0.05 }, t0 + (t1 - t0) * i / 79));
       cuenta($(".cont .n"), 0, 79, t0, t1 - t0, { ease: "none", crudo: true });
       // «volvió la de siempre»: el estante se ilumina y el sello.
       const tv = w("volvió") - 0.1;
       tl.to([".rej", ".cont"], { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, tv);
-      tl.to(".foto", { filter: "brightness(1) saturate(1)", scale: 1.1, duration: 0.9, ease: "power2.out" }, tv);
+      tl.to(".foto", { filter: "brightness(1) saturate(1)", scale: 1.38, duration: 0.9, ease: "power2.out" }, tv);
       tl.fromTo(".sello", { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, w("siempre") - 0.05);
       fin();
     })();

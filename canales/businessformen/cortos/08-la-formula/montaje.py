@@ -21,7 +21,7 @@ escena('s05', 'foto', w('La lanzó', mas=-0.15), foto='telefonos', entrada='subi
            dict(html='5.000', clase='cifra', x=80, y=420, en=['cinco', 2, -0.05], modo='grande'),
            dict(html='llamadas de queja al día', clase='nota', x=86, y=640, en=['llamadas', 1, -0.05])]))
 escena('s06', 'foto', w('La gente no', mas=-0.15), foto='estante', entrada='barrido',
-       conf=dict(camara=[1.0, 1.08, 0, 0], textos=[
+       conf=dict(camara=[1.32, 1.38, 0, 0], origen='50% 100%', textos=[   # la fila de arriba (latas con letras), fuera
            dict(html='No querían<br>una mejor.', clase='titular', x=80, y=300, en=['quería', 1, -0.05]),
            dict(html='Querían la suya', clase='sello', x=80, y=960, en=['suya', 1, -0.08], modo='sello')]))
 escena('s07', 'calendario', w('Setenta', mas=-0.15), entrada='subida')
