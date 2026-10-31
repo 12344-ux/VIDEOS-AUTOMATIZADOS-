@@ -787,7 +787,8 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   por lugar en vez de un efecto por palabra, golpes solo donde algo golpea en pantalla y uno grave por vídeo, ningún
   sonido de interfaz (pop, click, riser, whoosh) y 10–15 efectos por minuto como mucho.
 - **Juliane, rehecho:** 17 efectos (15 por minuto), 0 avisos, los efectos 17,4 LU bajo la voz; la música del
-  principio, de −6 a −8 LU bajo la voz. RENDER_JULIANE2
+  principio, de −6 a −8 LU bajo la voz. Vuelto a renderizar (218 s, con FLUX a la vez) y a entregar: 69,4 s,
+  −14,6 LUFS, −1,6 dBTP, el bucle limpio (1,9 de diferencia media sobre 255) y ningún hueco de sonido.
 
 ### 2. Dos historias más, elegidas con el rastreador
 
