@@ -1,0 +1,52 @@
+<template>
+  <!-- La cata a ciegas, dibujada sobre la foto de la cata en penumbra: dos vasos iguales, A y B; «doscientas»: el contador de
+       catas corre hasta 200.000; «nueva»: el B es la nueva y gana; «errores»: el sello UN ERROR, torcido, encima de todo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.28) saturate(0.7); transform: scale(1.06); }
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .vaso { fill: #f4f3f0; }
+    #{{ID}} .cola { fill: #3a1d14; }
+    #{{ID}} .mesa { stroke: rgba(244, 243, 240, 0.6); stroke-width: 4; }
+    #{{ID}} .letra { position: absolute; top: 1010px; width: 200px; text-align: center; font: 800 80px/1 "Inter Tight", sans-serif; }
+    #{{ID}} .cont { position: absolute; left: 80px; top: 236px; }
+    #{{ID}} .cont small { display: block; font: 500 34px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    #{{ID}} .cont .n { font: 800 190px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .gana { position: absolute; left: 600px; top: 560px; font: 800 64px/1 "Inter Tight", sans-serif; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .gana span { display: inline-block; background: #b0122f; padding: 0.08em 0.18em 0.02em; }
+    #{{ID}} .error { position: absolute; left: 150px; top: 640px; font: 800 170px/1 "Inter Tight", sans-serif; text-transform: uppercase;
+      letter-spacing: -0.03em; color: #b0122f; border: 14px solid #b0122f; padding: 0.04em 0.18em 0; transform: rotate(-9deg); visibility: hidden;
+      background: rgba(10, 11, 13, 0.55); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/cata.jpg" alt="" />
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <g class="v1"><path class="vaso" d="M250,700 L430,700 L405,990 L275,990 Z" /><path class="cola" d="M260,760 L420,760 L405,975 L275,975 Z" /></g>
+        <g class="v2"><path class="vaso" d="M650,700 L830,700 L805,990 L675,990 Z" /><path class="cola" d="M660,760 L820,760 L805,975 L675,975 Z" /></g>
+        <line class="mesa" x1="140" y1="992" x2="940" y2="992" />
+      </svg>
+      <div class="letra" style="left: 240px">A</div><div class="letra" style="left: 640px">B</div>
+      <div class="cont num"><small>Catas a ciegas</small><span class="n">0</span></div>
+      <div class="gana"><span>✓ La nueva</span></div>
+      <div class="error">Un error</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.06 }, { scale: 1.12, duration: DUR, ease: "none" }, 0);
+      tl.fromTo([".v1", ".v2"], { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, stagger: 0.08, ease: "expo.out" }, 0.02);
+      cuenta($(".cont .n"), 0, 200000, w("doscientas") - 0.1, f("catas") - w("doscientas") + 0.3, { ease: "power2.out" });
+      // «La nueva» (dicha antes que el número): el vaso B se adelanta y gana.
+      const tn = Math.max(0.3, w("catas") - 0.2);
+      tl.to(".v2", { scale: 1.08, transformOrigin: "50% 100%", duration: 0.3, ease: "back.out(2)" }, tn);
+      tl.fromTo(".gana", { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, tn);
+      // «uno de los mayores errores»: el sello.
+      tl.fromTo(".error", { autoAlpha: 0, scale: 1.4 }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, w("errores") - 0.15);
+      tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -8, duration: 0.05 }, { x: 6, duration: 0.05 }, { x: 0, duration: 0.06 }] }, w("errores") + 0.07);
+      fin();
+    })();
+  </script>
+</template>

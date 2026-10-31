@@ -7,8 +7,12 @@
     .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
     .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
     .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
-    /* Velo para leer sobre una imagen: oscuro arriba (la barra del móvil) y de la mitad hacia abajo (texto y apps). */
-    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+    /* Velo para leer sobre una imagen, ligero (31-oct-2026: con el anterior, oscuro de la mitad hacia abajo, «la imagen se
+       veía como la mitad»): la barra del móvil y los titulares arriba, y una franja suave detrás de los subtítulos
+       (1100–1380 px); el resto de la foto, a la vista, también abajo. El de antes queda como .velo-denso. */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.62) 0%, rgba(10, 11, 13, 0.2) 17%, rgba(10, 11, 13, 0) 30%,
+      rgba(10, 11, 13, 0) 52%, rgba(10, 11, 13, 0.38) 60%, rgba(10, 11, 13, 0.46) 68%, rgba(10, 11, 13, 0.18) 80%, rgba(10, 11, 13, 0) 100%); }
+    .esc .velo-denso { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
       rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
     .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
     .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }

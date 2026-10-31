@@ -1,0 +1,90 @@
+<template>
+  <!-- La puerta giratoria de Ford (el dibujo que explica el problema), sobre la fábrica en penumbra. Modos:
+       entra  la fábrica, 14 puestos (uno por cada mil); «catorce»: se encienden; la gente entra por la izquierda y sale por
+              la derecha sin parar; «cincuenta»: el contador de contratados corre hasta 50.000 y el flujo se acelera
+       quedo  la misma fábrica, llena; «quedó»: la corriente se para y los puntos se quedan dentro: SE QUEDAN -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.32) saturate(0.7); transform: scale(1.06); }
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    #{{ID}} .caja { fill: rgba(10, 11, 13, 0.72); stroke: #f4f3f0; stroke-width: 5; }
+    #{{ID}} .puesto { fill: none; stroke: rgba(244, 243, 240, 0.35); stroke-width: 3; }
+    #{{ID}} .puesto.on { fill: #f4f3f0; stroke: #f4f3f0; }
+    #{{ID}} .persona { fill: #f4f3f0; }
+    #{{ID}} .persona.sale { fill: #b0122f; }
+    #{{ID}} .flecha { fill: none; stroke: rgba(244, 243, 240, 0.5); stroke-width: 4; stroke-dasharray: 14 12; }
+    #{{ID}} .rot { position: absolute; font: 500 34px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .cont { position: absolute; left: 80px; top: 236px; visibility: hidden; }
+    #{{ID}} .cont small { display: block; font: 500 34px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    #{{ID}} .cont .n { font: 800 200px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .sello { position: absolute; left: 80px; top: 1010px; font: 800 92px/1 "Inter Tight", sans-serif; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .sello span { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <img class="foto" src="assets/img/cadena.jpg" alt="" />
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <path class="flecha" d="M40,760 L300,760" /><path class="flecha" d="M780,760 L1040,760" />
+        <g class="gente"></g>
+        <rect class="caja" x="300" y="600" width="480" height="320" rx="6" />
+        <g class="puestos"></g>
+      </svg>
+      <div class="rot r-caja" style="left: 300px; top: 545px">La fábrica · 14.000 puestos</div>
+      <div class="rot" style="left: 60px; top: 700px">Entran</div>
+      <div class="rot" style="left: 880px; top: 700px">Se van</div>
+      <div class="cont num"><small>Contratados en 1913</small><span class="n">0</span></div>
+      <div class="sello"><span>Se quedan</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      // 14 puestos (2 × 7), uno por cada mil.
+      const puestos = [];
+      for (let i = 0; i < 14; i++) {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", 345 + (i % 7) * 65); c.setAttribute("cy", i < 7 ? 715 : 805); c.setAttribute("r", 22);
+        c.setAttribute("class", "puesto"); $(".puestos").appendChild(c); puestos.push(c);
+      }
+      // La corriente de gente: 18 puntos que cruzan de izquierda a derecha; por fuera de la caja, a la vista; al salir, en rojo.
+      const gente = [];
+      for (let i = 0; i < 18; i++) {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("r", 13); c.setAttribute("class", "persona"); $(".gente").appendChild(c); gente.push(c);
+      }
+      const velocidad = (t) => {
+        if (modo === "quedo") return 0.32 * Math.max(0, 1 - paso(t, w("quedó") - 0.6, 0.9, "power2.out"));
+        return 0.16 + 0.34 * paso(t, w("cincuenta") - 0.3, 0.8, "power2.inOut");
+      };
+      // Avance de cada punto: la integral de la velocidad (a pasos de 1/30 s, para que no dependa del orden de búsqueda).
+      const recorrido = (t) => { let s = 0; for (let x = 0; x < t; x += 1 / 30) s += velocidad(x) / 30; return s; };
+      alBuscar((t) => {
+        const s = recorrido(Math.max(0, t));
+        const quieto = modo === "quedo" ? paso(t, w("quedó") - 0.2, 0.8) : 0;
+        gente.forEach((c, i) => {
+          const fase = (s + i / gente.length) % 1;
+          const x = -20 + fase * 1120, y = 760 + 18 * Math.sin(i * 1.7);
+          c.setAttribute("cx", x); c.setAttribute("cy", y);
+          c.setAttribute("class", x > 780 ? "persona sale" : "persona");
+          c.style.opacity = String((x > 300 && x < 780 ? 0 : 1) * (1 - quieto));
+        });
+      });
+      if (modo === "quedo") {
+        puestos.forEach((p) => p.setAttribute("class", "puesto on"));
+        tl.fromTo($(".sello"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, w("quedó") - 0.05);
+        tl.fromTo(puestos, { scale: 1, transformOrigin: "50% 50%" }, { keyframes: [{ scale: 1.25, duration: 0.15 }, { scale: 1, duration: 0.25 }], stagger: 0.03 }, w("quedó") + 0.1);
+      } else {
+        tl.fromTo($("svg.dib"), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.02);
+        puestos.forEach((p, i) => tl.set(p, { fill: "#f4f3f0", stroke: "#f4f3f0" }, w("catorce", 2) - 0.05 + 0.03 * i));
+        tl.set($(".cont"), { visibility: "visible" }, w("contratar") - 0.1);
+        cuenta($(".cont .n"), 0, 50000, w("contratar") - 0.1, f("personas") - w("contratar") + 0.2, { ease: "power2.out" });
+      }
+      tl.fromTo(".foto", { scale: 1.06 }, { scale: 1.12, duration: DUR, ease: "none" }, 0);
+      fin();
+    })();
+  </script>
+</template>

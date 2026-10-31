@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. Sin logotipos: latas y botellas genéricas.",
+ "planchas": [
+  {
+   "nombre": "lata",
+   "semilla": 91,
+   "prompt": "A single plain red aluminum soda can with no logo and no text, covered in cold condensation droplets, standing on a dark glossy surface, dramatic studio light, the can large in the center of the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "cata",
+   "semilla": 92,
+   "prompt": "A 1980s blind taste test: two identical plain white paper cups filled with dark cola on a small table, a woman's hand reaching for one of them, retro 1980s setting, warm light, the cups large in the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "telefonos",
+   "semilla": 93,
+   "prompt": "A busy 1985 customer service office: rows of beige desk telephones, operators with headsets seen from behind, piles of letters on the desks, warm fluorescent light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "estante",
+   "semilla": 94,
+   "prompt": "A 1985 supermarket shelf fully stocked with rows of plain red soda cans and classic curvy glass cola bottles with no logos and no labels, seen at eye level, warm light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}

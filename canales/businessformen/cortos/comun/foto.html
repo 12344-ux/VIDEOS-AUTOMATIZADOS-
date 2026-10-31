@@ -1,0 +1,117 @@
+<template>
+  <!-- Una imagen a pantalla completa con su cámara y lo que pasa encima, anclado a las palabras de la voz (la misma plantilla
+       que en el canal de supervivencia, con la marca de BusinessForMen).
+       Todo va en el parámetro conf (JSON) de montaje.py:
+         foto, camara [escala0, escala1, x1, y1], origen, brillo, techo (oscurece el cielo), lluvia, destellos [ancla…],
+         temblores [ancla…], agua {en, hasta, y} (el agua sube hasta y), haz {en} (una linterna que entra),
+         cuenta {etiqueta, x, y, pasos [[valor, ancla]…]} y textos [{html, clase, x, y, ancho, centro, en, modo, sale}…]
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase] (["palabra", n, d, "fin"]:
+       desde que acaba). La palabra, una sola (el w() de JavaScript no acepta dos).
+       Clases de texto: nota (mono), titular, grande, cifra, sello (bloque carmesí), etiqueta (rótulo con fondo).
+       Modos: entra, aparece, sello, escribe (a máquina), grande. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 50%; }
+    #{{ID}} .techo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.78) 0%, rgba(10, 11, 13, 0.45) 18%, rgba(10, 11, 13, 0) 36%); display: none; }
+    #{{ID}} .lluvia { position: absolute; inset: -200px; opacity: 0.32; display: none;
+      background: repeating-linear-gradient(102deg, rgba(220, 230, 240, 0) 0 22px, rgba(220, 230, 240, 0.5) 22px 24px); }
+    #{{ID}} .agua { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden;
+      background: linear-gradient(180deg, rgba(150, 190, 190, 0.35) 0, rgba(12, 32, 34, 0.55) 6px, rgba(6, 16, 18, 0.72) 100%);
+      border-top: 3px solid rgba(190, 220, 220, 0.55); }
+    #{{ID}} .haz { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; mix-blend-mode: screen;
+      background: radial-gradient(ellipse 420px 560px at 50% 45%, rgba(235, 245, 255, 0.42) 0%, rgba(200, 225, 240, 0.16) 45%, rgba(0, 0, 0, 0) 75%); }
+    #{{ID}} .flash { background: #f4f6ff; opacity: 0; }
+    #{{ID}} .t { position: absolute; visibility: hidden; }
+    #{{ID}} .t.nota { font: 500 40px/1.3 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.titular { font: 800 112px/0.94 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap;
+      text-shadow: 0 4px 36px rgba(0, 0, 0, 0.75); }
+    #{{ID}} .t.grande { font: 800 300px/0.84 "Inter Tight", sans-serif; letter-spacing: -0.05em; text-transform: uppercase; text-shadow: 0 6px 50px rgba(0, 0, 0, 0.8); }
+    #{{ID}} .t.cifra { font: 800 240px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; white-space: nowrap; text-shadow: 0 6px 50px rgba(0, 0, 0, 0.8); }
+    #{{ID}} .t.cifra small { font-size: 0.32em; letter-spacing: -0.01em; margin-left: 0.12em; }
+    #{{ID}} .t.sello { font: 800 92px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+    #{{ID}} .t.sello span, #{{ID}} .t .bloque { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; text-shadow: none; }
+    #{{ID}} .t.etiqueta { font: 500 40px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+    #{{ID}} .t.etiqueta span { display: inline-block; background: rgba(10, 11, 13, 0.86); padding: 0.32em 0.5em 0.28em; border-left: 8px solid #b0122f; }
+    #{{ID}} .t b { font-weight: inherit; color: #f4f3f0; background: #b0122f; padding: 0 0.12em; }
+    #{{ID}} .t.cuenta { font: 800 200px/0.9 "Inter Tight", sans-serif; letter-spacing: -0.04em; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.cuenta small { display: block; font: 500 36px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; color: #f4f3f0; margin-bottom: 10px;
+      text-transform: uppercase; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/{{p:foto}}.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="capa techo"></div>
+      <div class="agua"></div>
+      <div class="haz"></div>
+      <div class="lluvia"></div>
+      <div class="textos"></div>
+      <div class="capa flash"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      const cam = C.camara || [1.0, 1.08, 0, 0];
+      const foto = $(".foto");
+      if (C.origen) foto.style.transformOrigin = C.origen;
+      if (C.brillo != null) foto.style.filter = `brightness(${C.brillo})`;
+      tl.fromTo(foto, { scale: cam[0], x: 0, y: 0 }, { scale: cam[1], x: cam[2], y: cam[3], duration: DUR, ease: "none" }, 0);
+      if (C.techo) $(".techo").style.display = "block";
+      if (C.lluvia) {
+        $(".lluvia").style.display = "block";
+        alBuscar((t) => { $(".lluvia").style.transform = `translate(${-(t * 260) % 120}px, ${(t * 900) % 240}px)`; });
+      }
+      (C.destellos || []).forEach((a) => tl.fromTo($(".flash"), { opacity: 0 }, { keyframes: [{ opacity: 0.85, duration: 0.04 }, { opacity: 0.1, duration: 0.08 }, { opacity: 0.6, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, A(a)));
+      (C.temblores || []).forEach((a) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -9, y: 5, duration: 0.05 }, { x: 7, y: -4, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, A(a)));
+      if (C.agua) {
+        const g = C.agua, t0 = A(g.en), t1 = g.hasta != null ? A(g.hasta) : t0 + 1.5;
+        tl.set($(".agua"), { visibility: "visible" }, t0);
+        tl.fromTo($(".agua"), { y: 1920 }, { y: g.y, duration: t1 - t0, ease: "power1.inOut", immediateRender: false }, t0);
+      }
+      if (C.haz) tl.fromTo($(".haz"), { autoAlpha: 0, x: -360, y: 40 }, { autoAlpha: 1, x: 0, y: 0, duration: 1.4, ease: "power2.out" }, A(C.haz.en));
+      if (C.cuenta) {
+        const c = C.cuenta, el = document.createElement("div");
+        el.className = "t cuenta num";
+        el.innerHTML = `<small>${c.etiqueta}</small><span class="n"></span>`;
+        el.style.left = (c.x ?? 80) + "px"; el.style.top = (c.y ?? 236) + "px";
+        $(".textos").appendChild(el);
+        const pasos = c.pasos.map(([v, a]) => [v, A(a)]);
+        aparece(el, Math.max(0, pasos[0][1] - 0.05), 0.25);
+        alBuscar((t) => { let v = pasos[0][0]; pasos.forEach(([x, tt]) => { if (t >= tt) v = x; }); el.querySelector(".n").textContent = String(v); });
+        pasos.slice(1).forEach(([, tt]) => tl.fromTo(el.querySelector(".n"), { scale: 1.12, transformOrigin: "left center" }, { scale: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, tt));
+      }
+      (C.textos || []).forEach((s) => {
+        const el = document.createElement("div");
+        el.className = "t " + (s.clase || "nota");
+        el.style.left = (s.x ?? 80) + "px"; el.style.top = (s.y ?? 236) + "px";
+        if (s.ancho) el.style.width = s.ancho + "px";
+        if (s.centro) { el.style.textAlign = "center"; el.style.left = "0px"; el.style.width = "1080px"; }
+        $(".textos").appendChild(el);
+        const t = A(s.en), modo = s.modo || "entra";
+        if (modo === "escribe") {
+          const txt = s.html, d = s.duracion || txt.length * 0.045;
+          el.style.visibility = "visible";
+          alBuscar((x) => { el.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t) / d)))); });
+        } else {
+          el.innerHTML = s.clase === "sello" || s.clase === "etiqueta" ? `<span>${s.html}</span>` : s.html;
+          if (modo === "sello") {
+            tl.fromTo(el, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1);
+            tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -7, duration: 0.05 }, { x: 5, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.12);
+          } else if (modo === "grande") {
+            tl.fromTo(el, { autoAlpha: 0, scale: 1.15, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, t - 0.08);
+          } else if (modo === "aparece") {
+            aparece(el, t, 0.35);
+          } else {
+            entra(el, t, 0.4, 20);
+          }
+        }
+        if (s.sale) tl.to(el, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, A(s.sale));
+      });
+      fin();
+    })();
+  </script>
+</template>

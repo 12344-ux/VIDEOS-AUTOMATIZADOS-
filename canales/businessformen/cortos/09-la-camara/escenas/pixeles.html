@@ -1,0 +1,47 @@
+<template>
+  <!-- La ficha técnica de 1975, sobre el prototipo en penumbra: «cuatro kilos»: 3,6 KG; «diez mil píxeles»: una foto de
+       100 × 100 píxeles (pixel.jpg, ampliada sin suavizar) que se dibuja de arriba abajo; «veintitrés segundos»: el reloj
+       corre hasta 23 s mientras termina de guardarse. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.25) saturate(0.6); transform: scale(1.08); }
+    #{{ID}} .dato { position: absolute; left: 80px; font: 800 96px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; text-transform: uppercase;
+      white-space: nowrap; visibility: hidden; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); }
+    #{{ID}} .dato small { font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.1em; margin-left: 18px; vertical-align: 14px; }
+    #{{ID}} .d1 { top: 236px; } #{{ID}} .d2 { top: 350px; } #{{ID}} .d3 { top: 464px; }
+    #{{ID}} .marco { position: absolute; left: 300px; top: 590px; width: 480px; height: 480px; border: 4px solid rgba(244, 243, 240, 0.7);
+      box-sizing: content-box; visibility: hidden; overflow: hidden; background: #0a0b0d; }
+    #{{ID}} .marco img { width: 480px; height: 480px; image-rendering: pixelated; display: block; }
+    #{{ID}} .barra { position: absolute; left: 300px; top: 1094px; width: 488px; height: 14px; background: rgba(244, 243, 240, 0.2); visibility: hidden; }
+    #{{ID}} .barra i { position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: #b0122f; transform-origin: left center; display: block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/prototipo.jpg" alt="" />
+      <div class="dato d1 num">3,6 kg</div>
+      <div class="dato d2 num">10.000 <small>píxeles</small></div>
+      <div class="dato d3 num"><span class="s">0</span> s <small>por foto</small></div>
+      <div class="marco"><img src="assets/img/pixel.jpg" alt="" /></div>
+      <div class="barra"><i></i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.08 }, { scale: 1.14, duration: DUR, ease: "none" }, 0);
+      const entra2 = (sel, t) => tl.fromTo(sel, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t);
+      entra2(".d1", w("cuatro") - 0.1);
+      // «diez mil píxeles»: la foto, de 100 × 100, se dibuja de arriba abajo hasta «veintitrés»…
+      entra2(".d2", w("diez") - 0.1);
+      tl.set([".marco", ".barra"], { visibility: "visible" }, w("diez") - 0.1);
+      const t0 = w("diez") - 0.1, t1 = f("segundos") + 0.3;
+      tl.fromTo(".marco img", { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: t1 - t0, ease: "none" }, t0);
+      tl.fromTo(".barra i", { scaleX: 0 }, { scaleX: 1, duration: t1 - t0, ease: "none" }, t0);
+      // …y el reloj de la ficha llega a 23 s con la voz.
+      entra2(".d3", w("veintitrés") - 0.1);
+      cuenta($(".d3 .s"), 0, 23, w("veintitrés") - 0.1, f("segundos") - w("veintitrés") + 0.3, { ease: "none", crudo: true });
+      fin();
+    })();
+  </script>
+</template>

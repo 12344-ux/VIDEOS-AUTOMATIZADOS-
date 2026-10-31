@@ -1,0 +1,46 @@
+<template>
+  <!-- «Años después, la foto digital se comió al carrete»: dos curvas de 1975 a 2012, en esquema (la forma, no las cifras):
+       el carrete, arriba y luego cayendo; lo digital, abajo y luego subiendo; se cruzan. Sobre los carretes en penumbra. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.22) saturate(0.6); transform: scale(1.06); }
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .eje { stroke: rgba(244, 243, 240, 0.6); stroke-width: 4; fill: none; }
+    #{{ID}} .carrete { stroke: #f4f3f0; stroke-width: 12; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    #{{ID}} .digital { stroke: #b0122f; stroke-width: 12; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    #{{ID}} .rot { position: absolute; font: 800 60px/1 "Inter Tight", sans-serif; text-transform: uppercase; letter-spacing: -0.01em; visibility: hidden;
+      white-space: nowrap; }
+    #{{ID}} .rot.d span { background: #b0122f; padding: 0.06em 0.14em 0.02em; }
+    #{{ID}} .anio { position: absolute; top: 1050px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.1em; }
+    #{{ID}} .esquema { position: absolute; left: 80px; top: 236px; font: 500 30px/1 "Plex Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(244, 243, 240, 0.7); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/carretes.jpg" alt="" />
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <path class="eje" d="M100,420 L100,1030 L980,1030" />
+        <path class="carrete" pathLength="100" stroke-dasharray="100 100" d="M110,560 C330,540 560,520 690,560 C760,600 800,860 960,990" />
+        <path class="digital" pathLength="100" stroke-dasharray="100 100" d="M110,1020 C430,1018 600,1005 690,900 C780,780 860,560 960,470" />
+      </svg>
+      <div class="esquema">Esquema · ventas de cada una</div>
+      <div class="rot c" style="left: 140px; top: 460px">Carrete</div>
+      <div class="rot d" style="left: 700px; top: 360px"><span>Digital</span></div>
+      <div class="anio" style="left: 70px">1975</div><div class="anio" style="left: 900px">2012</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".foto", { scale: 1.06 }, { scale: 1.1, duration: DUR, ease: "none" }, 0);
+      tl.fromTo(".eje", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.02);
+      // El carrete, de 1975 hasta que cae; lo digital, desde «digital» hasta que lo adelanta en «comió».
+      traza(".carrete", 0.1, Math.max(0.6, f("comió") - 0.1), "power1.inOut");
+      tl.fromTo(".rot.c", { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, 0.2);
+      traza(".digital", w("digital", 2) - 0.15, f("carrete", 3) - w("digital", 2) + 0.2, "power2.in");
+      tl.fromTo(".rot.d", { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, f("carrete", 3));
+      fin();
+    })();
+  </script>
+</template>

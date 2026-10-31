@@ -1,0 +1,56 @@
+<template>
+  <!-- Gancho de un corto (el fotograma 0 es la portada) y su vuelta para el bucle, sobre una foto a pantalla completa.
+       Parámetros: foto y conf = {l1 (titular, <br> para partir), l2 (en el bloque carmesí), tam1, tam2, camara [escala1, x1,
+       y1], modo, destello (ancla: un destello blanco, el de una cámara), en_l1 y en_l2 (en la vuelta)}.
+         inicio  todo a la vista en el fotograma 0 y la cámara avanza despacio
+         vuelta  la foto y los titulares vuelven y el último fotograma es el primero del vídeo
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 55%; }
+    #{{ID}} .techo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.78) 0%, rgba(10, 11, 13, 0.5) 20%, rgba(10, 11, 13, 0) 40%); }
+    #{{ID}} .bloque-g { position: absolute; left: 80px; top: 250px; width: 880px; }
+    #{{ID}} .l1 { font: 800 112px/0.94 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap;
+      text-shadow: 0 4px 36px rgba(0, 0, 0, 0.7); }
+    #{{ID}} .l2 { margin-top: 22px; font: 800 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+    #{{ID}} .l2 span { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; }
+    #{{ID}} .destello { background: #ffffff; opacity: 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa vista">
+        <img class="foto" src="assets/img/{{p:foto}}.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="capa techo"></div>
+        <div class="bloque-g"><div class="l1"></div><div class="l2"><span></span></div></div>
+      </div>
+      <div class="capa destello"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      $(".l1").innerHTML = C.l1;
+      $(".l2 span").innerHTML = C.l2;
+      if (C.tam1) $(".l1").style.fontSize = C.tam1 + "px";
+      if (C.tam2) $(".l2").style.fontSize = C.tam2 + "px";
+      const cam = C.camara || [1.1, 0, -30];
+      if (C.modo === "vuelta") {
+        // La foto vuelve a escala 1 justo al acabar: el último fotograma es el primero del vídeo.
+        tl.fromTo($(".vista"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, 0);
+        tl.fromTo($(".foto"), { scale: 1.06, x: 0, y: 24 }, { scale: 1.0, x: 0, y: 0, duration: DUR, ease: "power2.out" }, 0);
+        tl.fromTo($(".l1"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, A(C.en_l1));
+        tl.fromTo($(".l2"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, A(C.en_l2));
+      } else {
+        tl.fromTo($(".foto"), { scale: 1.0, x: 0, y: 0 }, { scale: cam[0], x: cam[1], y: cam[2], duration: DUR, ease: "none" }, 0);
+      }
+      if (C.destello != null) {
+        tl.fromTo($(".destello"), { opacity: 0 }, { keyframes: [{ opacity: 0.9, duration: 0.04 }, { opacity: 0, duration: 0.45, ease: "power2.out" }] }, A(C.destello));
+      }
+      fin();
+    })();
+  </script>
+</template>

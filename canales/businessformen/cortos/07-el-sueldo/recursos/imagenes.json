@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa: el motivo llena el encuadre. Henry Ford no sale (persona real).",
+ "planchas": [
+  {
+   "nombre": "cadena",
+   "semilla": 81,
+   "prompt": "Inside a 1914 automobile factory: a long assembly line of identical black early cars, workers in flat caps and overalls seen from behind and from the side with no faces visible, warm light through high windows, dust in the air, the line receding into the center of the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "puerta",
+   "semilla": 82,
+   "prompt": "A huge crowd of men in heavy winter coats and hats waiting outside a 1914 brick factory gate in the snow, seen from behind, the factory and its chimneys above them, cold early morning light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "taller",
+   "semilla": 83,
+   "prompt": "In a 1914 car factory, an older foreman shows a young worker how to operate a lathe, seen from the side and behind, their hands on the machine, faces turned away, warm light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "sobre",
+   "semilla": 84,
+   "prompt": "Close-up of five old silver dollar coins and a small brown paper pay envelope on a worn wooden workbench in a 1914 factory, warm light, shallow depth of field, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}

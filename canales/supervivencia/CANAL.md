@@ -35,7 +35,9 @@ algunos (las teclas, un «whoosh») ni se oían. Las reglas desde el 31-oct:
   grave por vídeo, muy bajo (`impact-bass` es subgrave puro).
 - **Nada de sonidos de interfaz** en este canal (pop, click, riser, whoosh): rompen la seriedad de una historia real. Las
   teclas de la máquina de escribir, solo para una fecha que se escribe en pantalla.
-- Unos 10–15 efectos por minuto como mucho. La música, 9–13 LU bajo la voz.
+- **Desde el corto 3 (31-oct), más estricto**, porque el usuario pidió «a la próxima utiliza solo los efectos de sonido
+  como el rayo y bájale más a la música»: solo efectos fuertes con su golpe en pantalla (el rayo con su destello, el
+  martillo contra el casco), sin ambientes de fondo; 2–4 por corto. La música, 16–20 LU bajo la voz.
 
 ## Ética
 

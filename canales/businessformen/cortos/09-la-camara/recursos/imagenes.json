@@ -1,0 +1,25 @@
+{
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. Sin logotipos. El ingeniero (Steven Sasson, persona real) no sale de cara.",
+ "planchas": [
+  {
+   "nombre": "prototipo",
+   "semilla": 101,
+   "prompt": "A bulky 1970s prototype digital camera the size of a toaster, with exposed circuit boards, a lens on the front and a portable cassette tape recorder attached by cables, on a cluttered laboratory workbench, dramatic light, the device large in the center of the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "laboratorio",
+   "semilla": 102,
+   "prompt": "A 1970s electronics research laboratory at night, an engineer seen from behind putting a boxy electronic device on a high metal shelf among old equipment, cold fluorescent light, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "carretes",
+   "semilla": 103,
+   "prompt": "Hundreds of small yellow 35mm film roll boxes with no logo and no text stacked high in a warehouse, warm light, the stacks filling the whole frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  },
+  {
+   "nombre": "fabrica",
+   "semilla": 104,
+   "prompt": "An abandoned photographic film factory hall, empty and dusty, broken windows, long rows of idle machines, light rays through the dust, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+  }
+ ]
+}

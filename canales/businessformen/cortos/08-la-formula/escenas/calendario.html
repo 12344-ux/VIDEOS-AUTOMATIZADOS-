@@ -1,0 +1,43 @@
+<template>
+  <!-- Los 79 días: una casilla por día sobre el estante en penumbra; «Setenta y nueve días»: se tachan todas, una tras otra,
+       y el contador llega a 79; «volvió»: las casillas se van, el estante se ilumina y LA DE SIEMPRE. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 60%; }
+    #{{ID}} .rej { position: absolute; left: 90px; top: 520px; width: 900px; display: grid; grid-template-columns: repeat(10, 72px); gap: 16px 18px; }
+    #{{ID}} .rej i { display: block; width: 72px; height: 50px; border: 3px solid rgba(244, 243, 240, 0.55); box-sizing: border-box; }
+    #{{ID}} .cont { position: absolute; left: 80px; top: 236px; }
+    #{{ID}} .cont small { display: block; font: 500 34px/1.2 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    #{{ID}} .cont .n { font: 800 190px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .sello { position: absolute; left: 80px; top: 980px; font: 800 96px/1 "Inter Tight", sans-serif; text-transform: uppercase; visibility: hidden;
+      white-space: nowrap; }
+    #{{ID}} .sello span { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/estante.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="rej"></div>
+      <div class="cont num"><small>Días con la fórmula nueva</small><span class="n">0</span></div>
+      <div class="sello"><span>Vuelve la de siempre</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const rej = $(".rej"), dias = [];
+      for (let i = 0; i < 79; i++) { const d = document.createElement("i"); rej.appendChild(d); dias.push(d); }
+      tl.fromTo(".foto", { filter: "brightness(0.25) saturate(0.6)", scale: 1.04 }, { filter: "brightness(0.25) saturate(0.6)", scale: 1.04, duration: 0.01 }, 0);
+      const t0 = Math.max(0.05, w("Setenta") - 0.1), t1 = f("días") + 0.1;
+      dias.forEach((d, i) => tl.to(d, { backgroundColor: "#b0122f", borderColor: "#b0122f", duration: 0.05 }, t0 + (t1 - t0) * i / 79));
+      cuenta($(".cont .n"), 0, 79, t0, t1 - t0, { ease: "none", crudo: true });
+      // «volvió la de siempre»: el estante se ilumina y el sello.
+      const tv = w("volvió") - 0.1;
+      tl.to([".rej", ".cont"], { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, tv);
+      tl.to(".foto", { filter: "brightness(1) saturate(1)", scale: 1.1, duration: 0.9, ease: "power2.out" }, tv);
+      tl.fromTo(".sello", { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, w("siempre") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

@@ -30,6 +30,16 @@
     "warm hopeful underscore, bowed strings ostinato and piano in the middle register, building, determined, 96 bpm, no bass, no drums",
     "suspenseful light underscore, staccato violins and marimba in the middle register, ticking clock, 104 bpm, no bass, no drums"
    ]
+  },
+  {
+   "carpeta": "v4",
+   "semilla": 57,
+   "candidatas": [
+    "curious modern underscore, pizzicato strings and marimba in the middle register, light ticking, clever, 100 bpm, no bass, no drums",
+    "warm determined underscore, bowed strings ostinato and piano in the middle register, building, 96 bpm, no bass, no drums",
+    "minimal elegant underscore, clean electric piano and soft violins in the middle register, thoughtful, 92 bpm, no bass",
+    "suspenseful light underscore, staccato violins and celesta in the middle register, ticking clock, 104 bpm, no bass, no drums"
+   ]
   }
  ],
  "duracion": 30,

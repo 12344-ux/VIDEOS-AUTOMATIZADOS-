@@ -12,6 +12,9 @@ Consejo.
 | 4 | `04-el-ancla` | Precios y negociación | Un caso famoso y el experimento que lo explica | «999 $» en la pantalla del auditorio |
 | 5 | `05-el-perrito` | Modelo de negocio | La paradoja y su respuesta | «El mismo precio desde 1985» sobre el perrito |
 | 6 | `06-la-pizza` | Marketing y honestidad | El giro contra la intuición | «Lo dijo en la tele: su pizza era mala» |
+| 7 | `07-el-sueldo` | Gestión de equipos | La paradoja y su respuesta | «Pagó el doble · para ahorrar» sobre la cadena de montaje |
+| 8 | `08-la-formula` | Marca | El error contra la intuición | «Ganó 200.000 catas · y fue un desastre» sobre la lata |
+| 9 | `09-la-camara` | Estrategia | La empresa que inventó su propio final | «Kodak inventó esto · en 1975» sobre el prototipo |
 
 Los cortos 4–6 se hicieron para que **se entiendan más y con mejor edición**: temas cotidianos y una sola idea, menos
 fechas y nombres, la voz un 4 % más pausada, un dibujo que explica cada mecanismo (la regla del ancla, las dos barras
@@ -47,12 +50,19 @@ datos de las plataformas, así que son orientativas) y de la guía de vídeo ver
 6. **Sin marcas de otras apps.** Instagram dejó de recomendar Reels con marca de agua de TikTok (Adam Mosseri, 2021);
    el logo propio está bien. Por eso cada corto sale limpio del render y se sube el mismo archivo a las tres.
 7. **Un solo golpe rojo por corto, como mucho dos:** el de la lección (y en el 3, el «por un anuncio» del gancho).
-8. **Todo lo que suena se ve.** Firma con su lápiz, sello con su golpe, persiana, cuerda, máquina de escribir: efectos
-   reales de BigSoundBank (CC0, `CREDITOS.md` en `salidas/…/cortos/sfx/`) y de la biblioteca de HyperFrames.
+8. **Pocos efectos, y fuertes** (31-oct-2026, el usuario: «utiliza solo los efectos de sonido como el rayo»): 2–4 por
+   corto, grabaciones reales con su golpe en pantalla (las monedas que caen, el teléfono que suena, el disparo de una
+   cámara, un portazo) y el golpe rojo de la lección. Nada de silbidos de transición, pops, clicks, risers ni ambientes
+   de fondo. Efectos de BigSoundBank (CC0, `CREDITOS.md` en `salidas/…/cortos/sfx/`), medidos con
+   `audio/revisar_mezcla.py`: con la voz encima, al menos 8 LU por debajo de ella.
 9. **Volumen para móvil:** −14 LUFS en la entrega y la música medida (`audio/graves.py`): nada que tenga la mayoría de
-   su energía bajo 150 Hz.
+   su energía bajo 150 Hz. **La música, baja** (31-oct, «bájale más a la música que acompaña»): 16–20 LU por debajo de
+   la voz, medido con `audio/revisar_mezcla.py`.
 10. **Duración:** 45–55 s. Las guías ponen lo educativo en 30–60 s; por debajo de un minuto vale igual en las tres
     apps (Facebook ya no tiene un límite fijo; Instagram admite hasta 3 min).
+11. **La imagen, a pantalla completa** (31-oct): el velo del kit es ligero (oscurece la barra del móvil y los titulares
+    de arriba y una franja suave detrás de los subtítulos); con el de antes, oscuro de la mitad hacia abajo, «la imagen
+    se veía como la mitad». Los prompts piden que el motivo llene el encuadre.
 
 ## Publicar
 
