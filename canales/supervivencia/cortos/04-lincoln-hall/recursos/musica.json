@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). Registro medio y agudo (cuerdas frotadas, piano, celesta): lo que no sale con subgrave; se mide con audio/graves.py. Irá 16–20 LU bajo la voz (CANAL.md).",
+ "semilla": 63,
+ "candidatas": [
+  "lonely cold documentary music, solo piano and high strings, slow and tense, hopeful ending, no drums, 66 bpm",
+  "fragile high violins and celesta, slow, cold and lonely, then hopeful, no drums, 70 bpm"
+ ],
+ "_descartada": "Primera tanda (semilla 61: «cold high mountain documentary music, sustained high strings and soft felt piano…» y «lonely icy ambient music, bowed strings ostinato with celesta…»): 50 % y 61 % de la energía bajo 150 Hz.",
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 82,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_1: 6 % de la energía bajo 150 Hz y crece de −26 a −20 dB; la 2 tenía el 88 % bajo 150 Hz."
+ }
+}

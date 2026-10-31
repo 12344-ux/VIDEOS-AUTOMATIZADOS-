@@ -159,7 +159,8 @@ inventar lo que las fuentes no dicen.
   plantilla no puede llevar estilos (`subcomposition_root_styled_by_class`); va un contenedor interior. Ver
   `canales/businessformen/kit/README.md`.
 - MusicGen ignora «no sub bass»: «pulse», «driving electronic» y las cuerdas punteadas salieron con el 71–99 % de la
-  energía bajo 150 Hz. Funcionan las cuerdas frotadas en ostinato con marimba. Pedir varias candidatas y medir.
+  energía bajo 150 Hz. Funcionaron las cuerdas frotadas en ostinato con marimba (sesión 3; en la 7, la misma idea dio el
+  98 %) y, dos veces de dos en la sesión 7, «solo piano and high strings» (6 y 7 %). Pedir varias candidatas y medir.
 - Los golpes `impact-bass` de HyperFrames son subgrave puro y, a volumen 0,3–0,4, suben 5 LU por encima de la voz:
   entregar con `GRAVES=-20 PICO=-2 video/entregar.sh … -15 copiar` (comprime bajo 120 Hz sin recodificar el vídeo).
 - Medir los graves de cada pieza de MusicGen antes de usarla (`audio/graves.py`): dos salieron con el 65–98 % de la
@@ -167,6 +168,14 @@ inventar lo que las fuentes no dicen.
   puede salir con el 0 % o con el 85 %. Y mirar su energía por tramos: algunas se apagan a los 15–25 s.
 - `mix-blend-mode: destination-out` no existe en CSS (el sello salía rosado): el desgaste de un sello va con
   `mask-image: url(desgaste.png)`.
+- La etapa `musica` de `canales/preparar-corto.sh` empieza apagando el servidor de imágenes (para que quepa MusicGen): no
+  lanzarla mientras otro proceso genera imágenes (en la sesión 7 cortó el lote de FLUX). Para rehacer solo un lecho,
+  `audio/lecho.py` directamente.
+- La unidad en minúscula dentro de un rótulo (`8.849 m`) va en `<i class="m">`: un `span` dentro del `span` del rótulo
+  hereda su caja y su filete naranja, y la «m» sale en una cajita aparte.
+- El `check` de HyperFrames no avisa de una imagen que falta (sale en negro en el render): lo avisa `montar.py` («faltan
+  imágenes») desde la sesión 7. Y un círculo SVG que nace sin radio, o con uno calculado negativo antes de su escena, da
+  avisos del navegador en el render: radio inicial 0 y el tiempo de la escena, como mínimo, 0.
 - El 2.5D por capas (`imagen/capas25d.py`) solo vale si el corte sigue el contorno de un objeto sobre un fondo liso: en
   una mesa, un pasillo o una pizza en su caja deja una franja borrosa. Mirarlo a tamaño real en el MP4, no en la hoja.
 - En vertical, las mayúsculas de Inter Tight 800 ocupan unos 0,6 em por letra: calcular el ancho de cada línea

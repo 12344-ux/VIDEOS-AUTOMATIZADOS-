@@ -57,6 +57,13 @@ if etapa musica; then
       --semilla "$(python3 -c "import json; print(json.load(open('$AQUI/recursos/musica.json'))['semilla'])")"
   fi
   python3 "$REPO/audio/graves.py" "$T"/musica/pieza_*.wav
+  # «lecho» en recursos/musica.json (opcional): la pieza elegida tras medirla, alargada a la duración del vídeo; sin
+  # fundido de entrada si el corto va en bucle (entrada 0). Sin esto, el lecho se hacía a mano y no quedaba guardado.
+  python3 -c "import json; l = json.load(open('$AQUI/recursos/musica.json')).get('lecho'); l and print(l['pieza'], l['duracion'], l.get('entrada', 0), l.get('recorte', 1.5))" |
+    while read -r pieza dura entrada recorte; do
+      [ -s "$T/musica/lecho.wav" ] || python3 "$REPO/audio/lecho.py" "$T/musica/$pieza.wav" "$dura" -o "$T/musica/lecho.wav" \
+        --entrada "$entrada" --recorte "$recorte" --cruce 3
+    done
 fi
 
 if etapa imagenes; then

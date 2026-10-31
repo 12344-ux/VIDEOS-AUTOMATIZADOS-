@@ -1069,13 +1069,79 @@ estaba en otra rama sin unir (`ccr-4888b5fc-onnsee`, que ya contiene las de las 
   en la sesión 6 ya estaban bajados de antes. Además, `canales/preparar-corto.sh` (geografía y supervivencia) no baja
   efectos. Ahora `montar.py` baja de BigSoundBank (CC0) el número que falte, a la carpeta de efectos de al lado.
 
+### 3. Dos cortos más para supervivencia, elegidos con el rastreador
+
+- **Pedido del usuario:** «Continúa con dos vídeos más para el canal de supervivencia, 2 videos cortos».
+- **Medido** (`rastreador/youtube.py buscar`, 10 años, por vistas por hora, unas 2.900 unidades de cuota), en inglés y en
+  español: Joe Simpson ya funciona en español (1,1 M hace dos meses, 236 veces su canal); Los 33, 18,5 M y uno de hace dos
+  días a 387.000; los Andes, Yossi Ghinsberg y Callahan ya tienen versiones de cientos de miles en español; Anna Bågenholm,
+  117.000; el náufrago de García Márquez casi no tiene Shorts en ningún idioma. **Lincoln Hall**: 167.000 en inglés (95
+  veces un canal de 1.200 suscriptores) y ningún Short en español de más de 10.000, mientras que «lo dieron por muerto en el
+  Everest» ya da 339.000 y 793.000 en español (casi todo Beck Weathers).
+- **Elegidas:** Lincoln Hall (el hueco) y Los 33 de la mina San José (la demanda probada en español y lo más nuestro para
+  un público hispano), que además alternan escenario con los anteriores (montaña y subsuelo tras selva, mar y océano).
+- **Datos** de Wikipedia (inglés y español), American Alpine Club, AP (en NBC News), Christian Science Monitor y The Boston
+  Globe; lo que varía según la fuente, en el `PUBLICACION.md` de cada uno. La ración de los 33: la versión que más circula
+  («dos cucharadas de atún cada 48 horas») no aparece en las dos fuentes leídas, que dicen «una cucharada de atún cada dos
+  días» (CSM) y «bocados de atún y sorbos de leche cada dos días» (AP); la voz se rehízo con «una cucharada».
+
+### 4. Cómo están hechos
+
+- **«Dado por muerto en el Everest»** (77,9 s, 14 escenas) y **«69 días bajo tierra»** (80,3 s, 15 escenas), con las
+  plantillas del canal y dos escenas dibujadas nuevas: `perfil.html` (el Everest por la cara norte con las alturas a escala:
+  la cima, el límite de 8.000 m que se dibuja, el oxígeno por respiración —menos de un tercio—, la noche con el contador de
+  horas y los doce sherpas que suben y bajan) y `mina.html` (la mina en corte a escala: el bloque que cae y bloquea la
+  rampa, la chimenea sin escalera, el refugio con 33 puntos, las sondas que se desvían, la del día 14 que no encuentra a
+  nadie, la del día 17 a −688 m con los golpes y el papel que sube, y el pozo de rescate con la cápsula y los rescatados
+  de 1 a 33). El gancho de la plantilla admite ya palabras en dos renglones (`cifra` con `<br>` y `tam`).
+- **Voz** M2: 77,3 y 79,7 s, en unos 60 s cada una. **Música** (16 LU bajo la voz, la regla del canal): dos tandas
+  descartadas (50 y 61 %, y 98 % de la energía bajo 150 Hz); las elegidas, «solo piano and high strings», con el 6 y el 7 %.
+  El lecho, apuntado en `recursos/musica.json` (lo crea `preparar-corto.sh`) y 4 s más largo que el vídeo: con su propio
+  fundido de salida dentro del vídeo dejaba un hueco en el punto de bucle.
+- **Sonido** con la regla estricta del canal (solo efectos fuertes con su golpe en pantalla): en el Everest, una ráfaga de
+  viento al caer la noche, un golpe grave muy bajo con HA MUERTO y los pasos en la nieve de los cuatro, que se cortan al ver
+  algo junto al precipicio; en la mina, el derrumbe (una explosión lejana), tres golpes de yunque en la sonda y el grito
+  de la calle. Los latidos de BigSoundBank son subgrave puro (81–100 % bajo 150 Hz): no se usan. `revisar_mezcla.py`: 0
+  avisos y ningún hueco (al principio, la ráfaga a +3,4 LU sobre la voz y los golpes y el grito por encima del límite).
+- **Imágenes:** 15 de FLUX.3 a 720 × 1280 (131–163 s cada una; 177 s la primera con la carga) y 8 rehechas tras mirarlas:
+  la cima, dos veces (un pico más alto detrás de «la cima del Everest», el traje amarillo cuando en el gancho es rojo, y
+  luego dos alpinistas, uno de cara), el delirio (las botellas de oxígeno parecían botellines), el amanecer (siete
+  alpinistas cuando la voz dice cuatro), la renuncia, dos veces (Lincoln Hall de cara), la fiesta (banderas tricolores que no
+  eran la de Chile; con la bandera descrita salió bien) y la cápsula (enorme; la Fénix 2 medía 54 cm).
+
+### 5. Revisión, render y entrega
+
+- **La revisión por fotogramas** encontró, además de las imágenes: la «m» de los metros en una cajita aparte (un `span`
+  dentro del `span` del rótulo, que hereda su caja y su filete: va en `<i class="m">`; el «1,2 m» de Okene lo tiene
+  igual), el velo de la noche tapando a Lincoln Hall, las torres de perforación que parecían flechas (ahora castilletes con
+  el rótulo SONDAS), las ondas del sonido casi invisibles, el contador de rescatados encima de la fecha, una rejilla de 33
+  puntos y un sello que se metían en la columna de botones (x > 940) y subtítulos que repetían HA MUERTO, VIVO y VUELVE A
+  CASA. `check`: 0 errores y 0 avisos en los dos.
+- **Render:** 3 min 32 s y 3 min 31 s (unos 2,7 s por segundo de vídeo; 4 min 15 s compartiendo la CPU con FLUX). Dos
+  avisos del navegador (círculos con el radio vacío o negativo antes de que empiece su escena) se corrigieron y los vídeos
+  salieron idénticos byte a byte: el render es determinista y no cambiaban ningún píxel.
+- **Entregas:** `salidas/supervivencia/cortos/04-lincoln-hall/entrega/lincoln-hall.mp4` (77,95 s, −14,6 LUFS, −1,6 dBTP,
+  52 MB) y `salidas/supervivencia/cortos/05-los-33/entrega/los-33.mp4` (80,34 s, −14,4 LUFS, −1,6 dBTP, 34 MB), con
+  `BUCLE=1`. El último fotograma es el primero (2,27 y 2,13 de diferencia media sobre 255) y no hay ningún silencio. Medido
+  y mirado, no escuchado; en «sentado» el traje no sale abierto (FLUX no hizo caso), lo dicen la voz y el rótulo.
+
+### 6. El kit, más robusto
+
+- `montar.py` avisa de las imágenes que faltan («saldrían en negro»): ni él ni el `check` de HyperFrames lo decían.
+- `canales/preparar-corto.sh` crea el lecho desde `recursos/musica.json`; antes se hacía a mano y no quedaba guardado.
+- **Error mío:** lancé la etapa `musica` de `preparar-corto.sh` para crear un lecho mientras FLUX generaba en segundo plano;
+  esa etapa apaga el servidor de imágenes y cortó el lote (se perdieron unos 2 minutos). Además edité ese guion mientras otra
+  instancia lo ejecutaba, que es una trampa ya anotada; esta vez no rompió nada. Las dos, en `CLAUDE.md`.
+- Los sonidos procesados de Okene (`bajoagua`, `golpecasco`, `gemido`) no tienen guardado cómo se hicieron: anotado en el
+  `CANAL.md`; en estos dos cortos, solo grabaciones sin procesar.
+
 ## Siguiente paso
 
-0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),
-   elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Publicar y medir a las 48 h y a
-   los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas, también con
-   `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto `audio/revisar_mezcla.py`
-   con 0 avisos antes de renderizar.
+0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall y los 33
+   en supervivencia), elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Publicar y
+   medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
+   también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
+   `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.
 1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.

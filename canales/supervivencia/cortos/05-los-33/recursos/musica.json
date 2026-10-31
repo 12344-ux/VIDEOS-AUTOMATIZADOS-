@@ -1,0 +1,15 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). Cuerdas frotadas en ostinato con marimba y piano con cuerdas agudas (las que no salen con subgrave); se mide con audio/graves.py. Irá 16–20 LU bajo la voz (CANAL.md).",
+ "semilla": 62,
+ "candidatas": [
+  "tense documentary music, bowed strings ostinato with marimba, slow build to a hopeful ending, no drums, 80 bpm",
+  "emotional documentary music, solo piano and high strings, slow, building to a hopeful triumph, no drums, 72 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 84,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_2: 7 % de la energía bajo 150 Hz y estable (−18 a −20 dB); la 1 tenía el 98 % bajo 150 Hz."
+ }
+}

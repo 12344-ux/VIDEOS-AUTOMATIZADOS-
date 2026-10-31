@@ -1,6 +1,7 @@
 <template>
   <!-- Plantilla común del canal: el gancho (el final contado en el fotograma 0) y la vuelta al principio para el bucle.
-       Parámetros (conf): foto, camara [escala1, x1, y1] (desde escala 1), cifra, unidad, linea, modo y:
+       Parámetros (conf): foto, camara [escala1, x1, y1] (desde escala 1), cifra (admite <br>), tam (px de la cifra),
+       unidad, linea, modo y:
          inicio  todo a la vista en el fotograma 0; sonda {en, prof} (opcional: la profundidad baja de 0 a prof metros)
          vuelta  la imagen y los textos vuelven (en_cifra, en_linea) y el último fotograma es el primero del vídeo
        Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
@@ -46,8 +47,10 @@
 /*AYUDA*/
       const C = {{p:conf}};
       const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
-      $(".cifra .g").textContent = C.cifra;
-      $(".cifra .u").textContent = C.unidad;
+      // cifra admite <br> (unas palabras en dos renglones, «Dado por<br>muerto») y tam, su tamaño en px (300 por defecto).
+      if (C.tam) $(".cifra").style.fontSize = C.tam + "px";
+      $(".cifra .g")[String(C.cifra).includes("<br>") ? "innerHTML" : "textContent"] = C.cifra;
+      $(".cifra .u").textContent = C.unidad || "";
       $(".linea span").textContent = C.linea;
       const cam = C.camara || [1.12, 0, -40];
       if (C.modo === "vuelta") {

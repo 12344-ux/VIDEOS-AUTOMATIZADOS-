@@ -18,8 +18,9 @@ más»; la llevan también las versiones m2 de Coca-Cola y Kodak (`montar.py --v
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:
-«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y, en supervivencia, tres: «La chica que
-cayó del cielo» (69 s), «60 horas bajo el mar» (69 s) y «438 días a la deriva» (67 s), en `canales/supervivencia/cortos/`,
+«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y, en supervivencia, cinco: «La chica que
+cayó del cielo» (69 s), «60 horas bajo el mar» (69 s), «438 días a la deriva» (67 s), «Dado por muerto en el Everest»
+(Lincoln Hall, 78 s) y «69 días bajo tierra» (los 33 de Chile, 80 s), en `canales/supervivencia/cortos/`,
 con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md) y el sonido medido antes de renderizar.
 
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,

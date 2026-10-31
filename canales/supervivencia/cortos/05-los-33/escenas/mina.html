@@ -1,0 +1,232 @@
+<template>
+  <!-- La mina San José en corte, dibujada. La profundidad va a escala (1,057 px por metro: la superficie en y 360, el
+       refugio a 688 m en y 1087); la rampa y el bloque, a ojo. Modos:
+       derrumbe  la rampa en zigzag hasta el refugio; «derrumba»: el bloque cae y tiembla todo; «bloquea»: ÚNICA SALIDA,
+                 BLOQUEADA; «chimenea»: la chimenea de ventilación; «escalera»: el tramo sin escalera; «refugio»: los 33
+       sondas    las sondas bajan desde la superficie y se desvían; «oyen»: el sonido llega al refugio; los días cuentan
+                 hasta el 14; «llega»: una pasa junto al refugio; «nadie»: NO ENCUENTRA A NADIE
+       dia17     la octava sonda baja recta y rompe a 688 m; «golpean»: tres golpes; «papel»: el papel, pegado; al acabar
+                 «cinta», el papel sube por la sonda hasta la superficie
+       rescate   el pozo de rescate (a la derecha) hasta el taller (623 m) y la cápsula Fénix, que baja y sube; los
+                 rescatados, de 1 a 33 -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.mina { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .roca { fill: url(#roca-{{ID}}); stroke: #a08a6c; stroke-width: 4; }
+    #{{ID}} .veta { fill: none; stroke: rgba(160, 138, 108, 0.16); stroke-width: 3; }
+    #{{ID}} .tunel-b { fill: none; stroke: #7d6b55; stroke-width: 20; stroke-linejoin: round; stroke-linecap: round; }
+    #{{ID}} .tunel { fill: none; stroke: #0c0907; stroke-width: 11; stroke-linejoin: round; stroke-linecap: round; }
+    #{{ID}} .refugio { fill: #0c0907; stroke: #e9c27a; stroke-width: 4; }
+    #{{ID}} .minero { fill: #ff5e1a; }
+    #{{ID}} .bloque { fill: #4a3d31; stroke: #c9b394; stroke-width: 4; }
+    #{{ID}} .grieta { fill: none; stroke: #0c0907; stroke-width: 4; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 12; stroke-linecap: round; }
+    #{{ID}} .chim { stroke: #0c0907; stroke-width: 12; }
+    #{{ID}} .chim-b { stroke: #7d6b55; stroke-width: 20; }
+    #{{ID}} .pelda { stroke: #e9c27a; stroke-width: 3; }
+    #{{ID}} .hueco { fill: none; stroke: #ff5e1a; stroke-width: 5; stroke-dasharray: 14 12; visibility: hidden; }
+    #{{ID}} .torre { fill: none; stroke: #c9c1b4; stroke-width: 4; stroke-linejoin: round; }
+    #{{ID}} .base { fill: #c9c1b4; }
+    #{{ID}} .luz { fill: #e9c27a; }
+    #{{ID}} .sonda { fill: none; stroke: #d8d1c4; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 100 100; visibility: hidden; }
+    #{{ID}} .sonda.ok { stroke: #ff5e1a; }
+    #{{ID}} .onda { fill: none; stroke: #e9c27a; stroke-width: 6; opacity: 0; }
+    #{{ID}} .papel { fill: #f2ede4; visibility: hidden; }
+    #{{ID}} .pozo { stroke: #0c0907; stroke-width: 16; visibility: hidden; }
+    #{{ID}} .pozo-b { stroke: #e9c27a; stroke-width: 24; visibility: hidden; }
+    #{{ID}} .regla line { stroke: rgba(242, 237, 228, 0.5); stroke-width: 3; }
+    #{{ID}} .regla text { fill: rgba(242, 237, 228, 0.75); font: 400 30px "Special Elite", monospace; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.sello { font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    #{{ID}} .t.cifra { font: 800 64px/1 "Barlow Condensed", sans-serif; color: #ff5e1a; text-shadow: 0 3px 18px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dia { font: 400 104px/1 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dia small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+    #{{ID}} .t.diario { font: 400 54px/1.2 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t .m { font-style: normal; text-transform: none; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mina" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0d1118" /><stop offset="1" stop-color="#3a3026" />
+          </linearGradient>
+          <linearGradient id="roca-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="330" x2="0" y2="1920">
+            <stop offset="0" stop-color="#6b5640" /><stop offset="0.35" stop-color="#3a2e24" /><stop offset="1" stop-color="#140f0b" />
+          </linearGradient>
+        </defs>
+        <g class="mundo">
+          <rect class="cielo" x="-100" y="-100" width="1280" height="520" />
+          <path class="roca" d="M-40,382 C150,374 300,348 420,338 C560,326 700,310 800,334 C880,352 960,358 1120,362 L1120,2000 L-40,2000 Z" />
+          <path class="veta" d="M-40,620 C200,600 420,650 700,610 C860,590 980,620 1120,600" />
+          <path class="veta" d="M-40,840 C240,860 460,810 720,850 C880,870 990,840 1120,860" />
+          <path class="veta" d="M-40,1250 C260,1230 520,1280 760,1240 C900,1220 1000,1250 1120,1236" />
+          <g class="regla">
+            <line x1="90" y1="360" x2="90" y2="1100" />
+            <line x1="76" y1="360" x2="104" y2="360" /><line x1="80" y1="571" x2="100" y2="571" /><line x1="80" y1="783" x2="100" y2="783" />
+            <line x1="80" y1="994" x2="100" y2="994" /><line x1="76" y1="1100" x2="104" y2="1100" />
+            <text x="110" y="402">0 m</text><text x="110" y="1094">700 m</text>
+          </g>
+          <line class="chim-b" x1="240" y1="1086" x2="240" y2="380" /><line class="chim" x1="240" y1="1086" x2="240" y2="380" />
+          <g class="peldanos"></g>
+          <path class="hueco" d="M240,760 L240,392" />
+          <path class="tunel-b" d="M240,1086 L392,1086" /><path class="tunel" d="M240,1086 L392,1086" />
+          <path class="tunel-b rampa-b" d="M860,356 L300,450 L820,560 L300,670 L820,780 L300,890 L800,990 L560,1086" />
+          <path class="tunel rampa" d="M860,356 L300,450 L820,560 L300,670 L820,780 L300,890 L800,990 L560,1086" />
+          <rect class="refugio" x="390" y="1058" width="172" height="58" rx="10" />
+          <g class="mineros"></g>
+          <g class="bloque-g">
+            <path class="bloque" d="M330,505 L520,470 L760,488 L800,620 L640,690 L380,682 L338,600 Z" />
+            <path class="grieta" d="M420,520 L470,580 L450,640 M600,500 L580,560 L640,610 L620,670 M700,540 L740,600" />
+          </g>
+          <g class="cruz-g" style="visibility: hidden"><line class="cruz" x1="-30" y1="-30" x2="30" y2="30" /><line class="cruz" x1="30" y1="-30" x2="-30" y2="30" /></g>
+          <g class="torres"></g>
+          <path class="sonda s1" pathLength="100" d="M430,330 C428,470 410,610 372,760" />
+          <path class="sonda s2" pathLength="100" d="M560,322 C566,520 600,720 668,900" />
+          <path class="sonda s3" pathLength="100" d="M700,318 C700,560 660,850 612,1060" />
+          <path class="sonda ok s8" pathLength="100" d="M500,334 L515,1062" />
+          <line class="pozo-b" x1="890" y1="356" x2="890" y2="1018" /><line class="pozo" x1="890" y1="356" x2="890" y2="1018" />
+          <line class="pozo-b ramal" x1="890" y1="1018" x2="812" y2="994" /><line class="pozo ramal" x1="890" y1="1018" x2="812" y2="994" />
+          <g class="capsula" style="visibility: hidden">
+            <rect x="-9" y="-26" width="18" height="52" rx="7" fill="#f2ede4" />
+            <rect x="-9" y="-26" width="18" height="17" rx="5" fill="#1f4fa8" /><rect x="-9" y="9" width="18" height="17" rx="5" fill="#c8102e" />
+          </g>
+          <g class="ondas"><circle class="onda o1" r="0" /><circle class="onda o2" r="0" /><circle class="onda o3" r="0" /></g>
+          <rect class="papel" x="-11" y="-8" width="22" height="16" rx="2" />
+        </g>
+      </svg>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div><div class="t et e3"><span></span></div>
+      <div class="t sello s1t"><span></span></div>
+      <div class="t cifra prof"></div>
+      <div class="t dia"><small></small><span class="n"></span></div>
+      <div class="t diario fecha"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      const Y = (m) => 360 + m * 1.057;
+      const REF = [475, 1087];
+      // Los peldaños de la chimenea: solo en el tramo de abajo (arriba faltaba la escalera).
+      for (let y = 1070; y >= 770; y -= 24) svg("line", { class: "pelda", x1: 228, y1: y, x2: 252, y2: y }, $(".peldanos"));
+      // Los 33, como puntos dentro del refugio (3 filas de 11).
+      const mineros = [];
+      for (let i = 0; i < 33; i++) mineros.push(svg("circle", { class: "minero", cx: 404 + (i % 11) * 14.4, cy: 1072 + Math.floor(i / 11) * 15, r: 5 }, $(".mineros")));
+      // Las torres de perforación en la superficie.
+      const torre = (x, y) => {
+        const g = svg("g", { transform: `translate(${x},${y})` }, $(".torres"));
+        svg("path", { class: "torre", d: "M-20,0 L-5,-76 L5,-76 L20,0 M-16,-20 L16,-20 M-12,-42 L12,-42 M-8,-60 L8,-60 M-16,-20 L12,-42 M-12,-42 L8,-60" }, g);
+        svg("rect", { class: "base", x: -30, y: -4, width: 60, height: 8, rx: 2 }, g);
+        svg("rect", { class: "base", x: -9, y: -84, width: 18, height: 9, rx: 2 }, g);
+        svg("circle", { class: "luz", cx: 0, cy: -92, r: 6 }, g); return g;
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); };
+      const tiembla = (t, k = 1) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -14 * k, y: 8 * k, duration: 0.05 }, { x: 11 * k, y: -7 * k, duration: 0.05 }, { x: -7 * k, y: 5 * k, duration: 0.05 }, { x: 4 * k, y: -2 * k, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, t);
+      const cruz = (x, y, t) => { gsap.set($(".cruz-g"), { x, y }); tl.set($(".cruz-g"), { visibility: "visible" }, t); tl.fromTo($(".cruz-g"), { scale: 1.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "power4.in" }, t); };
+      const dia = (t, desde, hasta, d) => { $(".dia small").textContent = "DÍA"; gsap.set($(".dia"), { left: 80, top: 176 }); aparece($(".dia"), t, 0.25); cuenta($(".dia .n"), desde, hasta, t, d, { ease: "none", crudo: true }); };
+      const ondas = (x, y, t, n = 3, paso = 0.45, max = 90) => {
+        $$(".onda").forEach((o, i) => {
+          if (i >= n) return;
+          o.setAttribute("cx", x); o.setAttribute("cy", y);
+          tl.fromTo(o, { attr: { r: 10 }, opacity: 0.9 }, { attr: { r: max }, opacity: 0, duration: 0.7, ease: "power2.out" }, t + i * paso);
+        });
+      };
+      if (modo === "derrumbe") {
+        // Todo a la vista menos el bloque (cae en «derrumba») y los 33 (se encienden en «refugio»).
+        gsap.set(mineros, { opacity: 0 });
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 45%" }, { scale: 1.04, duration: DUR, ease: "none" }, 0);
+        traza($(".rampa"), 0.0, 0.9, "power2.inOut"); traza($(".rampa-b"), 0.0, 0.9, "power2.inOut");
+        const tb = w("derrumba") - 0.1;
+        tl.fromTo($(".bloque-g"), { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.in" }, tb - 0.3);
+        tiembla(tb + 0.15, 1.2);
+        cruz(560, 600, w("bloquea") - 0.05);
+        et(".e1", "Única salida: bloqueada", 80, 216, w("bloquea"));
+        tl.to($(".e1"), { autoAlpha: 0, duration: 0.2 }, w("chimenea") - 0.2);
+        tl.to([$(".chim-b"), $(".chim")], { stroke: "#e9c27a", duration: 0.2, yoyo: true, repeat: 1 }, w("chimenea") - 0.05);
+        et(".e2", "Chimenea de ventilación", 80, 216, w("chimenea"));
+        tl.to($(".e2"), { autoAlpha: 0, duration: 0.2 }, w("escalera") - 0.25);
+        tl.set($(".hueco"), { visibility: "visible" }, w("escalera") - 0.15);
+        tl.fromTo($(".hueco"), { opacity: 0 }, { opacity: 1, duration: 0.15, yoyo: true, repeat: 3 }, w("escalera") - 0.15);
+        sello(".s1t", "Sin escalera", 80, 200, w("escalera"));
+        tl.to($(".s1t"), { autoAlpha: 0, duration: 0.2 }, w("refugio") - 0.25);
+        tl.to(mineros, { opacity: 1, duration: 0.05, stagger: 0.02 }, w("refugio") - 0.1);
+        et(".e3", "Refugio · 33 hombres", 80, 216, w("refugio"));
+      } else if (modo === "sondas") {
+        // Las sondas bajan a ciegas; los días cuentan; el sonido llega al refugio; la del día 14 pasa de largo.
+        gsap.set($(".bloque-g"), { opacity: 1 }); gsap.set(mineros, { opacity: 1 });
+        [430, 560, 700].forEach((x, i) => torre(x, [330, 322, 318][i]));
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 40%" }, { scale: 1.03, duration: DUR, ease: "none" }, 0);
+        dia(0.1, 3, 14, w("catorce") - 0.1);
+        et(".e1", "Sondas", 300, 176, w("sondas"));
+        traza($(".s1"), w("sondas") - 0.2, 1.4, "power1.inOut");
+        traza($(".s2"), w("perforan") - 0.1, 1.6, "power1.inOut");
+        ondas(REF[0], REF[1], w("oyen") - 0.1, 3, 0.5, 160);
+        traza($(".s3"), w("acercarse") - 0.2, w("llega") - w("acercarse") + 0.2, "power1.in");
+        cruz(612, 1018, w("nadie", 2) - 0.05);                          // «no encuentra a nadie» (la 1.ª, «nadie sabe»)
+        sello(".s1t", "Nadie", 640, 860, w("nadie", 2));
+      } else if (modo === "dia17") {
+        // La octava sonda: recta hasta 688 m, junto al refugio; los golpes; el papel, pegado y arriba.
+        gsap.set($(".bloque-g"), { opacity: 1 }); gsap.set(mineros, { opacity: 1 });
+        torre(500, 334);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "47% 55%" }, { scale: 1.06, duration: DUR, ease: "none" }, 0);
+        $(".dia small").textContent = "DÍA"; $(".dia .n").textContent = "17"; gsap.set($(".dia"), { left: 80, top: 176 }); aparece($(".dia"), w("diecisiete", 2) - 0.1, 0.25);
+        traza($(".s8"), w("otra") - 0.1, w("roca") - w("otra") + 0.25, "power1.in");
+        const prof = $(".prof"); prof.innerHTML = "−688 <i class=\"m\">m</i>"; gsap.set(prof, { left: 560, top: 1000 });
+        entra(prof, w("seiscientos") - 0.1, 0.35, 12);
+        // Tres golpes en la sonda (los del yunque), cada uno con su onda.
+        const tg = w("golpean");
+        [0, 0.45, 0.9].forEach((d, i) => {
+          const o = $$(".onda")[i]; o.setAttribute("cx", 515); o.setAttribute("cy", 1062);
+          tl.fromTo(o, { attr: { r: 8 }, opacity: 1 }, { attr: { r: 70 }, opacity: 0, duration: 0.5, ease: "power2.out" }, tg + d);
+        });
+        tiembla(tg, 0.25); tiembla(tg + 0.45, 0.25); tiembla(tg + 0.9, 0.25);
+        // El papel aparece en la punta y sube con la sonda hasta la superficie.
+        const pap = $(".papel");
+        gsap.set(pap, { x: 515, y: 1062 });
+        tl.set(pap, { visibility: "visible" }, w("papel", 2) - 0.05);
+        tl.fromTo(pap, { scale: 0.2, transformOrigin: "50% 50%" }, { scale: 1.4, duration: 0.25, ease: "back.out(2)" }, w("papel", 2) - 0.05);
+        // Sube justo al acabar «con cinta»: llega arriba con el corte a la foto de la sonda en la superficie.
+        tl.to(pap, { x: 500, y: 330, duration: 0.6, ease: "power2.in" }, Math.min(f("cinta") - 0.1, DUR - 0.6));
+      } else {
+        // rescate: el pozo hasta el taller (623 m) y la cápsula que va y viene; los rescatados, de 1 a 33.
+        gsap.set($(".bloque-g"), { opacity: 1 }); gsap.set(mineros, { opacity: 1 });
+        torre(890, 356);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "60% 50%" }, { scale: 1.04, duration: DUR, ease: "none" }, 0);
+        const pozos = $$(".pozo:not(.ramal), .pozo-b:not(.ramal)"), ramales = $$(".ramal");
+        tl.set([...pozos, ...ramales], { visibility: "visible" }, 0);
+        tl.fromTo(pozos, { attr: { y2: 356 } }, { attr: { y2: 1018 }, duration: 0.8, ease: "power2.inOut" }, 0.05);
+        tl.fromTo(ramales, { attr: { x2: 890, y2: 1018 } }, { attr: { x2: 812, y2: 994 }, duration: 0.25, ease: "power2.out" }, 0.85);
+        const f0 = $(".fecha"); f0.textContent = "13 OCT 2010"; gsap.set(f0, { left: 80, top: 190 }); entra(f0, 0.1, 0.35, 12);
+        const prof = $(".prof"); prof.innerHTML = "−623 <i class=\"m\">m</i>"; gsap.set(prof, { left: 680, top: 1000 }); entra(prof, 0.6, 0.35, 12);
+        et(".e1", "Cápsula Fénix · 54 <i class=\"m\">cm</i>", 336, 176, w("cápsula") - 0.05);
+        // La cápsula: viajes de ida y vuelta cada vez más rápidos (el rescate duró casi 23 horas); los puntos se apagan
+        // en el refugio a medida que suben.
+        const t0 = w("uno") - 0.2, t1 = DUR - 0.25, cap = $(".capsula");
+        tl.set(cap, { visibility: "visible" }, t0);
+        const fuera = (t) => Math.max(0, Math.min(33, Math.floor(33 * gsap.parseEase("power1.in")(Math.max(0, Math.min(1, (t - t0) / (t1 - t0)))))));
+        $(".dia small").textContent = "RESCATADOS"; gsap.set($(".dia"), { left: 80, top: 176 });
+        alBuscar((t) => {
+          const k = Math.max(0, Math.min(1, (t - t0) / (t1 - t0)));
+          const fase = gsap.parseEase("power1.in")(k) * 33;             // un viaje por minero
+          const v = fase % 1, y = 1000 - (1000 - 372) * (v < 0.5 ? v * 2 : 2 - v * 2);
+          cap.setAttribute("transform", `translate(890,${y.toFixed(1)})`);
+          const n = t < t0 ? 0 : Math.max(1, fuera(t));
+          $(".dia .n").textContent = String(n);
+          mineros.forEach((m, i) => m.setAttribute("opacity", i < n ? 0.15 : 1));
+        });
+        tl.to(f0, { autoAlpha: 0, duration: 0.2, ease: "power2.in" }, t0 - 0.2);
+        aparece($(".dia"), t0, 0.25);
+      }
+      fin();
+    })();
+  </script>
+</template>

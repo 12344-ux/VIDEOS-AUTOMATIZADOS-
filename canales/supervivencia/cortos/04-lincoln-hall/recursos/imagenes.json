@@ -1,0 +1,50 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Lincoln Hall, Dan Mazur y los sherpas son personas reales: nunca de cara. Arriba queda sitio para los rótulos: el sujeto, en la mitad de abajo.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "arista",
+   "semilla": 81,
+   "prompt": "A lone mountaineer in a red down suit sitting cross-legged on a narrow snowy ridge high on Mount Everest at sunrise, seen from behind and slightly to the side, a vast drop and a sea of clouds far below, distant Himalayan peaks glowing orange, the small figure in the lower middle of the frame, wide empty pale sky above, vertical composition"
+  },
+  {
+   "nombre": "cima",
+   "semilla": 92,
+   "prompt": "A single mountaineer in a red down suit, the only person in the image, standing on the snowy summit of Mount Everest among faded colorful prayer flags, seen from behind, facing away from the camera, nothing but sky and a sea of clouds behind him, every other Himalayan peak far below, deep blue sky, bright cold light, the small climber in the lower third of the frame, vertical composition",
+   "_rehecha": "La primera (semilla 82) tenía un pico más alto detrás y el traje amarillo (en el gancho es rojo); la segunda, dos alpinistas de rojo y uno de cara."
+  },
+  {
+   "nombre": "delirio",
+   "semilla": 91,
+   "prompt": "Two Sherpa mountaineers seen from behind kneeling in the snow beside a collapsed climber in a red down suit lying on a high Himalayan ridge at dusk, seen from a distance, wind blowing snow, two orange metal oxygen cylinders with hoses and masks lying in the snow, the last orange light on the peaks, no faces visible, the group in the lower half of the frame, vertical composition",
+   "_rehecha": "La primera (semilla 83): las botellas de oxígeno parecían botellines y el caído no iba de rojo."
+  },
+  {
+   "nombre": "noche",
+   "semilla": 84,
+   "prompt": "A tiny lone figure lying on a snowy mountain ridge at night high on Mount Everest, a sky full of stars and the Milky Way, cold blue moonlight on the snow, vast darkness all around, the figure very small in the lower third of the frame, vertical composition"
+  },
+  {
+   "nombre": "amanecer",
+   "semilla": 89,
+   "prompt": "Exactly four mountaineers with headlamps climbing in a single file up a steep snowy ridge high on Mount Everest at first light, seen from far behind, only four people in the whole image, fixed ropes, the pale dawn sky turning pink, the four small climbers in the lower half of the frame, vertical composition",
+   "_rehecha": "La primera (semilla 85) tenía siete u ocho alpinistas; la voz y el rótulo dicen cuatro."
+  },
+  {
+   "nombre": "sentado",
+   "semilla": 86,
+   "prompt": "A man sitting cross-legged in the snow at the very edge of a huge cliff on a Himalayan ridge in the morning sun, his red down suit unzipped and pulled down to the waist, no hat and no gloves, seen from behind and from a distance, a sea of clouds far below, the man in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "renuncia",
+   "semilla": 93,
+   "prompt": "Seen from very far away and from behind: a tiny group of five mountaineers sitting together in the snow on a high Himalayan ridge, one of them in a red down suit, all with their backs to the camera, the huge summit pyramid of Mount Everest rising high above them against a deep blue sky, the tiny group in the lower quarter of the frame, vertical composition",
+   "_rehecha": "La primera (semilla 87) enseñaba de cara al hombre del centro y con una manta verde; la segunda (90), también de cara. Ahora, de muy lejos."
+  },
+  {
+   "nombre": "bajada",
+   "semilla": 88,
+   "prompt": "A line of Sherpa mountaineers helping a weak climber walk down a snowy ridge toward a camp of small yellow tents on a mountain col far below, seen from behind, afternoon light, long shadows, the climbers in the lower half of the frame, vertical composition"
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Los 33 mineros, sus familias y los rescatistas son personas reales: nunca de cara. Arriba queda sitio para los rótulos: el sujeto, en la mitad de abajo.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "refugio",
+   "semilla": 91,
+   "prompt": "Deep inside a dark underground mine, a group of exhausted shirtless miners with helmets and headlamps sitting on the rocky ground of a cramped tunnel, seen from behind, the beams of their headlamps cutting the dusty darkness, sweat and dust, the miners in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "desierto",
+   "semilla": 92,
+   "prompt": "A small mine in the barren brown mountains of the Atacama desert, a dirt road climbing to a dark mine entrance cut into the hillside, a few small trucks, harsh afternoon sun and a cloudless pale sky, vast and empty landscape, the mine entrance in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "atun",
+   "semilla": 93,
+   "prompt": "Close-up of a small open tin can of tuna with a metal spoon resting on a rough rock inside a dark mine tunnel, lit only by the beam of a headlamp, dust floating in the light, the can in the lower middle of the frame, plain unlabeled can, vertical composition"
+  },
+  {
+   "nombre": "campamento",
+   "semilla": 94,
+   "prompt": "A camp of tents in the desert at night outside a mine, families sitting around a small fire seen from behind, candles on the rocks, flags moving in the wind, a starry sky above the dark mountains, the people in the lower third of the frame, vertical composition"
+  },
+  {
+   "nombre": "sonda",
+   "semilla": 95,
+   "prompt": "Close-up of the tip of a long steel drill rod just pulled out of a borehole in the desert at dawn, a small folded white piece of paper tied to it with black electrical tape, splashes of red paint on the steel, workers' gloved hands holding the rod, the drill tip in the middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "fiesta",
+   "semilla": 98,
+   "prompt": "A crowd celebrating at night in a city square in Chile, people seen from behind waving flags of Chile (the Chilean flag: a white upper half and a red lower half, with a blue square and a single white star in the top left corner), confetti in the air, warm street lights, joyful, the crowd in the lower half of the frame, vertical composition",
+   "_rehecha": "La primera (semilla 96) tenía banderas tricolores genéricas, no la de Chile."
+  },
+  {
+   "nombre": "capsula",
+   "semilla": 99,
+   "prompt": "A very narrow steel rescue capsule, a thin upright cylinder no wider than a man's shoulders and as tall as a man, painted white with a red band and a blue band, hanging from a cable over a narrow shaft in the ground at night under bright floodlights at a desert mine, two rescue workers in orange suits and helmets standing beside it seen from behind, each of them wider than the capsule, a tall metal winch tower above, vertical composition",
+   "_rehecha": "La primera (semilla 97) dibujaba una cápsula enorme, más ancha que dos hombres; la Fénix 2 medía 54 cm."
+  }
+ ]
+}

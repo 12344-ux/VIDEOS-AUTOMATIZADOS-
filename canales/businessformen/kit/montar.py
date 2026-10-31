@@ -435,6 +435,13 @@ def escribir(v):
     for s in {s['nombre'] for s in v.sonidos}:
         ruta = ruta_sfx(v, s)
         shutil.copy2(ruta, os.path.join(a, 'sfx', os.path.basename(ruta)))
+    # Las imágenes que piden las escenas y no están: saldrían en negro, y ni el check de HyperFrames lo dice.
+    pedidas = set()
+    for f in os.listdir(os.path.join(p, 'compositions')):
+        pedidas |= set(re.findall(r'assets/img/([\w.-]+\.(?:jpg|png))', open(os.path.join(p, 'compositions', f)).read()))
+    faltan = sorted(f for f in pedidas if not os.path.exists(os.path.join(a, 'img', f)))
+    if faltan:
+        avisos.append('faltan imágenes (saldrían en negro): ' + ', '.join(faltan))
     return avisos
 
 
