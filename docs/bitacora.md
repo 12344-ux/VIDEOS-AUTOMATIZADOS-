@@ -748,7 +748,7 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
 - **Medido (Xeon con AMX):** la voz, 59,1 s en unos 40 s y 68,7 s en unos 46 s (frase a frase y alineada); la música,
   dos candidatas de 30 s por canal en un lote (339 y 388 s); FLUX.3 Klein a 720 × 1280, de 109 a 276 s por imagen (2
   para Chile y 8 para Juliane, parte de ellas mientras se renderizaba Chile), y EDSR a 1080 × 1920 en 7–10 s; el render
-  de Chile, 276 s con FLUX a la vez; el de Juliane, 171 s (sin nada más a la vez).
+  de Chile, 276 s con FLUX a la vez y 221 s solo (al rehacerlo); el de Juliane, 171 s.
 - **Graves de la música, medidos antes de usarla:** en geografía, una candidata con el 3 % de la energía bajo 150 Hz (la
   elegida) y otra con el 79 % que además se apagaba a los 25 s; en supervivencia, una que se apaga (de −23 a −76 dB) y
   otra con el 30 % que crece de −25 a −17 dB (la elegida: sube con la historia).
@@ -757,10 +757,12 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
   pisaban, el contador de días que empezaba en el 4, la ficha de la regla pequeña, «Día 9» sobre un cielo blanco, texto
   blanco sobre naranja (2,6:1; ahora oscuro), subtítulos que repetían lo que la pantalla escribe en grande (SOLA, NO LA
   VEN, SOBREVIVIÓ UNA) y «SOBREVIVIÓ UNA» encima de los puntos. Las trampas nuevas, en CLAUDE.md.
-- **Entregas:** `salidas/geografia/cortos/01-chile/entrega/chile.mp4` (59,7 s, −14,0 LUFS, −1,9 dBTP, 9,6 MB) y
+- **Entregas:** `salidas/geografia/cortos/01-chile/entrega/chile.mp4` (59,7 s, −14,0 LUFS, −1,9 dBTP, 9,7 MB; rehecho tras
+  ver en el MP4 la cabecera del tratado encima de «ESQUEMA» y «ARGENTINA» tocando las cumbres) y
   `salidas/supervivencia/cortos/01-juliane/entrega/juliane.mp4` (69,4 s, −14,4 LUFS, −1,4 dBTP, 40 MB: el grano y la
   lluvia sobre fotos a sangre pesan cuatro veces más que los mapas). En los dos, el último fotograma es el primero (en
-  Juliane, 1,9 de diferencia media sobre 255) y el sonido no se corta en ningún momento. La ficha de publicación de cada uno (títulos, texto, fuentes y aviso de voz, imágenes y música
+  Juliane, 1,9 de diferencia media sobre 255; en Chile, 0,5) y el sonido llega hasta el final (en Chile
+  baja de −50 dB solo en los últimos 0,07 s). La ficha de publicación de cada uno (títulos, texto, fuentes y aviso de voz, imágenes y música
   generadas) está en su `PUBLICACION.md`, y los nombres propuestos para los canales, en su `CANAL.md`.
 - **Lo que no se pudo comprobar:** qué día vio Juliane los gusanos y cuándo encontró el arroyo (ni su libro ni las
   entrevistas lo fechan): el contador de días es orientativo entre la caída y el refugio, y su ficha lo dice.
