@@ -26,3 +26,17 @@ Voz generada con IA. Imágenes generadas con IA (sin marcas reales). Música: Mu
 - Activar la etiqueta de contenido generado por IA (TikTok: «Contenido generado por IA»; Instagram y Facebook:
   «Información de IA»).
 - Sin música de la biblioteca de la app: el vídeo ya lleva la suya.
+
+## Variante m2: la voz de supervivencia, sin música
+
+Vídeo: `salidas/businessformen/cortos/08-la-formula/entrega/bfm-corto-08-la-formula-m2.mp4` (41 s, 31-oct). Como la del
+corto 7, que funcionó mejor: las mismas imágenes y el mismo guion con la voz M2 y sin música. El sonido son efectos: el
+burbujeo de un refresco donde se ve la lata, el murmullo de la cata, la oficina de las quejas con sus teléfonos, las
+botellas del estante, las hojas de los 79 días, los sellos, el hielo del vaso que gana y la botella que se abre al volver
+la de siempre. El mismo título y el mismo texto, con esta línea de créditos:
+
+```
+Voz generada con IA. Imágenes generadas con IA (sin marcas reales). Efectos: BigSoundBank (CC0) y Pixabay.
+```
+
+Al subirla, sin música de la biblioteca de la app: el vídeo va sin música a propósito.

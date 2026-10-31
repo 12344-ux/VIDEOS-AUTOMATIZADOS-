@@ -1,0 +1,66 @@
+<template>
+  <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
+  <style>
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    #subs { position: absolute; inset: 0; }
+    #subs .g { position: absolute; left: 0; right: 0; top: 1168px; padding: 0 96px; text-align: center; visibility: hidden;
+      font: 800 64px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }
+    #subs .g span { display: inline-block; padding: 0.02em 0.13em 0.07em; }
+  </style>
+  <div data-composition-id="subs" data-width="1080" data-height="1920">
+    <div id="subs">
+      <div class="g" id="sub0"><span>En</span> <span>1975</span></div>
+      <div class="g" id="sub1"><span>un</span> <span>ingeniero</span> <span>de</span> <span>Kodak</span></div>
+      <div class="g" id="sub2"><span>construyó</span> <span>la</span> <span>primera</span></div>
+      <div class="g" id="sub3"><span>cámara</span> <span>digital</span></div>
+      <div class="g" id="sub4"><span>Pesaba</span> <span>casi</span> <span>cuatro</span> <span>kilos</span></div>
+      <div class="g" id="sub5"><span>Sus</span> <span>fotos</span> <span>tenían</span></div>
+      <div class="g" id="sub6"><span>10.000</span> <span>píxeles</span></div>
+      <div class="g" id="sub7"><span>Y</span> <span>tardaba</span> <span>23</span> <span>segundos</span></div>
+      <div class="g" id="sub8"><span>en</span> <span>guardar</span> <span>cada</span></div>
+      <div class="g" id="sub9"><span>una</span></div>
+      <div class="g" id="sub10"><span>Kodak</span> <span>la</span> <span>dejó</span></div>
+      <div class="g" id="sub11"><span>en</span> <span>el</span> <span>laboratorio</span></div>
+      <div class="g" id="sub12"><span>¿Por</span> <span>qué?</span></div>
+      <div class="g" id="sub13"><span>Porque</span> <span>Kodak</span> <span>ganaba</span></div>
+      <div class="g" id="sub14"><span>dinero</span> <span>con</span> <span>cada</span></div>
+      <div class="g" id="sub15"><span>carrete</span> <span>y</span> <span>con</span> <span>cada</span></div>
+      <div class="g" id="sub16"><span>revelado</span></div>
+      <div class="g" id="sub17"><span>Una</span> <span>cámara</span> <span>sin</span></div>
+      <div class="g" id="sub18"><span>carrete</span> <span>era</span> <span>una</span> <span>amenaza</span></div>
+      <div class="g" id="sub19"><span>para</span> <span>su</span> <span>propio</span></div>
+      <div class="g" id="sub20"><span>negocio</span></div>
+      <div class="g" id="sub21"><span>Años</span> <span>después</span></div>
+      <div class="g" id="sub22"><span>la</span> <span>foto</span> <span>digital</span></div>
+      <div class="g" id="sub23"><span>se</span> <span>comió</span> <span>al</span> <span>carrete</span></div>
+      <div class="g" id="sub24"><span>Y</span> <span>en</span> <span>2012</span></div>
+      <div class="g" id="sub25"><span>Kodak</span> <span>se</span> <span>declaró</span></div>
+      <div class="g" id="sub26"><span>en</span> <span>quiebra</span></div>
+      <div class="g" id="sub27"><span>Había</span> <span>inventado</span> <span>el</span> <span>futuro…</span></div>
+      <div class="g" id="sub28"><span>y</span> <span>lo</span> <span>dejó</span></div>
+      <div class="g" id="sub29"><span>pasar</span> <span>para</span> <span>proteger</span></div>
+      <div class="g" id="sub30"><span>el</span> <span>presente</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const G = [[0.1,2.62,[[0.14,0.2],[0.26,2.18]]],[2.62,3.84,[[2.66,2.74],[2.82,3.28],[3.32,3.38],[3.48,3.78]]],[3.84,4.98,[[3.88,4.4],[4.48,4.54],[4.6,4.92]]],[4.98,6.268,[[5.02,5.34],[5.4,5.86]]],[6.268,7.995,[[6.308,6.608],[6.668,6.868],[6.948,7.188],[7.248,7.568]]],[7.995,8.815,[[8.035,8.175],[8.235,8.495],[8.535,8.815]]],[8.815,10.254,[[8.855,9.255],[9.335,9.815]]],[10.254,11.814,[[10.294,10.314],[10.394,10.734],[10.794,11.314],[11.374,11.794]]],[11.814,12.594,[[11.854,11.914],[11.954,12.274],[12.354,12.534]]],[12.594,13.114,[[12.634,12.814]]],[13.469,14.229,[[13.509,13.809],[13.869,13.929],[13.969,14.189]]],[14.229,15.585,[[14.269,14.309],[14.369,14.409],[14.449,15.049]]],[15.585,16.348,[[15.625,15.745],[15.825,15.945]]],[16.348,17.368,[[16.388,16.628],[16.708,16.988],[17.028,17.328]]],[17.368,18.188,[[17.408,17.688],[17.768,17.868],[17.948,18.148]]],[18.188,19.188,[[18.228,18.628],[18.688,18.708],[18.768,18.888],[18.968,19.148]]],[19.188,20.236,[[19.228,19.688]]],[20.236,21.136,[[20.276,20.416],[20.496,20.856],[20.956,21.096]]],[21.136,22.736,[[21.176,21.596],[21.736,21.856],[21.996,22.116],[22.176,22.656]]],[22.736,23.456,[[22.776,22.936],[22.996,23.096],[23.176,23.456]]],[23.456,24.236,[[23.496,23.936]]],[24.645,25.625,[[24.685,24.925],[24.965,25.405]]],[25.625,26.585,[[25.665,25.725],[25.805,26.045],[26.105,26.565]]],[26.585,28.213,[[26.625,26.725],[26.785,27.005],[27.065,27.125],[27.185,27.625]]],[28.213,29.133,[[28.253,28.273],[28.333,28.393],[28.453,29.073]]],[29.133,29.933,[[29.173,29.453],[29.493,29.573],[29.613,29.913]]],[29.933,30.653,[[29.973,30.013],[30.073,30.353]]],[31.014,32.755,[[31.054,31.274],[31.334,31.774],[31.834,31.894],[31.954,32.354]]],[32.755,33.275,[[32.795,32.815],[32.875,32.935],[32.995,33.215]]],[33.275,34.295,[[33.315,33.615],[33.715,33.855],[33.915,34.295]]],[34.295,35.215,[[34.335,34.375],[34.435,34.915]]]];
+      G.forEach(([a, b, ps], i) => {
+        const g = document.getElementById("sub" + i), sp = g.querySelectorAll("span");
+        tl.fromTo(g, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }, a);
+        ps.forEach(([t0, t1], k) => {
+          const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
+          tl.fromTo(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0" },
+            { backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", color: "#f4f3f0", duration: 0.05 }, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], { backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "#f4f3f0", duration: 0.05 }, Math.max(t0, fin - 0.05));
+        });
+        tl.to(g, { opacity: 0, duration: 0.08, ease: "power2.in" }, b - 0.08);
+        tl.set(g, { visibility: "hidden" }, b);
+      });
+      tl.set({}, {}, 41.369);
+      window.__timelines["subs"] = tl;
+    })();
+  </script>
+</template>

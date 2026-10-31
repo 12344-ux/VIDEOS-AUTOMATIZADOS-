@@ -1,0 +1,192 @@
+<template>
+  <!-- Gancho de un corto (el fotograma 0 es la portada) y su vuelta para el bucle, sobre una foto a pantalla completa.
+       Parámetros: foto y conf = {l1 (titular, <br> para partir), l2 (en el bloque carmesí), tam1, tam2, camara [escala1, x1,
+       y1], modo, destello (ancla: un destello blanco, el de una cámara), en_l1 y en_l2 (en la vuelta)}.
+         inicio  todo a la vista en el fotograma 0 y la cámara avanza despacio
+         vuelta  la foto y los titulares vuelven y el último fotograma es el primero del vídeo
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+    /* Marca BusinessForMen (ruta Consejo): grafito, blanco y carmesí; Inter Tight e IBM Plex Mono. */
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "Bodoni Moda"; src: url("assets/fonts/bodoni-500-italic.woff2") format("woff2"); font-weight: 500; font-style: italic; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0a0b0d; color: #f4f3f0; font-family: "Inter Tight", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 30px/1.25 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    .esc .mono b { font-weight: 500; color: #f4f3f0; }
+    .esc .mono i { font-style: normal; color: #f4f3f0; background: #b0122f; padding: 0.08em 0.34em; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .fuerte { font-weight: 800; letter-spacing: -0.032em; line-height: 1.0; }
+    .esc .bloque { background: #b0122f; color: #f4f3f0; padding: 0 0.12em; }
+    .esc .rojo { background: #b0122f; }
+    .esc .cortina { position: absolute; inset: 0; background: #b0122f; z-index: 40; visibility: hidden; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    /* Índice de una lista que se recorre en varias escenas (las reglas): un cuadro por punto, el actual en rojo. */
+    .esc .idx { position: absolute; left: 150px; top: 100px; display: flex; gap: 12px; }
+    .esc .idx i { width: 50px; height: 50px; border: 3px solid #8a8d93; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+      font: 800 28px/1 "Inter Tight", sans-serif; font-style: normal; color: #8a8d93; }
+    .esc .idx i.on { background: #b0122f; border-color: #b0122f; color: #f4f3f0; }
+
+    /* Cortos verticales de BusinessForMen (1080 × 1920). Lo que se lee va entre x 80–940 e y 200–1130: arriba, la barra
+       del móvil; a la derecha, los botones de las apps; abajo, de 1168 a 1320, los subtítulos, y debajo, el texto y la
+       interfaz de cada app (solo textura ahí). Cifras y titulares, más grandes que en horizontal. */
+    .esc .mono { font-size: 34px; }
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 500 28px/1.3 "Plex Mono", monospace;
+      letter-spacing: 0.06em; color: rgba(244, 243, 240, 0.6); }
+    .esc .titular { font: 800 128px/0.96 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    .esc .heroe { font: 800 440px/0.86 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    /* Velo para leer sobre una imagen, ligero (31-oct-2026: con el anterior, oscuro de la mitad hacia abajo, «la imagen se
+       veía como la mitad»): la barra del móvil y los titulares arriba, y una franja suave detrás de los subtítulos
+       (1100–1380 px); el resto de la foto, a la vista, también abajo. El de antes queda como .velo-denso. */
+    .esc .velo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.62) 0%, rgba(10, 11, 13, 0.2) 17%, rgba(10, 11, 13, 0) 30%,
+      rgba(10, 11, 13, 0) 52%, rgba(10, 11, 13, 0.38) 60%, rgba(10, 11, 13, 0.46) 68%, rgba(10, 11, 13, 0.18) 80%, rgba(10, 11, 13, 0) 100%); }
+    .esc .velo-denso { background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0) 16%, rgba(10, 11, 13, 0) 40%,
+      rgba(10, 11, 13, 0.82) 62%, rgba(10, 11, 13, 0.96) 100%); }
+    .esc .papel { background: #ebe5d8; color: #141414; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); overflow: hidden; }
+    .esc .papel::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.16; mix-blend-mode: multiply; pointer-events: none; }
+
+    #s01 .foto { transform-origin: 50% 55%; }
+    #s01 .techo { background: linear-gradient(180deg, rgba(10, 11, 13, 0.78) 0%, rgba(10, 11, 13, 0.5) 20%, rgba(10, 11, 13, 0) 40%); }
+    #s01 .bloque-g { position: absolute; left: 80px; top: 250px; width: 880px; }
+    #s01 .l1 { font: 800 112px/0.94 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap;
+      text-shadow: 0 4px 36px rgba(0, 0, 0, 0.7); }
+    #s01 .l2 { margin-top: 22px; font: 800 76px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; text-transform: uppercase; white-space: nowrap; }
+    #s01 .l2 span { display: inline-block; background: #b0122f; color: #f4f3f0; padding: 0.06em 0.16em 0.02em; }
+    #s01 .destello { background: #ffffff; opacity: 0; }
+  </style>
+  <div data-composition-id="s01" data-width="1080" data-height="1920">
+    <div id="s01" class="esc">
+      <div class="capa vista">
+        <img class="foto" src="assets/img/prototipo.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="capa techo"></div>
+        <div class="bloque-g"><div class="l1"></div><div class="l2"><span></span></div></div>
+      </div>
+      <div class="capa destello"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Ayudas comunes de las escenas (kit/ayuda.js, las inserta kit/montar.py). Todo es función del tiempo local.
+      const W = {"en":[[0.14,0.2],[11.854,11.914],[14.269,14.309],[28.333,28.393],[29.973,30.013]],"mil":[[0.26,0.42],[9.095,9.255],[28.613,28.773]],"novecientos":[[0.5,1.12]],"setenta":[[1.18,1.64]],"y":[[1.72,1.74],[10.294,10.314],[18.688,18.708],[28.253,28.273],[32.795,32.815],[38.949,38.969]],"cinco":[[1.84,2.18]],"un":[[2.66,2.74]],"ingeniero":[[2.82,3.28]],"de":[[3.32,3.38]],"kódak":[[3.48,3.78],[13.509,13.809],[16.708,16.988],[29.173,29.453]],"construyó":[[3.88,4.4]],"la":[[4.48,4.54],[13.869,13.929],[25.665,25.725]],"primera":[[4.6,4.92]],"cámara":[[5.02,5.34],[20.496,20.856]],"digital":[[5.4,5.86],[26.105,26.565]],"pesaba":[[6.308,6.608]],"casi":[[6.668,6.868]],"cuatro":[[6.948,7.188]],"kilos":[[7.248,7.568]],"sus":[[8.035,8.175]],"fotos":[[8.235,8.495]],"tenían":[[8.535,8.815]],"diez":[[8.855,9.035]],"píxeles":[[9.335,9.815]],"tardaba":[[10.394,10.734]],"veintitrés":[[10.794,11.314]],"segundos":[[11.374,11.794]],"guardar":[[11.954,12.274]],"cada":[[12.354,12.534],[17.948,18.148],[18.968,19.148]],"una":[[12.634,12.814],[20.276,20.416],[21.996,22.116]],"dejó":[[13.969,14.189],[32.995,33.215]],"el":[[14.369,14.409],[31.834,31.894],[34.335,34.375]],"laboratorio":[[14.449,15.049]],"por":[[15.625,15.745],[37.909,38.009]],"qué":[[15.825,15.945]],"porque":[[16.388,16.628]],"ganaba":[[17.028,17.328]],"dinero":[[17.408,17.688]],"con":[[17.768,17.868],[18.768,18.888],[39.589,39.689]],"carrete":[[18.228,18.628],[21.176,21.596],[27.185,27.625]],"revelado":[[19.228,19.688]],"sin":[[20.956,21.096]],"era":[[21.736,21.856]],"amenaza":[[22.176,22.656]],"para":[[22.776,22.936],[33.715,33.855]],"su":[[22.996,23.096]],"propio":[[23.176,23.456]],"negocio":[[23.496,23.936],[36.389,36.849]],"años":[[24.685,24.925]],"después":[[24.965,25.405]],"foto":[[25.805,26.045]],"se":[[26.625,26.725],[29.493,29.573]],"comió":[[26.785,27.005]],"al":[[27.065,27.125]],"dos":[[28.453,28.553]],"doce":[[28.833,29.073]],"declaró":[[29.613,29.913]],"quiebra":[[30.073,30.353]],"había":[[31.054,31.274]],"inventado":[[31.334,31.774]],"futuro":[[31.954,32.354]],"lo":[[32.875,32.935],[37.369,37.429]],"pasar":[[33.315,33.615]],"proteger":[[33.915,34.295]],"presente":[[34.435,34.915]],"si":[[35.609,35.709]],"no":[[35.769,35.809]],"cambias":[[35.889,36.209]],"tu":[[36.269,36.329]],"otro":[[37.149,37.309]],"cambiará":[[37.489,37.809]],"ti":[[38.089,38.189]],"todo":[[39.049,39.189]],"empezó":[[39.229,39.509]],"esto":[[39.729,39.969]]}, T0 = 0.000, DUR = 5.928;
+      const RAIZ = document.getElementById("s01");
+      const limpia = (s) => s.toLowerCase().replace(/[^\wáéíóúüñ]/g, "");
+      // w("palabra", n): cuándo empieza la aparición n de esa palabra, en el tiempo de la escena; f(): cuándo acaba.
+      const w = (p, n = 1, fin = false) => {
+        const l = W[limpia(p)];
+        if (!l || !l[n - 1]) throw new Error(`s01: no está «${p}» (${n})`);
+        return l[n - 1][fin ? 1 : 0] - T0;
+      };
+      const f = (p, n = 1) => w(p, n, true);
+      // serie("palabra", k, n): el comienzo de las k palabras seguidas desde la aparición n de esa palabra.
+      const L = [["en",0.14,0.2],["mil",0.26,0.42],["novecientos",0.5,1.12],["setenta",1.18,1.64],["y",1.72,1.74],["cinco",1.84,2.18],["un",2.66,2.74],["ingeniero",2.82,3.28],["de",3.32,3.38],["kódak",3.48,3.78],["construyó",3.88,4.4],["la",4.48,4.54],["primera",4.6,4.92],["cámara",5.02,5.34],["digital",5.4,5.86],["pesaba",6.308,6.608],["casi",6.668,6.868],["cuatro",6.948,7.188],["kilos",7.248,7.568],["sus",8.035,8.175],["fotos",8.235,8.495],["tenían",8.535,8.815],["diez",8.855,9.035],["mil",9.095,9.255],["píxeles",9.335,9.815],["y",10.294,10.314],["tardaba",10.394,10.734],["veintitrés",10.794,11.314],["segundos",11.374,11.794],["en",11.854,11.914],["guardar",11.954,12.274],["cada",12.354,12.534],["una",12.634,12.814],["kódak",13.509,13.809],["la",13.869,13.929],["dejó",13.969,14.189],["en",14.269,14.309],["el",14.369,14.409],["laboratorio",14.449,15.049],["por",15.625,15.745],["qué",15.825,15.945],["porque",16.388,16.628],["kódak",16.708,16.988],["ganaba",17.028,17.328],["dinero",17.408,17.688],["con",17.768,17.868],["cada",17.948,18.148],["carrete",18.228,18.628],["y",18.688,18.708],["con",18.768,18.888],["cada",18.968,19.148],["revelado",19.228,19.688],["una",20.276,20.416],["cámara",20.496,20.856],["sin",20.956,21.096],["carrete",21.176,21.596],["era",21.736,21.856],["una",21.996,22.116],["amenaza",22.176,22.656],["para",22.776,22.936],["su",22.996,23.096],["propio",23.176,23.456],["negocio",23.496,23.936],["años",24.685,24.925],["después",24.965,25.405],["la",25.665,25.725],["foto",25.805,26.045],["digital",26.105,26.565],["se",26.625,26.725],["comió",26.785,27.005],["al",27.065,27.125],["carrete",27.185,27.625],["y",28.253,28.273],["en",28.333,28.393],["dos",28.453,28.553],["mil",28.613,28.773],["doce",28.833,29.073],["kódak",29.173,29.453],["se",29.493,29.573],["declaró",29.613,29.913],["en",29.973,30.013],["quiebra",30.073,30.353],["había",31.054,31.274],["inventado",31.334,31.774],["el",31.834,31.894],["futuro",31.954,32.354],["y",32.795,32.815],["lo",32.875,32.935],["dejó",32.995,33.215],["pasar",33.315,33.615],["para",33.715,33.855],["proteger",33.915,34.295],["el",34.335,34.375],["presente",34.435,34.915],["si",35.609,35.709],["no",35.769,35.809],["cambias",35.889,36.209],["tu",36.269,36.329],["negocio",36.389,36.849],["otro",37.149,37.309],["lo",37.369,37.429],["cambiará",37.489,37.809],["por",37.909,38.009],["ti",38.089,38.189],["y",38.949,38.969],["todo",39.049,39.189],["empezó",39.229,39.509],["con",39.589,39.689],["esto",39.729,39.969]];
+      const serie = (p, k, n = 1) => {
+        const i = L.map((q, j) => (q[0] === limpia(p) ? j : -1)).filter((j) => j >= 0)[n - 1];
+        if (i == null) throw new Error(`s01: no está «${p}» (${n})`);
+        return L.slice(i, i + k).map((q) => q[1] - T0);
+      };
+      const $ = (s) => RAIZ.querySelector(s);
+      const $$ = (s) => Array.from(RAIZ.querySelectorAll(s));
+      // Cifras a la española: punto de miles y signo menos tipográfico.
+      const fmt = (n, signo) => {
+        const a = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return (n < 0 ? "−" : signo && n > 0 ? "+" : "") + a;
+      };
+      const tl = gsap.timeline({ paused: true });
+      // Sube desde su máscara: 140 % para que las tildes de las mayúsculas (Á, É, Ú) no asomen antes de tiempo.
+      const sube = (sel, t, d = 0.45, ease = "expo.out") => tl.fromTo(sel, { yPercent: 140 }, { yPercent: 0, duration: d, ease }, t);
+      const entra = (sel, t, d = 0.45, dy = 26) => tl.fromTo(sel, { autoAlpha: 0, y: dy }, { autoAlpha: 1, y: 0, duration: d, ease: "expo.out" }, t);
+      const aparece = (sel, t, d = 0.3, max = 1) => tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: max, duration: d, ease: "power2.out" }, t);
+      const sale = (sel, t, d = 0.2) => tl.to(sel, { autoAlpha: 0, duration: d, ease: "power2.in" }, t);
+      // Contador: el texto del elemento va de «desde» a «hasta» entre t y t + d.
+      const cuenta = (el, desde, hasta, t, d, o = {}) => {
+        el = typeof el === "string" ? $(el) : el;
+        const v = { x: desde }, pinta = () => { el.textContent = (o.pre || "") + (o.crudo ? String(Math.round(v.x)) : fmt(v.x, o.signo)) + (o.suf || ""); };
+        pinta();
+        tl.fromTo(v, { x: desde }, { x: hasta, duration: d, ease: o.ease || "power2.out", onUpdate: pinta }, t);
+      };
+      // Trazo que se dibuja: el path necesita pathLength="100" y stroke-dasharray="100 100". Se oculta hasta que empieza:
+      // con remates redondos o cuadrados, el guion de largo cero deja un punto en el extremo.
+      const traza = (sel, t, d, ease = "power2.inOut") => {
+        tl.fromTo(sel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, t);
+        return tl.fromTo(sel, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: d, ease }, t);
+      };
+      // Trocea el texto de un elemento en palabras con máscara (.pal > span) y devuelve los span.
+      const trocea = (el) => {
+        el = typeof el === "string" ? $(el) : el;
+        // Respeta los <br>: cada renglón se trocea por separado.
+        el.innerHTML = el.innerHTML.split(/<br\s*\/?>/i).map((h) => h.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean)
+          .map((p) => `<span class="pal"><span>${p}</span></span>`).join("")).join("<br>");
+        return Array.from(el.querySelectorAll(".pal > span"));
+      };
+      // Cortinas rojas: la que se lleva la escena (sale) y la que se retira al empezar (entra).
+      const cortina = (modo, d) => {
+        const c = document.createElement("div");
+        c.className = "cortina"; RAIZ.appendChild(c);
+        if (modo === "entra") tl.fromTo(c, { scaleX: 1, autoAlpha: 1, transformOrigin: "right center" }, { scaleX: 0, duration: d || 0.42, ease: "power4.out" }, 0);
+        else tl.fromTo(c, { scaleX: 0, autoAlpha: 1, transformOrigin: "left center" }, { scaleX: 1, duration: d || 0.3, ease: "power4.in" }, DUR - (d || 0.3));
+      };
+      // Dibujos en función del tiempo (lo que GSAP no interpola bien: un punto que recorre un círculo, por ejemplo).
+      const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
+      // Avance 0 → 1 entre t0 y t0 + d, con su curva.
+      const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
+      // Entrada de la escena sobre la anterior (montar.py: escena(…, entrada=…)); la anterior sigue debajo mientras dura.
+      const ENTRADA = null;
+      const entradaEscena = () => {
+        if (!ENTRADA) return;
+        const d = ENTRADA.d, t = ENTRADA.tipo, filo = (css) => { const f = document.createElement("div"); f.style.cssText = "position:absolute;z-index:60;background:#b0122f;" + css; RAIZ.appendChild(f); return f; };
+        const x = ENTRADA.x != null ? ENTRADA.x : 1080 / 2, y = ENTRADA.y != null ? ENTRADA.y : 1920 / 2;
+        // [recorte inicial, recorte final, curva, fracción de la duración]
+        const CLIP = {
+          cortina: ["inset(0% 100% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.in", 0.5],
+          barrido: ["inset(0% 0% 0% 100%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          subida: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          iris: [`circle(0% at ${x}px ${y}px)`, `circle(150% at ${x}px ${y}px)`, "power2.in", 1],
+        }[t];
+        tl.fromTo(RAIZ, { clipPath: CLIP[0] }, { clipPath: CLIP[1], duration: d * CLIP[3], ease: CLIP[2] }, 0);
+        if (t === "cortina") {
+          // El rojo cruza la escena anterior de izquierda a derecha y, al retirarse, descubre esta.
+          const c = filo("left:0;top:0;width:100%;height:100%;");
+          tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d / 2, ease: "power3.out", transformOrigin: "right center" }, d / 2);
+        } else if (t === "barrido" || t === "subida") {
+          // El filo rojo va con el borde de la escena que entra.
+          const f = t === "barrido" ? filo("left:0;top:0;width:10px;height:100%;") : filo("left:0;top:0;width:100%;height:10px;");
+          tl.fromTo(f, t === "barrido" ? { x: 1080 } : { y: 1920 }, Object.assign(t === "barrido" ? { x: 0 } : { y: 0 }, { duration: d, ease: "power3.inOut" }), 0);
+          tl.to(f, { autoAlpha: 0, duration: 0.12 }, d);
+        }
+      };
+      // 2.5D por capas (imagen/capas25d.py): el fondo se mueve poco y el frente recortado, más; la cámara parece avanzar.
+      const profundidad = (t0, d, o = {}) => {
+        tl.fromTo(o.fondo || ".fondo25", { scale: o.f0 || 1, x: 0, y: 0 }, { scale: o.f1 || 1.05, x: o.fx || 0, y: o.fy || 0, duration: d, ease: o.ease || "none" }, t0);
+        tl.fromTo(o.frente || ".frente25", { scale: o.s0 || 1, x: 0, y: 0 }, { scale: o.s1 || 1.13, x: o.sx || 0, y: o.sy || 0, duration: d, ease: o.ease || "none" }, t0);
+      };
+      const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s01"] = tl; };
+
+      const C = {"l1": "Kodak inventó<br>esto", "l2": "en 1975", "tam1": 104, "camara": [1.12, 0, -20], "modo": "inicio", "destello": ["digital", 1, 0.05, "fin"]};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      $(".l1").innerHTML = C.l1;
+      $(".l2 span").innerHTML = C.l2;
+      if (C.tam1) $(".l1").style.fontSize = C.tam1 + "px";
+      if (C.tam2) $(".l2").style.fontSize = C.tam2 + "px";
+      const cam = C.camara || [1.1, 0, -30];
+      if (C.modo === "vuelta") {
+        // La foto vuelve a escala 1 justo al acabar: el último fotograma es el primero del vídeo.
+        tl.fromTo($(".vista"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, 0);
+        tl.fromTo($(".foto"), { scale: 1.06, x: 0, y: 24 }, { scale: 1.0, x: 0, y: 0, duration: DUR, ease: "power2.out" }, 0);
+        tl.fromTo($(".l1"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, A(C.en_l1));
+        tl.fromTo($(".l2"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, A(C.en_l2));
+      } else {
+        tl.fromTo($(".foto"), { scale: 1.0, x: 0, y: 0 }, { scale: cam[0], x: cam[1], y: cam[2], duration: DUR, ease: "none" }, 0);
+      }
+      if (C.destello != null) {
+        tl.fromTo($(".destello"), { opacity: 0 }, { keyframes: [{ opacity: 0.9, duration: 0.04 }, { opacity: 0, duration: 0.45, ease: "power2.out" }] }, A(C.destello));
+      }
+      fin();
+    })();
+  </script>
+</template>

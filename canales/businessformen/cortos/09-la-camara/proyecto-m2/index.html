@@ -1,0 +1,60 @@
+<!doctype html>
+<!-- Generado por canales/businessformen/kit/montar.py desde canales/businessformen/cortos/09-la-camara/montaje.py: no editar a mano. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>BusinessForMen · cortos · 09-la-camara</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0b0d; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0a0b0d; }
+      #grano { position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.05; mix-blend-mode: overlay; z-index: 50; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="41.369" data-width="1080" data-height="1920">
+      <div id="h-s01" data-composition-id="s01" data-composition-src="compositions/s01.html" data-start="0.0" data-duration="6.348" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <div id="h-s02" data-composition-id="s02" data-composition-src="compositions/s02.html" data-start="5.928" data-duration="7.621" data-track-index="3" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="h-s03" data-composition-id="s03" data-composition-src="compositions/s03.html" data-start="13.129" data-duration="2.536" data-track-index="1" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="h-s04" data-composition-id="s04" data-composition-src="compositions/s04.html" data-start="15.245" data-duration="5.071" data-track-index="3" data-track-kind="graphics" style="z-index: 4"></div>
+      <div id="h-s05" data-composition-id="s05" data-composition-src="compositions/s05.html" data-start="19.896" data-duration="4.829" data-track-index="1" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="h-s06" data-composition-id="s06" data-composition-src="compositions/s06.html" data-start="24.305" data-duration="3.988" data-track-index="3" data-track-kind="graphics" style="z-index: 6"></div>
+      <div id="h-s07" data-composition-id="s07" data-composition-src="compositions/s07.html" data-start="27.873" data-duration="3.221" data-track-index="1" data-track-kind="graphics" style="z-index: 7"></div>
+      <div id="h-s08" data-composition-id="s08" data-composition-src="compositions/s08.html" data-start="30.674" data-duration="4.885" data-track-index="3" data-track-kind="graphics" style="z-index: 8"></div>
+      <div id="h-s09" data-composition-id="s09" data-composition-src="compositions/s09.html" data-start="35.059" data-duration="3.74" data-track-index="1" data-track-kind="graphics" style="z-index: 9"></div>
+      <div id="h-s10" data-composition-id="s10" data-composition-src="compositions/s10.html" data-start="38.799" data-duration="2.57" data-track-index="3" data-track-kind="graphics" style="z-index: 10"></div>
+      <div id="h-subs" data-composition-id="subs" data-composition-src="compositions/subs.html" data-start="0" data-duration="41.369" data-track-index="2" data-track-kind="captions" style="z-index: 30"></div>
+      <div id="grano"></div>
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="0.1" data-duration="40.270" data-track-index="10" data-volume="1" data-fx-chain="{&quot;version&quot;: 1, &quot;nodes&quot;: [{&quot;type&quot;: &quot;highpass&quot;, &quot;id&quot;: &quot;v1&quot;, &quot;params&quot;: {&quot;frequency&quot;: 90}}, {&quot;type&quot;: &quot;peaking&quot;, &quot;id&quot;: &quot;v2&quot;, &quot;params&quot;: {&quot;frequency&quot;: 3000, &quot;gain&quot;: 2, &quot;q&quot;: 1}}, {&quot;type&quot;: &quot;limiter&quot;, &quot;id&quot;: &quot;v3&quot;, &quot;params&quot;: {&quot;limit&quot;: -1}}]}"></audio>
+      <audio id="sfx-0" class="clip" src="assets/sfx/3598.wav" data-start="0.0" data-duration="35.359" data-track-index="20" data-automation="{&quot;version&quot;: 1, &quot;lanes&quot;: [{&quot;target&quot;: &quot;volume&quot;, &quot;points&quot;: [{&quot;t&quot;: 0.0, &quot;v&quot;: 0.04}, {&quot;t&quot;: 15.245, &quot;v&quot;: 0.04}, {&quot;t&quot;: 15.645, &quot;v&quot;: 0.02}, {&quot;t&quot;: 19.896, &quot;v&quot;: 0.02}, {&quot;t&quot;: 20.296, &quot;v&quot;: 0.04}, {&quot;t&quot;: 24.305, &quot;v&quot;: 0.04}, {&quot;t&quot;: 24.705, &quot;v&quot;: 0.02}, {&quot;t&quot;: 27.873, &quot;v&quot;: 0.02}, {&quot;t&quot;: 28.273, &quot;v&quot;: 0.0}, {&quot;t&quot;: 30.674, &quot;v&quot;: 0.0}, {&quot;t&quot;: 31.074, &quot;v&quot;: 0.04}, {&quot;t&quot;: 35.269, &quot;v&quot;: 0.04}, {&quot;t&quot;: 35.339, &quot;v&quot;: 0.0}]}]}" data-media-start="10.0"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/3598.wav" data-start="38.799" data-duration="2.570" data-track-index="21" data-volume="0.04" data-media-start="7.43" data-fade-in="0.3"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/1714.wav" data-start="27.873" data-duration="3.201" data-track-index="22" data-volume="0.09" data-media-start="20.0" data-fade-in="0.3" data-fade-out="0.4"></audio>
+      <audio id="sfx-3" class="clip" src="assets/sfx/1714.wav" data-start="35.309" data-duration="3.790" data-track-index="23" data-volume="0.06" data-media-start="5.0" data-fade-in="0.05" data-fade-out="0.3"></audio>
+      <audio id="sfx-4" class="clip" src="assets/sfx/1795.wav" data-start="13.032" data-duration="0.914" data-track-index="24" data-volume="0.17"></audio>
+      <audio id="sfx-5" class="clip" src="assets/sfx/1800.wav" data-start="19.809" data-duration="0.887" data-track-index="25" data-volume="0.2"></audio>
+      <audio id="sfx-6" class="clip" src="assets/sfx/whoosh.mp3" data-start="24.388" data-duration="0.575" data-track-index="26" data-volume="0.13"></audio>
+      <audio id="sfx-7" class="clip" src="assets/sfx/1796.wav" data-start="27.746" data-duration="1.036" data-track-index="27" data-volume="0.19"></audio>
+      <audio id="sfx-8" class="clip" src="assets/sfx/2819.wav" data-start="15.358" data-duration="0.900" data-track-index="28" data-volume="0.5"></audio>
+      <audio id="sfx-9" class="clip" src="assets/sfx/0572.wav" data-start="34.902" data-duration="1.300" data-track-index="29" data-volume="0.3" data-media-start="7.15" data-fade-out="0.5"></audio>
+      <audio id="sfx-10" class="clip" src="assets/sfx/2822.wav" data-start="35.262" data-duration="0.484" data-track-index="30" data-volume="0.5"></audio>
+      <audio id="sfx-11" class="clip" src="assets/sfx/2821.wav" data-start="5.86" data-duration="0.400" data-track-index="31" data-volume="0.6"></audio>
+      <audio id="sfx-12" class="clip" src="assets/sfx/2463.wav" data-start="6.821" data-duration="0.936" data-track-index="32" data-volume="0.6"></audio>
+      <audio id="sfx-13" class="clip" src="assets/sfx/2157.wav" data-start="8.678" data-duration="0.500" data-track-index="21" data-volume="0.25" data-fade-out="0.15"></audio>
+      <audio id="sfx-14" class="clip" src="assets/sfx/2832.wav" data-start="8.755" data-duration="3.339" data-track-index="22" data-volume="0.6" data-media-start="1.0" data-fade-in="0.1" data-fade-out="0.2"></audio>
+      <audio id="sfx-15" class="clip" src="assets/sfx/0339.wav" data-start="18.131" data-duration="0.810" data-track-index="23" data-volume="0.21"></audio>
+      <audio id="sfx-16" class="clip" src="assets/sfx/0340.wav" data-start="19.131" data-duration="0.540" data-track-index="24" data-volume="0.34"></audio>
+      <audio id="sfx-17" class="clip" src="assets/sfx/2461.wav" data-start="22.209" data-duration="0.876" data-track-index="25" data-volume="0.6"></audio>
+      <audio id="sfx-18" class="clip" src="assets/sfx/0221.wav" data-start="24.405" data-duration="3.220" data-track-index="32" data-volume="0.29" data-media-start="18.5" data-fade-in="0.1" data-fade-out="0.2"></audio>
+      <audio id="sfx-19" class="clip" src="assets/sfx/1501.wav" data-start="30.453" data-duration="0.800" data-track-index="27" data-volume="0.21" data-media-start="0.05" data-fade-out="0.3"></audio>
+      <audio id="sfx-20" class="clip" src="assets/sfx/2460.wav" data-start="33.338" data-duration="0.838" data-track-index="28" data-volume="0.47"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Grano: la textura (512 px, repetida) salta 137 × 251 px en cada cuadro; con steps, igual en cada render.
+      tl.fromTo("#grano", { backgroundPosition: "0px 0px" }, { backgroundPosition: "170017px 311491px", duration: 41.369, ease: "steps(1241)" }, 0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

@@ -964,6 +964,28 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   final a −37 dB y el principio a −38 dB (el bucle no salta) y la pausa de la lección a −43 dB (el aire de la nave).
   Revisado por fotogramas y medido, no escuchado.
 
+### 6. Coca-Cola y Kodak con la voz M2: la prueba
+
+- **El usuario:** «Se movió más el vídeo con esa voz. Vamos a hacer los otros dos con esa voz y, si funcionan igual,
+  dejamos esa para los nuevos vídeos de BFM». Se hacen con la misma receta que el de Ford (voz M2, sin música, solo
+  efectos), para que la prueba compare lo mismo.
+- **Las voces M2:** 40,2 s (Coca-Cola) y 40,3 s (Kodak), frente a los 42,3 y 42,8 de la M1, en 167 y 52 s (el segundo,
+  con los modelos ya en memoria), a −21,8 y −21,9 LUFS.
+- **El sonido**, con la misma lógica que el de Ford: el ambiente de cada sitio, un whoosh en cada corte (en la pausa), los
+  golpes un fotograma después de su imagen y el bucle sin salto.
+  - Coca-Cola: donde se ve la lata, el burbujeo de un refresco recién servido (el tramo estable de «Beer service»: en
+    BigSoundBank no hay un burbujeo continuo); el murmullo de un bar en la cata, una oficina con gente hablando y dos
+    teléfonos en las quejas y el aire de una sala en el estante, el calendario y la lección. Las botellas del estante como
+    transición, el hielo del vaso que gana, cuatro sellos, las hojas de los 79 días y la botella que se abre.
+  - Kodak: el aire del laboratorio (una ventilación: el neón tenía tonos fijos y sonaría a avería) y el viento en la
+    fábrica abandonada. El disparo con el destello, un golpe en «3,6 kg», la cinta que arranca y el motor de una cámara de
+    8 mm mientras se guarda la foto de 23 s, una moneda en cada «$», el lápiz de las curvas, el portazo de la quiebra y la
+    cortina de la lección, que se cierra como un obturador.
+- **Medido antes del render:** al principio, 8 avisos en cada uno (efectos a menos de 0,4 s de una palabra) y un hueco de
+  50 ms en el cruce del bar con el burbujeo. Con los volúmenes que caben y el burbujeo entrando 0,25 s antes: 0 avisos y
+  ningún hueco; `check`, sin avisos. Los proyectos originales salen idénticos.
+- **Render y entrega:** en curso.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),
@@ -977,8 +999,10 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 2. Que el usuario vea los cortos 7–9 de BFM (Ford, Coca-Cola y Kodak, en `salidas/businessformen/cortos/*/entrega/`)
    y el vídeo 1 completo, y diga qué cambiar o si se suben así. Al publicar, comparar su retención con la de los 4–6:
    misma receta, con la imagen a pantalla completa, menos efectos y la música más baja.
-   Y la versión m2 de «El sueldo» (la voz de supervivencia, sin música, solo efectos): si le gusta más, hacerla también
-   en los demás (la voz en `recursos/variantes.json` y el plan de sonido con `VARIANTE` en su `montaje.py`).
+   **La prueba de la voz M2** (31-oct): la versión m2 de «El sueldo» (la voz de supervivencia, sin música, solo
+   efectos) «se movió más»; ya están también la de Coca-Cola y la de Kodak. Si funcionan igual, la M2 pasa a ser la
+   voz de BFM: cambiarla en `CLAUDE.md` y en `cortos/preparar.sh`, y hacer el sonido de los cortos nuevos como el de
+   estos tres (`recursos/variantes.json` y `VARIANTE` en `montaje.py` sirven de modelo).
 3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
 4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`

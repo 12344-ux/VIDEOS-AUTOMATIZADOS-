@@ -61,7 +61,9 @@ inventar lo que las fuentes no dicen.
   no hace falta fotorrealismo.
 - Quiere edición «de élite»: aplicar el oficio de `docs/investigacion-edicion.md` (curvas según el papel,
   títulos quietos al aterrizar, transiciones con causa, tiempos de lectura) y revisar como un director exigente.
-- Voz: **Supertonic-3 M1** (masculina, español neutro), la predeterminada de `voz/narrar.py` y la de BusinessForMen. Segunda
+- Voz: **Supertonic-3 M1** (masculina, español neutro), la predeterminada de `voz/narrar.py` y la de BusinessForMen (en
+  prueba desde el 31-oct: los cortos 7–9 también con la **M2** de supervivencia, sin música y solo efectos; el de Ford
+  «se movió más» y, si los otros dos funcionan igual, la M2 pasa a ser la de BFM). Segunda
   voz: Piper `es_AR-daniela-high` (femenina, acento argentino). Más adelante quiere varios canales de
   nichos distintos, cada uno con su voz: el sistema debe dejar elegir la voz por canal.
 - **Todo vídeo con voz de Supertonic avisa de que está generada por máquina** (descripción o rótulo):
