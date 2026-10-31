@@ -189,7 +189,7 @@
       };
       const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s06"] = tl; };
 
-      const C = {"camara": [1.0, 1.08, 0, 0], "textos": [{"html": "No querían<br>una mejor.", "clase": "titular", "x": 80, "y": 300, "en": ["quería", 1, -0.05]}, {"html": "Querían la suya", "clase": "sello", "x": 80, "y": 960, "en": ["suya", 1, -0.08], "modo": "sello"}]};
+      const C = {"camara": [1.32, 1.38, 0, 0], "origen": "50% 100%", "textos": [{"html": "No querían<br>una mejor.", "clase": "titular", "x": 80, "y": 300, "en": ["quería", 1, -0.05]}, {"html": "Querían la suya", "clase": "sello", "x": 80, "y": 960, "en": ["suya", 1, -0.08], "modo": "sello"}]};
       const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
       const cam = C.camara || [1.0, 1.08, 0, 0];
       const foto = $(".foto");

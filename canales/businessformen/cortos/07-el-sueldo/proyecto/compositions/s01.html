@@ -167,7 +167,7 @@
       };
       const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s01"] = tl; };
 
-      const C = {"l1": "Pagó el doble", "l2": "para ahorrar", "camara": [1.1, 0, -30], "modo": "inicio"};
+      const C = {"l1": "Pagó<br>el doble", "l2": "para ahorrar", "tam1": 150, "tam2": 84, "camara": [1.1, 0, -30], "modo": "inicio"};
       const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
       $(".l1").innerHTML = C.l1;
       $(".l2 span").innerHTML = C.l2;

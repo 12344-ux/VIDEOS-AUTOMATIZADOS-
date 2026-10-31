@@ -32,7 +32,7 @@ escena('s09', 'golpe', w('Si no', mas=-0.45), entrada='cortina',
              'b2': {'palabra': 'por', 'n': 2, 'y': 680, 'tam': 150, 'sube': -24}, 'firma': True, 'firma_t': 2.8})
 escena('s10', 'gancho', w('Y todo', mas=-0.15), foto='prototipo',
        conf=dict(l1='Kodak inventó<br>esto', l2='en 1975', tam1=104, modo='vuelta', en_l1=['todo', 1, -0.05], en_l2=['todo', 1, 0.3]))
-DURACION = w('esto', fin=True, mas=1.3)
+DURACION = w('esto', fin=True, mas=1.4)
 
 sin_subtitulos(w('Si no', mas=-0.45), DURACION)                   # la lección y el gancho: escritos en grande
 
