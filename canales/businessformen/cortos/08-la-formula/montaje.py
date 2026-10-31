@@ -35,8 +35,8 @@ DURACION = w('perdió', fin=True, mas=1.3)
 
 sin_subtitulos(w('Tus clientes', mas=-0.2), DURACION)            # la lección y el gancho: escritos en grande
 
-musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.3,
-       puntos=[(w('Tus clientes', mas=-0.45), 0.1), (w('Tus clientes', mas=-0.2), 0.0), (w('Por eso', mas=-0.3), 0.0), (w('Por eso', mas=0.1), 0.1)])
+musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.3,   # en el golpe, muy baja: callada del todo dejaba silencios
+       puntos=[(w('Tus clientes', mas=-0.45), 0.09), (w('Tus clientes', mas=-0.2), 0.025), (w('Por eso', mas=-0.3), 0.025), (w('Por eso', mas=0.1), 0.09)])
 
 sonido('0253', w('llamadas', mas=-0.1), vol=0.22, ini=0.0, dur=1.4, fo=0.2)           # suenan los teléfonos
 sonido('0253', w('llamadas', mas=0.55), vol=0.15, ini=0.3, dur=1.1, fo=0.3)

@@ -182,6 +182,10 @@ inventar lo que las fuentes no dicen.
   no lo enseña. El `ebur128` de ffmpeg solo escribe la sonoridad de cada ventana con `-v verbose`.
 - Una proyección azimutal centrada lejos de los continentes (el Pacífico) dibuja el que rodea el antípoda (África) como
   un anillo que tapa todo el mapa: dibujar solo la tierra a menos de unos 100° del centro.
+- Callar la música del todo en un golpe deja silencios en las pausas de la voz (en el corto 7, dos de 0,3 s): bajarla
+  (0,025), no callarla. `revisar_mezcla.py` avisa de los huecos de la mezcla antes de renderizar.
+- `pkill -f` con un texto que también aparece en el propio comando mata la propia shell (salida 144) y deja el render a
+  medias: matar por PID (`ps -eo pid,args`).
 
 ## Cómo decidir
 

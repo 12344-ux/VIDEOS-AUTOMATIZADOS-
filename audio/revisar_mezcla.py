@@ -145,6 +145,24 @@ def main():
         if h.sum() > 10:
             fila.append(f'{i / 10:.0f}s {np.median(mm[i:i + len(h)][h] - mv[i:i + len(h)][h]):+.0f}')
     print('  ' + ' · '.join(fila))
+    # Huecos: tramos de 50 ms o más en los que la mezcla entera (voz, música y efectos) se queda en silencio. En el MP4,
+    # a −14 LUFS, ffmpeg los ve como silencio bajo −50 dB; aquí, la voz va unos 7 LU más baja: el umbral es iv − 30 dB.
+    total_mix = voz + musica + sfx
+    v = SR // 20
+    rms = np.array([np.sqrt(np.mean(total_mix[i:i + v] ** 2)) + 1e-12 for i in range(0, len(total_mix) - v, v)])
+    silencio = 20 * np.log10(rms) < iv - 30
+    huecos, i = [], 0
+    while i < len(silencio):
+        if silencio[i]:
+            j = i
+            while j < len(silencio) and silencio[j]:
+                j += 1
+            if j - i >= 1 and i > 0 and j < len(silencio) - 2:
+                huecos.append((i * 0.05, (j - i) * 0.05))
+            i = j
+        else:
+            i += 1
+    print('\nHuecos de silencio en la mezcla: ' + (', '.join(f'{t:.2f} s ({d:.2f} s)' for t, d in huecos) if huecos else 'ninguno'))
     if a.wav:
         os.makedirs(a.wav, exist_ok=True)
         for n, x in (('voz', voz), ('musica', musica), ('efectos', sfx)):

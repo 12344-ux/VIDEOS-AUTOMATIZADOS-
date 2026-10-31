@@ -36,8 +36,8 @@ DURACION = w('esto', fin=True, mas=1.4)
 
 sin_subtitulos(w('Si no', mas=-0.45), DURACION)                   # la lección y el gancho: escritos en grande
 
-musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,
-       puntos=[(w('Si no', mas=-0.45), 0.1), (w('Si no', mas=-0.2), 0.0), (w('Y todo', mas=-0.3), 0.0), (w('Y todo', mas=0.1), 0.1)])
+musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,   # en el golpe, muy baja: callada del todo dejaba silencios
+       puntos=[(w('Si no', mas=-0.45), 0.1), (w('Si no', mas=-0.2), 0.025), (w('Y todo', mas=-0.3), 0.025), (w('Y todo', mas=0.1), 0.1)])
 
 sonido('2821', w('digital', fin=True, mas=0.0), vol=0.6, ini=0.0, dur=0.4)           # el disparo (con el destello)
 sonido('2819', w('carrete', mas=-0.25), vol=0.5, ini=0.0, dur=0.9)                    # el arrastre del carrete

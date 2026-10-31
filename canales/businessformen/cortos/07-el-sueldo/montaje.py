@@ -38,8 +38,8 @@ DURACION = w('doble', 2, fin=True, mas=1.3)
 sin_subtitulos(w('Lo más', mas=-0.45), DURACION)                  # la lección y el gancho: escritos en grande
 
 # --- Música: un lecho bajo (17–20 LU por debajo de la voz); se calla en el golpe.
-musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,
-       puntos=[(w('Lo más', mas=-0.45), 0.1), (w('Lo más', mas=-0.2), 0.0), (w('Por eso', mas=-0.3), 0.0), (w('Por eso', mas=0.1), 0.1)])
+musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,   # en el golpe, muy baja: callada del todo dejaba silencios
+       puntos=[(w('Lo más', mas=-0.45), 0.1), (w('Lo más', mas=-0.2), 0.025), (w('Por eso', mas=-0.3), 0.025), (w('Por eso', mas=0.1), 0.1)])
 
 # --- Efectos: solo los que tienen su golpe en pantalla.
 sonido('0193', w('cinco', mas=-0.02), vol=0.6, ini=0.05, dur=1.0, fo=0.3)            # las monedas caen sobre el banco
