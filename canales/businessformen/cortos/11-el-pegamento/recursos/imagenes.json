@@ -1,5 +1,5 @@
 {
- "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Las notas, en blanco y sin marca; las personas, sin cara.",
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Las notas, en blanco y sin marca; las personas, sin cara. El laboratorio, rehecho (semilla 125): con la 122 el químico parecía una mujer y la voz dice «un químico».",
  "planchas": [
   {
    "nombre": "notas",
@@ -8,8 +8,8 @@
   },
   {
    "nombre": "laboratorio",
-   "semilla": 122,
-   "prompt": "A 1968 chemistry laboratory at a large American company: a chemist in a white lab coat seen from behind and from the side with no face visible, pouring a thick clear liquid from a glass beaker, flasks and test tubes on a long bench, warm light through tall windows, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+   "semilla": 125,
+   "prompt": "A 1968 chemistry laboratory at a large American company: a broad-shouldered man with short grey hair in a white lab coat, a chemist, seen from behind with no face visible, pouring a thick clear liquid from a glass beaker, flasks and test tubes on a long bench, warm light through tall windows, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
   },
   {
    "nombre": "coro",
