@@ -192,6 +192,10 @@ inventar lo que las fuentes no dicen.
   bajo ella). Para que el whoosh de una transición caiga en la pausa, el corte va unos 0,38 s antes de la frase.
 - Un ambiente rítmico (una máquina) muy bajo deja huecos entre golpe y golpe: bajo una pausa que no debe quedar en
   silencio, uno continuo (el viento desde dentro, BigSoundBank 1714).
+- `video/entregar.sh` normaliza con loudnorm, que por el pico pasa a su modo dinámico: en un corto en bucle el final
+  salía 5–6 dB más alto que el principio (el bucle saltaba) y el gancho, 2–4 dB más bajo que el resto. Los cortos se
+  entregan con `BUCLE=1` (trata el sonido tres veces seguido y se queda el del medio). Un limitador con ganancia fija
+  arreglaba el bucle, pero tenía que recortar unos 5 dB de los picos de la voz y el AAC acababa a −0,4 dBTP.
 
 ## Cómo decidir
 

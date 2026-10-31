@@ -984,7 +984,18 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 - **Medido antes del render:** al principio, 8 avisos en cada uno (efectos a menos de 0,4 s de una palabra) y un hueco de
   50 ms en el cruce del bar con el burbujeo. Con los volúmenes que caben y el burbujeo entrando 0,25 s antes: 0 avisos y
   ningún hueco; `check`, sin avisos. Los proyectos originales salen idénticos.
-- **Render y entrega:** en curso.
+- **Render y entrega:** 108 y 123 s (el de Kodak, con la entrega del otro en marcha).
+  `bfm-corto-08-la-formula-m2.mp4`, 41,2 s, −14,4 LUFS, pico −1,4 dBTP, 22 MB; `bfm-corto-09-la-camara-m2.mp4`, 41,4 s,
+  −14,4 LUFS, −1,5 dBTP, 24 MB. Ningún silencio y el bucle a 1,52 y 1,95 de diferencia media. Los whooshes quedan 9–22 dB
+  por encima del ambiente de su pausa y las pausas de las lecciones, a −39 y −40 dB.
+- **La entrega de los cortos en bucle** (`BUCLE=1` en `video/entregar.sh`): al medir el bucle en el MP4, el final sonaba
+  5–6 dB más alto que el principio (en el Ford m2, −38 frente a −44 dB), y en el render enlazaban (−47 y −48). Es
+  loudnorm: el pico lo obliga a su modo dinámico, que sube lo flojo (la cola, con solo ambiente), y con los 3 s de
+  silencio delante dejaba los 2 primeros segundos, el gancho, 2–4 dB por debajo del resto. Con `BUCLE=1` el sonido se
+  trata tres veces seguido y se queda el del medio. El final y el principio enlazan (−40,8 y −41,2 dB; −36,7 y −36,7),
+  el gancho suena como el resto y la sincronía no cambia (0,1–0,3 ms). Una ganancia fija con limitador también
+  arreglaba el bucle, pero recortaba unos 5 dB de los picos de la voz y el AAC acababa a −0,4 dBTP. Las entregas
+  anteriores, también el Ford m2 publicado, son del método viejo.
 
 ## Siguiente paso
 

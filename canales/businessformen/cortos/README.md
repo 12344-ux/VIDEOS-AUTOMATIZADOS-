@@ -74,6 +74,9 @@ datos de las plataformas, así que son orientativas) y de la guía de vídeo ver
 ## Publicar
 
 - El mismo MP4 (1080 × 1920, 30 fps, H.264, AAC) en las tres. La portada, el fotograma 0.
+- La entrega, a −14 LUFS y en bucle: `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh render.mp4 entrega.mp4 -14 copiar`.
+  Sin `BUCLE`, loudnorm (que pasa a su modo dinámico) dejaba el final 5–6 dB más alto que el principio, el bucle
+  saltaba y el gancho sonaba 2–4 dB más bajo que el resto.
 - **Etiqueta de IA activada** en cada app (la voz es sintética y las imágenes, generadas): en TikTok, «Contenido
   generado por IA»; en Instagram y Facebook, «Información de IA». Y en la descripción, el aviso de la voz que exige la
   licencia de Supertonic. La música es de MusicGen: solo vale mientras el canal no se monetice.

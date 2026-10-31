@@ -43,7 +43,7 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Animaciones en canvas | Canvas en Chromium → MP4 con desenfoque de movimiento | ✅ `video/renderizar_canvas.mjs` |
 | Motor de edición y motion | HyperFrames 0.8.216 + GSAP; WebGL con llvmpipe de Mesa | ✅ instalado y medido, `video/hf.sh` |
 | 2.5D y recortes | Depth Anything V2 Small, capas con OpenCV, BiRefNet lite | ✅ `imagen/profundidad.py`, `capas25d.py`, `recortar.py` |
-| Volumen de entrega | loudnorm en dos pasadas a −15 LUFS | ✅ `video/entregar.sh` |
+| Volumen de entrega | loudnorm en dos pasadas a −15 LUFS (los cortos, a −14 y con `BUCLE=1`: el bucle no salta) | ✅ `video/entregar.sh` |
 | Montaje de un vídeo largo | Kit del estilo A: capítulos desde una descripción anclada a la voz | ✅ `videos/anticitera/kit/montar.py` |
 | Lecho de música | Una pieza de MusicGen extendida a la duración de un tramo | ✅ `audio/lecho.py` |
 | Estilo de animación | A, editorial cinematográfico, elegido tras probar tres ([estilos/](estilos/README.md)) | ✅ elegido |
