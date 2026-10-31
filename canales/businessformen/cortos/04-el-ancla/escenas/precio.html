@@ -1,0 +1,41 @@
+<template>
+  <!-- R3 · el número, a pantalla completa (se entra por la pantalla del auditorio): 999 $; «el número cayó»: el 999 sube,
+       se queda pequeño y tachado (el ancla sigue a la vista) y cae el 499 $ con su etiqueta. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .ant { position: absolute; left: 0; width: 1080px; top: 560px; text-align: center; font: 800 330px/1 "Inter Tight", sans-serif; letter-spacing: -0.05em;
+      transform-origin: 50% 50%; }
+    #{{ID}} .ant i { position: absolute; left: 12%; right: 12%; top: 50%; height: 0.07em; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .expertos { position: absolute; left: 0; width: 1080px; top: 470px; text-align: center; }
+    #{{ID}} .nuevo { position: absolute; left: 0; width: 1080px; top: 640px; text-align: center; font: 800 330px/1 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} .nuevo .rueda { display: inline-block; height: 1em; overflow: hidden; vertical-align: top; }
+    #{{ID}} .nuevo .rueda b { display: block; font-weight: 800; }
+    #{{ID}} .etq { position: absolute; left: 0; width: 1080px; top: 1010px; text-align: center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono expertos"><b>Lo que decían los expertos</b></div>
+      <div class="ant num"><span>999 $</span><i></i></div>
+      <div class="nuevo num"><span class="rueda"><b>9</b><b>4</b></span>99 $</div>
+      <div class="mono etq"><i>Precio del iPad</i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".ant", { scale: 1.25 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      entra(".expertos", w("dólares") - 0.1, 0.35, 8);
+      // «Y entonces…»: el 999 se inclina, como a punto de caer (la anticipación del golpe).
+      tl.fromTo(".ant", { rotation: 0 }, { rotation: -5, y: -14, duration: 0.6, ease: "power2.out" }, w("entonces") - 0.1);
+      // «El número cayó»: el 999 sube a lo alto, se encoge y se tacha; abajo rueda el 9 → 4.
+      tl.to(".ant", { y: -330, rotation: 0, scale: 0.42, opacity: 0.55, duration: 0.55, ease: "expo.inOut" }, w("cayó") - 0.25);
+      tl.to(".expertos", { y: -300, opacity: 0.8, duration: 0.55, ease: "expo.inOut" }, w("cayó") - 0.25);
+      tl.fromTo(".ant i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("cayó") + 0.2);
+      tl.fromTo(".nuevo", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, w("cuatrocientos") - 0.35);
+      tl.fromTo(".nuevo .rueda b", { yPercent: 0 }, { yPercent: -100, duration: 0.5, ease: "power3.out" }, w("cuatrocientos") - 0.1);
+      entra(".etq", w("nueve", 2) - 0.1, 0.35, 8);
+      fin();
+    })();
+  </script>
+</template>

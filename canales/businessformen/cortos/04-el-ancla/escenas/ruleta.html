@@ -1,0 +1,85 @@
+<template>
+  <!-- R5 · el experimento: una ruleta trucada que gira y para en el 10, gira otra vez y para en el 65, con la voz; luego
+       sube y llega la pregunta del experimento (un dato que casi nadie sabe). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .exp { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .mesa { position: absolute; left: 160px; top: 320px; width: 760px; height: 760px; transform-origin: 50% 50%; }
+    #{{ID}} svg.rueda { position: absolute; inset: 0; width: 760px; height: 760px; overflow: visible; }
+    #{{ID}} svg.rueda .n { font: 800 38px "Inter Tight", sans-serif; fill: #b9bcc2; text-anchor: middle; dominant-baseline: middle; }
+    #{{ID}} svg.rueda .n10, #{{ID}} svg.rueda .n65 { fill: #f4f3f0; }
+    #{{ID}} svg.fija { position: absolute; inset: 0; width: 760px; height: 760px; overflow: visible; }
+    #{{ID}} .preg { position: absolute; left: 80px; top: 790px; width: 900px; }
+    #{{ID}} .preg .q { margin-top: 18px; font: italic 500 64px/1.12 "Bodoni Moda", serif; color: #f4f3f0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono exp"><i>Experimento</i> &nbsp;<b>Tversky y Kahneman · 1974</b></div>
+      <div class="mesa">
+        <svg class="rueda" viewBox="0 0 760 760"><g class="giro">
+          <circle cx="380" cy="380" r="352" fill="#0a0b0d" stroke="#f4f3f0" stroke-width="8"/>
+          <path d="M380,380 L326.8,44.2 A340,340 0 0 1 433.2,44.2 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L433.2,44.2 A340,340 0 0 1 534.4,77.1 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L534.4,77.1 A340,340 0 0 1 620.4,139.6 Z" fill="#3a2228" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L620.4,139.6 A340,340 0 0 1 682.9,225.6 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L682.9,225.6 A340,340 0 0 1 715.8,326.8 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L715.8,326.8 A340,340 0 0 1 715.8,433.2 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L715.8,433.2 A340,340 0 0 1 682.9,534.4 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L682.9,534.4 A340,340 0 0 1 620.4,620.4 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L620.4,620.4 A340,340 0 0 1 534.4,682.9 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L534.4,682.9 A340,340 0 0 1 433.2,715.8 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L433.2,715.8 A340,340 0 0 1 326.8,715.8 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L326.8,715.8 A340,340 0 0 1 225.6,682.9 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L225.6,682.9 A340,340 0 0 1 139.6,620.4 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L139.6,620.4 A340,340 0 0 1 77.1,534.4 Z" fill="#3a2228" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L77.1,534.4 A340,340 0 0 1 44.2,433.2 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L44.2,433.2 A340,340 0 0 1 44.2,326.8 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L44.2,326.8 A340,340 0 0 1 77.1,225.6 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L77.1,225.6 A340,340 0 0 1 139.6,139.6 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L139.6,139.6 A340,340 0 0 1 225.6,77.1 Z" fill="#24272c" stroke="#0a0b0d" stroke-width="3"/>
+          <path d="M380,380 L225.6,77.1 A340,340 0 0 1 326.8,44.2 Z" fill="#1b1d21" stroke="#0a0b0d" stroke-width="3"/>
+          <text x="380.0" y="102.0" transform="rotate(0 380.0 102.0)" class="n n0">0</text>
+          <text x="465.9" y="115.6" transform="rotate(18 465.9 115.6)" class="n n5">5</text>
+          <text x="543.4" y="155.1" transform="rotate(36 543.4 155.1)" class="n n10">10</text>
+          <text x="604.9" y="216.6" transform="rotate(54 604.9 216.6)" class="n n15">15</text>
+          <text x="644.4" y="294.1" transform="rotate(72 644.4 294.1)" class="n n20">20</text>
+          <text x="658.0" y="380.0" transform="rotate(90 658.0 380.0)" class="n n25">25</text>
+          <text x="644.4" y="465.9" transform="rotate(108 644.4 465.9)" class="n n30">30</text>
+          <text x="604.9" y="543.4" transform="rotate(126 604.9 543.4)" class="n n35">35</text>
+          <text x="543.4" y="604.9" transform="rotate(144 543.4 604.9)" class="n n40">40</text>
+          <text x="465.9" y="644.4" transform="rotate(162 465.9 644.4)" class="n n45">45</text>
+          <text x="380.0" y="658.0" transform="rotate(180 380.0 658.0)" class="n n50">50</text>
+          <text x="294.1" y="644.4" transform="rotate(198 294.1 644.4)" class="n n55">55</text>
+          <text x="216.6" y="604.9" transform="rotate(216 216.6 604.9)" class="n n60">60</text>
+          <text x="155.1" y="543.4" transform="rotate(234 155.1 543.4)" class="n n65">65</text>
+          <text x="115.6" y="465.9" transform="rotate(252 115.6 465.9)" class="n n70">70</text>
+          <text x="102.0" y="380.0" transform="rotate(270 102.0 380.0)" class="n n75">75</text>
+          <text x="115.6" y="294.1" transform="rotate(288 115.6 294.1)" class="n n80">80</text>
+          <text x="155.1" y="216.6" transform="rotate(306 155.1 216.6)" class="n n85">85</text>
+          <text x="216.6" y="155.1" transform="rotate(324 216.6 155.1)" class="n n90">90</text>
+          <text x="294.1" y="115.6" transform="rotate(342 294.1 115.6)" class="n n95">95</text>
+          <circle cx="380" cy="380" r="64" fill="#0a0b0d" stroke="#f4f3f0" stroke-width="6"/></g></svg>
+        <svg class="fija" viewBox="0 0 760 760"><path d="M380,58 L352,-6 L408,-6 Z" fill="#b0122f"/></svg>
+      </div>
+      <div class="preg"><div class="mono"><i>La pregunta</i></div><div class="q">¿Qué porcentaje de los países de la ONU son africanos?</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".exp", 0, 0.3);
+      tl.fromTo(".mesa", { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 0);
+      // Giro 1: cuatro vueltas y para en el 10 en «diez» (sector 2: −36°). Giro 2: vuelta y media hasta el 65 (sector 13).
+      tl.fromTo(".giro", { rotation: 0 }, { rotation: 1404, duration: w("diez") - 0.5, ease: "power3.out", svgOrigin: "380 380" }, 0.5);
+      tl.to(".n10", { fill: "#b0122f", duration: 0.12 }, w("diez") - 0.05);
+      tl.to(".giro", { rotation: 1926, duration: w("sesenta") + 0.2 - (w("o") - 0.05), ease: "power2.out", svgOrigin: "380 380" }, w("o") - 0.05);
+      tl.to(".n10", { fill: "#f4f3f0", duration: 0.12 }, w("o"));
+      tl.to(".n65", { fill: "#b0122f", duration: 0.12 }, w("sesenta") + 0.15);
+      // «Luego preguntaban un dato…»: la ruleta sube y llega la pregunta.
+      tl.to(".mesa", { scale: 0.56, y: -185, duration: 0.6, ease: "expo.inOut" }, w("luego") - 0.2);
+      tl.fromTo(".preg", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "expo.out" }, w("luego") + 0.2);
+      fin();
+    })();
+  </script>
+</template>

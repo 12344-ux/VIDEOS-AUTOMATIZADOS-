@@ -1,0 +1,30 @@
+<template>
+  <!-- R2 · «funciona hasta con un número al azar»: detrás, cifras enormes que cambian sin orden (una secuencia fija, igual
+       en cada render); delante, la frase. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .fondo { position: absolute; left: 0; width: 1080px; top: 380px; text-align: center; font: 800 720px/1 "Inter Tight", sans-serif;
+      letter-spacing: -0.06em; color: rgba(244, 243, 240, 0.09); }
+    #{{ID}} .frase { position: absolute; left: 80px; top: 640px; width: 900px; }
+    #{{ID}} .frase .bloque { display: inline-block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="fondo num" data-layout-ignore aria-hidden="true">37</div>
+      <div class="titular frase"><span class="l1">Hasta con un</span><br><span class="bloque">número al azar.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // Cifras «al azar» de una lista fija: cambian cada 0,12 s.
+      const cifras = [37, 82, 5, 61, 19, 94, 46, 8, 73, 28, 55, 90, 12, 67, 31, 84, 3, 49, 76, 21, 58, 15, 99, 40];
+      alBuscar((t) => { $(".fondo").textContent = String(cifras[Math.max(0, Math.floor(t / 0.12)) % cifras.length]); });
+      const ps = trocea(".frase .l1");
+      [w("hasta"), w("con", 2), w("un", 2)].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.4));
+      tl.fromTo(".frase .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("número", 3) - 0.1);
+      fin();
+    })();
+  </script>
+</template>

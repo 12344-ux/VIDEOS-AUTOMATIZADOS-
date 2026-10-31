@@ -11,7 +11,8 @@ Otro canal: su carpeta trae marca/marca.css (y, si quiere, marca/corto.css) y ma
 los subtítulos); sus fuentes van en salidas/<canal>/marca/fuentes y su trabajo en salidas/<canal>/<vídeo>.
 
 En montaje.py hay disponibles:
-  formato(ancho, alto, voz0=…, cola=…)    el lienzo y la entrada de la voz (por defecto 1920 × 1080, voz a 0,8 s); va
+  formato(ancho, alto, voz0=…, cola=…, desenfoque=False)  el lienzo y la entrada de la voz (por defecto 1920 × 1080,
+                                         voz a 0,8 s); desenfoque=True: desenfoque de movimiento de HyperFrames. Va
                                          antes de cualquier w(). Un corto vertical: formato(1080, 1920, voz0=0.1, cola=0.4)
   subtitulos(**estilo)                   subtítulos quemados, en grupos de pocas palabras con la palabra que suena en un
                                          bloque rojo (los cortos: muchos los ven sin sonido)
@@ -19,7 +20,11 @@ En montaje.py hay disponibles:
   w("palabra", n=1, fin=False, mas=0.0)   tiempo en el vídeo de esa palabra (n: la aparición n)
   VOZ0                                   entrada de la voz
   escena(id, plantilla, desde, **p)      una escena: subcomposición escenas/<plantilla>.html; acaba donde empieza
-                                         la siguiente (o en DURACION). p son sus parámetros
+                                         la siguiente (o en DURACION). p son sus parámetros. Con entrada=… la escena
+                                         entra sobre la anterior, que sigue debajo mientras dura la transición:
+                                         "cortina" (el rojo de la marca la cruza y la descubre), "barrido" (de derecha a
+                                         izquierda, con un filo rojo), "subida" (de abajo arriba) o {"tipo": "iris",
+                                         "x": 540, "y": 700} (un círculo que se abre desde ese punto)
   sonido(nombre, t, vol=1, dur=None, ini=0, fi=0, fo=0)   efectos: los de la biblioteca de HyperFrames (SFX) o un WAV
                                          propio, <trabajo>/sfx/<nombre>.wav o su carpeta de al lado (BigSoundBank, CC0)
   musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=[(t, v)])   lecho de música (musica/<nombre>.wav)
@@ -59,6 +64,8 @@ CONF = dict(nombre='BusinessForMen', prefijo='bfm', fondo='#0a0b0d',
                             resalte='176, 18, 47'))
 VOZ0 = 0.8
 COLA = 2.0
+# Transiciones de entrada de una escena sobre la anterior (ayuda.js, entradaEscena) y lo que duran.
+ENTRADAS = {'cortina': 0.5, 'barrido': 0.42, 'subida': 0.42, 'iris': 0.5}
 SFX = {n: 'hf:' + n + '.mp3' for n in ('chime', 'click', 'click-soft', 'impact-bass-1', 'impact-bass-2', 'key-press', 'pop',
                                          'riser', 'typing', 'whoosh', 'whoosh-cinematic', 'whoosh-short', 'glitch-1')}
 
@@ -88,7 +95,7 @@ class Video:
         self.voz = json.load(open(os.path.join(self.trabajo, 'voz', 'voz.json')))
         self.palabras = [p for f in self.voz['frases'] for p in f['palabras']]
         self.escenas, self.sonidos, self.musicas = [], [], []
-        self.ancho, self.alto, self.voz0 = 1920, 1080, VOZ0
+        self.ancho, self.alto, self.voz0, self.desenfoque = 1920, 1080, VOZ0, False
         self.dur = r3(self.voz0 + self.voz['duracion'] + COLA)
         self.subs, self.sin_subs = None, []
 
@@ -114,7 +121,12 @@ def cargar(vid):
     v = Video(vid)
 
     def escena(id, plantilla, desde, **p):
-        v.escenas.append(dict(id=id, plantilla=plantilla, desde=r3(desde), p=p))
+        entrada = p.pop('entrada', None)
+        if isinstance(entrada, str):
+            entrada = {'tipo': entrada}
+        if entrada:
+            entrada.setdefault('d', ENTRADAS[entrada['tipo']])
+        v.escenas.append(dict(id=id, plantilla=plantilla, desde=r3(desde), p=p, entrada=entrada))
 
     def sonido(nombre, t, vol=1.0, dur=None, ini=0, fi=0, fo=0):
         v.sonidos.append(dict(nombre=nombre, t=r3(t), vol=vol, dur=dur, ini=ini, fi=fi, fo=fo))
@@ -122,8 +134,8 @@ def cargar(vid):
     def musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=None):
         v.musicas.append(dict(nombre=nombre, desde=r3(desde), hasta=r3(hasta), vol=vol, fi=fi, fo=fo, puntos=puntos or []))
 
-    def formato(ancho, alto, voz0=VOZ0, cola=COLA):
-        v.ancho, v.alto, v.voz0 = ancho, alto, voz0
+    def formato(ancho, alto, voz0=VOZ0, cola=COLA, desenfoque=False):
+        v.ancho, v.alto, v.voz0, v.desenfoque = ancho, alto, voz0, desenfoque
         v.dur = r3(voz0 + v.voz['duracion'] + cola)
         nombres['VOZ0'] = voz0
 
@@ -142,6 +154,9 @@ def cargar(vid):
     v.escenas.sort(key=lambda e: e['desde'])
     for i, e in enumerate(v.escenas):
         e['hasta'] = v.escenas[i + 1]['desde'] if i + 1 < len(v.escenas) else v.dur
+        # Si la siguiente entra con una transición, esta sigue debajo mientras dura.
+        sig = v.escenas[i + 1]['entrada'] if i + 1 < len(v.escenas) else None
+        e['solape'] = sig['d'] if sig else 0
     return v
 
 
@@ -162,6 +177,7 @@ def comp_escena(v, e, marca_css, ayuda_js):
 
     s = fuente.replace('/*MARCA*/', marca_css).replace('/*AYUDA*/', ayuda_js)
     s = s.replace('/*CORTO*/', open(propio('corto.css')).read())
+    s = s.replace('/*ENTRADA*/null', json.dumps(e.get('entrada')))
     s = s.replace('/*W*/', json.dumps(v.mapa(), ensure_ascii=False, separators=(',', ':')))
     s = s.replace('/*L*/', json.dumps([[limpia(q['texto']), r3(v.voz0 + q['inicio']), r3(v.voz0 + q['fin'])] for q in v.palabras],
                                       ensure_ascii=False, separators=(',', ':')))
@@ -323,11 +339,12 @@ def escribir(v):
     marca_css = open(propio('marca.css')).read()
     ayuda_js = open(os.path.join(AQUI, 'ayuda.js')).read()
     avisos, anfitriones = [], []
-    for e in v.escenas:
+    for i, e in enumerate(v.escenas):
         open(os.path.join(p, 'compositions', e['id'] + '.html'), 'w').write(comp_escena(v, e, marca_css, ayuda_js))
+        # Cada escena, encima de la anterior (las transiciones las solapan) y en pistas alternas del Studio.
         anfitriones.append(f'<div id="h-{e["id"]}" data-composition-id="{e["id"]}" data-composition-src="compositions/{e["id"]}.html" '
-                           f'data-start="{e["desde"]}" data-duration="{r3(e["hasta"] - e["desde"])}" data-track-index="1" '
-                           f'data-track-kind="graphics" style="z-index: 1"></div>')
+                           f'data-start="{e["desde"]}" data-duration="{r3(min(e["hasta"] + e["solape"], v.dur) - e["desde"])}" '
+                           f'data-track-index="{1 + 2 * (i % 2)}" data-track-kind="graphics" style="z-index: {1 + i}"></div>')
     if v.subs is not None:
         open(os.path.join(p, 'compositions', 'subs.html'), 'w').write(comp_subtitulos(v))
         anfitriones.append(f'<div id="h-subs" data-composition-id="subs" data-composition-src="compositions/subs.html" '
@@ -350,7 +367,7 @@ def escribir(v):
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="{v.dur}" data-width="{A}" data-height="{B}">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{v.dur}" data-width="{A}" data-height="{B}"{' data-motion-blur="on"' if v.desenfoque else ''}>
       {(chr(10) + '      ').join(anfitriones)}
       <div id="grano"></div>
       {(chr(10) + '      ').join(audio_html(v, avisos))}
@@ -380,7 +397,7 @@ def escribir(v):
     for m in {m['nombre'] for m in v.musicas}:
         shutil.copy2(os.path.join(v.trabajo, 'musica', m + '.wav'), os.path.join(a, 'audio', m + '.wav'))
     for f in os.listdir(os.path.join(v.trabajo, 'img')):
-        if f.endswith('.jpg'):
+        if f.endswith('.jpg') or f.endswith('_frente.png'):
             shutil.copy2(os.path.join(v.trabajo, 'img', f), os.path.join(a, 'img', f))
     for f in ('grano.png', 'desgaste.png'):
         origen = os.path.join(REPO, 'salidas', SLUG, 'marca', 'img', f)

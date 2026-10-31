@@ -1,0 +1,48 @@
+<template>
+  <!-- R6 · el resultado: dos filas; quien vio el 10 (gris) respondió 25 %; quien vio el 65 (rojo), 45 %. Las barras crecen
+       con la voz hasta su sitio, a escala; la fuente, en pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .cab { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .fila { position: absolute; left: 80px; width: 860px; }
+    #{{ID}} .f1 { top: 360px; }
+    #{{ID}} .f2 { top: 680px; }
+    #{{ID}} .vio { font: 500 32px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+    #{{ID}} .vio b { display: inline-block; margin-left: 12px; padding: 0.08em 0.3em; font: 800 44px/1 "Inter Tight", sans-serif; letter-spacing: 0; color: #0a0b0d; background: #c9cbd0; }
+    #{{ID}} .f2 .vio b { background: #b0122f; color: #f4f3f0; }
+    #{{ID}} .barra { position: relative; margin-top: 30px; height: 110px; }
+    #{{ID}} .barra i { position: absolute; left: 0; top: 0; height: 110px; transform-origin: left center; }
+    #{{ID}} .f1 .barra i { width: 344px; background: #8a8d93; }
+    #{{ID}} .f2 .barra i { width: 619px; background: #b0122f; }
+    #{{ID}} .barra b { position: absolute; top: 4px; font: 800 100px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #f4f3f0; }
+    #{{ID}} .f1 .barra b { left: 368px; }
+    #{{ID}} .f2 .barra b { left: 643px; }
+    #{{ID}} .dijeron { margin-top: 18px; font: 500 30px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8d93; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono cab"><b>Respuesta típica · % de países de la ONU africanos</b></div>
+      <div class="fila f1"><div class="vio">Vieron el<b>10</b></div><div class="barra"><i></i><b class="num">25 %</b></div><div class="dijeron">respondieron</div></div>
+      <div class="fila f2"><div class="vio">Vieron el<b>65</b></div><div class="barra"><i></i><b class="num">45 %</b></div><div class="dijeron">respondieron</div></div>
+      <div class="fuente">Fuente: Tversky y Kahneman, «Science» (1974)</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".cab", 0, 0.3);
+      aparece(".fuente", 0.2, 0.3);
+      entra(".f1 .vio", 0, 0.35, 10);
+      tl.fromTo(".f1 .barra i", { scaleX: 0 }, { scaleX: 1, duration: w("veinticinco") - w("diez", 2) + 0.2, ease: "power2.inOut" }, w("diez", 2) - 0.1);
+      cuenta(".f1 .barra b", 0, 25, w("diez", 2) - 0.1, w("veinticinco") - w("diez", 2) + 0.2, { suf: " %", ease: "power2.inOut" });
+      entra(".f1 .dijeron", w("respuesta") - 0.1, 0.3, 6);
+      entra(".f2 .vio", w("sesenta", 2) - 0.15, 0.35, 10);
+      tl.fromTo(".f2 .barra i", { scaleX: 0 }, { scaleX: 1, duration: f("cinco", 3) - w("sesenta", 2) + 0.2, ease: "power2.inOut" }, w("sesenta", 2) - 0.05);
+      aparece(".f2 .barra b", w("sesenta", 2) - 0.05, 0.15);
+      cuenta(".f2 .barra b", 0, 45, w("sesenta", 2) - 0.05, f("cinco", 3) - w("sesenta", 2) + 0.2, { suf: " %", ease: "power2.inOut" });
+      entra(".f2 .dijeron", w("cuarenta") - 0.1, 0.3, 6);
+      fin();
+    })();
+  </script>
+</template>

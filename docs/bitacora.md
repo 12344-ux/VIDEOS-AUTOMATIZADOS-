@@ -628,6 +628,65 @@ instalación se hizo en dos pasadas: el `instalar.sh` de `main` y luego el nuevo
   0,2 s casi en negro antes de la primera palabra; y la música, elegida por la descripción y las medidas, sin oírla.
 - Para subir, `PUBLICACION.md` de cada corto: texto, etiquetas, fuentes y el aviso de IA (voz, imágenes y música).
 
+### 6. Tres cortos más, que se entiendan mejor (30–31 de octubre)
+
+- **Pedido del usuario:** «3 vídeos más, con mejor edición y que se entiendan un poco más, de temas interesantes».
+- **Temas**, cotidianos y con una sola idea cada uno: «El ancla» (precios y negociación: el iPad a 999 $ que cayó a
+  499 $ en la presentación de 2010, y la ruleta trucada de Tversky y Kahneman, 1974), «El perrito» (modelo de negocio:
+  el perrito con bebida de Costco, a 1,50 $ desde 1985; las cuotas de socio son el 1,9 % de lo que ingresa y equivalen
+  al 51 % del beneficio operativo, informe 10-K de 2025) y «La pizza» (marketing y honestidad: Domino's dijo en un
+  anuncio de 2009 que su pizza era mala, cambió la receta y sus ventas en los mismos locales subieron un 14,3 % el
+  trimestre siguiente). Cada dato con sus fuentes en el `GUION.md` del corto; donde no coinciden (el año de la frase de
+  Costco, las palabras exactas de Jobs), el guion no lo concreta.
+- **Para que se entienda:** una fecha por corto como mucho, frases cortas, la voz un 4 % más pausada
+  (`recursos/velocidad`, que lee `preparar.sh`) y un dibujo para cada mecanismo: el 999 se queda tachado y en la regla
+  mientras se lee el 499; la ruleta y las dos respuestas en barras; las dos barras enteras de Costco (en la de lo que
+  ingresa, las cuotas son una raya; en la del beneficio, más de la mitad); la columna de ventas que sube.
+
+### 7. Lo nuevo de la edición
+
+- **Transiciones que solapan las escenas** (`entrada=` en `escena()`): la cortina roja de la marca, barridos y subidas
+  con un filo rojo en el borde, e iris que se abre desde un objeto (el 999, el perrito). Son un `clip-path` en la raíz de
+  la escena; la anterior se alarga lo que dura la entrada, en pistas alternas y con `z-index` creciente.
+- **2.5D por capas:** Depth Anything V2 Small (`imagen/profundidad.py`: 7,8 s la primera, 1 s las demás) y
+  `imagen/capas25d.py` (1–3 s) separan el frente del fondo, y `profundidad()` los mueve a ritmos distintos. Se probó en
+  cinco fotos y se quedó en tres: el auditorio (el público en silueta delante de la pantalla), el perrito (corte en 0,08:
+  delante, el perrito, el vaso y la mesa; detrás, solo el negro) y las manos con la masa (0,3). En la pizza y en el
+  almacén el corte cruzaba la pizza y las estanterías con una franja borrosa: ahí va un acercamiento sin capas.
+- **El texto, dentro de la foto:** el 999 $ y el 499 $ en la pantalla del auditorio; las críticas, proyectadas en la
+  sala de reuniones.
+- Ninguna escena empieza vacía (el golpe rojo sí, 0,2 s, con el impacto: es el golpe) y cada cifra sale en la palabra
+  que la dice (el 999 que se inclina en «entonces» y cae a 499, el 25 % y el 45 %, el +14,3 %).
+
+### 8. Recursos y tiempos (Xeon con AMX; la máquina se reinició a mitad)
+
+- **Voz:** 51,2, 47,6 y 42,0 s de narración, en 44, 28 y 25 s.
+- **Música:** una tercera tanda de MusicGen, cuatro candidatas de 30 s en 9 min 15 s. Una se apagaba a los 20 s; las
+  otras tres, con el 1–8 % de la energía bajo 150 Hz, son los lechos de los tres cortos.
+- **Imágenes:** seis de FLUX.3 en 84–89 s cada una (120 s la primera, con la carga); EDSR, 6 s. Tras el reinicio se
+  rehízo el perrito sobre fondo oscuro (en la bandeja roja, el texto blanco no se leía y no tenía nada de premium):
+  412,9 s, porque el modelo se leyó en frío; con `./instalar.sh precargar` antes no habría pasado.
+- **Render:** 80, 78 y 70 s para 52,2, 48,5 y 43,1 s de vídeo (1,6 s por segundo, como los cortos 1–3).
+
+### 9. Revisión y entrega
+
+- `check` y las hojas de fotogramas encontraron: titulares que partían en un renglón más (las mayúsculas, otra vez:
+  ahora con `<br>` puestos a mano y `nowrap`), una clase `.pal` que chocaba con la de `trocea()`, el `small` de los
+  nombres de las críticas que `trocea()` se comía, `className` en `tl.set` (GSAP no lo anima: el resaltado va con
+  `backgroundColor`), un riser que dejaba un hueco en silencio y fotos que no servían para el texto (la pizza y la masa,
+  demasiado claras: el texto va en una tarjeta grafito).
+- **Revisión de los MP4**, con fotogramas sacados a tamaño real (en la hoja de miniaturas no se veía): la franja
+  borrosa del 2.5D cruzaba la pizza (también en el fotograma 0, la portada), el pan del perrito y las estanterías del
+  almacén; con el perrito recortado en 0,15, el interior del vaso salía con una mancha oscura (está más lejos que su
+  borde: se recortó en 0,08). La ruleta, al subir, tapaba «TVERSKY Y KAHNEMAN» con su puntero. Y «Lo dijo en la tele»
+  no estaba en el fotograma 0 (`aparece(…, 0, 0.01)` empieza invisible) y su segunda etiqueta partía en dos renglones.
+  Arreglado, comprobado con `snapshot --at` y vuelto a renderizar.
+- **Entrega** (`GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`): −14,5, −14,6 y −14,7 LUFS, pico real −1,8, −1,7 y
+  −1,5 dBTP; 9,4, 14 y 12 MB. Sin silencios en ningún punto (el bucle no se corta). El corto 4 salió primero con un pico
+  real de +1,4 dBTP: el limitador de loudnorm, en modo dinámico, no alcanza el primer instante, y el golpe del gancho
+  está en el fotograma 0. `entregar.sh` pone ahora 3 s de silencio delante de loudnorm y los quita después: −1,8 dBTP.
+- Lo más flojo: la música, otra vez elegida por la descripción y las medidas, sin oírla.
+
 ## Sesión 5 — 30 de octubre de 2026, noche
 
 Máquina nueva (Xeon con AMX). `main` sigue en la sesión 1; el trabajo de la 4 estaba en otra rama sin unir y se trajo
@@ -843,7 +902,7 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.
-2. Que el usuario vea los tres cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
+2. Que el usuario vea los seis cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
    cambiar o si se suben así.
 3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.

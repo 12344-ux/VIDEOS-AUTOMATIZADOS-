@@ -1,0 +1,44 @@
+<template>
+  <!-- R2 · la lección, palabra a palabra: NO GANÓ / POR ESCONDER / EL FALLO (ESCONDER, tachado) y debajo GANÓ POR /
+       ADMITIRLO / Y ARREGLARLO, con los dos verbos en rojo. Cada renglón cabe en el ancho (sin cortes sueltos). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .l { position: absolute; left: 80px; width: 900px; white-space: nowrap; font: 800 100px/1 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+    #{{ID}} .a1 { top: 250px; color: #c9cbd0; }
+    #{{ID}} .a2 { top: 352px; color: #c9cbd0; }
+    #{{ID}} .a3 { top: 454px; color: #c9cbd0; }
+    #{{ID}} .a2 .es { position: relative; display: inline-block; }
+    #{{ID}} .a2 .es i { position: absolute; left: -8px; right: -8px; top: 52%; height: 14px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .b1 { top: 660px; }
+    #{{ID}} .b2 { top: 762px; }
+    #{{ID}} .b3 { top: 864px; }
+    #{{ID}} .bloque { display: inline-block; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="l a1">No ganó</div>
+      <div class="l a2">por <span class="es">esconder<i></i></span></div>
+      <div class="l a3">el fallo.</div>
+      <div class="l b1">Ganó por</div>
+      <div class="l b2"><span class="bloque">admitirlo</span></div>
+      <div class="l b3">y <span class="bloque">arreglarlo.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const p1 = trocea(".a1");
+      [w("no", 1), w("ganó", 1)].forEach((t, i) => sube(p1[i], Math.max(0, t - 0.07), 0.4));
+      tl.fromTo(".a2", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, w("por", 3) - 0.1);
+      tl.fromTo(".a3", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, w("el", 1) - 0.1);
+      tl.fromTo(".a2 .es i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, f("fallo") + 0.05);
+      const p2 = trocea(".b1");
+      [w("ganó", 2), w("por", 4)].forEach((t, i) => sube(p2[i], t - 0.07, 0.4));
+      tl.fromTo(".b2 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("admitirlo") - 0.1);
+      tl.fromTo(".b3", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.01 }, w("arreglarlo") - 0.25);
+      tl.fromTo(".b3 .bloque", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("arreglarlo") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

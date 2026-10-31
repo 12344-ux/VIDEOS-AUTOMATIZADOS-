@@ -1,0 +1,37 @@
+<template>
+  <!-- R5 · lo práctico, en dos reglas con su índice (el cuadro rojo es la que suena): al negociar, di tú el primer número;
+       al vender, enseña primero el precio alto. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .r { position: absolute; left: 80px; width: 880px; }
+    #{{ID}} .r1 { top: 280px; }
+    #{{ID}} .r2 { top: 690px; }
+    #{{ID}} .r .k { display: inline-block; width: 74px; height: 74px; line-height: 74px; text-align: center; font: 800 46px/74px "Inter Tight", sans-serif;
+      color: #8a8d93; border: 4px solid #8a8d93; box-sizing: border-box; vertical-align: middle; }
+    #{{ID}} .r .cuando { display: inline-block; margin-left: 20px; vertical-align: middle; font: 500 36px/1 "Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #c9cbd0; }
+    #{{ID}} .r .que { margin-top: 26px; font: 800 104px/0.98 "Inter Tight", sans-serif; letter-spacing: -0.035em; text-transform: uppercase; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="r r1"><span class="k k1">1</span><span class="cuando">Al negociar</span><div class="que q1">Di tú el<br>primer número.</div></div>
+      <div class="r r2"><span class="k k2">2</span><span class="cuando">Al vender</span><div class="que q2">Enseña primero<br>el precio alto.</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // Las dos reglas están desde el corte (en gris); cada una se enciende y se escribe cuando suena.
+      tl.fromTo([".r1 .k", ".r1 .cuando", ".r2 .k", ".r2 .cuando"], { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out", stagger: 0.05 }, 0);
+      const enciende = (sel, t) => tl.to(sel, { backgroundColor: "#b0122f", borderColor: "#b0122f", color: "#f4f3f0", duration: 0.15 }, t);
+      enciende(".k1", w("negocies") - 0.15);
+      const p1 = trocea(".q1");
+      serie("di", 5, 1).forEach((t, i) => sube(p1[i], t - 0.07, 0.4));
+      tl.to(".r1", { opacity: 0.4, duration: 0.3 }, w("vendas") - 0.15);
+      enciende(".k2", w("vendas") - 0.15);
+      const p2 = trocea(".q2");
+      serie("enseña", 5, 1).forEach((t, i) => sube(p2[i], t - 0.07, 0.4));
+      fin();
+    })();
+  </script>
+</template>

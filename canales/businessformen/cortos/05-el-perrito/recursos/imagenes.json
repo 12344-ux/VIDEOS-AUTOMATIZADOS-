@@ -1,0 +1,18 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280 (vertical) y EDSR a 1080 × 1920. «capas»: además, profundidad y capas para el 2.5D (imagen/capas25d.py). «umbral»: la profundidad del corte, cuando la automática (Otsu) parte el objeto. El 2.5D solo sirve si el corte sigue el contorno de algo sobre un fondo liso: en superficies que se alejan poco a poco (una mesa, un pasillo, una pizza) cualquier corte deja una franja borrosa. Sin marcas: ni logos, ni rótulos. El primer perrito (semilla 115) salió sobre una bandeja roja que llenaba el cuadro: se rehízo sobre fondo oscuro. El perrito, con el corte en 0,08: el frente es el perrito, el vaso y la mesa, y el fondo, solo el negro de detrás. Con el automático (0,52) el corte cruzaba el pan, y con 0,15 el interior del vaso quedaba detrás y salía con una mancha oscura.",
+ "planchas": [
+  {
+   "nombre": "perrito",
+   "semilla": 117,
+   "capas": true,
+   "umbral": 0.08,
+   "prompt": "close-up of a simple hot dog in a white paper tray with a plain white paper soda cup beside it, on a dark charcoal stone surface, dramatic low-key light from one side, deep black background, the food in the upper half of the frame, the bottom half dark and empty, editorial food photography, 35mm film grain, no text, no logos, no brand names, no watermark"
+  },
+  {
+   "nombre": "almacen",
+   "semilla": 126,
+   "capas": false,
+   "prompt": "a huge warehouse store aisle with very tall metal shelves stacked with bulk goods on pallets, concrete floor, a few distant shoppers pushing big carts, cold overhead lights, strong one-point perspective, vertical composition with the aisle in the upper two thirds and the bottom third darker, cinematic editorial photography, muted colors, 35mm film grain, no text, no logos, no signs, no brand names, no watermark"
+  }
+ ]
+}

@@ -1,20 +1,38 @@
 {
- "_nota": "MusicGen (estéreo, small), lotes de cuatro candidatas de 30 s. Instrumentos del registro medio (los graves no suenan en un móvil): se mide cada una con audio/graves.py. Primera tanda (semilla 21): la 1 salió con el 85 % de la energía bajo 150 Hz y la 2 con el 99 % (descartadas); la 3 (arpa y celesta, 0 %) es la del corto 3 y la 4 (piano eléctrico y violines, 1 %), la segunda parte del corto 2. Segunda tanda (semilla 33): tensión sin graves. Medidas de la segunda: 0 %, 45 %, 0 % y 0 % bajo 150 Hz; la 1 se queda casi en silencio a los 15 s. Elegidas: corto 1, la 4 de la segunda (cuerdas y marimba en ostinato, 110 bpm); corto 2, la 3 de la segunda (piano y arpa con reloj) hasta la pregunta y la 4 de la primera desde la cuerda; corto 3, la 3 de la primera (arpa y celesta), que se apaga a los 25 s: se le quitan 5,5 s del final.",
- "semilla": 21,
+ "_nota": "MusicGen (estéreo, small), tandas de cuatro candidatas de 30 s en un lote. Instrumentos del registro medio (los graves no suenan en un móvil): se mide cada una con audio/graves.py (graves y nivel cada 5 s). Primera tanda (semilla 21): la 1 salió con el 85 % de la energía bajo 150 Hz y la 2 con el 99 % (descartadas); la 3 (arpa y celesta, 0 %) es la del corto 3 y la 4 (piano eléctrico y violines, 1 %), la segunda parte del corto 2. Segunda (semilla 33): 0 %, 45 %, 0 % y 0 %; la 1 se queda casi en silencio a los 15 s. Elegidas: corto 1, la 4 de la segunda; corto 2, la 3 de la segunda hasta la pregunta y la 4 de la primera desde la cuerda; corto 3, la 3 de la primera, que se apaga a los 25 s (se le quitan 5,5 s del final). Tercera (semilla 45): cortos 4–6. Medidas de la tercera: 0 % (se apaga a los 18 s), 1 %, 8 % y 8 %. Elegidas: corto 4, la 4 (violines en staccato y marimba, con tictac); corto 5, la 2 (marimba y pizzicato, con palmas); corto 6, la 3 (cuerdas y piano, esperanzada).",
+ "tandas": [
+  {
+   "carpeta": "",
+   "semilla": 21,
+   "candidatas": [
+    "driving investigative underscore, staccato violins and violas ostinato, marimba, light snare and hi-hat, building tension, 108 bpm, no bass",
+    "tense industrial underscore, bowed cello and viola ostinato in the middle register, metallic mallet percussion, steady pulse, 96 bpm, no bass, no drums",
+    "elegant luxurious minimal underscore, plucked harp and celesta arpeggios, soft sustained violins, refined and mysterious, 84 bpm, no drums, no bass",
+    "confident modern underscore, clean electric piano and staccato violins in the middle register, light shaker, focused and positive, 100 bpm"
+   ]
+  },
+  {
+   "carpeta": "v2",
+   "semilla": 33,
+   "candidatas": [
+    "tense investigative underscore, staccato violins and violas ostinato in the middle register, ticking woodblock, marimba, suspenseful, 104 bpm, no bass, no drums",
+    "dark tense underscore, tremolo violins and pizzicato violas in the middle register, ticking clock, uneasy and serious, 92 bpm, no bass, no drums",
+    "suspenseful minimal underscore, staccato piano and plucked harp in the high register, ticking percussion, 100 bpm, no bass, no drums",
+    "driving modern underscore, staccato strings and marimba ostinato in the middle register, light shaker, determined, 110 bpm, no bass"
+   ]
+  },
+  {
+   "carpeta": "v3",
+   "semilla": 45,
+   "candidatas": [
+    "minimal modern underscore, clean electric piano arpeggios and soft pizzicato violins in the middle register, light ticking, curious and clever, 100 bpm, no bass",
+    "playful confident underscore, marimba and pizzicato strings in the middle register, light shaker and hand claps, upbeat, 108 bpm, no bass",
+    "warm hopeful underscore, bowed strings ostinato and piano in the middle register, building, determined, 96 bpm, no bass, no drums",
+    "suspenseful light underscore, staccato violins and marimba in the middle register, ticking clock, 104 bpm, no bass, no drums"
+   ]
+  }
+ ],
  "duracion": 30,
- "candidatas": [
-  "driving investigative underscore, staccato violins and violas ostinato, marimba, light snare and hi-hat, building tension, 108 bpm, no bass",
-  "tense industrial underscore, bowed cello and viola ostinato in the middle register, metallic mallet percussion, steady pulse, 96 bpm, no bass, no drums",
-  "elegant luxurious minimal underscore, plucked harp and celesta arpeggios, soft sustained violins, refined and mysterious, 84 bpm, no drums, no bass",
-  "confident modern underscore, clean electric piano and staccato violins in the middle register, light shaker, focused and positive, 100 bpm"
- ],
- "semilla_2": 33,
- "candidatas_2": [
-  "tense investigative underscore, staccato violins and violas ostinato in the middle register, ticking woodblock, marimba, suspenseful, 104 bpm, no bass, no drums",
-  "dark tense underscore, tremolo violins and pizzicato violas in the middle register, ticking clock, uneasy and serious, 92 bpm, no bass, no drums",
-  "suspenseful minimal underscore, staccato piano and plucked harp in the high register, ticking percussion, 100 bpm, no bass, no drums",
-  "driving modern underscore, staccato strings and marimba ostinato in the middle register, light shaker, determined, 110 bpm, no bass"
- ],
  "lechos": {
   "01-la-clausula/lecho": {
    "pieza": "v2/pieza_4",
@@ -39,6 +57,24 @@
    "duracion": 57,
    "entrada": 0.05,
    "recorte": 5.5
+  },
+  "04-el-ancla/lecho": {
+   "pieza": "v3/pieza_4",
+   "duracion": 54,
+   "entrada": 0.05,
+   "recorte": 1.5
+  },
+  "05-el-perrito/lecho": {
+   "pieza": "v3/pieza_2",
+   "duracion": 50,
+   "entrada": 0.05,
+   "recorte": 1.5
+  },
+  "06-la-pizza/lecho": {
+   "pieza": "v3/pieza_3",
+   "duracion": 46,
+   "entrada": 0.05,
+   "recorte": 1.5
   }
  }
 }

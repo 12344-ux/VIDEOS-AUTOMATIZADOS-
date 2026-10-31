@@ -1,0 +1,46 @@
+<template>
+  <!-- R9 en 2.5D + R5 · la masa nueva (manos y masa delante, cocina detrás): NUEVA RECETA y las tres piezas que cambian
+       (masa, salsa, queso) marcadas con la voz; «y lo contó»: la etiqueta. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .capa25 { position: absolute; inset: 0; transform-origin: 50% 30%; }
+    #{{ID}} .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo25 img { filter: saturate(0.9) contrast(1.04); }
+    #{{ID}} .tit { position: absolute; left: 80px; top: 214px; }
+    #{{ID}} .tit b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #{{ID}} .tarjeta { position: absolute; left: 0; top: 990px; width: 1080px; height: 930px; background: rgba(10, 11, 13, 0.9); }
+    #{{ID}} .nueva { position: absolute; left: 80px; top: 1030px; font-size: 104px; }
+    #{{ID}} .chips { position: absolute; left: 80px; top: 1158px; display: flex; gap: 22px; }
+    #{{ID}} .chips span { display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px; background: rgba(10, 11, 13, 0.82); border: 3px solid #f4f3f0;
+      font: 800 54px/1 "Inter Tight", sans-serif; letter-spacing: -0.01em; text-transform: uppercase; }
+    #{{ID}} .chips span i { width: 22px; height: 22px; background: #b0122f; }
+    #{{ID}} .conto { position: absolute; left: 80px; top: 1262px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/masa_fondo.jpg" alt="" /></div>
+      <div class="capa25 frente25" data-layout-allow-overflow><img src="assets/img/masa_frente.png" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="tarjeta"></div>
+      <div class="mono tit"><i>Después</i> &nbsp;<b>la receta, entera</b></div>
+      <div class="titular nueva">Nueva receta</div>
+      <div class="chips"><span class="k1"><i></i>Masa</span><span class="k2"><i></i>Salsa</span><span class="k3"><i></i>Queso</span></div>
+      <div class="mono conto"><i>Y lo contó</i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      profundidad(0, DUR, { f1: 1.05, s1: 1.15, sy: -30 });
+      tl.fromTo(".tarjeta", { yPercent: 100 }, { yPercent: 0, duration: 0.5, ease: "expo.out" }, 0);
+      entra(".tit", 0, 0.35, 8);
+      const ps = trocea(".nueva");
+      [w("cambió"), w("receta")].forEach((t, i) => sube(ps[i], Math.max(0, t - 0.07), 0.42));
+      [[".k1", w("masa", 2)], [".k2", w("salsa", 2)], [".k3", w("queso")]].forEach(([s, t]) =>
+        tl.fromTo(s, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "back.out(1.6)" }, t - 0.1));
+      entra(".conto", w("contó") - 0.2, 0.35, 8);
+      fin();
+    })();
+  </script>
+</template>

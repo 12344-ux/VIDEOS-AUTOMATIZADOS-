@@ -1,0 +1,52 @@
+<template>
+  <!-- R6 · «con la inflación, hoy costaría unos cuatro dólares y medio»: dos columnas a escala, lo que cuesta (1,50 $, en
+       rojo, quieta) y lo que costaría (sube hasta 4,55 $ con la voz); la fuente, en pantalla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .cab { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .col { position: absolute; bottom: 860px; width: 330px; transform-origin: 50% 100%; }
+    #{{ID}} .c1 { left: 130px; height: 196px; background: #b0122f; }
+    #{{ID}} .c2 { left: 580px; height: 594px; background: transparent; border: 6px solid #c9cbd0; border-bottom: none; box-sizing: border-box; }
+    #{{ID}} .base { position: absolute; left: 80px; width: 860px; top: 1060px; height: 4px; background: #f4f3f0; }
+    #{{ID}} .v { position: absolute; width: 330px; text-align: center; font: 800 84px/1 "Inter Tight", sans-serif; letter-spacing: -0.03em; }
+    #{{ID}} .v1 { left: 130px; top: 768px; }
+    #{{ID}} .v2 { left: 580px; top: 370px; }
+    #{{ID}} .e { position: absolute; top: 1080px; width: 330px; text-align: center; font: 500 28px/1.25 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cbd0; }
+    #{{ID}} .e1 { left: 130px; }
+    #{{ID}} .e2 { left: 580px; }
+    #{{ID}} .fuente { top: 1150px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono cab"><i>1985 → hoy</i> &nbsp;<b>el perrito con bebida</b></div>
+      <div class="col c1"></div>
+      <div class="col c2"></div>
+      <div class="base"></div>
+      <div class="v v1 num">1,50 $</div>
+      <div class="v v2 num">1,50 $</div>
+      <div class="e e1">Lo que cuesta</div>
+      <div class="e e2">Lo que costaría</div>
+      <div class="fuente">Con la inflación de EE.&nbsp;UU. (calculadora del BLS, 2025)</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".cab", 0, 0.3);
+      tl.fromTo(".base", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out", transformOrigin: "left center" }, 0);
+      tl.fromTo(".c1", { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: "expo.out" }, 0.1);
+      aparece(".v1", 0.3, 0.25);
+      aparece(".e1", 0.3, 0.25);
+      // «Con la inflación»: la segunda columna arranca a la altura de la primera y sube hasta 4,55 $.
+      tl.fromTo(".c2", { scaleY: 196 / 594 }, { scaleY: 1, duration: f("medio", 2) - w("inflación") + 0.1, ease: "power2.inOut" }, w("inflación") - 0.1);
+      tl.fromTo(".v2", { y: 398 }, { y: 0, duration: f("medio", 2) - w("inflación") + 0.1, ease: "power2.inOut" }, w("inflación") - 0.1);
+      const v2 = $(".v2"), o = { x: 150 };
+      tl.fromTo(o, { x: 150 }, { x: 455, duration: f("medio", 2) - w("inflación") + 0.1, ease: "power2.inOut",
+        onUpdate: () => { v2.textContent = (o.x / 100).toFixed(2).replace(".", ",") + " $"; } }, w("inflación") - 0.1);
+      aparece(".e2", w("inflación"), 0.3);
+      aparece(".fuente", w("inflación") + 0.3, 0.3);
+      fin();
+    })();
+  </script>
+</template>

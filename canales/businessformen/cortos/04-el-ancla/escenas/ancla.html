@@ -1,0 +1,57 @@
+<template>
+  <!-- R2 + R5 · «se llama anclaje»: cae un ancla con su cabo y la palabra; «el primer número… tu regla para medir el
+       siguiente»: una regla que el 999 fija de punta a punta; el 499 cae en la mitad y el «ahorro» entre los dos, entre
+       comillas: ese 999 nunca existió. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .se { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .palabra { position: absolute; left: 70px; top: 280px; font: 800 176px/0.9 "Inter Tight", sans-serif; letter-spacing: -0.05em; }
+    #{{ID}} svg.ancla { position: absolute; left: 760px; top: 0px; width: 220px; height: 470px; overflow: visible; }
+    #{{ID}} .regla { position: absolute; left: 80px; top: 720px; width: 860px; height: 70px; border: 4px solid #f4f3f0; border-top: none; }
+    #{{ID}} .regla i { position: absolute; bottom: 0; width: 3px; background: #f4f3f0; }
+    #{{ID}} .m { position: absolute; top: 640px; width: 320px; margin-left: -160px; text-align: center; font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; white-space: nowrap; }
+    #{{ID}} .m999 { left: 940px; }
+    #{{ID}} .m499 { left: 510px; color: #f4f3f0; }
+    #{{ID}} .pin { position: absolute; top: 712px; width: 6px; height: 94px; background: #b0122f; }
+    #{{ID}} .ahorro { position: absolute; left: 510px; width: 430px; top: 830px; height: 60px; border: 4px solid #b0122f; border-top: none; }
+    #{{ID}} .ahorro b { position: absolute; left: -40px; right: -40px; top: 76px; text-align: center; white-space: nowrap; font: 800 46px/1 "Inter Tight", sans-serif; letter-spacing: -0.02em; color: #f4f3f0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mono se"><b>Se llama</b></div>
+      <div class="palabra">ANCLAJE</div>
+      <svg class="ancla" viewBox="0 0 220 470">
+        <path class="cabo" pathLength="100" stroke-dasharray="100 100" d="M110,0 L110,250" style="fill:none;stroke:#8a8d93;stroke-width:5"/>
+        <g class="hierro" style="fill:none;stroke:#f4f3f0;stroke-width:14;stroke-linecap:round;stroke-linejoin:round">
+          <circle cx="110" cy="270" r="20"/><path d="M110,290 L110,440"/><path d="M60,330 L160,330"/>
+          <path d="M30,380 C40,430 80,450 110,450 C140,450 180,430 190,380"/><path d="M30,380 L18,400 M30,380 L52,392 M190,380 L202,400 M190,380 L168,392"/></g>
+      </svg>
+      <div class="regla"><i style="left: 0; height: 70px"></i><i style="left: 25%; height: 40px"></i><i style="left: 50%; height: 56px"></i><i style="left: 75%; height: 40px"></i><i style="right: 0; height: 70px"></i></div>
+      <div class="m m999 num">999 $</div>
+      <div class="pin" style="left: 507px"></div>
+      <div class="m m499 num">499 $</div>
+      <div class="ahorro"><b>«AHORRO»: 500 $</b></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece(".se", 0, 0.3);
+      // El ancla cae con su cabo en «anclaje», y la palabra con ella.
+      traza(".ancla .cabo", 0.05, 0.5, "power2.in");
+      tl.fromTo(".ancla .hierro", { y: -330 }, { y: 0, duration: 0.5, ease: "power2.in" }, 0.05);
+      tl.fromTo(".ancla .hierro", { rotation: 0 }, { keyframes: [{ rotation: 6, duration: 0.15 }, { rotation: -3, duration: 0.15 }, { rotation: 0, duration: 0.2 }], transformOrigin: "110px 270px" }, 0.55);
+      const ps = trocea(".palabra");
+      sube(ps[0], w("anclaje") - 0.12, 0.45);
+      // La regla: el primer número la fija de punta a punta.
+      tl.fromTo(".regla", { autoAlpha: 0, scaleX: 0 }, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: "expo.out", transformOrigin: "left center" }, w("primer") - 0.1);
+      tl.fromTo(".m999", { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, w("número", 2) - 0.05);
+      // «Para medir el siguiente»: el 499 cae en su sitio, a media regla, y el «ahorro» se dibuja entre los dos.
+      tl.fromTo(".pin", { autoAlpha: 0, scaleY: 0 }, { autoAlpha: 1, scaleY: 1, duration: 0.3, ease: "expo.out", transformOrigin: "50% 0%" }, w("medir") - 0.1);
+      tl.fromTo(".m499", { autoAlpha: 0, y: -60 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out" }, w("medir") - 0.1);
+      tl.fromTo(".ahorro", { autoAlpha: 0, scaleX: 0 }, { autoAlpha: 1, scaleX: 1, duration: 0.45, ease: "expo.out", transformOrigin: "left center" }, w("siguiente") - 0.05);
+      fin();
+    })();
+  </script>
+</template>

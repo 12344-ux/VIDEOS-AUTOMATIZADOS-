@@ -61,4 +61,34 @@
       const alBuscar = (dibujar) => { window.addEventListener("hf-seek", (ev) => dibujar(ev.detail.time - T0)); dibujar(0); };
       // Avance 0 → 1 entre t0 y t0 + d, con su curva.
       const paso = (t, t0, d, curva) => gsap.parseEase(curva || "power2.inOut")(Math.min(1, Math.max(0, (t - t0) / d)));
-      const fin = () => { tl.set({}, {}, DUR); window.__timelines["{{ID}}"] = tl; };
+      // Entrada de la escena sobre la anterior (montar.py: escena(…, entrada=…)); la anterior sigue debajo mientras dura.
+      const ENTRADA = /*ENTRADA*/null;
+      const entradaEscena = () => {
+        if (!ENTRADA) return;
+        const d = ENTRADA.d, t = ENTRADA.tipo, filo = (css) => { const f = document.createElement("div"); f.style.cssText = "position:absolute;z-index:60;background:#b0122f;" + css; RAIZ.appendChild(f); return f; };
+        const x = ENTRADA.x != null ? ENTRADA.x : {{ANCHO}} / 2, y = ENTRADA.y != null ? ENTRADA.y : {{ALTO}} / 2;
+        // [recorte inicial, recorte final, curva, fracción de la duración]
+        const CLIP = {
+          cortina: ["inset(0% 100% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.in", 0.5],
+          barrido: ["inset(0% 0% 0% 100%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          subida: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)", "power3.inOut", 1],
+          iris: [`circle(0% at ${x}px ${y}px)`, `circle(150% at ${x}px ${y}px)`, "power2.in", 1],
+        }[t];
+        tl.fromTo(RAIZ, { clipPath: CLIP[0] }, { clipPath: CLIP[1], duration: d * CLIP[3], ease: CLIP[2] }, 0);
+        if (t === "cortina") {
+          // El rojo cruza la escena anterior de izquierda a derecha y, al retirarse, descubre esta.
+          const c = filo("left:0;top:0;width:100%;height:100%;");
+          tl.fromTo(c, { scaleX: 1 }, { scaleX: 0, duration: d / 2, ease: "power3.out", transformOrigin: "right center" }, d / 2);
+        } else if (t === "barrido" || t === "subida") {
+          // El filo rojo va con el borde de la escena que entra.
+          const f = t === "barrido" ? filo("left:0;top:0;width:10px;height:100%;") : filo("left:0;top:0;width:100%;height:10px;");
+          tl.fromTo(f, t === "barrido" ? { x: {{ANCHO}} } : { y: {{ALTO}} }, Object.assign(t === "barrido" ? { x: 0 } : { y: 0 }, { duration: d, ease: "power3.inOut" }), 0);
+          tl.to(f, { autoAlpha: 0, duration: 0.12 }, d);
+        }
+      };
+      // 2.5D por capas (imagen/capas25d.py): el fondo se mueve poco y el frente recortado, más; la cámara parece avanzar.
+      const profundidad = (t0, d, o = {}) => {
+        tl.fromTo(o.fondo || ".fondo25", { scale: o.f0 || 1, x: 0, y: 0 }, { scale: o.f1 || 1.05, x: o.fx || 0, y: o.fy || 0, duration: d, ease: o.ease || "none" }, t0);
+        tl.fromTo(o.frente || ".frente25", { scale: o.s0 || 1, x: 0, y: 0 }, { scale: o.s1 || 1.13, x: o.sx || 0, y: o.sy || 0, duration: d, ease: o.ease || "none" }, t0);
+      };
+      const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["{{ID}}"] = tl; };

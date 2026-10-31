@@ -9,17 +9,19 @@
 # PICO cambia el pico real máximo (−1,5 dBTP por defecto; con −1,5 el AAC puede acabar en −0,9).
 # GRAVES=-20 comprime la banda de subgraves (bajo 120 Hz, relación 4) antes de normalizar: los golpes de
 # impact-bass son casi todo subgrave y, sin esto, subían 5 LU por encima de la voz (BusinessForMen, vídeo 1).
+# loudnorm va con 3 s de silencio delante, que luego se quitan: en modo dinámico su limitador no alcanza el primer
+# instante y un golpe en el fotograma 0 salía a +1,4 dBTP (corto 4 de BusinessForMen); con el silencio, −1,8.
 set -euo pipefail
 entrada=$1 salida=$2 lufs=${3:--15} crf=${4:-20} pico=${PICO:--1.5}
-previo=
+previo="adelay=3000:all=1,"
 if [ -n "${GRAVES:-}" ]; then
-  previo="acrossover=split=120:order=4th[g][r];[g]acompressor=threshold=${GRAVES}dB:ratio=4:attack=10:release=300[gc];[gc][r]amix=inputs=2:normalize=0,"
+  previo="acrossover=split=120:order=4th[g][r];[g]acompressor=threshold=${GRAVES}dB:ratio=4:attack=10:release=300[gc];[gc][r]amix=inputs=2:normalize=0,$previo"
 fi
 medida=$(ffmpeg -hide_banner -nostats -i "$entrada" -vn -af "${previo}loudnorm=I=$lufs:TP=$pico:LRA=11:print_format=json" -f null - 2>&1 \
   | sed -n '/^{/,/^}/p')
 valor() { echo "$medida" | python3 -c "import json,sys; print(json.load(sys.stdin)['$1'])"; }
 filtro="${previo}loudnorm=I=$lufs:TP=$pico:LRA=11:measured_I=$(valor input_i):measured_TP=$(valor input_tp)"
-filtro="$filtro:measured_LRA=$(valor input_lra):measured_thresh=$(valor input_thresh):offset=$(valor target_offset):linear=true"
+filtro="$filtro:measured_LRA=$(valor input_lra):measured_thresh=$(valor input_thresh):offset=$(valor target_offset):linear=true,atrim=start=3,asetpts=PTS-STARTPTS"
 if [ "$crf" = copiar ]; then
   video=(-c:v copy)
 else

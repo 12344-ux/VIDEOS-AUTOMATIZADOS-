@@ -1,0 +1,38 @@
+<template>
+  <!-- R9 + R8 · el almacén (la cámara avanza por el pasillo, hacia el fondo) y, en «cuota de socio», una tarjeta de socio
+       genérica (ninguna marca imitada) que gira hasta quedar de frente con CUOTA ANUAL. Sin 2.5D: las estanterías se alejan
+       sin corte y las capas salían con franjas dobles. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .capa25 { position: absolute; inset: 0; transform-origin: 54% 40%; }
+    #{{ID}} .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo25 img { filter: saturate(0.8) contrast(1.05); }
+    #{{ID}} .hay { position: absolute; left: 80px; top: 226px; }
+    #{{ID}} .hay b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #{{ID}} .p3d { position: absolute; left: 140px; top: 640px; perspective: 1500px; }
+    #{{ID}} .tarjeta { width: 800px; height: 480px; border-radius: 34px; padding: 50px 56px; position: relative;
+      background: linear-gradient(135deg, #c2163a 0%, #8a0f24 100%); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); }
+    #{{ID}} .tarjeta .tipo { font: 800 64px/1 "Inter Tight", sans-serif; letter-spacing: 0.02em; color: #f4f3f0; }
+    #{{ID}} .tarjeta .chip { position: absolute; left: 56px; top: 170px; width: 110px; height: 82px; border-radius: 12px; background: linear-gradient(135deg, #e8d7a8, #b89a5a); }
+    #{{ID}} .tarjeta .num { position: absolute; left: 56px; bottom: 120px; font: 500 46px/1 "Plex Mono", monospace; letter-spacing: 0.14em; color: #f4f3f0; }
+    #{{ID}} .tarjeta .cuota { position: absolute; left: 56px; bottom: 46px; font: 500 34px/1 "Plex Mono", monospace; letter-spacing: 0.12em; color: rgba(244, 243, 240, 0.9); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/almacen.jpg" alt="" /></div>
+      <div class="capa velo"></div>
+      <div class="mono hay"><i>Para entrar</i> &nbsp;<b>hay que ser socio</b></div>
+      <div class="p3d"><div class="tarjeta"><div class="tipo">SOCIO</div><div class="chip"></div><div class="num">0000 · 2026</div><div class="cuota">CUOTA ANUAL</div></div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo(".fondo25", { scale: 1 }, { scale: 1.14, duration: DUR, ease: "power1.inOut" }, 0);
+      entra(".hay", 0.1, 0.35, 8);
+      tl.fromTo(".tarjeta", { autoAlpha: 0, y: 700, rotationX: 55, rotationZ: -14 }, { autoAlpha: 1, y: 0, rotationX: 8, rotationZ: -4, duration: 0.75, ease: "power3.out" }, w("cuota") - 0.45);
+      fin();
+    })();
+  </script>
+</template>

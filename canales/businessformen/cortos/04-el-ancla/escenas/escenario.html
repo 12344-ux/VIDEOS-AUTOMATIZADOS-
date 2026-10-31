@@ -1,0 +1,62 @@
+<template>
+  <!-- R9 en 2.5D · el auditorio: el fondo (escenario y pantalla) y el frente recortado (las cabezas del público) se mueven
+       a distinta velocidad. El precio va en la pantalla, en su sitio. Modo «gancho» (fotograma 0 = miniatura): 999 $ en
+       la pantalla y UN PRECIO QUE NUNCA EXISTIÓ; la cámara avanza hacia la pantalla. Modo «aplauso»: 499 $ en la
+       pantalla, la cámara se aleja y ¿CARO? se tacha para dejar GANGA. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .capa25 { position: absolute; inset: 0; transform-origin: {{p:origen}}; }
+    #{{ID}} .capa25 img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo25 img { filter: saturate(0.85) contrast(1.05); }
+    #{{ID}} .pant { position: absolute; display: flex; align-items: center; justify-content: center; font: 800 1px/1 "Inter Tight", sans-serif;
+      letter-spacing: -0.04em; color: #141414; }
+    #{{ID}} .pant span { display: inline-block; }
+    #{{ID}} .quien { position: absolute; left: 80px; top: 1100px; }
+    /* Arriba, donde va el titular, la franja clara de la pantalla se oscurece (el texto blanco no se leía encima). */
+    #{{ID}} .sombra { bottom: auto; height: 540px; background: linear-gradient(180deg, rgba(10, 11, 13, 0.95) 0%, rgba(10, 11, 13, 0.92) 82%, rgba(10, 11, 13, 0) 100%); }
+    #{{ID}} .quien b { background: rgba(10, 11, 13, 0.75); padding: 0.1em 0.3em; }
+    #{{ID}} .tit { position: absolute; left: 80px; top: 196px; width: 900px; font-size: 100px; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+    #{{ID}} .tit .l { white-space: nowrap; }
+    #{{ID}} .tit .l { display: block; }
+    #{{ID}} .caro { position: absolute; left: 80px; top: 186px; font: 800 130px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; color: #c9cbd0; }
+    #{{ID}} .caro i { position: absolute; left: -10px; right: -10px; top: 52%; height: 16px; background: #b0122f; transform-origin: left center; }
+    #{{ID}} .ganga { position: absolute; left: 80px; top: 330px; font: 800 130px/1 "Inter Tight", sans-serif; letter-spacing: -0.04em; }
+    #{{ID}} .ganga span { display: inline-block; background: #b0122f; padding: 0.02em 0.14em 0.08em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa25 fondo25" data-layout-allow-overflow><img src="assets/img/escenario_fondo.jpg" alt="" />
+        <div class="pant" style="left: {{p:px}}px; top: {{p:py}}px; width: {{p:pw}}px; height: {{p:ph}}px; font-size: {{p:pt}}px"><span>{{p:precio}}</span></div></div>
+      <div class="capa25 frente25" data-layout-allow-overflow><img src="assets/img/escenario_frente.png" alt="" /></div>
+      <div class="capa velo" data-layout-allow-occlusion></div>
+      <div class="capa sombra" data-layout-allow-occlusion></div>
+      <div class="mono quien"><i>Steve Jobs</i> &nbsp;<b>presenta el iPad · 2010</b></div>
+      <div class="titular tit"><span class="l">Un precio que</span><span class="l">nunca existió.</span></div>
+      <div class="caro">¿CARO?<i></i></div>
+      <div class="ganga"><span>GANGA.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = "{{p:modo}}";
+      if (modo === "gancho") {
+        [".caro", ".ganga"].forEach((s) => $(s).remove());
+        // La cámara avanza entre el público hacia la pantalla: el frente (cabezas) se mueve más que el fondo.
+        profundidad(0, DUR, { f1: 1.16, s1: 1.42, sy: 120, ease: "power1.in" });
+        entra(".quien", 0.15, 0.35, 8);
+        tl.to(".tit", { autoAlpha: 0, y: 30, duration: 0.3, ease: "power2.in" }, w("Antes") - 0.15);
+      } else {
+        [".tit"].forEach((s) => $(s).remove());
+        $(".quien").remove();
+        // La cámara se aleja: vuelve a la sala, que aplaude.
+        profundidad(0, DUR, { f0: 1.12, f1: 1.0, s0: 1.3, s1: 1.0, ease: "power2.out" });
+        tl.fromTo(".caro", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, w("caro") - 0.12);
+        tl.fromTo(".caro i", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.inOut" }, w("parecía", 2) - 0.1);
+        tl.fromTo(".ganga span", { autoAlpha: 0, scaleX: 0.3 }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out", transformOrigin: "left center" }, w("ganga") - 0.1);
+      }
+      fin();
+    })();
+  </script>
+</template>
