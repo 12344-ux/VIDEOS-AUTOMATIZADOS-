@@ -36,7 +36,7 @@ escena('s07', 'foto', w('En mil novecientos ochenta', mas=CORTE), foto='oficina'
            dict(html='A la venta: 1980', clase='etiqueta', x=80, y=300, en=['ochenta', 1, -0.05]),
            dict(html='En cualquier<br>oficina', clase='sello', x=80, y=880, en=['oficina', 1, -0.05], modo='sello')]))
 escena('s08', 'golpe', GOLPE, entrada='cortina',
-       etq='Un fracaso', b1='es un producto', b2='que todavía no ha<br>encontrado<br>su problema.',
+       etq='Un fracaso', b1='es un producto', b2='que todavía<br>no ha encontrado<br>su problema.',
        conf={'etq': {'palabra': 'un', 'n': 7, 'grande': True}, 'b1': {'palabra': 'es', 'y': 360, 'tam': 110},
              'b2': {'palabra': 'que', 'n': 5, 'y': 560, 'tam': 92, 'sube': -24}, 'firma': True, 'firma_t': 3.7})
 escena('s09', 'gancho', w('Por eso', mas=-0.15), foto='notas',
