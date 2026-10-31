@@ -1037,6 +1037,38 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   por encima del ambiente de su pausa, y las pausas de las lecciones, a −40 y −41 dB (−30 en Blockbuster, con la cola de
   la persiana). Revisados por fotogramas y medidos, no escuchados.
 
+## Sesión 7 — 31 de octubre de 2026, noche
+
+Máquina nueva (Xeon a 2,1 GHz con AMX, como en las sesiones 1 y 3–6). `main` sigue en la sesión 1; el trabajo de la 6
+estaba en otra rama sin unir (`ccr-4888b5fc-onnsee`, que ya contiene las de las sesiones 2–5) y se trajo por avance rápido.
+
+### 1. Instalación y comprobación de cada pieza
+
+- **Instalación en 10 min 58 s** con el `instalar.sh` de `main` (Hugging Face bajaba a ráfagas, de 4 a 24 MB/s; en la
+  sesión 5 todo tardó 2 min 31 s) y, en paralelo, lo que añade el nuevo: el rastreador, el EGL de Mesa y HyperFrames
+  (23 s) y el EDSR. `./instalar.sh comprobar`: todo, salvo los dos opcionales (FLUX.2 klein y stable-diffusion.cpp).
+  15 GB; quedan 16 GB libres.
+- huggingface_hub 1.33 (el que instala hoy FastSD) guarda los archivos grandes en un almacén común (`hf/hub/blobs/xx/`),
+  enlazado desde la carpeta de cada modelo: el `du` de esa carpeta da unos MB. Para mirar un modelo a mano, con
+  `HF_HOME=~/herramientas-videos/hf` (sin él busca en `~/.cache` y dice que falta).
+- **Pruebas**, todas bien: la voz M2 del corto 12 (40,82 s y 100 palabras alineadas, como en la sesión 6, en 41 s con la
+  carga en frío); HyperFrames, 3 s a 1080 × 1920 en 10 s con el WebGL en llvmpipe (`ANGLE (Mesa, llvmpipe (LLVM 20.1.2
+  256 bits))`); DuckDB lee a distancia la cabecera del dataset de TikTok (98,6 M de vídeos en septiembre) en 3 s; y la
+  API de YouTube responde con la clave del proxy.
+
+### 2. El corto 12 rehecho de cero: el repositorio basta
+
+- Con solo el repositorio y las herramientas, «La multa» desde cero: `preparar.sh 12-la-multa` (10 min 56 s: FLUX.3 a
+  720 × 1280, 190 s la primera con la carga del modelo y 134–140 s las demás; EDSR, 8,5 s cada una), `montar.py`,
+  `check` (0 errores, 0 avisos), `revisar_mezcla.py` (0 de 13 efectos por encima, ningún hueco), render de 108 s y
+  entrega con `BUCLE=1`.
+- **El proyecto montado sale idéntico al guardado en la sesión 6, byte a byte**, y la entrega, con las mismas cifras:
+  41,9 s, −14,4 LUFS, −1,5 dBTP y 18 MB; el bucle, a 2,3 de diferencia media sobre 255.
+- **Se rompió y se arregló:** `montar.py` se paraba con «no está el efecto «1800»». Los cortos 7–12 nombran sus
+  whooshes (1795, 1796, 1800 y 1801) dentro de un bucle, y el grep de `preparar.sh` solo ve las llamadas `sonido('1234'`;
+  en la sesión 6 ya estaban bajados de antes. Además, `canales/preparar-corto.sh` (geografía y supervivencia) no baja
+  efectos. Ahora `montar.py` baja de BigSoundBank (CC0) el número que falte, a la carpeta de efectos de al lado.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),

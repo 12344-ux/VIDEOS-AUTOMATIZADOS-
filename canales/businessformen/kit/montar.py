@@ -296,12 +296,20 @@ def comp_subtitulos(v):
 
 
 def ruta_sfx(v, nombre):
-    """El archivo de un efecto: de la biblioteca de HyperFrames, o un WAV propio del vídeo (o de la carpeta de al lado)."""
+    """El archivo de un efecto: de la biblioteca de HyperFrames, o un WAV propio del vídeo (o de la carpeta de al lado).
+    Un número de BigSoundBank (CC0) que falte se baja a la carpeta de al lado: en una máquina nueva faltaban los que un
+    montaje nombra dentro de un bucle (los whooshes de los cortos 7–12 de BFM), que el grep de preparar.sh no ve, y
+    canales/preparar-corto.sh no baja efectos."""
     if nombre in SFX:
         return os.path.join(SFX_HF, SFX[nombre].split(':', 1)[1])
-    for d in (os.path.join(v.trabajo, 'sfx'), os.path.join(os.path.dirname(v.trabajo), 'sfx')):
+    carpetas = (os.path.join(v.trabajo, 'sfx'), os.path.join(os.path.dirname(v.trabajo), 'sfx'))
+    for d in carpetas:
         if os.path.exists(os.path.join(d, nombre + '.wav')):
             return os.path.join(d, nombre + '.wav')
+    if re.fullmatch(r'\d{4}', nombre):
+        subprocess.run([sys.executable, os.path.join(REPO, 'audio', 'efectos.py'), 'bajar', nombre, '-d', carpetas[1]],
+                       check=True)
+        return os.path.join(carpetas[1], nombre + '.wav')
     raise SystemExit(f'{v.id}: no está el efecto «{nombre}»')
 
 
