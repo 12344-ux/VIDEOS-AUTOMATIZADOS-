@@ -8,13 +8,13 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 
 **El canal en marcha es BusinessForMen** (negocios, en español; marca «Consejo»: grafito, blanco y carmesí). Su **primer vídeo, «Por qué quiebran empresas que ganan dinero», está terminado: 6 min 19 s**, 43 escenas de edición hechas a mano en HyperFrames y ancladas palabra a palabra a la voz (`canales/businessformen/kit/` y `canales/businessformen/videos/01-flujo-de-caja/`), con su miniatura, su descripción con fuentes y sus subtítulos (`PUBLICACION.md`). Las reglas de edición del canal están en `canales/businessformen/EDICION.md`.
 
-**Y nueve cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 43–54 s, con una
-historia real cada uno: «La cláusula», «La cuerda» y «Para siempre»; «El ancla», «El perrito» y «La pizza»; y «El
-sueldo» (Ford), «La fórmula» (Coca-Cola) y «La cámara» (Kodak). El mismo archivo vale para las tres apps: sin logos de
-ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados, la imagen a pantalla completa y final en
-bucle. Los cortos 7–9 tienen además una versión con la voz de supervivencia (M2), sin música y solo con efectos
-(ambiente, transiciones y acciones; `montar.py --variante m2`): la de Ford «se movió más» y, si las otras dos
-funcionan igual, la M2 pasa a ser la voz de BFM.
+**Y doce cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 37–54 s, con una
+historia real cada uno: «La cláusula», «La cuerda» y «Para siempre»; «El ancla», «El perrito» y «La pizza»; «El
+sueldo» (Ford), «La fórmula» (Coca-Cola) y «La cámara» (Kodak); y «La carta» (McDonald's), «El pegamento» (Post-it) y
+«La multa» (Blockbuster). El mismo archivo vale para las tres apps: sin logos de ninguna ni «sígueme», con el gancho en
+el fotograma 0, subtítulos quemados, la imagen a pantalla completa y final en bucle. **La nueva receta** (la voz M2 de
+supervivencia, sin música y solo con efectos: ambiente, transiciones y acciones) la estrenó el de Ford, que «se movió
+más»; la llevan también las versiones m2 de Coca-Cola y Kodak (`montar.py --variante m2`) y, de serie, los cortos 10–12.
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:

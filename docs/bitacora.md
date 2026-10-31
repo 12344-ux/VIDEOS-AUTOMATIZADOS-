@@ -1030,7 +1030,12 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   encuadre (escala 1,5 desde la derecha) deja dentro los papelitos, el libro y las manos, y la cara fuera.
 - **Comprobado antes del render:** `check`, sin avisos tras subir dos rótulos que se leían menos tiempo del necesario
   («Y les iba bien», «Un pegamento muy fuerte») y el sello LO QUE MÁS ODIABAN, que tapaba el nombre de la barra.
-- **Render y entrega:** en curso.
+- **Render y entrega:** 105, 122 y 115 s (el 11, otra vez, 117 s: en la lección, la palabra «ha» quedaba sola en un
+  renglón). `bfm-corto-10-la-carta.mp4`, 37,2 s, −14,5 LUFS, −1,8 dBTP, 27 MB; `bfm-corto-11-el-pegamento.mp4`, 43,3 s,
+  −14,4 LUFS, −1,7 dBTP, 12 MB; `bfm-corto-12-la-multa.mp4`, 41,9 s, −14,4 LUFS, −1,5 dBTP, 18 MB. Entregados con
+  `BUCLE=1`: el ambiente, a menos de 1,5 dB entre el final y el principio. Ningún silencio. Los whooshes quedan 10–21 dB
+  por encima del ambiente de su pausa, y las pausas de las lecciones, a −40 y −41 dB (−30 en Blockbuster, con la cola de
+  la persiana). Revisados por fotogramas y medidos, no escuchados.
 
 ## Siguiente paso
 
@@ -1045,10 +1050,10 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 2. Que el usuario vea los cortos 7–9 de BFM (Ford, Coca-Cola y Kodak, en `salidas/businessformen/cortos/*/entrega/`)
    y el vídeo 1 completo, y diga qué cambiar o si se suben así. Al publicar, comparar su retención con la de los 4–6:
    misma receta, con la imagen a pantalla completa, menos efectos y la música más baja.
-   **La prueba de la voz M2** (31-oct): la versión m2 de «El sueldo» (la voz de supervivencia, sin música, solo
-   efectos) «se movió más»; ya están también la de Coca-Cola y la de Kodak. Si funcionan igual, la M2 pasa a ser la
-   voz de BFM: cambiarla en `CLAUDE.md` y en `cortos/preparar.sh`, y hacer el sonido de los cortos nuevos como el de
-   estos tres (`recursos/variantes.json` y `VARIANTE` en `montaje.py` sirven de modelo).
+   **La nueva receta** (31-oct): la voz M2, sin música y solo efectos. La estrenó el Ford m2, que «se movió más»; la
+   llevan las versiones m2 de Coca-Cola y Kodak y, de serie, los cortos 10–12 (McDonald's, Post-it y Blockbuster).
+   Publicarlos y comparar su retención con la de los 7–9 m2; los siguientes, igual (`recursos/modelo-voz` y el sonido
+   en su `montaje.py`).
 3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
 4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`
