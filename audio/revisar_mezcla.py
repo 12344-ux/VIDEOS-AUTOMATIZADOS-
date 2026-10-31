@@ -89,6 +89,8 @@ def main():
     ap.add_argument('proyecto')
     ap.add_argument('--margen', type=float, default=8.0, help='LU que un efecto debe quedar bajo la voz mientras se habla')
     ap.add_argument('--pausa', type=float, default=3.0, help='LU bajo el nivel medio de la voz para un efecto en una pausa')
+    ap.add_argument('--habla', type=float, default=6.0,
+                    help='una ventana es voz si suena a menos de estos LU de su nivel medio (las colas de las palabras, no)')
     ap.add_argument('--wav', help='carpeta donde guardar las tres pistas (voz, música y efectos)')
     a = ap.parse_args()
     ps = pistas(a.proyecto)
@@ -103,7 +105,7 @@ def main():
     mm, im = momentanea(musica, tmp)
     ms, isfx = momentanea(sfx, tmp)
     print(f'Integrada: voz {iv:.1f} LUFS · música {im:.1f} ({im - iv:+.1f} LU) · efectos {isfx:.1f} ({isfx - iv:+.1f} LU)')
-    habla = mv > iv - 10                       # se está hablando (M[k]: los 400 ms que acaban en (k + 1) / 10 s)
+    habla = mv > iv - a.habla                  # se está hablando (M[k]: los 400 ms que acaban en (k + 1) / 10 s)
     print(f'Efectos: {len(efectos)} en {total / SR:.1f} s ({60 * len(efectos) / (total / SR):.0f} por minuto)\n')
     print('  t (s)  efecto                  vol    peor momento: efecto  voz    dif   límite   vol que cabe')
     malos = 0

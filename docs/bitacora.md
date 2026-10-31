@@ -892,6 +892,37 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 - **Lo que no se ha comprobado:** cómo suena de verdad (todo está medido, nada escuchado: que el usuario lo oiga en el
   móvil) y si el «bajo el agua» hecho con un paso bajo convence.
 
+### 4. Tres cortos más para BusinessForMen (Ford, Coca-Cola y Kodak)
+
+- **Pedido del usuario:** tres cortos más para BFM, porque a los tres últimos (el ancla, el perrito y la pizza, de la
+  otra sesión) «les fue bien»: historias más sencillas, más fáciles de entender y mejor edición, con mejores imágenes.
+  Que las imágenes se vean a pantalla completa («en los otros se veía como que la mitad»). Y, del sonido de los cortos de
+  supervivencia: «a la próxima utiliza solo los efectos de sonido como el rayo y bájale más a la música».
+- **Las dos ramas, unidas:** la de la otra sesión (`ccr-cf774c6c-5zcg4k`: los cortos 4–6, las transiciones de entrada,
+  el 2.5D por capas y el arreglo del pico de `entregar.sh`) entra en esta. Chocaban `montar.py` (ahora conviven
+  `--canal` y `entrada=`) y la bitácora (sus puntos 6–9 van al final de la sesión 4).
+- **«Como la mitad»:** era el velo del kit, que oscurecía la foto de la mitad hacia abajo (de 0 a 0,82 entre el 40 y el
+  62 % de la altura, y 0,96 abajo). El nuevo es ligero: la barra del móvil y los titulares arriba, una franja suave detrás
+  de los subtítulos y el resto de la foto a la vista (el de antes queda como `.velo-denso`). También en supervivencia.
+- **El sonido, con las reglas nuevas** (en el README de los cortos y en `canales/supervivencia/CANAL.md`): 2–4 efectos
+  por corto, grabaciones reales con su golpe en pantalla y, si son fuertes, en las pausas (como el rayo): las monedas
+  que caen, el silbato de la fábrica, los teléfonos, la botella que se abre, el disparo de una Instamatic, el arrastre
+  del carrete, un portazo. La música, 15–19 LU por debajo de la voz (en los cortos 4–6 iba a 0,27; ahora, a 0,1).
+  `revisar_mezcla.py` contaba como voz la cola de las palabras: ahora es voz a menos de 6 LU de su nivel medio
+  (`--habla`), y un efecto en la pausa se mide con la regla de las pausas.
+- **Temas, medidos con el rastreador** (Shorts en español): el sueldo de 5 $ de Ford, con dos Shorts recientes a 78× la
+  mediana de su canal; la fórmula nueva de Coca-Cola (1985), 42× y 40×; la cámara digital de Kodak, 1,3 M. Una idea
+  cada uno, con su dibujo: la puerta giratoria de Ford (entran más de 50.000 para 14.000 puestos) y sus dos barras; los
+  dos vasos de la cata y los 79 días; la ficha de 1975 (una foto de 100 × 100 píxeles que tarda 23 s) y las dos curvas.
+  Los datos, contrastados en el `GUION.md` de cada corto (los 5 $ eran el sueldo más una prima con condiciones; la frase
+  «no se lo cuentes a nadie» de Kodak no tiene fuente clara y no se usa).
+- **Plantillas comunes de BFM** (`cortos/comun/`): `gancho` (el fotograma 0 y la vuelta del bucle, con un destello
+  opcional) y `foto` (la de supervivencia con la marca de BFM). Las escenas dibujadas, en cada corto.
+- **Medido:** las tres voces (M1, un 4 % más pausada), 43,5, 42,3 y 42,8 s, en 288 s; la música, cuatro candidatas en
+  663 s (33 %, 0 %, 1 % y 0 % bajo 150 Hz; la 4 se apaga a los 15 s y se usa recortada); FLUX, MEDIDA_FLUX_BFM;
+  renders, RENDERS_BFM.
+- **Entregas:** ENTREGAS_BFM
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),

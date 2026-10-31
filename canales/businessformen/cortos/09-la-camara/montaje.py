@@ -21,25 +21,25 @@ escena('s05', 'foto', w('Una cámara', mas=-0.15), foto='prototipo', entrada='su
            dict(html='Una amenaza', clase='sello', x=80, y=960, en=['amenaza', 1, -0.05], modo='sello')]))
 escena('s06', 'curvas', w('Años', mas=-0.15), entrada='barrido')
 escena('s07', 'foto', w('Y en dos', mas=-0.15), foto='fabrica', entrada='subida',
-       conf=dict(camara=[1.0, 1.08, 0, 0], textos=[dict(html='Quiebra · 2012', clase='sello', x=80, y=960, en=['quiebra', 1, -0.05], modo='sello')]))
+       conf=dict(camara=[1.0, 1.08, 0, 0], textos=[dict(html='Quiebra · 2012', clase='sello', x=80, y=960, en=['quiebra', 1, 0.12, 'fin'], modo='sello')]))
 escena('s08', 'foto', w('Había', mas=-0.15), foto='prototipo', entrada='barrido',
        conf=dict(camara=[1.0, 1.06, 0, 0], textos=[
            dict(html='Inventó<br>el futuro', clase='titular', x=80, y=300, en=['inventado', 1, -0.05]),
            dict(html='Y lo dejó pasar', clase='sello', x=80, y=960, en=['pasar', 1, -0.05], modo='sello')]))
-escena('s09', 'golpe', w('Si no', mas=-0.15), entrada='cortina',
+escena('s09', 'golpe', w('Si no', mas=-0.45), entrada='cortina',
        etq='Si no cambias tu negocio,', b1='Otro lo<br>cambiará', b2='por ti.',
        conf={'etq': {'palabra': 'si', 'grande': True}, 'b1': {'palabra': 'otro', 'y': 380, 'tam': 130},
              'b2': {'palabra': 'por', 'n': 2, 'y': 680, 'tam': 150, 'sube': -24}, 'firma': True, 'firma_t': 2.8})
 escena('s10', 'gancho', w('Y todo', mas=-0.15), foto='prototipo',
-       conf=dict(l1='Kodak inventó<br>esto', l2='en 1975', tam1=104, modo='vuelta', en_l1=['empezó', 1, -0.05], en_l2=['empezó', 1, 0.3]))
+       conf=dict(l1='Kodak inventó<br>esto', l2='en 1975', tam1=104, modo='vuelta', en_l1=['todo', 1, -0.05], en_l2=['todo', 1, 0.3]))
 DURACION = w('esto', fin=True, mas=1.3)
 
-sin_subtitulos(w('Si no', mas=-0.2), DURACION)                   # la lección y el gancho: escritos en grande
+sin_subtitulos(w('Si no', mas=-0.45), DURACION)                   # la lección y el gancho: escritos en grande
 
 musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,
        puntos=[(w('Si no', mas=-0.45), 0.1), (w('Si no', mas=-0.2), 0.0), (w('Y todo', mas=-0.3), 0.0), (w('Y todo', mas=0.1), 0.1)])
 
 sonido('2821', w('digital', fin=True, mas=0.0), vol=0.6, ini=0.0, dur=0.4)           # el disparo (con el destello)
 sonido('2819', w('carrete', mas=-0.25), vol=0.5, ini=0.0, dur=0.9)                    # el arrastre del carrete
-sonido('1501', w('quiebra', mas=-0.1), vol=0.4, ini=0.05, dur=0.8, fo=0.3)            # el portazo de la quiebra
-sonido('impact-bass-2', w('Si no', mas=-0.15), vol=0.08)                              # el golpe rojo
+sonido('1501', w('quiebra', fin=True, mas=0.05), vol=0.33, ini=0.05, dur=0.8, fo=0.3)  # el portazo, con el sello (en la pausa)
+sonido('impact-bass-2', w('Si no', mas=-0.45), vol=0.02)                              # el golpe rojo, con la cortina (en la pausa)

@@ -6,7 +6,7 @@
 formato(1080, 1920, voz0=0.1, cola=0.45)
 subtitulos()
 
-escena('s01', 'gancho', 0, foto='cadena', conf=dict(l1='Pagó el doble', l2='para ahorrar', camara=[1.1, 0, -30], modo='inicio'))
+escena('s01', 'gancho', 0, foto='cadena', conf=dict(l1='Pagó<br>el doble', l2='para ahorrar', tam1=150, tam2=84, camara=[1.1, 0, -30], modo='inicio'))
 escena('s02', 'foto', w('cinco', mas=-0.15), foto='sobre', entrada='barrido',
        conf=dict(camara=[1.0, 1.1, 0, 0], textos=[
            dict(html='5 $<small>al día</small>', clase='cifra', x=80, y=300, en=['cinco', 1, -0.05], modo='grande'),
@@ -27,15 +27,15 @@ escena('s08', 'foto', w('El propio', mas=-0.15), foto='cadena', entrada='barrido
        conf=dict(camara=[1.15, 1.25, -40, 0], textos=[
            dict(html='Para Ford:', clase='titular', x=80, y=300, en=['propio', 1, -0.05]),
            dict(html='Un recorte<br>de costes', clase='sello', x=80, y=880, en=['recortes', 1, -0.05], modo='sello')]))
-escena('s09', 'golpe', w('Lo más', mas=-0.15), entrada='cortina',
+escena('s09', 'golpe', w('Lo más', mas=-0.45), entrada='cortina',
        etq='Lo más caro de un equipo', b1='No es<br>su sueldo.', b2='Es tener que<br>sustituirlo.',
        conf={'etq': {'palabra': 'lo', 'n': 3, 'grande': True}, 'b1': {'palabra': 'no', 'y': 380, 'tam': 130},
              'b2': {'palabra': 'es', 'n': 2, 'y': 680, 'tam': 130, 'sube': -24}, 'firma': True, 'firma_t': 3.4})
 escena('s10', 'gancho', w('Por eso', mas=-0.15), foto='cadena',
-       conf=dict(l1='Pagó el doble', l2='para ahorrar', modo='vuelta', en_l1=['pagó', 1, -0.05], en_l2=['pagó', 1, 0.3]))
+       conf=dict(l1='Pagó<br>el doble', l2='para ahorrar', tam1=150, tam2=84, modo='vuelta', en_l1=['por', 1, -0.05], en_l2=['por', 1, 0.3]))
 DURACION = w('doble', 2, fin=True, mas=1.3)
 
-sin_subtitulos(w('Lo más', mas=-0.2), DURACION)                  # la lección y el gancho: escritos en grande
+sin_subtitulos(w('Lo más', mas=-0.45), DURACION)                  # la lección y el gancho: escritos en grande
 
 # --- Música: un lecho bajo (17–20 LU por debajo de la voz); se calla en el golpe.
 musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,
@@ -43,5 +43,5 @@ musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.3,
 
 # --- Efectos: solo los que tienen su golpe en pantalla.
 sonido('0193', w('cinco', mas=-0.02), vol=0.6, ini=0.05, dur=1.0, fo=0.3)            # las monedas caen sobre el banco
-sonido('3321', w('iba', fin=True, mas=0.05), vol=0.35, ini=0.05, dur=1.7, fo=0.6)   # el silbato de la fábrica: se van
-sonido('impact-bass-2', w('Lo más', mas=-0.15), vol=0.08)                             # el golpe rojo
+sonido('3321', w('iba', fin=True, mas=0.03), vol=0.3, ini=0.05, dur=0.8, fo=0.35)  # el silbato de la fábrica, en la pausa: se van
+sonido('impact-bass-2', w('Lo más', mas=-0.45), vol=0.02)                             # el golpe rojo, con la cortina (en la pausa)

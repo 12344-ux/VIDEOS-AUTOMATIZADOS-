@@ -1,0 +1,42 @@
+<!doctype html>
+<!-- Generado por canales/businessformen/kit/montar.py desde canales/businessformen/cortos/08-la-formula/montaje.py: no editar a mano. -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>BusinessForMen · cortos · 08-la-formula</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0b0d; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0a0b0d; }
+      #grano { position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.05; mix-blend-mode: overlay; z-index: 50; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="43.332" data-width="1080" data-height="1920">
+      <div id="h-s01" data-composition-id="s01" data-composition-src="compositions/s01.html" data-start="0.0" data-duration="5.008" data-track-index="1" data-track-kind="graphics" style="z-index: 1"></div>
+      <div id="h-s02" data-composition-id="s02" data-composition-src="compositions/s02.html" data-start="4.588" data-duration="8.429" data-track-index="3" data-track-kind="graphics" style="z-index: 2"></div>
+      <div id="h-s03" data-composition-id="s03" data-composition-src="compositions/s03.html" data-start="12.597" data-duration="5.477" data-track-index="1" data-track-kind="graphics" style="z-index: 3"></div>
+      <div id="h-s04" data-composition-id="s04" data-composition-src="compositions/s04.html" data-start="17.654" data-duration="4.643" data-track-index="3" data-track-kind="graphics" style="z-index: 4"></div>
+      <div id="h-s05" data-composition-id="s05" data-composition-src="compositions/s05.html" data-start="21.877" data-duration="6.154" data-track-index="1" data-track-kind="graphics" style="z-index: 5"></div>
+      <div id="h-s06" data-composition-id="s06" data-composition-src="compositions/s06.html" data-start="27.611" data-duration="3.923" data-track-index="3" data-track-kind="graphics" style="z-index: 6"></div>
+      <div id="h-s07" data-composition-id="s07" data-composition-src="compositions/s07.html" data-start="31.114" data-duration="4.115" data-track-index="1" data-track-kind="graphics" style="z-index: 7"></div>
+      <div id="h-s08" data-composition-id="s08" data-composition-src="compositions/s08.html" data-start="34.729" data-duration="4.909" data-track-index="3" data-track-kind="graphics" style="z-index: 8"></div>
+      <div id="h-s09" data-composition-id="s09" data-composition-src="compositions/s09.html" data-start="39.638" data-duration="3.694" data-track-index="1" data-track-kind="graphics" style="z-index: 9"></div>
+      <div id="h-subs" data-composition-id="subs" data-composition-src="compositions/subs.html" data-start="0" data-duration="43.332" data-track-index="2" data-track-kind="captions" style="z-index: 30"></div>
+      <div id="grano"></div>
+      <audio id="voz" class="clip" src="assets/audio/voz.wav" data-start="0.1" data-duration="42.319" data-track-index="10" data-volume="1" data-fx-chain="{&quot;version&quot;: 1, &quot;nodes&quot;: [{&quot;type&quot;: &quot;highpass&quot;, &quot;id&quot;: &quot;v1&quot;, &quot;params&quot;: {&quot;frequency&quot;: 90}}, {&quot;type&quot;: &quot;peaking&quot;, &quot;id&quot;: &quot;v2&quot;, &quot;params&quot;: {&quot;frequency&quot;: 3000, &quot;gain&quot;: 2, &quot;q&quot;: 1}}, {&quot;type&quot;: &quot;limiter&quot;, &quot;id&quot;: &quot;v3&quot;, &quot;params&quot;: {&quot;limit&quot;: -1}}]}"></audio>
+      <audio id="musica-0" class="clip" src="assets/audio/lecho.wav" data-start="0.0" data-duration="43.332" data-track-index="11" data-timeline-role="music" data-automation="{&quot;version&quot;: 1, &quot;lanes&quot;: [{&quot;target&quot;: &quot;volume&quot;, &quot;points&quot;: [{&quot;t&quot;: 0, &quot;v&quot;: 0}, {&quot;t&quot;: 0.05, &quot;v&quot;: 0.09}, {&quot;t&quot;: 34.429, &quot;v&quot;: 0.1}, {&quot;t&quot;: 34.679, &quot;v&quot;: 0.0}, {&quot;t&quot;: 39.488, &quot;v&quot;: 0.0}, {&quot;t&quot;: 39.888, &quot;v&quot;: 0.1}, {&quot;t&quot;: 43.032, &quot;v&quot;: 0.09}, {&quot;t&quot;: 43.332, &quot;v&quot;: 0}]}]}"></audio>
+      <audio id="sfx-0" class="clip" src="assets/sfx/0253.wav" data-start="25.565" data-duration="1.400" data-track-index="20" data-volume="0.22" data-fade-out="0.2"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/0253.wav" data-start="26.215" data-duration="1.100" data-track-index="21" data-volume="0.15" data-media-start="0.3" data-fade-out="0.3"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/1932.wav" data-start="34.064" data-duration="0.900" data-track-index="22" data-volume="0.4" data-media-start="0.25" data-fade-out="0.3"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Grano: la textura (512 px, repetida) salta 137 × 251 px en cada cuadro; con steps, igual en cada render.
+      tl.fromTo("#grano", { backgroundPosition: "0px 0px" }, { backgroundPosition: "178100px 326300px", duration: 43.332, ease: "steps(1300)" }, 0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
