@@ -16,7 +16,7 @@ escena('s01', 'gancho', 0, foto='puesto',
 escena('s02', 'foto', w('cerraron', mas=-0.12), foto='puesto',             # corte seco, en la palabra: el puesto, más cerca
        conf=dict(camara=[1.28, 1.34, 0, 40], textos=[
            dict(html='Cerrado', clase='sello', x=80, y=960, en=['cerraron', 1, -0.05], modo='sello'),
-           dict(html='Y les iba bien', clase='etiqueta', x=80, y=300, en=['bien', 1, -0.12])]))
+           dict(html='Y les iba bien', clase='etiqueta', x=80, y=300, en=['les', 1, -0.2])]))
 escena('s03', 'carta', w('Vendían', mas=CORTE), entrada='barrido')
 escena('s04', 'foto', w('Quitaron', mas=CORTE), foto='hamburguesa', entrada='subida',
        conf=dict(camara=[1.0, 1.1, 0, 0], textos=[

@@ -17,7 +17,7 @@ escena('s01', 'gancho', 0, foto='notas',
 escena('s02', 'foto', w('buscaba', mas=-0.12), foto='laboratorio',          # corte seco, en la palabra
        conf=dict(camara=[1.0, 1.08, 0, 0], textos=[
            dict(html='3M · 1968', clase='etiqueta', x=80, y=300, en=['buscaba', 1, 0.0]),
-           dict(html='Un pegamento<br>muy fuerte', clase='titular', x=80, y=400, en=['fuerte', 1, -0.1])]))
+           dict(html='Un pegamento<br>muy fuerte', clase='titular', x=80, y=400, en=['pegamento', 1, -0.05])]))
 escena('s03', 'despega', w('Le salió', mas=CORTE), entrada='barrido')
 escena('s04', 'foto', w('No servía', mas=CORTE), foto='laboratorio', entrada='subida',
        conf=dict(camara=[1.25, 1.32, -30, 20], brillo=0.8, textos=[

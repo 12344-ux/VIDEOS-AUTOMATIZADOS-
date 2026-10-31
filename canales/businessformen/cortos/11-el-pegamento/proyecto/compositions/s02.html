@@ -189,7 +189,7 @@
       };
       const fin = () => { entradaEscena(); tl.set({}, {}, DUR); window.__timelines["s02"] = tl; };
 
-      const C = {"camara": [1.0, 1.08, 0, 0], "textos": [{"html": "3M · 1968", "clase": "etiqueta", "x": 80, "y": 300, "en": ["buscaba", 1, 0.0]}, {"html": "Un pegamento<br>muy fuerte", "clase": "titular", "x": 80, "y": 400, "en": ["fuerte", 1, -0.1]}]};
+      const C = {"camara": [1.0, 1.08, 0, 0], "textos": [{"html": "3M · 1968", "clase": "etiqueta", "x": 80, "y": 300, "en": ["buscaba", 1, 0.0]}, {"html": "Un pegamento<br>muy fuerte", "clase": "titular", "x": 80, "y": 400, "en": ["pegamento", 1, -0.05]}]};
       const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
       const cam = C.camara || [1.0, 1.08, 0, 0];
       const foto = $(".foto");

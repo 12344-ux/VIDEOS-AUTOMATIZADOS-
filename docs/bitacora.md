@@ -1024,7 +1024,12 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 - **`preparar.sh`:** en una máquina recién arrancada se puso a generar con MusicGen las tres tandas de música de los
   cortos 1–6 (unos 30 min) antes de las imágenes, aunque estos cortos no llevan música; ahora genera solo las tandas que
   usan los lechos de los cortos pedidos. Y baja los efectos que piden los montajes (en una sesión nueva faltaban).
-- **Imágenes:** en curso.
+- **Imágenes:** 12 de FLUX.3 en 1.808 s (la primera, 209 s con la carga del modelo; las demás, 131–181 s) y EDSR, 9 s
+  cada una. Dos rehechas (329 s): el laboratorio (el químico parecía una mujer y la voz dice «un químico») y la tienda (un
+  cartel rojo con letras inventadas que, en la portada, parecía un logotipo). En el coro, el cantante salía de perfil: el
+  encuadre (escala 1,5 desde la derecha) deja dentro los papelitos, el libro y las manos, y la cara fuera.
+- **Comprobado antes del render:** `check`, sin avisos tras subir dos rótulos que se leían menos tiempo del necesario
+  («Y les iba bien», «Un pegamento muy fuerte») y el sello LO QUE MÁS ODIABAN, que tapaba el nombre de la barra.
 - **Render y entrega:** en curso.
 
 ## Siguiente paso
