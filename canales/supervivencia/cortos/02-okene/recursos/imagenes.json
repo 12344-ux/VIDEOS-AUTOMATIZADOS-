@@ -1,0 +1,36 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Harrison Okene es una persona real: nunca de cara.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "aire",
+   "semilla": 61,
+   "prompt": "A man seen from behind with only his head and shoulders above black water, inside a small pocket of air under the overturned steel floor of a capsized ship cabin, upside-down pipes and bunk frames above him, a faint cold glow coming from under the water, claustrophobic darkness, the man in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "remolcador",
+   "semilla": 62,
+   "prompt": "A small offshore tugboat at night in heavy rough seas, big waves breaking over its bow, the lights of an oil platform far in the background, stormy dark sky, the tugboat in the center of the frame, vertical composition"
+  },
+  {
+   "nombre": "fondo",
+   "semilla": 63,
+   "prompt": "An overturned tugboat lying upside down on the sandy seabed deep underwater, murky blue-green water, faint light rays from the surface far above, small fish, the dark hull in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "martillo",
+   "semilla": 64,
+   "prompt": "Only a man's arm and hand holding a hammer, striking the riveted steel wall of a dark flooded ship cabin, black water below, a faint glow on the wet metal, close-up, vertical composition"
+  },
+  {
+   "nombre": "linterna",
+   "semilla": 65,
+   "prompt": "A scuba diver with a bright helmet lamp swimming through a dark flooded corridor inside a sunken ship, the beam of light cutting through murky green water, floating particles, the diver small in the center of the frame, vertical composition"
+  },
+  {
+   "nombre": "mano",
+   "semilla": 66,
+   "prompt": "Underwater close-up inside a dark sunken ship: a diver's black gloved hand reaching toward a bare human hand coming out of the dark water, a flashlight beam lighting both hands, suspended particles, the two hands in the center of the frame, vertical composition"
+  }
+ ]
+}

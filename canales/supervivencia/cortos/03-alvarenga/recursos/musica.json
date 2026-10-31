@@ -1,0 +1,8 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). Cuerdas frotadas en ostinato con marimba (las que no salen con subgrave); se mide con audio/graves.py.",
+ "semilla": 52,
+ "candidatas": [
+  "melancholic ocean documentary music, bowed strings ostinato with marimba, slow build, hopeful, no drums, 76 bpm",
+  "lonely vast ocean ambient music, solo piano and high strings, slow and emotional, hopeful ending, no drums, 70 bpm"
+ ]
+}

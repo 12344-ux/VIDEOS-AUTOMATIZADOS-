@@ -175,6 +175,11 @@ inventar lo que las fuentes no dicen.
 - El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.
 - Texto blanco sobre el naranja `#FF5E1A` da 2,6:1 y no se lee: texto oscuro (`#0b0a09`). Con amarillos y naranjas,
   medir el contraste antes de elegir el color del texto.
+- **Los efectos de sonido se miden antes de renderizar** (`python3 audio/revisar_mezcla.py <proyecto>`, 0 avisos): en
+  Juliane sonaban +1,4 LU por encima de la voz (el trueno y los golpes graves, hasta 15 LU) y la revisión por fotogramas
+  no lo enseña. El `ebur128` de ffmpeg solo escribe la sonoridad de cada ventana con `-v verbose`.
+- Una proyección azimutal centrada lejos de los continentes (el Pacífico) dibuja el que rodea el antípoda (África) como
+  un anillo que tapa todo el mapa: dibujar solo la tierra a menos de unos 100° del centro.
 
 ## Cómo decidir
 

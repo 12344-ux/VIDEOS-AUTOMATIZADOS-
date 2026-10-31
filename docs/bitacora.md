@@ -767,12 +767,72 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
 - **Lo que no se pudo comprobar:** qué día vio Juliane los gusanos y cuándo encontró el arroyo (ni su libro ni las
   entrevistas lo fechan): el contador de días es orientativo entre la caída y el refugio, y su ficha lo dice.
 
+## Sesión 6 — 31 de octubre de 2026
+
+La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` en segundo plano al empezar.
+
+### 1. Los efectos de sonido, medidos (y corregidos en Juliane)
+
+- **Pedido del usuario:** dos cortos nuevos para el canal de supervivencia, «cuidado con los efectos de sonido».
+- **`audio/revisar_mezcla.py` (nuevo):** rehace la voz, la música y los efectos desde el `index.html` del proyecto (con
+  sus volúmenes, recortes, fundidos y la automatización de la música) y mide la sonoridad momentánea (EBU R128, con el
+  `ebur128` de ffmpeg). Por cada efecto: su peor momento frente a la voz y el volumen que cabe. Unos 10 s por proyecto,
+  sin renderizar. Trampa: ffmpeg solo escribe la sonoridad de cada ventana con `-v verbose`.
+- **Lo que tenía Juliane:** los efectos, en conjunto, **+1,4 LU por encima de la voz**; 39 efectos en 70 s (33 por
+  minuto); el trueno, +8,5 LU sobre la voz; los dos golpes `impact-bass-2`, +13 y +15; el viento del principio, +9; y,
+  a la vez, las teclas y un «whoosh» entre 19 y 28 LU por debajo (no se oían). 18 de los 39 pasaban del límite. En la
+  revisión por fotogramas no se ve nada de esto: hay que medirlo.
+- **Reglas del canal** (en `canales/supervivencia/CANAL.md` y en la lista P0 de `canales/RETENCION.md`): la voz manda
+  (cada efecto, al menos 8 LU bajo ella mientras habla; en una pausa, no más de 3 LU bajo su nivel medio), un ambiente
+  por lugar en vez de un efecto por palabra, golpes solo donde algo golpea en pantalla y uno grave por vídeo, ningún
+  sonido de interfaz (pop, click, riser, whoosh) y 10–15 efectos por minuto como mucho.
+- **Juliane, rehecho:** 17 efectos (15 por minuto), 0 avisos, los efectos 17,4 LU bajo la voz; la música del
+  principio, de −6 a −8 LU bajo la voz. RENDER_JULIANE2
+
+### 2. Dos historias más, elegidas con el rastreador
+
+- **Medido** (`rastreador/youtube.py`, unas 1.800 unidades de cuota): `nicho` sobre seis historias da medianas de 1–2 k
+  en los dos idiomas, porque solo cuenta los Shorts que declaran su idioma. Buscando cada historia (10 años, por vistas
+  por hora): **Harrison Okene**, 5,3 M, 5,3 M y 1,6 M en inglés (este, de hace 25 días) y como mucho 16.500 en
+  español; **José Salvador Alvarenga**, 3,8 M y 2,3 M en inglés y ya 2,7 M y 546.000 en español; Poon Lim, 234.000.
+- **Elegidas:** Okene (el hueco más claro) y Alvarenga (la demanda en español está probada, el protagonista es
+  salvadoreño y la deriva se cuenta con un mapa). Cada dato, contrastado; lo que cambia según la fuente (60, 62 o 72
+  horas; cuándo murió Ezequiel; la distancia) se dice de forma que valga para todas, y está en su `PUBLICACION.md`.
+
+### 3. Los cortos 2 y 3 del canal
+
+- **Plantillas comunes** (`canales/supervivencia/cortos/comun/`, `montar.py` ya las buscaba ahí): `gancho` (el final en
+  el fotograma 0 y la vuelta para el bucle, con una sonda de profundidad opcional), `foto` (una imagen con rótulos,
+  contador, lluvia, destellos, agua que sube y linterna, todo anclado a palabras desde `montaje.py`), `ficha` (el secreto
+  tachado y su revelación) y `puntos` (las personas como puntos).
+- **«60 horas bajo el mar»** (Okene, 68,7 s, 16 escenas): un corte del mar dibujado (el remolcador se mece, vuelca y se
+  hunde boca abajo con la sonda de 0 a 30 m; la bolsa de aire; PRESIÓN ×4 y la cámara de descompresión); el secreto
+  «cómo lo encontraron» se lee a los 47 s: «lo daban por muerto»; la mano, a los 52.
+- **«438 días a la deriva»** (Alvarenga, 66,7 s, 18 escenas): mapas de Natural Earth en una azimutal centrada en el
+  Pacífico (la deriva, el contador de días, ≈ 10.700 km en línea recta y 16 trayectorias de una simulación, todo en
+  esquema); «¿Mentía?» se resuelve a los 62 s: «su historia encaja».
+- **Sonido, medido antes de renderizar:** Okene, 11 efectos (el mar en la superficie, bajo el agua, el casco que cruje,
+  el martillo, un golpe grave en la pausa de la mano) y Alvarenga, 10 (el agua contra la barca, la tormenta, la lluvia,
+  el viento de la noche, la rompiente); 0 avisos y los efectos 17–18 LU bajo la voz en conjunto. «Bajo el agua» es el mar
+  de BigSoundBank con un paso bajo de 420 Hz; el golpe en el casco, un yunque con paso bajo y eco.
+- **Trampa:** en una azimutal equidistante centrada en el Pacífico, África rodea el antípoda y sale como un anillo que
+  tapa todo el mapa (el mar salía color tierra): solo se dibuja la tierra a menos de unos 100° del centro.
+- **La revisión** encontró: la sonda y el «−30 m» dentro de la franja de los subtítulos, «OCÉANO PACÍFICO» encima de
+  «MÉXICO», un punto suelto (un trazo de largo cero con remate redondo), «1,2 M» en mayúsculas, rótulos que duraban menos
+  de lo que se tarda en leerlos (`check` de HyperFrames: 0,5 s + 0,3 s por palabra; la última frase, 2 s) y la cabeza
+  de Okene casi negra bajo el velo del gancho.
+- **Medido (Xeon con AMX):** las dos voces, 94 s; la música, cuatro candidatas de 30 s en un lote, 579 s (Okene: 57 % y
+  10 % bajo 150 Hz, la segunda; Alvarenga: 1 % y 0 %, la segunda, que no se apaga); FLUX.3, 13 imágenes, MEDIDA_FLUX;
+  renders, RENDERS_NUEVOS.
+- **Entregas:** ENTREGAS_NUEVAS
+
 ## Siguiente paso
 
-0. Canales nuevos: que el usuario vea los dos cortos, elija los nombres y cree los dos canales de YouTube y las dos
-   páginas de Facebook. Publicar y medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el
-   porcentaje medio visto; las vistas, también con `rastreador/youtube.py canal`). Mientras, producir la semana: 4–6
-   temas por canal contrastados con fuentes, con el mismo kit (`canales/preparar-corto.sh` y `montar.py --canal`).
+0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),
+   elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Publicar y medir a las 48 h y a
+   los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas, también con
+   `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto `audio/revisar_mezcla.py`
+   con 0 avisos antes de renderizar.
 1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.

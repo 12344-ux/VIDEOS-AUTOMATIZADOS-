@@ -14,8 +14,9 @@ sin logos de ninguna ni «sígueme», con el gancho en el fotograma 0, subtítul
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:
-«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y «La chica que cayó del cielo» (69 s,
-`canales/supervivencia/cortos/01-juliane/`), con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md).
+«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y, en supervivencia, tres: «La chica que
+cayó del cielo» (69 s), «60 horas bajo el mar» (69 s) y «438 días a la deriva» (67 s), en `canales/supervivencia/cortos/`,
+con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md) y el sonido medido antes de renderizar.
 
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
@@ -49,6 +50,7 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Rastreador de nichos | Dataset de 5.600 M de vídeos de TikTok (DuckDB), API de YouTube con RSS, desmontaje de vídeos | ✅ `rastreador/` ([primer informe](rastreador/informes/2026-10-30.md)) |
 | Varios canales | La marca de cada canal en `marca/canal.json` (voz, fuentes, colores); recursos de un corto con un comando | ✅ `montar.py --canal`, `canales/preparar-corto.sh` |
 | Mapas animados | Fronteras de Natural Earth, proyección local a escala real y medidas propias | ✅ `canales/geografia/kit/geo.py` |
+| Mezcla revisada | Cada efecto frente a la voz (EBU R128) sin renderizar, con el volumen que cabe | ✅ `audio/revisar_mezcla.py` |
 
 ## Empezar en una sesión nueva
 
@@ -152,6 +154,7 @@ audio/efectos.py            busca y baja efectos de sonido CC0 (BigSoundBank)
 audio/tecleo.py             pista de máquina de escribir con teclas reales
 audio/musica.py             música de fondo sintetizada (la primera versión)
 audio/mezclar.py            voz + música con agache y volumen estándar
+audio/revisar_mezcla.py     cuánto suena cada efecto de un proyecto frente a la voz (antes de renderizar)
 video/hf.sh                 HyperFrames con la configuración del entorno (WebGL con llvmpipe, 2 Chromium)
 video/chrome-llvmpipe.sh    Chrome para HyperFrames: WebGL en llvmpipe y la página en la CPU
 video/entregar.sh           versión de entrega: −15 LUFS y archivo más ligero
@@ -161,7 +164,8 @@ estilos/                    las tres pruebas de estilo en HyperFrames y su prepa
 videos/anticitera/          el primer vídeo: guion, prompts, preparar-apertura.sh y la apertura en HyperFrames
 canales/businessformen/     el primer canal: marca, kit de montaje (montar.py, también para los demás canales), vídeos y cortos
 canales/geografia/          canal de prueba de geografía: marca, kit de mapas (geo.py) y cortos
-canales/supervivencia/      canal de prueba de historias reales de supervivencia: marca y cortos
+canales/supervivencia/      canal de prueba de historias reales de supervivencia: marca, reglas de sonido y cortos
+                            (con sus plantillas comunes en cortos/comun/)
 canales/RETENCION.md        cómo se escribe y se monta un corto para que se vea entero
 canales/preparar-corto.sh   fuentes, texturas, voz, música e imágenes de un corto de cualquier canal
 rastreador/                 nichos y vídeos que funcionan: tiktok.py (dataset), youtube.py (Shorts), desmontar.py; informes/
@@ -171,8 +175,8 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Que el usuario vea los dos cortos nuevos (`salidas/geografia/cortos/01-chile/entrega/` y
-`salidas/supervivencia/cortos/01-juliane/entrega/`), elija los nombres de los canales y los publique; medir a las 48 h y
+Que el usuario vea los cortos de los canales nuevos (`salidas/geografia/cortos/*/entrega/` y
+`salidas/supervivencia/cortos/*/entrega/`), elija los nombres de los canales y los publique; medir a las 48 h y
 a los 7 días y, mientras, producir la semana con el mismo kit. El plan está en
 [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 

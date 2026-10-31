@@ -1,0 +1,150 @@
+<template>
+  <!-- Los mapas de la deriva (la ruta es un esquema: nadie la registró; la simulación, también). Modos:
+       pacifico  el Pacífico entero; la deriva se dibuja de México a las islas Marshall
+       cerca     la costa de la salida: la fecha a máquina; «salvadoreño»: El Salvador; «Chiapas»: el punto de salida;
+                 «Ezequiel»: los dos en la barca
+       deriva    la barca empieza a moverse hacia el oeste; «corriente»: las flechas de la corriente; DÍA 1
+       meses     la barca cruza el océano; el contador de días corre (de 120 a 365)
+       llegada   la ruta entera; «diez mil kilómetros»: la distancia en línea recta
+       ciencia   «simulan»: 16 trayectorias de una simulación se abren a lo largo de la deriva -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .rejilla { fill: none; stroke: rgba(242, 237, 228, 0.07); stroke-width: 1.5; }
+    #{{ID}} .tierra-p { fill: #221e1a; stroke: #3b3731; stroke-width: 1.2; }
+    #{{ID}} .marshall { fill: #f2ede4; stroke: #f2ede4; stroke-width: 3; }
+    #{{ID}} .deriva-fondo { fill: none; stroke: rgba(255, 94, 26, 0.25); stroke-width: 5; stroke-dasharray: 12 10; }
+    #{{ID}} .deriva { fill: none; stroke: #ff5e1a; stroke-width: 6; stroke-linecap: round; }
+    #{{ID}} .traza { fill: none; stroke: rgba(242, 237, 228, 0.5); stroke-width: 2.5; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .barca { fill: #ff5e1a; stroke: #0b0a09; stroke-width: 3; }
+    #{{ID}} .salvador { fill: #2b2621; stroke: #8c8174; stroke-width: 3; }
+    #{{ID}} .lugar { position: absolute; font: 800 52px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95); visibility: hidden; white-space: nowrap; }
+    #{{ID}} .lugar.tenue { color: rgba(242, 237, 228, 0.35); font-size: 64px; letter-spacing: 0.12em; }
+    #{{ID}} .fecha { position: absolute; left: 80px; top: 236px; font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; }
+    #{{ID}} .dia { position: absolute; left: 80px; top: 236px; font: 400 150px/1 "Special Elite", monospace; letter-spacing: 0.02em; visibility: hidden; }
+    #{{ID}} .dia small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+    #{{ID}} .nota { position: absolute; font: 400 44px/1.25 "Special Elite", monospace; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); visibility: hidden;
+      white-space: nowrap; }
+    #{{ID}} .km { position: absolute; left: 80px; top: 330px; font: 800 120px/1 "Barlow Condensed", sans-serif; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .km small { font: 400 40px/1.2 "Special Elite", monospace; display: block; color: #c9c1b4; margin-top: 8px; }
+    #{{ID}} .flechas text { fill: rgba(242, 237, 228, 0.6); font: 800 44px "Barlow", sans-serif; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa vista-p" viewBox="0 0 1080 1920" style="display: none">
+        <path class="rejilla" d="{{p:rejilla}}" />
+        <path class="tierra-p" d="{{p:tierra}}" />
+        <path class="marshall" d="{{p:marshall}}" />
+        <g class="trazas"></g>
+        <path class="deriva-fondo" d="{{p:deriva}}" />
+        <path class="deriva" d="{{p:deriva}}" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" />
+        <g class="flechas"></g>
+        <circle class="punto p-salida" r="10" /><circle class="punto p-llegada" r="10" />
+        <circle class="barca" r="16" style="visibility: hidden" />
+      </svg>
+      <svg class="mapa vista-c" viewBox="0 0 1080 1920" style="display: none">
+        <path class="tierra" d="{{p:tierra_c}}" />
+        <path class="salvador" d="{{p:salvador}}" />
+        <path class="deriva" d="{{p:salida}}" pathLength="100" stroke-dasharray="100 100" stroke-dashoffset="100" />
+        <circle class="punto p-chiapas" r="12" />
+      </svg>
+      <div class="lugar l1"></div><div class="lugar l2"></div><div class="lugar l3 tenue"></div>
+      <div class="fecha"><span class="t"></span></div>
+      <div class="dia num"><small>Día</small><span class="n">1</span></div>
+      <div class="nota n1"></div>
+      <div class="km num"><span class="n"></span><small>en línea recta, de Chiapas a Ebon</small></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const lugar = (sel, txt, x, y, t, d = 0.35) => { const e = $(sel); e.textContent = txt; gsap.set(e, { left: x, top: y }); entra(e, t, d, 12); };
+      const nota = (txt, x, y, t) => { const e = $(".n1"); e.innerHTML = txt; gsap.set(e, { left: x, top: y }); entra(e, t, 0.35, 12); };
+      if (modo === "cerca") {
+        $(".vista-c").style.display = "block";
+        const Q = {{p:chiapas_c}}, S = {{p:salvador_c}};
+        $(".p-chiapas").setAttribute("cx", Q[0]); $(".p-chiapas").setAttribute("cy", Q[1]);
+        tl.fromTo($(".vista-c"), { scale: 1.05, transformOrigin: "50% 40%" }, { scale: 1.0, duration: DUR, ease: "power2.out" }, 0);
+        // La fecha, a máquina: «Noviembre de dos mil doce».
+        const partes = [["NOV ", Math.max(0.02, w("Noviembre") + 0.05)], ["2012", w("mil")]];
+        const todo = partes.map((p) => p[0]).join(""), cortes = []; let acc = 0;
+        partes.forEach(([s, t0]) => { for (let i = 0; i < s.length; i++) cortes.push([acc + i + 1, t0 + i * 0.05]); acc += s.length; });
+        alBuscar((x) => { let k = 0; cortes.forEach(([n, tt]) => { if (x >= tt) k = n; }); $(".fecha .t").textContent = todo.slice(0, k); });
+        tl.fromTo($(".salvador"), { fill: "#2b2621" }, { fill: "#ff5e1a", duration: 0.3, ease: "power2.out" }, w("salvadoreño") - 0.05);
+        lugar(".l1", "El Salvador", S[0] - 120, S[1] + 70, w("salvadoreño"));
+        tl.fromTo($(".p-chiapas"), { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, w("Chiapas") - 0.05);
+        lugar(".l2", "Chiapas · México", Q[0] - 330, Q[1] - 110, w("Chiapas"));
+        traza($(".vista-c .deriva"), w("compañero") - 0.1, 1.2);
+        nota("José y Ezequiel", 80, 1060, w("compañero") - 0.05);
+      } else {
+        $(".vista-p").style.display = "block";
+        const C = {{p:chiapas}}, E = {{p:ebon}}, KM = {{p:km}};
+        $(".p-salida").setAttribute("cx", C[0]); $(".p-salida").setAttribute("cy", C[1]);
+        $(".p-llegada").setAttribute("cx", E[0]); $(".p-llegada").setAttribute("cy", E[1]);
+        const ruta = $(".vista-p .deriva"), largo = ruta.getTotalLength();
+        const barca = $(".barca");
+        // La barca y el trazo recorrido, en función del avance (0–1) a lo largo de la deriva.
+        const avance = (k) => {
+          const p = ruta.getPointAtLength(largo * k);
+          barca.setAttribute("cx", p.x); barca.setAttribute("cy", p.y);
+          ruta.setAttribute("stroke-dashoffset", 100 - 100 * k);
+          ruta.style.visibility = k > 0.002 ? "visible" : "hidden";      // con remate redondo, un trazo de largo cero deja un punto
+        };
+        if (modo === "pacifico") {
+          lugar(".l3", "Océano Pacífico", 300, 1000, 0.05, 0.5);
+          lugar(".l1", "México", C[0] - 230, C[1] - 110, 0.05);
+          alBuscar((t) => avance(paso(t, 0.15, 1.0, "power2.inOut")));
+          lugar(".l2", "Islas Marshall", 80, E[1] + 40, 0.5);
+          tl.fromTo($(".vista-p"), { scale: 1.04, transformOrigin: "50% 45%" }, { scale: 1.0, duration: DUR, ease: "power2.out" }, 0);
+        } else if (modo === "deriva") {
+          tl.set(barca, { visibility: "visible" }, 0);
+          alBuscar((t) => avance(0.12 * paso(t, 0.2, DUR - 0.2, "power1.inOut")));
+          lugar(".l1", "México", C[0] - 230, C[1] - 110, 0.05);
+          // Las flechas de la corriente: hacia el oeste, a lo largo de la ruta.
+          const g = $(".flechas");
+          for (let i = 0; i < 6; i++) {
+            const p = ruta.getPointAtLength(largo * (0.12 + i * 0.14));
+            const a = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            a.textContent = "←"; a.setAttribute("x", p.x - 20); a.setAttribute("y", p.y - 30); g.appendChild(a);
+            tl.fromTo(a, { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, w("corriente") + 0.06 * i);
+            tl.to(a, { x: -28, duration: Math.max(0.5, DUR - w("corriente") - 0.4), ease: "none" }, w("corriente") + 0.4 + 0.06 * i);
+          }
+          nota("La corriente, hacia el oeste", 80, 1060, w("corriente") - 0.2);
+          tl.set($(".dia"), { visibility: "visible" }, 0.1);
+        } else if (modo === "meses") {
+          tl.set(barca, { visibility: "visible" }, 0);
+          alBuscar((t) => avance(0.3 + 0.55 * paso(t, 0, DUR, "power1.inOut")));
+          tl.set($(".dia"), { visibility: "visible" }, 0);
+          cuenta($(".dia .n"), 120, 365, 0.1, f("entero") - 0.1, { crudo: true, ease: "power1.inOut" });
+          lugar(".l2", "Islas Marshall", 80, E[1] + 40, 0.05);
+        } else if (modo === "llegada") {
+          avance(1);
+          tl.set(barca, { visibility: "visible" }, 0);
+          lugar(".l1", "México", C[0] - 230, C[1] - 110, 0.05);
+          lugar(".l2", "Islas Marshall", 80, E[1] + 40, 0.05);
+          tl.set($(".km"), { visibility: "visible" }, w("diez") - 0.1);
+          cuenta($(".km .n"), 0, Math.round(KM / 100) * 100, w("diez") - 0.1, f("kilómetros") - w("diez") + 0.2, { ease: "power2.out", pre: "≈ ", suf: " km" });
+          tl.fromTo($(".km"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out", immediateRender: false }, w("diez") - 0.1);
+        } else if (modo === "ciencia") {
+          avance(1);
+          lugar(".l2", "Islas Marshall", 80, E[1] + 40, 0.05);
+          const g = $(".trazas"), T = {{p:trazas}};
+          const t0 = w("simulan") - 0.1;
+          T.forEach((d, i) => {
+            const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            p.setAttribute("class", "traza"); p.setAttribute("d", d); p.setAttribute("pathLength", "100");
+            p.setAttribute("stroke-dasharray", "100 100"); p.setAttribute("stroke-dashoffset", "100");
+            g.appendChild(p);
+            tl.fromTo(p, { attr: { "stroke-dashoffset": 100 } }, { attr: { "stroke-dashoffset": 0 }, duration: 2.6, ease: "power1.inOut" }, t0 + 0.08 * i);
+          });
+          nota("Simulación: Universidad de Hawái<br>(trayectorias en esquema)", 80, 1010, w("Universidad") - 0.1);
+          tl.to($(".vista-p .deriva"), { attr: { "stroke-width": 9 }, duration: 0.3, yoyo: true, repeat: 1 }, w("corrientes") - 0.1);
+        }
+      }
+      fin();
+    })();
+  </script>
+</template>

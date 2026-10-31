@@ -1,0 +1,59 @@
+<template>
+  <!-- Plantilla común del canal: el secreto tachado de cada historia (el bucle abierto), en una ficha a máquina.
+       Parámetros (conf): cab, linea, tapada (admite <br>), modo, fondo (imagen detrás, opcional) y las anclas:
+         oculta  en (entra la ficha), escribe [desde, hasta] (la línea, a máquina), barra (la tapa), late (la barra late)
+         revela  en (vuelve la ficha, ya escrita y tapada), quita (la barra se va), fondo_en (aparece la imagen)
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .fondo { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; visibility: hidden; filter: brightness(0.45); }
+    #{{ID}} .ficha { position: absolute; left: 60px; top: 330px; width: 960px; padding: 60px 64px 68px; background: #ebe4d6; color: #141210;
+      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); visibility: hidden; }
+    #{{ID}} .ficha::after { content: ""; position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.18; mix-blend-mode: multiply; }
+    #{{ID}} .cab { font: 400 40px/1.2 "Special Elite", monospace; letter-spacing: 0.12em; color: #8a3b14; }
+    #{{ID}} .linea { font: 400 62px/1.3 "Special Elite", monospace; margin-top: 34px; min-height: 81px; white-space: nowrap; }
+    #{{ID}} .tapada { position: relative; display: inline-block; font: 800 128px/0.98 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      margin-top: 26px; color: #c2410c; }
+    #{{ID}} .barra { position: absolute; left: -10px; right: -10px; top: 4px; bottom: 0; background: #141210; transform-origin: right center; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="fondo" src="assets/img/{{p:fondo}}.jpg" alt="" />
+      <div class="ficha">
+        <div class="cab"></div>
+        <div class="linea"><span class="t"></span></div>
+        <div class="tapada"><span class="txt"></span><div class="barra"></div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      $(".cab").textContent = C.cab;
+      $(".tapada .txt").innerHTML = C.tapada;
+      const linea = $(".linea .t");
+      if (C.modo === "oculta") {
+        tl.fromTo($(".ficha"), { autoAlpha: 0, y: 60, rotation: -2 }, { autoAlpha: 1, y: 0, rotation: -1, duration: 0.45, ease: "expo.out" }, A(C.en));
+        const [e0, e1] = C.escribe.map(A);
+        alBuscar((t) => { linea.textContent = C.linea.slice(0, Math.round(C.linea.length * Math.min(1, Math.max(0, (t - e0) / (e1 - e0))))); });
+        // La barra tapa el secreto antes de que se pueda leer: nace tapado y la barra solo se marca.
+        tl.fromTo($(".barra"), { scaleX: 1, backgroundColor: "#141210" }, { scaleX: 1, duration: 0.01 }, 0);
+        tl.fromTo($(".barra"), { scaleY: 1.0 }, { keyframes: [{ scaleY: 1.12, duration: 0.08 }, { scaleY: 1.0, duration: 0.12 }] }, A(C.barra));
+        if (C.late != null) {
+          tl.fromTo($(".barra"), { backgroundColor: "#141210" }, { keyframes: [{ backgroundColor: "#ff5e1a", duration: 0.2 }, { backgroundColor: "#141210", duration: 0.25 },
+            { backgroundColor: "#ff5e1a", duration: 0.2 }, { backgroundColor: "#141210", duration: 0.25 }], immediateRender: false }, A(C.late));
+        }
+      } else {
+        linea.textContent = C.linea;
+        if (C.fondo_en != null) tl.fromTo($(".fondo"), { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1.0, duration: 1.2, ease: "power2.out" }, A(C.fondo_en));
+        tl.fromTo($(".ficha"), { autoAlpha: 0, y: 40, rotation: -1 }, { autoAlpha: 1, y: 0, rotation: -1, duration: 0.35, ease: "expo.out" }, A(C.en));
+        tl.fromTo($(".barra"), { scaleX: 1 }, { scaleX: 0, duration: 0.35, ease: "power3.inOut", immediateRender: false }, A(C.quita) - 0.08);
+        tl.fromTo($(".tapada"), { scale: 1 }, { scale: 1.05, duration: 0.15, yoyo: true, repeat: 1, transformOrigin: "left center", immediateRender: false }, A(C.quita) + 0.25);
+      }
+      fin();
+    })();
+  </script>
+</template>

@@ -73,6 +73,8 @@ HyperFrames (vertical, explicativos e historia) y lo aprendido en los cortos de 
 - **P0:** el fotograma 0 se lee y engancha en el móvil; el bucle abierto llega antes de los 10 s; no hay un plano quieto
   de más de 2 s; los subtítulos van en la franja segura (1168–1320 px) y nada importante bajo 1330 px ni bajo la
   columna de botones de la derecha; cada dato, con su fuente en el guion.
+  **El sonido no compite con la voz:** `python3 audio/revisar_mezcla.py <proyecto>` antes de renderizar, con 0 avisos
+  (cada efecto, al menos 8 LU bajo la voz mientras habla; en una pausa, no más de 3 LU bajo su nivel medio).
 - **P1:** reenganches cada 15–20 s; la recompensa es el plano más grande y llega con silencio antes; el último plano
   empalma con el primero; el sonido no tiene huecos.
 - **P2:** ningún recurso visual se repite dos veces seguidas; las curvas de movimiento según su papel

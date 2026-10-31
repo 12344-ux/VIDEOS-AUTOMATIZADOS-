@@ -20,6 +20,23 @@ Por qué este nicho: `rastreador/informes/2026-10-30-hueco.md` (en inglés, medi
 - **Formato:** 1080 × 1920, 60–90 s; el final en la primera frase («cayó 3.000 metros… y sobrevivió»), la historia en
   presente y contada por días, una regla o un secreto tachado que se revela al final, y bucle al primer plano.
 
+## Sonido
+
+El usuario avisó de los efectos tras el primer corto, y con razón: medidos con `audio/revisar_mezcla.py`, sonaban en
+conjunto +1,4 LU **por encima** de la voz (el trueno y los golpes graves, hasta 15 LU más que ella), había 39 en 70 s y
+algunos (las teclas, un «whoosh») ni se oían. Las reglas desde el 31-oct:
+
+- **La voz manda.** Mientras se habla, cada efecto queda al menos 8 LU por debajo de ella; en una pausa, no más de 3 LU
+  bajo su nivel medio. Se comprueba antes de renderizar: `python3 audio/revisar_mezcla.py <proyecto>` con 0 avisos (la
+  columna «vol que cabe» da el volumen que entra).
+- **Un ambiente por lugar**, bajo y continuo, con fundidos largos (la selva, el mar, la tormenta, bajo el agua), en vez
+  de un efecto por palabra. El paso de un mundo a otro (de la superficie a bajo el agua) es el efecto.
+- **Golpes, solo donde algo golpea en pantalla** (un martillo, el agua, un trueno con su destello) y un único golpe
+  grave por vídeo, muy bajo (`impact-bass` es subgrave puro).
+- **Nada de sonidos de interfaz** en este canal (pop, click, riser, whoosh): rompen la seriedad de una historia real. Las
+  teclas de la máquina de escribir, solo para una fecha que se escribe en pantalla.
+- Unos 10–15 efectos por minuto como mucho. La música, 9–13 LU bajo la voz.
+
 ## Ética
 
 Historias reales de personas reales: datos contrastados en dos fuentes, sin inventar diálogos ni detalles, sin morbo y

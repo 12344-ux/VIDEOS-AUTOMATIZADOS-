@@ -1,0 +1,41 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. José Salvador Alvarenga y Ezequiel Córdoba son personas reales: nunca de cara.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "barca",
+   "semilla": 71,
+   "prompt": "Aerial view from high above of a tiny white fiberglass fishing boat alone in the middle of an endless deep blue ocean, a lone man lying in the boat, the boat small in the center of the frame, vast empty water all around, vertical composition"
+  },
+  {
+   "nombre": "tormenta",
+   "semilla": 72,
+   "prompt": "A small open fishing boat with two fishermen seen from far away, struggling in a violent storm at sea at night, huge dark waves, heavy rain, lightning on the horizon, the boat in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "pesca",
+   "semilla": 73,
+   "prompt": "Close-up seen from above of a sunburned man's bare hands grabbing a fish out of the ocean water at the side of a small fishing boat, only the hands and forearms visible, splashing water, vertical composition"
+  },
+  {
+   "nombre": "tortuga",
+   "semilla": 74,
+   "prompt": "A sea turtle swimming next to a small drifting fishing boat in clear blue ocean water, seen from above, a seabird perched on the edge of the boat, the turtle in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "lluvia",
+   "semilla": 75,
+   "prompt": "A lone man seen from behind sitting in a small drifting boat, holding up an empty plastic bottle to catch the rain, dark rain clouds over the open ocean, the man in the lower middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "noche",
+   "semilla": 76,
+   "prompt": "A lone man seen from far away and from behind sitting in a small boat under a starry night sky with a bright full moon over a calm endless ocean, the boat small in the lower third of the frame, vertical composition"
+  },
+  {
+   "nombre": "atolon",
+   "semilla": 77,
+   "prompt": "A small white fishing boat stranded on a coral reef next to a tiny tropical atoll with coconut palms, turquoise lagoon, waves breaking on the reef, seen from above at an angle, the boat in the lower middle of the frame, vertical composition"
+  }
+ ]
+}

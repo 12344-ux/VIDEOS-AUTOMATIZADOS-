@@ -1,0 +1,67 @@
+<template>
+  <!-- Plantilla común del canal: las personas como puntos (los que iban, los que no volvieron). Parámetros (conf):
+       n, cols, tam (px), hueco (px), x, y, cifra {html, x, y} (arriba), aparecen [desde, hasta] (los puntos, uno tras
+       otro), apaga {en, menos: [índices]} (se apagan todos menos esos, que se encienden en naranja), nombres
+       [{i, texto}] (debajo de un punto), sello {html, en, x, y} y oscuro (el fondo: una foto en penumbra, opcional).
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .fondo { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; filter: brightness(0.22) saturate(0.6); }
+    #{{ID}} .cifra { position: absolute; font: 800 150px/0.9 "Barlow Condensed", sans-serif; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .cifra small { display: block; font: 400 40px/1.2 "Special Elite", monospace; letter-spacing: 0.04em; margin-top: 10px; color: #c9c1b4;
+      text-transform: none; }
+    #{{ID}} .rejilla { position: absolute; display: grid; }
+    #{{ID}} .rejilla i { display: block; border-radius: 50%; background: #f2ede4; visibility: hidden; position: relative; }
+    #{{ID}} .rejilla i em { position: absolute; left: 50%; top: 115%; transform: translateX(-50%); white-space: nowrap; font: 400 36px/1 "Special Elite", monospace;
+      font-style: normal; color: #f2ede4; }
+    #{{ID}} .sello { position: absolute; font: 800 110px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="fondo" src="assets/img/{{p:fondo}}.jpg" alt="" />
+      <div class="cifra num"></div>
+      <div class="rejilla"></div>
+      <div class="sello"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      const tam = C.tam || 64, hueco = C.hueco || 22;
+      const rej = $(".rejilla");
+      Object.assign(rej.style, { left: (C.x ?? 86) + "px", top: (C.y ?? 560) + "px", gridTemplateColumns: `repeat(${C.cols || C.n}, ${tam}px)`, gap: `${hueco * 2}px ${hueco}px` });
+      const puntos = [];
+      for (let i = 0; i < C.n; i++) {
+        const p = document.createElement("i");
+        p.style.width = p.style.height = tam + "px";
+        rej.appendChild(p); puntos.push(p);
+      }
+      (C.nombres || []).forEach(({ i, texto }) => { const e = document.createElement("em"); e.textContent = texto; puntos[i].appendChild(e); });
+      if (C.cifra) {
+        const c = $(".cifra");
+        c.innerHTML = C.cifra.html;
+        Object.assign(c.style, { left: (C.cifra.x ?? 80) + "px", top: (C.cifra.y ?? 236) + "px" });
+        aparece(c, Math.max(0, A(C.aparecen[0]) - 0.05), 0.3);
+      }
+      const [a0, a1] = C.aparecen.map(A);
+      puntos.forEach((p, i) => tl.fromTo(p, { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.14, ease: "back.out(2)" }, a0 + (a1 - a0) * i / Math.max(1, C.n - 1)));
+      if (C.apaga) {
+        const t = A(C.apaga.en), vivos = C.apaga.menos || [];
+        const muertos = puntos.filter((p, i) => !vivos.includes(i));
+        muertos.forEach((p, k) => tl.to(p, { backgroundColor: "#2b2723", duration: 0.3, ease: "power2.out" }, t + 0.04 * k));
+        vivos.forEach((i) => tl.to(puntos[i], { backgroundColor: "#ff5e1a", scale: 1.25, duration: 0.3, ease: "back.out(2)" }, t + 0.04 * muertos.length));
+      }
+      if (C.sello) {
+        const s = $(".sello");
+        s.querySelector("span").innerHTML = C.sello.html;
+        Object.assign(s.style, { left: (C.sello.x ?? 80) + "px", top: (C.sello.y ?? 1000) + "px" });
+        tl.fromTo(s, { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, A(C.sello.en));
+      }
+      fin();
+    })();
+  </script>
+</template>
