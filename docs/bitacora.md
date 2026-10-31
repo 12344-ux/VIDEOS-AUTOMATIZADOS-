@@ -823,9 +823,15 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   de lo que se tarda en leerlos (`check` de HyperFrames: 0,5 s + 0,3 s por palabra; la última frase, 2 s) y la cabeza
   de Okene casi negra bajo el velo del gancho.
 - **Medido (Xeon con AMX):** las dos voces, 94 s; la música, cuatro candidatas de 30 s en un lote, 579 s (Okene: 57 % y
-  10 % bajo 150 Hz, la segunda; Alvarenga: 1 % y 0 %, la segunda, que no se apaga); FLUX.3, 13 imágenes, MEDIDA_FLUX;
-  renders, RENDERS_NUEVOS.
-- **Entregas:** ENTREGAS_NUEVAS
+  10 % bajo 150 Hz, la segunda; Alvarenga: 1 % y 0 %, la segunda, que no se apaga); FLUX.3, 13 imágenes a 720 × 1280: 107–133 s cada una
+  sola (la primera, 143 s con la carga) y 157–259 s con un render a la vez; 33 min las 13 con la ampliación EDSR. Los
+  renders: Okene, 196 s (con FLUX a la vez); Alvarenga, 172 s (solo).
+- **Entregas** (en todas, el último fotograma es el primero y el sonido no se corta):
+  `salidas/supervivencia/cortos/02-okene/entrega/okene.mp4` (68,7 s, −14,5 LUFS, −1,4 dBTP, 23 MB) y
+  `salidas/supervivencia/cortos/03-alvarenga/entrega/alvarenga.mp4` (66,8 s, −14,5 LUFS, −1,5 dBTP, 40 MB). Fichas de
+  publicación con fuentes y lo que varía según la fuente en el `PUBLICACION.md` de cada corto.
+- **Lo que no se ha comprobado:** cómo suena de verdad (todo está medido, nada escuchado: que el usuario lo oiga en el
+  móvil) y si el «bajo el agua» hecho con un paso bajo convence.
 
 ## Siguiente paso
 
