@@ -23,8 +23,8 @@ escena('s04', 'foto', w('No servía', mas=CORTE), foto='laboratorio', entrada='s
        conf=dict(camara=[1.25, 1.32, -30, 20], brillo=0.8, textos=[
            dict(html='No servía<br>para nada', clase='titular', x=80, y=300, en=['servía', 1, -0.05]),
            dict(html='Ningún uso', clase='sello', x=80, y=960, en=['uso', 1, -0.05], modo='sello')]))
-escena('s05', 'foto', w('Hasta que', mas=CORTE), foto='coro', entrada='barrido',
-       conf=dict(camara=[1.0, 1.08, 0, 0], textos=[
+escena('s05', 'foto', w('Hasta que', mas=CORTE), foto='coro', entrada='barrido',   # encuadre: los papelitos, el libro y
+       conf=dict(camara=[1.5, 1.56, 0, 0], origen='100% 39%', textos=[                 # las manos; la cara del cantante, fuera
            dict(html='Un compañero, en el coro', clase='etiqueta', x=80, y=300, en=['coro', 1, -0.1]),
            dict(html='Perdía<br>las páginas', clase='sello', x=80, y=880, en=['páginas', 1, -0.05], modo='sello')]))
 escena('s06', 'foto', w('Se acordó', mas=CORTE), foto='notas', entrada='subida',
