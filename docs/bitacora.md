@@ -907,7 +907,7 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 - **El sonido, con las reglas nuevas** (en el README de los cortos y en `canales/supervivencia/CANAL.md`): 2–4 efectos
   por corto, grabaciones reales con su golpe en pantalla y, si son fuertes, en las pausas (como el rayo): las monedas
   que caen, el silbato de la fábrica, los teléfonos, la botella que se abre, el disparo de una Instamatic, el arrastre
-  del carrete, un portazo. La música, 15–19 LU por debajo de la voz (en los cortos 4–6 iba a 0,27; ahora, a 0,1).
+  del carrete, un portazo. La música, 16–20 LU por debajo de la voz (en los cortos 4–6 iba a 0,27; ahora, a 0,09–0,1).
   `revisar_mezcla.py` contaba como voz la cola de las palabras: ahora es voz a menos de 6 LU de su nivel medio
   (`--habla`), y un efecto en la pausa se mide con la regla de las pausas.
 - **Temas, medidos con el rastreador** (Shorts en español): el sueldo de 5 $ de Ford, con dos Shorts recientes a 78× la
@@ -919,9 +919,18 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 - **Plantillas comunes de BFM** (`cortos/comun/`): `gancho` (el fotograma 0 y la vuelta del bucle, con un destello
   opcional) y `foto` (la de supervivencia con la marca de BFM). Las escenas dibujadas, en cada corto.
 - **Medido:** las tres voces (M1, un 4 % más pausada), 43,5, 42,3 y 42,8 s, en 288 s; la música, cuatro candidatas en
-  663 s (33 %, 0 %, 1 % y 0 % bajo 150 Hz; la 4 se apaga a los 15 s y se usa recortada); FLUX, MEDIDA_FLUX_BFM;
-  renders, RENDERS_BFM.
-- **Entregas:** ENTREGAS_BFM
+  663 s (33 %, 0 %, 1 % y 0 % bajo 150 Hz; la 4 se apaga a los 15 s y se usa recortada); las 12 imágenes (FLUX.3 a
+  720 × 1280 y EDSR a 1080 × 1920), 2142 s con la carga del modelo en frío (los carretes, rehechos con otro prompt
+  porque parecían ladrillos: 160 s con la carga). Toda la cadena de recursos, 3093 s. Los renders, 109, 111 y 117 s.
+  Antes de entregar, `revisar_mezcla.py` con 0 avisos: la música, a 16,1, 17,4 y 16,4 LU por debajo de la voz.
+- **Un render repetido:** en el golpe la música estaba callada del todo, y en la primera entrega del 07 quedaban dos
+  huecos de silencio (0,26 y 0,37 s) en las pausas de la voz. Ahora baja a 0,025 sin callarse, y `revisar_mezcla.py`
+  avisa de los huecos de la mezcla (ventanas de 50 ms a más de 30 dB por debajo de la voz) antes de renderizar.
+- **Entregas** (`salidas/businessformen/cortos/0{7,8,9}-*/entrega/bfm-corto-*.mp4`): «El sueldo», 44,5 s, −14,5 LUFS,
+  pico −1,8 dBTP, 22 MB; «La fórmula», 43,3 s, −14,6 LUFS, −1,4 dBTP, 23 MB; «La cámara», 43,9 s, −14,9 LUFS,
+  −1,5 dBTP, 26 MB. El bucle, a 1,5–2 de diferencia media (sobre 255) entre el primer y el último fotograma. Sin huecos
+  de sonido dentro del vídeo: en el 08 y el 09, solo los 60–80 ms finales del audio (el fundido de salida, en el punto de
+  bucle). Revisados por fotogramas, no escuchados.
 
 ## Siguiente paso
 
@@ -933,8 +942,9 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.
-2. Que el usuario vea los seis cortos (`salidas/businessformen/cortos/*/entrega/`) y el vídeo 1 completo, y diga qué
-   cambiar o si se suben así.
+2. Que el usuario vea los cortos 7–9 de BFM (Ford, Coca-Cola y Kodak, en `salidas/businessformen/cortos/*/entrega/`)
+   y el vídeo 1 completo, y diga qué cambiar o si se suben así. Al publicar, comparar su retención con la de los 4–6:
+   misma receta, con la imagen a pantalla completa, menos efectos y la música más baja.
 3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
 4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`

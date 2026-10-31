@@ -8,9 +8,11 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 
 **El canal en marcha es BusinessForMen** (negocios, en español; marca «Consejo»: grafito, blanco y carmesí). Su **primer vídeo, «Por qué quiebran empresas que ganan dinero», está terminado: 6 min 19 s**, 43 escenas de edición hechas a mano en HyperFrames y ancladas palabra a palabra a la voz (`canales/businessformen/kit/` y `canales/businessformen/videos/01-flujo-de-caja/`), con su miniatura, su descripción con fuentes y sus subtítulos (`PUBLICACION.md`). Las reglas de edición del canal están en `canales/businessformen/EDICION.md`.
 
-**Y tres cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 48–54 s: «La
-cláusula» (negociación), «La cuerda» (organización) y «Para siempre» (marca). El mismo archivo vale para las tres apps:
-sin logos de ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados y final en bucle.
+**Y nueve cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 43–54 s, con una
+historia real cada uno: «La cláusula», «La cuerda» y «Para siempre»; «El ancla», «El perrito» y «La pizza»; y «El
+sueldo» (Ford), «La fórmula» (Coca-Cola) y «La cámara» (Kodak). El mismo archivo vale para las tres apps: sin logos de
+ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados, la imagen a pantalla completa y final en
+bucle.
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:
@@ -175,8 +177,9 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Que el usuario vea los cortos de los canales nuevos (`salidas/geografia/cortos/*/entrega/` y
-`salidas/supervivencia/cortos/*/entrega/`), elija los nombres de los canales y los publique; medir a las 48 h y
+Que el usuario vea los cortos 7–9 de BusinessForMen (`salidas/businessformen/cortos/*/entrega/`) y los de los canales
+nuevos (`salidas/geografia/cortos/*/entrega/` y `salidas/supervivencia/cortos/*/entrega/`), elija los nombres de los
+canales y los publique; medir a las 48 h y
 a los 7 días y, mientras, producir la semana con el mismo kit. El plan está en
 [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 
