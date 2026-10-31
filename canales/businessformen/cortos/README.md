@@ -63,6 +63,13 @@ datos de las plataformas, así que son orientativas) y de la guía de vídeo ver
 11. **La imagen, a pantalla completa** (31-oct): el velo del kit es ligero (oscurece la barra del móvil y los titulares
     de arriba y una franja suave detrás de los subtítulos); con el de antes, oscuro de la mitad hacia abajo, «la imagen
     se veía como la mitad». Los prompts piden que el motivo llene el encuadre.
+12. **La versión sin música, solo con efectos** (31-oct, el usuario, en el corto 7: «la voz del canal de supervivencia,
+    sin música de fondo y solo efectos de sonido, como transiciones o efectos adicionales»; `montar.py --variante m2`).
+    El ambiente de cada sitio, bajo y nunca callado del todo: la fábrica a unos 15 LU bajo la voz donde se ve, más baja en
+    lo demás, y bajo la lección el aire de la nave vacía (callado del todo, las pausas de la voz son silencios). Un whoosh
+    distinto en cada corte, con los cortes que abren frase 0,38 s antes de ella para que caiga en la pausa; y el golpe de
+    cada acción (las monedas, los sellos, el interruptor, las teclas del contador) un fotograma después de su imagen.
+    Con `audio/revisar_mezcla.py`, 0 avisos y ningún hueco antes de renderizar.
 
 ## Publicar
 

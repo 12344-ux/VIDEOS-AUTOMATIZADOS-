@@ -932,6 +932,38 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
   de sonido dentro del vídeo: en el 08 y el 09, solo los 60–80 ms finales del audio (el fundido de salida, en el punto de
   bucle). Revisados por fotogramas, no escuchados.
 
+### 5. «El sueldo» otra vez: la voz de supervivencia y solo efectos
+
+- **Pedido del usuario:** volver a entregar el de Ford «con la voz del canal de supervivencia, sin la música de fondo y
+  solo con efectos de sonido, como transiciones o efectos adicionales».
+- **Una variante, no otro corto:** `montar.py --variante m2` monta las mismas escenas con otra voz (`voz-m2/`) en otro
+  proyecto (`proyecto-m2/`), y el `montaje.py` cambia con `VARIANTE` el sonido y los cortes. El original no cambia (los
+  proyectos de los cortos 7–9 salen idénticos). `preparar.sh` hace la voz de la variante desde `recursos/variantes.json`.
+- **La voz M2** (a velocidad 1,0, como en supervivencia): 40,3 s frente a los 43,5 de la M1 (al 1,04), en 121 s, y
+  −19,9 LUFS (la M1, −21,4). Las mismas 114 palabras alineadas: todo se re-ancla solo. El vídeo dura 41,3 s.
+- **El sonido, solo efectos** (22; de BigSoundBank, CC0, salvo un whoosh de la biblioteca de HyperFrames, de Pixabay):
+  el ambiente (una imprenta Heidelberg como fábrica de 1914, alta donde se ve la cadena de montaje y baja en lo demás; la
+  multitud de la verja, que se para en «se quedó»; y, cuando el interruptor apaga la fábrica en la lección, el viento
+  dentro de la nave vacía), cinco whooshes distintos en los cortes y las acciones: las monedas, cuatro sellos con tres
+  golpes secos distintos, el silbato, el interruptor que enciende los 14 puestos, la calculadora de manivela del
+  contador y dos teclas. Elegidos por su espectrograma y sus medidas (`hf.sh audio`: arranque, pico y sonoridad; y
+  `audio/graves.py`): los whooshes 1797–1799 y el cinematográfico de HyperFrames tenían el 61–94 % bajo 150 Hz, y el
+  yunque, la cadena y la barra de acero, un tono metálico agudo.
+- **El bucle no salta:** la imprenta de la vuelta acaba en el punto de la grabación donde empieza la del gancho.
+- **Medido antes del render:** la primera mezcla tenía 10 de 21 efectos por encima del límite (los whooshes, a 0,1–0,2 s
+  de la voz, cuentan «con voz» en las ventanas de 400 ms) y huecos en la lección (la fábrica, callada) y en el ambiente
+  bajo (los valles de la máquina). Con los cortes que abren frase 0,38 s antes de ella, el golpe 0,55 s antes, los
+  volúmenes que caben, el ambiente bajo a 0,045 y el viento en la lección: 0 avisos y ningún hueco, con los efectos
+  16,4 LU por debajo de la voz en conjunto. `check`, sin avisos: antes daba `duplicate_audio_track`, y ahora `montar.py`
+  pone en otra pista lo que se solapa.
+- **Kit:** `sonido(…, puntos=[(t, v)])` para el volumen por tramos, y `preparar.sh` baja los efectos de BigSoundBank que
+  piden los montajes (en una sesión nueva faltaban los de los cortos 1 y 4).
+- **Render y entrega:** 103 s; `salidas/businessformen/cortos/07-el-sueldo/entrega/bfm-corto-07-el-sueldo-m2.mp4`,
+  41,3 s, −14,6 LUFS, pico −1,8 dBTP, 21 MB, el bucle a 1,65 de diferencia media y ningún silencio en todo el archivo.
+  En el MP4, cada whoosh queda 13–21 dB por encima del ambiente de su pausa, la cortina con el interruptor 15 dB, el
+  final a −37 dB y el principio a −38 dB (el bucle no salta) y la pausa de la lección a −43 dB (el aire de la nave).
+  Revisado por fotogramas y medido, no escuchado.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene y Alvarenga en supervivencia),
@@ -945,6 +977,8 @@ La misma máquina (Xeon con AMX), con todo instalado; `./instalar.sh precargar` 
 2. Que el usuario vea los cortos 7–9 de BFM (Ford, Coca-Cola y Kodak, en `salidas/businessformen/cortos/*/entrega/`)
    y el vídeo 1 completo, y diga qué cambiar o si se suben así. Al publicar, comparar su retención con la de los 4–6:
    misma receta, con la imagen a pantalla completa, menos efectos y la música más baja.
+   Y la versión m2 de «El sueldo» (la voz de supervivencia, sin música, solo efectos): si le gusta más, hacerla también
+   en los demás (la voz en `recursos/variantes.json` y el plan de sonido con `VARIANTE` en su `montaje.py`).
 3. El vídeo 2 del canal con el mismo kit: tema, guion con historias reales y datos contrastados, y producción de una
    vez, midiendo cuánto tarda de principio a fin.
 4. Si se retoma Anticitera: revisar el III (ya montado) y del IV al VIII con las mismas reglas, y unir con `unir.sh`

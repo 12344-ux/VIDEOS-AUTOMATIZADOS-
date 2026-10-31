@@ -12,7 +12,8 @@ la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo
 historia real cada uno: «La cláusula», «La cuerda» y «Para siempre»; «El ancla», «El perrito» y «La pizza»; y «El
 sueldo» (Ford), «La fórmula» (Coca-Cola) y «La cámara» (Kodak). El mismo archivo vale para las tres apps: sin logos de
 ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados, la imagen a pantalla completa y final en
-bucle.
+bucle. «El sueldo» tiene además una versión con la voz de supervivencia, sin música y solo con efectos (ambiente,
+transiciones y acciones): `montar.py --variante m2`.
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:

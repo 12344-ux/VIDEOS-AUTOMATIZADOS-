@@ -47,7 +47,19 @@ for c in "${CORTOS[@]}"; do
   paso "Voz de $c: Supertonic-3 M1 (velocidad $vel), frase a frase y alineada"
   mkdir -p "$S/$c"/{voz,musica,img}
   [ -s "$S/$c/voz/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz/voz.wav" --velocidad "$vel"
+  # recursos/variantes.json (opcional): otras versiones del corto con otra voz, en voz-<variante>/ (montar.py --variante).
+  [ -s "$AQUI/$c/recursos/variantes.json" ] && python3 -c "import json; [print(k, x['voz'], x.get('velocidad', 1.0)) for k, x in json.load(open('$AQUI/$c/recursos/variantes.json')).items() if not k.startswith('_')]" |
+    while read -r var voz velv; do
+      mkdir -p "$S/$c/voz-$var"
+      [ -s "$S/$c/voz-$var/voz.wav" ] || "$PYP" "$REPO/voz/narrar.py" --guion "$AQUI/$c/recursos/voz.json" -o "$S/$c/voz-$var/voz.wav" --voz "$voz" --velocidad "$velv" </dev/null
+    done
 done
+
+paso "Efectos: los de BigSoundBank (CC0) que piden los montajes"
+mkdir -p "$S/sfx"
+mapfile -t faltan < <(for c in "${CORTOS[@]}"; do grep -oE "sonido\('[0-9]{4}'" "$AQUI/$c/montaje.py" | grep -oE "[0-9]{4}"; done | sort -u |
+  while read -r n; do [ -s "$S/sfx/$n.wav" ] || echo "$n"; done)
+[ ${#faltan[@]} -eq 0 ] || python3 "$REPO/audio/efectos.py" bajar "${faltan[@]}" -d "$S/sfx"
 
 paso "Música: MusicGen, tandas de cuatro candidatas de 30 s (musica.json)"
 python3 "$REPO/imagen/generar.py" --parar >/dev/null 2>&1 || true

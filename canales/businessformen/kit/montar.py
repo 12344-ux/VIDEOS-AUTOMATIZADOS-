@@ -6,6 +6,8 @@ sus escenas (videos/<vídeo>/escenas/*.html, una plantilla por escena) y los tie
   python3 canales/businessformen/kit/montar.py 01-flujo-de-caja
   python3 canales/businessformen/kit/montar.py cortos/01-la-clausula      (un corto: canales/businessformen/cortos/…)
   python3 canales/businessformen/kit/montar.py --canal canales/geografia cortos/01-chile     (otro canal con este kit)
+  python3 canales/businessformen/kit/montar.py cortos/07-el-sueldo --variante m2   (otra versión del mismo montaje: la voz
+                                         de <trabajo>/voz-m2/, el proyecto en proyecto-m2/ y VARIANTE = "m2")
 
 Otro canal: su carpeta trae marca/marca.css (y, si quiere, marca/corto.css) y marca/canal.json (nombre, fondo y estilo de
 los subtítulos); sus fuentes van en salidas/<canal>/marca/fuentes y su trabajo en salidas/<canal>/<vídeo>.
@@ -25,11 +27,14 @@ En montaje.py hay disponibles:
                                          "cortina" (el rojo de la marca la cruza y la descubre), "barrido" (de derecha a
                                          izquierda, con un filo rojo), "subida" (de abajo arriba) o {"tipo": "iris",
                                          "x": 540, "y": 700} (un círculo que se abre desde ese punto)
-  sonido(nombre, t, vol=1, dur=None, ini=0, fi=0, fo=0)   efectos: los de la biblioteca de HyperFrames (SFX) o un WAV
-                                         propio, <trabajo>/sfx/<nombre>.wav o su carpeta de al lado (BigSoundBank, CC0)
+  sonido(nombre, t, vol=1, dur=None, ini=0, fi=0, fo=0, puntos=[(t, v)])   efectos: los de la biblioteca de HyperFrames
+                                         (SFX) o un WAV propio, <trabajo>/sfx/<nombre>.wav o su carpeta de al lado
+                                         (BigSoundBank, CC0). Con puntos (tiempos del vídeo y volúmenes absolutos), el
+                                         volumen va por tramos: un ambiente que sube, baja o se calla con las escenas
   musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=[(t, v)])   lecho de música (musica/<nombre>.wav)
   DURACION = ...                         duración del vídeo (si no, la última palabra más COLA)
   AQUI                                   la carpeta del vídeo (para leer sus recursos/)
+  VARIANTE                               None, o el nombre de la variante (--variante): para cambiar, p. ej., el sonido
 
 En las plantillas de escena:
   {{ID}}            el id de la escena (también su composición): los selectores van con #{{ID}}
@@ -62,6 +67,7 @@ FUENTES = os.path.join(REPO, 'salidas', SLUG, 'marca', 'fuentes')
 CONF = dict(nombre='BusinessForMen', prefijo='bfm', fondo='#0a0b0d',
             subtitulos=dict(fuente='intertight-800.woff2', familia='Inter Tight', peso=800, color='#f4f3f0',
                             resalte='176, 18, 47'))
+VARIANTE = None   # --variante: otra versión del montaje (su voz en voz-<variante>/ y su proyecto en proyecto-<variante>/)
 VOZ0 = 0.8
 COLA = 2.0
 # Transiciones de entrada de una escena sobre la anterior (ayuda.js, entradaEscena) y lo que duran.
@@ -92,7 +98,8 @@ class Video:
         self.id = vid
         self.dir = os.path.join(CANAL, vid) if '/' in vid else os.path.join(CANAL, 'videos', vid)
         self.trabajo = os.environ.get('TRABAJO', os.path.join(REPO, 'salidas', SLUG, vid))
-        self.voz = json.load(open(os.path.join(self.trabajo, 'voz', 'voz.json')))
+        self.voz_dir = os.path.join(self.trabajo, 'voz-' + VARIANTE if VARIANTE else 'voz')
+        self.voz = json.load(open(os.path.join(self.voz_dir, 'voz.json')))
         self.palabras = [p for f in self.voz['frases'] for p in f['palabras']]
         self.escenas, self.sonidos, self.musicas = [], [], []
         self.ancho, self.alto, self.voz0, self.desenfoque = 1920, 1080, VOZ0, False
@@ -128,8 +135,8 @@ def cargar(vid):
             entrada.setdefault('d', ENTRADAS[entrada['tipo']])
         v.escenas.append(dict(id=id, plantilla=plantilla, desde=r3(desde), p=p, entrada=entrada))
 
-    def sonido(nombre, t, vol=1.0, dur=None, ini=0, fi=0, fo=0):
-        v.sonidos.append(dict(nombre=nombre, t=r3(t), vol=vol, dur=dur, ini=ini, fi=fi, fo=fo))
+    def sonido(nombre, t, vol=1.0, dur=None, ini=0, fi=0, fo=0, puntos=None):
+        v.sonidos.append(dict(nombre=nombre, t=r3(t), vol=vol, dur=dur, ini=ini, fi=fi, fo=fo, puntos=puntos or []))
 
     def musica(nombre, desde, hasta, vol=0.3, fi=0.6, fo=1.0, puntos=None):
         v.musicas.append(dict(nombre=nombre, desde=r3(desde), hasta=r3(hasta), vol=vol, fi=fi, fo=fo, puntos=puntos or []))
@@ -145,7 +152,7 @@ def cargar(vid):
     def sin_subtitulos(desde, hasta):
         v.sin_subs.append((r3(desde), r3(hasta)))
 
-    nombres = dict(w=v.w, VOZ0=VOZ0, escena=escena, sonido=sonido, musica=musica, AQUI=v.dir, formato=formato,
+    nombres = dict(w=v.w, VOZ0=VOZ0, VARIANTE=VARIANTE, escena=escena, sonido=sonido, musica=musica, AQUI=v.dir, formato=formato,
                    subtitulos=subtitulos, sin_subtitulos=sin_subtitulos)
     ruta = os.path.join(v.dir, 'montaje.py')
     exec(compile(open(ruta).read(), ruta, 'exec'), nombres)
@@ -300,7 +307,7 @@ def ruta_sfx(v, nombre):
 
 def audio_html(v, avisos):
     out, pista = [], 20
-    voz = os.path.join(v.trabajo, 'voz', 'voz.wav')
+    voz = os.path.join(v.voz_dir, 'voz.wav')
     dv = min(duracion_audio(voz), v.dur - v.voz0)
     cadena = {'version': 1, 'nodes': [{'type': 'highpass', 'id': 'v1', 'params': {'frequency': 90}},
                                       {'type': 'peaking', 'id': 'v2', 'params': {'frequency': 3000, 'gain': 2, 'q': 1}},
@@ -319,6 +326,7 @@ def audio_html(v, avisos):
         out.append(f'<audio id="musica-{i}" class="clip" src="assets/audio/{m["nombre"]}.wav" data-start="{m["desde"]}" '
                    f'data-duration="{largo}" data-track-index="{11 + (i % 2)}" data-timeline-role="music" '
                    f'data-automation="{html.escape(json.dumps(auto))}"></audio>')
+    ocupadas = {}   # pista → tramos: dos efectos que se solapan no comparten pista (el lint de HyperFrames lo avisa)
     for i, s in enumerate(v.sonidos):
         ruta = ruta_sfx(v, s['nombre'])
         archivo = os.path.basename(ruta)
@@ -326,13 +334,23 @@ def audio_html(v, avisos):
         dur = min(dur, duracion_audio(ruta) - s['ini'])
         extra = (f' data-media-start="{s["ini"]}"' if s['ini'] else '') + (f' data-fade-in="{s["fi"]}"' if s['fi'] else '') + \
                 (f' data-fade-out="{s["fo"]}"' if s['fo'] else '')
+        libre = lambda q: not any(a < s['t'] + dur and s['t'] < b for a, b in ocupadas.get(q, []))
+        n = pista + i % 12 if libre(pista + i % 12) else next(q for q in range(pista + 12, pista + 64) if libre(q))
+        ocupadas.setdefault(n, []).append((s['t'], s['t'] + dur))
+        if s['puntos']:
+            # Volumen por tramos: la curva lleva el nivel absoluto (HyperFrames la multiplica por data-volume, que queda en 1).
+            pts = sorted({(0.0, s['vol'])} | {(r3(t - s['t']), x) for t, x in s['puntos'] if 0 < t - s['t'] <= dur})
+            auto = {'version': 1, 'lanes': [{'target': 'volume', 'points': [{'t': a, 'v': b} for a, b in pts]}]}
+            nivel = f'data-automation="{html.escape(json.dumps(auto))}"'
+        else:
+            nivel = f'data-volume="{s["vol"]}"'
         out.append(f'<audio id="sfx-{i}" class="clip" src="assets/sfx/{archivo}" data-start="{s["t"]}" data-duration="{dur:.3f}" '
-                   f'data-track-index="{pista + i % 12}" data-volume="{s["vol"]}"{extra}></audio>')
+                   f'data-track-index="{n}" {nivel}{extra}></audio>')
     return out
 
 
 def escribir(v):
-    p = os.path.join(v.dir, 'proyecto')
+    p = os.path.join(v.dir, 'proyecto-' + VARIANTE if VARIANTE else 'proyecto')
     if os.path.isdir(os.path.join(p, 'compositions')):
         shutil.rmtree(os.path.join(p, 'compositions'))
     os.makedirs(os.path.join(p, 'compositions'), exist_ok=True)
@@ -387,13 +405,13 @@ def escribir(v):
         shutil.copy2(origen if os.path.exists(origen) else os.path.join(os.path.dirname(AQUI), 'marca', 'plantillas', f),
                      os.path.join(p, f))
     with open(os.path.join(p, 'meta.json'), 'w') as fh:
-        ident = CONF['prefijo'] + '-' + v.id.replace('/', '-')
+        ident = CONF['prefijo'] + '-' + v.id.replace('/', '-') + ('-' + VARIANTE if VARIANTE else '')
         json.dump({'id': ident, 'name': ident}, fh, indent=2)
     # Recursos: voz, músicas, imágenes, fuentes y efectos.
     a = os.path.join(p, 'assets')
     for sub in ('audio', 'img', 'fonts', 'sfx'):
         os.makedirs(os.path.join(a, sub), exist_ok=True)
-    shutil.copy2(os.path.join(v.trabajo, 'voz', 'voz.wav'), os.path.join(a, 'audio', 'voz.wav'))
+    shutil.copy2(os.path.join(v.voz_dir, 'voz.wav'), os.path.join(a, 'audio', 'voz.wav'))
     for m in {m['nombre'] for m in v.musicas}:
         shutil.copy2(os.path.join(v.trabajo, 'musica', m + '.wav'), os.path.join(a, 'audio', m + '.wav'))
     for f in os.listdir(os.path.join(v.trabajo, 'img')):
@@ -432,14 +450,19 @@ def configurar(canal):
 
 
 def main():
+    global VARIANTE
     args = sys.argv[1:]
+    if '--variante' in args:
+        i = args.index('--variante')
+        VARIANTE = args[i + 1]
+        args = args[:i] + args[i + 2:]
     if args and args[0] == '--canal':
         configurar(args[1])
         args = args[2:]
     vid = args[0]
     v = cargar(vid)
     avisos = escribir(v)
-    print(json.dumps({'video': vid, 'duracion': v.dur, 'escenas': len(v.escenas), 'sonidos': len(v.sonidos), 'musicas': len(v.musicas)}))
+    print(json.dumps({'video': vid, 'variante': VARIANTE, 'duracion': v.dur, 'escenas': len(v.escenas), 'sonidos': len(v.sonidos), 'musicas': len(v.musicas)}))
     for a in avisos:
         print('aviso:', a)
     limite = 4.5 if v.alto > v.ancho else 9      # un corto vertical cambia cada 1–3 s

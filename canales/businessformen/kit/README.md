@@ -55,6 +55,13 @@ cd canales/businessformen/videos/<vídeo>/proyecto && ../../../../../video/hf.sh
 - Las cifras se escriben con punto de miles y el signo menos tipográfico (`fmt()`); `toLocaleString("es-ES")` no
   agrupa los números de cuatro cifras.
 - Los efectos largos de la biblioteca (el `riser` dura 10 s) se recortan con `dur` para que no pasen del final.
+- Un ambiente con el volumen por tramos: `sonido(nombre, t, …, puntos=[(t, v), …])`, con los tiempos del vídeo y los
+  volúmenes absolutos (la curva va en `data-automation` y `data-volume` queda en 1: HyperFrames multiplica los dos y
+  `revisar_mezcla.py` lee la curva). Dos efectos que se solapan van en pistas distintas (si no, el lint avisa con
+  `duplicate_audio_track`).
+- Otra versión del mismo montaje: `montar.py cortos/07-el-sueldo --variante m2` toma la voz de `voz-m2/`, escribe
+  `proyecto-m2/` y deja `VARIANTE = "m2"` en `montaje.py` (para cambiar el sonido o el punto de corte). La voz de la
+  variante la hace `cortos/preparar.sh` desde `recursos/variantes.json`.
 - Un trazo con remate redondo o cuadrado deja un punto en su extremo antes de dibujarse (el guion de largo cero):
   `traza()` lo oculta hasta que empieza.
 - Los años no llevan punto de miles: `cuenta(…, { crudo: true })`.

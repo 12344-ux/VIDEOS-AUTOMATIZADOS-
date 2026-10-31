@@ -186,6 +186,10 @@ inventar lo que las fuentes no dicen.
   (0,025), no callarla. `revisar_mezcla.py` avisa de los huecos de la mezcla antes de renderizar.
 - `pkill -f` con un texto que también aparece en el propio comando mata la propia shell (salida 144) y deja el render a
   medias: matar por PID (`ps -eo pid,args`).
+- `revisar_mezcla.py` mide en ventanas de 400 ms: un efecto a menos de 0,4 s de una palabra cuenta como «con voz» (8 LU
+  bajo ella). Para que el whoosh de una transición caiga en la pausa, el corte va unos 0,38 s antes de la frase.
+- Un ambiente rítmico (una máquina) muy bajo deja huecos entre golpe y golpe: bajo una pausa que no debe quedar en
+  silencio, uno continuo (el viento desde dentro, BigSoundBank 1714).
 
 ## Cómo decidir
 
