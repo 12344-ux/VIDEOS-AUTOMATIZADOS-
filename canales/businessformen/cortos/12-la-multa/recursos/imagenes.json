@@ -1,10 +1,10 @@
 {
- "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Sin logotipos ni carátulas reales: estanterías y sobres sin marca.",
+ "_nota": "FLUX.3 a 720 × 1280 y EDSR a 1080 × 1920. A pantalla completa. Sin logotipos ni carátulas reales: estanterías y sobres sin marca. La tienda, rehecha (semilla 135): con la 131 salía un cartel rojo con letras inventadas, que en la portada podía leerse como un logotipo.",
  "planchas": [
   {
    "nombre": "tienda",
-   "semilla": 131,
-   "prompt": "Interior of a large video rental store around the year 2000 at night: long aisles of shelves full of DVD and VHS cases with plain blank covers, cold blue and warm yellow fluorescent light, a customer seen from behind browsing, the aisle receding into the frame, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
+   "semilla": 135,
+   "prompt": "Interior of a large video rental store around the year 2000 at night: long aisles of shelves full of DVD and VHS cases with plain blank covers, cold blue and warm yellow fluorescent light, a customer seen from behind browsing, the aisle receding into the frame, no signs, no posters, no banners, vertical composition, cinematic editorial photograph, rich realistic detail, dramatic natural light, muted colors with deep shadows, the scene filling the whole frame, no text, no letters, no logos, no watermark"
   },
   {
    "nombre": "sobre",
