@@ -1,0 +1,14 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. La protagonista nunca de cara: es una persona real.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {"nombre": "caida", "semilla": 21, "prompt": "A single airplane seat with a teenage girl strapped in, seen from far away and from behind, falling through dark storm clouds toward an endless green rainforest canopy, the small seat in the upper middle of the frame, vast stormy sky, distant lightning, vertical composition"},
+  {"nombre": "avion", "semilla": 22, "prompt": "A 1970s four-engine propeller airliner flying into a violent thunderstorm above the Amazon rainforest, a bright lightning bolt hitting its right wing, heavy dark clouds and rain, the plane small in the center of the frame, vertical composition"},
+  {"nombre": "asiento", "semilla": 23, "prompt": "An empty airplane passenger seat with an open seatbelt lying on the muddy floor of a dense rainforest, giant leaves around it, thin shafts of light through the canopy, the seat in the lower middle of the frame, vertical composition"},
+  {"nombre": "sola", "semilla": 24, "prompt": "A teenage girl seen from behind standing alone in a dense dark rainforest, wearing a torn short summer dress, looking up at giant trees, small figure in the center of the frame, deep green shadows, vertical composition"},
+  {"nombre": "arroyo", "semilla": 25, "prompt": "A narrow stream winding through the Amazon rainforest seen from just above the water, morning mist, the stream leading into the distance through the center of the frame, dense green walls of jungle on both sides, vertical composition"},
+  {"nombre": "caminando", "semilla": 26, "prompt": "A teenage girl seen from behind wading alone down a shallow brown jungle river, water up to her knees, dense rainforest on both banks, the small figure in the middle of the frame, overcast light, vertical composition"},
+  {"nombre": "refugio", "semilla": 27, "prompt": "A small wooden shelter with a palm-thatched roof on the bank of a jungle river, a long wooden canoe with an outboard motor tied in front of it, a metal fuel can on the ground, late afternoon light, the shelter in the center of the frame, vertical composition"},
+  {"nombre": "lenadores", "semilla": 28, "prompt": "Three lumbermen in a long wooden canoe arriving at a riverbank in the Amazon at dawn, seen from a distance, mist on the water, dense rainforest behind them, the canoe in the lower middle of the frame, vertical composition"}
+ ]
+}

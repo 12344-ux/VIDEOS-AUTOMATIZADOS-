@@ -1,0 +1,21 @@
+{
+ "_nota": "Lo propio del canal para el kit de montaje (canales/businessformen/kit/montar.py --canal canales/geografia).",
+ "nombre": "Geografía",
+ "prefijo": "geo",
+ "fondo": "#081521",
+ "voz": "supertonic-F4",
+ "subtitulos": {
+  "fuente": "archivo-800.woff2",
+  "familia": "Archivo",
+  "peso": 800,
+  "color": "#f5f1e8",
+  "resalte": "255, 197, 49",
+  "color_resalte": "#081521"
+ },
+ "fuentes": {
+  "archivo-500.woff2": "@fontsource/archivo/files/archivo-latin-500-normal.woff2",
+  "archivo-800.woff2": "@fontsource/archivo/files/archivo-latin-800-normal.woff2",
+  "archivo-900.woff2": "@fontsource/archivo/files/archivo-latin-900-normal.woff2",
+  "plexmono-500.woff2": "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2"
+ }
+}

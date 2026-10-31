@@ -1,0 +1,44 @@
+<template>
+  <!-- La tormenta: el avión entre nubes y lluvia; «Un rayo alcanza un ala»: el destello y el temblor; «Y el avión se parte en
+       el aire»: la imagen se parte en dos y cae a negro. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mitad { position: absolute; inset: 0; overflow: hidden; }
+    #{{ID}} .mitad.izq { clip-path: polygon(0 0, 52% 0, 47% 100%, 0 100%); }
+    #{{ID}} .mitad.der { clip-path: polygon(52% 0, 100% 0, 100% 100%, 47% 100%); }
+    #{{ID}} .lluvia { position: absolute; inset: -200px; opacity: 0.35;
+      background: repeating-linear-gradient(102deg, rgba(220, 230, 240, 0) 0 22px, rgba(220, 230, 240, 0.5) 22px 24px); }
+    #{{ID}} .flash { position: absolute; inset: 0; background: #f4f6ff; opacity: 0; }
+    #{{ID}} .lugar { position: absolute; left: 80px; top: 236px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="mitad izq"><img class="foto" src="assets/img/avion.jpg" alt="" /></div>
+      <div class="mitad der"><img class="foto" src="assets/img/avion.jpg" alt="" /></div>
+      <div class="lluvia"></div>
+      <div class="capa velo"></div>
+      <div class="diario lugar">Sobre la selva</div>
+      <div class="flash"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo($$(".foto"), { scale: 1.05 }, { scale: 1.18, duration: DUR, ease: "none" }, 0);
+      alBuscar((t) => { $(".lluvia").style.transform = `translate(${-(t * 260) % 120}px, ${(t * 900) % 240}px)`; });
+      aparece($(".lugar"), 0.1, 0.3);
+      // El rayo: dos destellos y un temblor.
+      const r = w("rayo") - 0.05;
+      tl.fromTo($(".flash"), { opacity: 0 }, { keyframes: [{ opacity: 0.95, duration: 0.04 }, { opacity: 0.1, duration: 0.08 }, { opacity: 0.8, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, r);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -12, y: 7, duration: 0.05 }, { x: 10, y: -6, duration: 0.05 }, { x: -5, y: 3, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, r + 0.02);
+      // «se parte»: las dos mitades se separan, giran y caen; a negro.
+      const p = w("parte") - 0.04;
+      tl.to($(".mitad.izq"), { x: -140, y: 160, rotation: -8, duration: 0.9, ease: "power2.in" }, p);
+      tl.to($(".mitad.der"), { x: 140, y: 220, rotation: 9, duration: 0.9, ease: "power2.in" }, p);
+      tl.to([$(".mitad.izq"), $(".mitad.der")], { opacity: 0, duration: 0.35, ease: "power2.in" }, p + 0.55);
+      tl.fromTo($(".flash"), { opacity: 0 }, { keyframes: [{ opacity: 0.7, duration: 0.04 }, { opacity: 0, duration: 0.25 }] }, p);
+      fin();
+    })();
+  </script>
+</template>

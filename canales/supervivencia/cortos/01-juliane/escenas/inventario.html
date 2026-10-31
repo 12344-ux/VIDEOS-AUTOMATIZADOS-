@@ -1,0 +1,39 @@
+<template>
+  <!-- El inventario del desastre, a máquina, sobre el asiento en sombra: clavícula rota, corte profundo, ojo hinchado
+       (cada uno al nombrarlo); «Su madre no está»: la lista se va y queda esa frase, sola. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.32) blur(3px); transform: scale(1.12); }
+    #{{ID}} .titulo { position: absolute; left: 80px; top: 236px; color: #ff5e1a; letter-spacing: 0.12em; }
+    #{{ID}} .lista { position: absolute; left: 80px; top: 360px; }
+    #{{ID}} .it { font: 400 66px/1.25 "Special Elite", monospace; letter-spacing: 0.02em; margin-bottom: 34px; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .it i { font-style: normal; display: inline-block; width: 64px; height: 64px; border: 4px solid #f2ede4; margin-right: 26px;
+      vertical-align: -10px; text-align: center; line-height: 58px; font-size: 56px; color: #ff5e1a; }
+    #{{ID}} .madre { position: absolute; left: 0; width: 1080px; top: 640px; text-align: center; font: 400 76px/1.2 "Special Elite", monospace;
+      visibility: hidden; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/asiento.jpg" alt="" />
+      <div class="diario titulo">Inventario</div>
+      <div class="lista">
+        <div class="it i1"><i>✕</i>Clavícula rota</div>
+        <div class="it i2"><i>✕</i>Corte profundo</div>
+        <div class="it i3"><i>✕</i>Ojo hinchado</div>
+      </div>
+      <div class="madre">Su madre<br>no está.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      aparece($(".titulo"), 0.05, 0.3);
+      [["i1", w("clavícula")], ["i2", w("corte")], ["i3", w("ojo")]].forEach(([c, t]) =>
+        tl.fromTo($("." + c), { autoAlpha: 0, x: -20 }, { autoAlpha: 1, x: 0, duration: 0.18, ease: "power2.out" }, t - 0.06));
+      tl.to([$(".lista"), $(".titulo")], { autoAlpha: 0, duration: 0.3, ease: "power2.in" }, w("Su", 4) - 0.25);
+      tl.fromTo($(".madre"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: "power2.out" }, w("Su", 4) - 0.05);
+      fin();
+    })();
+  </script>
+</template>

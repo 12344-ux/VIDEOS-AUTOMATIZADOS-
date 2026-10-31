@@ -1,0 +1,22 @@
+{
+ "_nota": "Lo propio del canal para el kit de montaje (canales/businessformen/kit/montar.py --canal canales/supervivencia).",
+ "nombre": "Supervivencia",
+ "prefijo": "sup",
+ "fondo": "#0b0a09",
+ "voz": "supertonic-M2",
+ "subtitulos": {
+  "fuente": "barlow-800.woff2",
+  "familia": "Barlow",
+  "peso": 800,
+  "color": "#f2ede4",
+  "resalte": "255, 94, 26",
+  "color_resalte": "#0b0a09"
+ },
+ "fuentes": {
+  "barlowcond-600.woff2": "@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2",
+  "barlowcond-800.woff2": "@fontsource/barlow-condensed/files/barlow-condensed-latin-800-normal.woff2",
+  "barlow-500.woff2": "@fontsource/barlow/files/barlow-latin-500-normal.woff2",
+  "barlow-800.woff2": "@fontsource/barlow/files/barlow-latin-800-normal.woff2",
+  "specialelite-400.woff2": "@fontsource/special-elite/files/special-elite-latin-400-normal.woff2"
+ }
+}

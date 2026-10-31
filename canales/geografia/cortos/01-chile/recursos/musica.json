@@ -1,0 +1,8 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). Instrumentos del registro medio: «pulse» y las cuerdas punteadas salen con casi toda la energía bajo 150 Hz (ver la bitácora). Se miden con audio/graves.py antes de elegir.",
+ "semilla": 31,
+ "candidatas": [
+  "curious upbeat documentary explainer music, bowed violins ostinato with marimba melody and light piano, bright and forward moving, 110 bpm",
+  "playful curious orchestral underscore, marimba and celesta melody over sustained strings, light and inquisitive, 104 bpm"
+ ]
+}

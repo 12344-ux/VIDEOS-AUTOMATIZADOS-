@@ -1,0 +1,8 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Apoyo de los mapas: un plano de 1–2 s cada una.",
+ "sufijo": "realistic aerial photograph style, natural colors, high detail, no text, no watermark",
+ "planchas": [
+  {"nombre": "andes", "semilla": 11, "prompt": "A massive wall of snow-capped Andes mountains rising right behind a narrow green Chilean valley, the Pacific Ocean coastline in the lower part of the frame, vertical composition, the peaks fill the upper half, clear evening light"},
+  {"nombre": "atacama", "semilla": 12, "prompt": "The Atacama desert in northern Chile from above, vast dry salt flats and red mountains, a lone straight road crossing it toward the horizon, vertical composition, warm late afternoon light"}
+ ]
+}

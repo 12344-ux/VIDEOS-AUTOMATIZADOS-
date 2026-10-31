@@ -4,13 +4,18 @@ Crear **vídeos largos a partir de un prompt**, con **edición de nivel agencia*
 sin servicios de pago y sin que el texto salga de la máquina. Todo funciona en la CPU de una sesión en
 la nube de Claude Code. Las imágenes generadas son material de apoyo; el vídeo lo hace la edición.
 
-## Estado (30 de octubre de 2026)
+## Estado (31 de octubre de 2026)
 
 **El canal en marcha es BusinessForMen** (negocios, en español; marca «Consejo»: grafito, blanco y carmesí). Su **primer vídeo, «Por qué quiebran empresas que ganan dinero», está terminado: 6 min 19 s**, 43 escenas de edición hechas a mano en HyperFrames y ancladas palabra a palabra a la voz (`canales/businessformen/kit/` y `canales/businessformen/videos/01-flujo-de-caja/`), con su miniatura, su descripción con fuentes y sus subtítulos (`PUBLICACION.md`). Las reglas de edición del canal están en `canales/businessformen/EDICION.md`.
 
 **Y tres cortos verticales para Reels, TikTok y Facebook** (`canales/businessformen/cortos/`), de 48–54 s: «La
 cláusula» (negociación), «La cuerda» (organización) y «Para siempre» (marca). El mismo archivo vale para las tres apps:
 sin logos de ninguna ni «sígueme», con el gancho en el fotograma 0, subtítulos quemados y final en bucle.
+
+**Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
+supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:
+«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y «La chica que cayó del cielo» (69 s,
+`canales/supervivencia/cortos/01-juliane/`), con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md).
 
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
@@ -42,6 +47,8 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Subtítulos | SRT desde los tiempos de la voz, con nombres y cifras bien escritos | ✅ `canales/businessformen/kit/subtitulos.py` |
 | Cortos verticales | El mismo kit en 1080 × 1920: subtítulos quemados, zona segura de las apps y bucle | ✅ `canales/businessformen/cortos/` |
 | Rastreador de nichos | Dataset de 5.600 M de vídeos de TikTok (DuckDB), API de YouTube con RSS, desmontaje de vídeos | ✅ `rastreador/` ([primer informe](rastreador/informes/2026-10-30.md)) |
+| Varios canales | La marca de cada canal en `marca/canal.json` (voz, fuentes, colores); recursos de un corto con un comando | ✅ `montar.py --canal`, `canales/preparar-corto.sh` |
+| Mapas animados | Fronteras de Natural Earth, proyección local a escala real y medidas propias | ✅ `canales/geografia/kit/geo.py` |
 
 ## Empezar en una sesión nueva
 
@@ -152,6 +159,11 @@ video/renderizar_canvas.mjs escena HTML animada → MP4
 video/plantilla_titulo.html plantilla de título animado
 estilos/                    las tres pruebas de estilo en HyperFrames y su preparar.sh
 videos/anticitera/          el primer vídeo: guion, prompts, preparar-apertura.sh y la apertura en HyperFrames
+canales/businessformen/     el primer canal: marca, kit de montaje (montar.py, también para los demás canales), vídeos y cortos
+canales/geografia/          canal de prueba de geografía: marca, kit de mapas (geo.py) y cortos
+canales/supervivencia/      canal de prueba de historias reales de supervivencia: marca y cortos
+canales/RETENCION.md        cómo se escribe y se monta un corto para que se vea entero
+canales/preparar-corto.sh   fuentes, texturas, voz, música e imágenes de un corto de cualquier canal
 rastreador/                 nichos y vídeos que funcionan: tiktok.py (dataset), youtube.py (Shorts), desmontar.py; informes/
 docs/                       bitácora, investigaciones (imagen, edición y rastreador de nichos), estilo, entorno y resultados
 CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
@@ -159,8 +171,9 @@ CLAUDE.md                   contexto e instrucciones para Claude en cada sesión
 
 ## Siguiente paso
 
-Elegir los próximos vídeos con el rastreador ([primer informe](rastreador/informes/2026-10-30.md)): desmontar 3–5
-vídeos atípicos que el usuario suba y, con eso, el vídeo 2 y nuevos cortos con el mismo kit. El plan está en
+Que el usuario vea los dos cortos nuevos (`salidas/geografia/cortos/01-chile/entrega/` y
+`salidas/supervivencia/cortos/01-juliane/entrega/`), elija los nombres de los canales y los publique; medir a las 48 h y
+a los 7 días y, mientras, producir la semana con el mismo kit. El plan está en
 [docs/bitacora.md](docs/bitacora.md#siguiente-paso).
 
 ![Las tres pruebas de estilo](docs/resultados/comparativa-estilos.jpg)

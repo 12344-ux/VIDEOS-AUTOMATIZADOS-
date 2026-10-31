@@ -1,0 +1,58 @@
+<template>
+  <!-- El dato final y el bucle: «En el avión iban noventa y dos personas»: 92 marcas; «Sobrevivió una»: todas se apagan
+       menos una, naranja; «la chica que cayó del cielo»: vuelve la caída del principio con su altímetro en 3.000 m. El
+       último fotograma es el primero del vídeo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .cifra { position: absolute; left: 80px; top: 236px; font: 800 150px/0.9 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .cifra small { display: block; font: 400 40px/1.2 "Special Elite", monospace; letter-spacing: 0.04em; margin-top: 10px; color: #c9c1b4; }
+    #{{ID}} .rejilla { position: absolute; left: 86px; top: 520px; width: 860px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px 14px; }
+    #{{ID}} .rejilla i { display: block; width: 52px; height: 52px; border-radius: 50%; background: #f2ede4; visibility: hidden; }
+    #{{ID}} .una { position: absolute; left: 80px; top: 1100px; font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .una span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    /* El plano del principio (igual que la escena caida en su fotograma 0). */
+    #{{ID}} .vuelta { position: absolute; inset: 0; visibility: hidden; }
+    #{{ID}} .edad { position: absolute; left: 80px; top: 236px; }
+    #{{ID}} .cayo { position: absolute; left: 76px; top: 850px; font: 800 150px/0.86 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      text-shadow: 0 4px 34px rgba(0, 0, 0, 0.7); }
+    #{{ID}} .alt { position: absolute; left: 70px; top: 975px; font: 800 220px/0.86 "Barlow Condensed", sans-serif; letter-spacing: -0.01em;
+      text-shadow: 0 4px 40px rgba(0, 0, 0, 0.75); white-space: nowrap; }
+    #{{ID}} .alt small { font-size: 0.42em; margin-left: 0.08em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="cifra num"><span class="n">0</span><small>personas a bordo</small></div>
+      <div class="rejilla"></div>
+      <div class="una"><span>Sobrevivió una</span></div>
+      <div class="vuelta">
+        <img class="foto" src="assets/img/caida.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="diario edad">17 años</div>
+        <div class="cayo">Cayó</div>
+        <div class="alt num">3.000<small>m</small></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const rej = $(".rejilla"), puntos = [];
+      for (let i = 0; i < 92; i++) { const p = document.createElement("i"); rej.appendChild(p); puntos.push(p); }
+      const t0 = w("noventa") - 0.05, t1 = f("personas");
+      cuenta($(".cifra .n"), 0, 92, t0, t1 - t0, { ease: "power2.out" });
+      puntos.forEach((p, i) => tl.fromTo(p, { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, t0 + (t1 - t0) * i / 92));
+      // «Sobrevivió una»: todas se apagan menos una (la de la última fila, a la izquierda).
+      const s = w("Sobrevivió", 2) - 0.05, viva = puntos[84];
+      tl.to(puntos.filter((p) => p !== viva), { backgroundColor: "#2b2723", duration: 0.35, ease: "power2.out" }, s);
+      tl.to(viva, { backgroundColor: "#ff5e1a", scale: 1.5, duration: 0.3, ease: "back.out(2)" }, s);
+      tl.fromTo($(".una"), { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, s);
+      // «la chica que cayó del cielo»: vuelve el principio.
+      const v = w("chica") - 0.1;
+      tl.to([$(".cifra"), $(".rejilla"), $(".una")], { autoAlpha: 0, duration: 0.15, ease: "power2.in" }, v - 0.15);
+      tl.fromTo($(".vuelta"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35, ease: "power2.out" }, v);
+      tl.fromTo($(".vuelta .foto"), { scale: 1.08, y: 30 }, { scale: 1.0, y: 0, duration: DUR - v, ease: "power2.out" }, v);
+      fin();
+    })();
+  </script>
+</template>

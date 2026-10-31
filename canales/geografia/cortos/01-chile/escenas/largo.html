@@ -1,0 +1,32 @@
+<template>
+  <!-- El reenganche: «Pero eso explica lo estrecho» (Chile, estrecho, a la izquierda); «¿Y lo largo?»: la pregunta en grande
+       y Chile que se estira de arriba abajo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .a { position: absolute; left: 330px; top: 330px; width: 600px; font: 900 84px/1 "Archivo", sans-serif;
+      letter-spacing: -0.02em; text-transform: uppercase; color: #8fa6bd; }
+    #{{ID}} .b { position: absolute; left: 330px; top: 620px; width: 600px; font: 900 136px/0.9 "Archivo", sans-serif;
+      letter-spacing: -0.04em; text-transform: uppercase; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .b .bloque { display: inline-block; padding: 0.02em 0.1em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920"><path class="prota chile" d="{{p:chile}}" /></svg>
+      <div class="a">Eso explica lo estrecho</div>
+      <div class="b">¿Y lo<br><span class="bloque">largo</span>?</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea($(".a"));
+      serie("Eso", 4).forEach((t, i) => sube(ps[i], t - 0.08, 0.4));
+      tl.fromTo($(".chile"), { scaleY: 0.5, transformOrigin: "50% 10%" }, { scaleY: 0.5, duration: 0.01 }, 0);
+      tl.to($(".a"), { autoAlpha: 0.35, duration: 0.3 }, w("largo", 2) - 0.25);
+      tl.fromTo($(".b"), { autoAlpha: 0, scale: 1.25, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "expo.out" }, w("largo", 2) - 0.15);
+      tl.to($(".chile"), { scaleY: 1, duration: 0.6, ease: "expo.out" }, w("largo", 2) - 0.1);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,42 @@
+<template>
+  <!-- Gancho (y bucle): el asiento que cae entre nubes de tormenta hacia la selva. En el fotograma 0: 17 AÑOS · CAYÓ ·
+       3.000 m. «Cayó tres mil metros»: el altímetro baja de 3.000 a 0 mientras la cámara cae; «Y sobrevivió»: el bloque
+       naranja. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 40%; }
+    #{{ID}} .edad { position: absolute; left: 80px; top: 236px; }
+    #{{ID}} .cayo { position: absolute; left: 76px; top: 850px; font: 800 150px/0.86 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      text-shadow: 0 4px 34px rgba(0, 0, 0, 0.7); }
+    #{{ID}} .alt { position: absolute; left: 70px; top: 975px; font: 800 220px/0.86 "Barlow Condensed", sans-serif; letter-spacing: -0.01em;
+      text-shadow: 0 4px 40px rgba(0, 0, 0, 0.75); white-space: nowrap; }
+    #{{ID}} .alt small { font-size: 0.42em; margin-left: 0.08em; }
+    #{{ID}} .vivo { position: absolute; left: 80px; top: 1180px; font: 800 130px/1 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      visibility: hidden; }
+    #{{ID}} .vivo span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.16em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/caida.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="diario edad">17 años</div>
+      <div class="cayo">Cayó</div>
+      <div class="alt num"><span class="n">3.000</span><small>m</small></div>
+      <div class="vivo"><span>Y sobrevivió</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // La cámara cae con ella: un empuje lento y la imagen que sube un poco.
+      tl.fromTo($(".foto"), { scale: 1.0, y: 0 }, { scale: 1.16, y: -60, duration: DUR, ease: "none" }, 0);
+      // El altímetro: de 3.000 m a 0 entre «Cayó» y el final de «asiento».
+      cuenta($(".alt .n"), 3000, 0, w("Cayó") - 0.05, f("asiento") - w("Cayó") + 0.1, { ease: "power2.in" });
+      tl.to($(".alt"), { color: "#ff5e1a", duration: 0.1 }, f("asiento") + 0.02);
+      tl.fromTo($(".vivo"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, w("sobrevivió") - 0.06);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -8, y: 5, duration: 0.05 }, { x: 6, y: -4, duration: 0.05 }, { x: -2, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.06 }] }, w("sobrevivió") - 0.02);
+      fin();
+    })();
+  </script>
+</template>

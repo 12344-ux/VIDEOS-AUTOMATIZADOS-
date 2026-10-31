@@ -1,0 +1,65 @@
+<template>
+  <!-- El momento cero: Perú; la fecha a máquina (24 DIC 1971); «vuela… para pasar la Navidad con su padre»: la ruta de
+       Lima a Pucallpa se dibuja y el avión avanza hasta quedar sobre la selva. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .vec { fill: #151311; stroke: #2e2a25; stroke-width: 2; }
+    #{{ID}} .ruta { fill: none; stroke: #f2ede4; stroke-width: 5; stroke-dasharray: 16 12; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .fecha { position: absolute; left: 80px; top: 236px; font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; }
+    #{{ID}} .lugar { position: absolute; font: 800 54px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.02em;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.9); visibility: hidden; }
+    #{{ID}} .peru { position: absolute; left: 150px; top: 420px; font: 800 120px/1 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      color: rgba(242, 237, 228, 0.18); letter-spacing: 0.06em; visibility: hidden; }
+    #{{ID}} .avion { position: absolute; width: 70px; height: 70px; margin: -35px 0 0 -35px; visibility: hidden; }
+    #{{ID}} .nota { position: absolute; left: 80px; top: 1060px; visibility: hidden; font-size: 38px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <path class="vec" d="{{p:vecinos}}" />
+        <path class="prota" d="{{p:peru}}" />
+        <path class="ruta" />
+        <circle class="punto p-lima" r="11" /><circle class="punto p-puc" r="11" />
+      </svg>
+      <div class="peru">Perú</div>
+      <div class="fecha"><span class="t"></span></div>
+      <div class="lugar l-lima">Lima</div>
+      <div class="lugar l-puc">Pucallpa</div>
+      <svg class="avion" viewBox="-35 -35 70 70"><path d="M0,-32 L6,-10 L30,4 L30,10 L6,4 L4,22 L12,28 L12,32 L0,28 L-12,32 L-12,28 L-4,22 L-6,4 L-30,10 L-30,4 L-6,-10 Z" fill="#ff5e1a" /></svg>
+      <div class="diario nota">Con su madre. Hacia la Navidad.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const A = {{p:lima}}, B = {{p:pucallpa}};
+      const ang = Math.atan2(B[1] - A[1], B[0] - A[0]) * 180 / Math.PI + 90;
+      $(".p-lima").setAttribute("cx", A[0]); $(".p-lima").setAttribute("cy", A[1]);
+      $(".p-puc").setAttribute("cx", B[0]); $(".p-puc").setAttribute("cy", B[1]);
+      gsap.set($(".l-lima"), { left: A[0] - 150, top: A[1] - 20 });
+      gsap.set($(".l-puc"), { left: B[0] + 26, top: B[1] - 22 });
+      aparece($(".peru"), Math.max(0, w("Perú") - 0.1), 0.4);
+      // La fecha, a máquina, con la voz.
+      const partes = [["24 ", w("veinticuatro")], ["DIC ", w("diciembre")], ["1971", w("mil", 2)]];
+      const t = $(".fecha .t");
+      const txt = { n: 0 }, todo = partes.map((p) => p[0]).join("");
+      const cortes = []; let acc = 0;
+      partes.forEach(([s, t0]) => { for (let i = 0; i < s.length; i++) cortes.push([acc + i + 1, t0 + i * 0.05]); acc += s.length; });
+      const pinta = (x) => { let k = 0; cortes.forEach(([n, tt]) => { if (x >= tt) k = n; }); t.textContent = todo.slice(0, k); };
+      alBuscar(pinta);
+      // «vuela»: Lima y Pucallpa, la ruta y el avión, que se queda sobre la selva (al 80 %).
+      [".p-lima", ".p-puc"].forEach((c, i) => tl.fromTo($(c), { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, w("Yuliane") + 0.1 * i));
+      entra($(".l-lima"), w("Yuliane"), 0.3, 10);
+      entra($(".l-puc"), w("Yuliane") + 0.1, 0.3, 10);
+      $(".ruta").setAttribute("d", `M${A[0]},${A[1]} L${B[0]},${B[1]}`);
+      tl.fromTo($(".ruta"), { autoAlpha: 0, strokeDashoffset: 200 }, { autoAlpha: 1, strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, w("vuela") - 0.1);
+      gsap.set($(".avion"), { left: A[0], top: A[1], rotation: ang });
+      tl.set($(".avion"), { visibility: "visible" }, w("vuela"));
+      tl.fromTo($(".avion"), { x: 0, y: 0 }, { x: 0.8 * (B[0] - A[0]), y: 0.8 * (B[1] - A[1]), duration: f("padre") - w("vuela"), ease: "power1.inOut", immediateRender: false }, w("vuela"));
+      entra($(".nota"), w("madre") - 0.05, 0.35, 10);
+      fin();
+    })();
+  </script>
+</template>

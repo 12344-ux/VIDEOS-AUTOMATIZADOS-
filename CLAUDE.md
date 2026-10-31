@@ -32,6 +32,13 @@ sale de un dataset público de 5.600 M de vídeos (CC BY-NC, solo uso no comerci
 YouTube (la clave la pone el proxy del entorno); y el porqué de un vídeo, de `desmontar.py` sobre un archivo que sube el
 usuario. Los informes, en `rastreador/informes/`.
 
+**Dos canales de prueba** (desde el 31-oct-2026, una semana): **geografía** con mapas animados (`canales/geografia/`,
+voz F4) e **historias reales de supervivencia** (`canales/supervivencia/`, voz M2), cada uno con su canal de Shorts y su
+página de Reels de Facebook. Los eligió el usuario con el informe del rastreador. Cortos de 60–90 s, guiones sencillos
+pero intrigantes y la retención de `canales/RETENCION.md`; se montan con el kit de BusinessForMen y la marca de cada
+canal (`montar.py --canal`, `canales/preparar-corto.sh`). Las historias reales, con los datos contrastados y sin
+inventar lo que las fuentes no dicen.
+
 ## Al empezar una sesión
 
 1. Lee `README.md` y `docs/bitacora.md`.
@@ -159,6 +166,15 @@ usuario. Los informes, en `rastreador/informes/`.
   `mask-image: url(desgaste.png)`.
 - En vertical, las mayúsculas de Inter Tight 800 ocupan unos 0,6 em por letra: calcular el ancho de cada línea
   (cabe en unos 880 px) o el titular parte en un renglón más y pisa lo de debajo.
+- En las plantillas de escena, el `w()` de JavaScript solo acepta **una palabra** (`w("Por")`, no `w("Por eso")`): con dos
+  da un error y la escena entera se queda sin animar (invisible). El de `montaje.py` sí acepta varias.
+- Dentro de una escena, los tiempos de `w()` son desde que empieza la escena: si la escena entra después de la palabra,
+  sale negativo y lo anclado ahí ya está hecho en el primer fotograma (el contador de días empezaba en el 4).
+- `tl.fromTo` pinta su origen al crearse (`immediateRender`): un segundo `fromTo` sobre el mismo elemento, o uno que
+  empieza visible, lo enseña antes de tiempo. `immediateRender: false` o empezar oculto con CSS.
+- El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.
+- Texto blanco sobre el naranja `#FF5E1A` da 2,6:1 y no se lee: texto oscuro (`#0b0a09`). Con amarillos y naranjas,
+  medir el contraste antes de elegir el color del texto.
 
 ## Cómo decidir
 

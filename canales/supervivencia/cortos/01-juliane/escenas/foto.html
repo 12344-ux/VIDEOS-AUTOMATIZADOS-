@@ -1,0 +1,88 @@
+<template>
+  <!-- Una imagen a sangre con su cámara y lo que pasa sobre ella, según el modo:
+       sola      el asiento vacío en la selva; «Sola»: la palabra, enorme
+       aviones   ella mira arriba; un avión cruza la copa de los árboles; «No la ven»: el sello
+       arroyo    camina río abajo; «día tras día»: el contador de días corre (5 → 8)
+       refugio   «Después de nueve días»: DÍA 9; refugio, barca y gasolina, señalados al nombrarlos
+       rescate   «Al día siguiente»: DÍA 10; «leñadores»: RESCATADA -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 50%; }
+    /* Con el contador de días arriba, el cielo se oscurece para que se lea (en el refugio, el cielo es casi blanco). */
+    #{{ID}} .techo { background: linear-gradient(180deg, rgba(11, 10, 9, 0.8) 0%, rgba(11, 10, 9, 0.45) 13%, rgba(11, 10, 9, 0) 27%); display: none; }
+    #{{ID}}[data-modo="arroyo"] .techo, #{{ID}}[data-modo="refugio"] .techo, #{{ID}}[data-modo="rescate"] .techo { display: block; }
+    #{{ID}} .grande { position: absolute; left: 0; width: 1080px; top: 520px; text-align: center; font: 800 300px/0.84 "Barlow Condensed", sans-serif;
+      text-transform: uppercase; text-shadow: 0 6px 50px rgba(0, 0, 0, 0.8); visibility: hidden; }
+    #{{ID}} .sello { position: absolute; left: 80px; top: 820px; font: 800 120px/1 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      visibility: hidden; }
+    #{{ID}} .sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.16em 0; }
+    #{{ID}} .dia { position: absolute; left: 80px; top: 236px; font: 400 64px/1 "Special Elite", monospace; letter-spacing: 0.04em;
+      text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9); visibility: hidden; }
+    #{{ID}} .dia b { font-weight: 400; color: #ff5e1a; }
+    #{{ID}} .nota { position: absolute; left: 80px; top: 330px; font-size: 40px; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9); visibility: hidden; }
+    #{{ID}} .et { position: absolute; font: 800 52px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em;
+      visibility: hidden; }
+    #{{ID}} .et span { display: inline-block; background: rgba(11, 10, 9, 0.85); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .avion { position: absolute; left: 0; top: 0; width: 220px; height: 220px; margin: -110px 0 0 -110px; visibility: hidden;
+      filter: blur(1px); opacity: 0.85; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <img class="foto" src="assets/img/{{p:foto}}.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="capa techo"></div>
+      <svg class="avion" viewBox="-35 -35 70 70"><path d="M0,-32 L6,-10 L30,4 L30,10 L6,4 L4,22 L12,28 L12,32 L0,28 L-12,32 L-12,28 L-4,22 L-6,4 L-30,10 L-30,4 L-6,-10 Z" fill="#0b0a09" /></svg>
+      <div class="grande">Sola.</div>
+      <div class="sello"><span class="s"></span></div>
+      <div class="dia">Día <b class="n">1</b></div>
+      <div class="diario nota"></div>
+      <div class="et e1"><span></span></div><div class="et e2"><span></span></div><div class="et e3"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const camara = { sola: [1.15, 1.0, 0, 0], aviones: [1.0, 1.12, 0, 40], arroyo: [1.05, 1.18, 0, -30], refugio: [1.0, 1.1, 0, 0], rescate: [1.12, 1.0, 0, 0] }[modo];
+      tl.fromTo($(".foto"), { scale: camara[0], x: 0, y: 0 }, { scale: camara[1], x: camara[2], y: camara[3], duration: DUR, ease: "none" }, 0);
+      const dia = (n, t, d = 0.35) => {
+        tl.set($(".dia"), { visibility: "visible" }, t);
+        cuenta($(".dia .n"), n[0], n[1], t, d, { crudo: true, ease: "none" });
+      };
+      const sello = (texto, t) => {
+        $(".sello .s").textContent = texto;
+        tl.fromTo($(".sello"), { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1);
+        tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -7, duration: 0.05 }, { x: 5, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.12);
+      };
+      const etiqueta = (c, texto, x, y, t) => {
+        $(c + " span").textContent = texto;
+        gsap.set($(c), { left: x, top: y });
+        tl.fromTo($(c), { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08);
+      };
+      if (modo === "sola") {
+        tl.to($(".foto"), { filter: "brightness(0.55)", duration: 0.4 }, w("Sola") - 0.2);
+        tl.fromTo($(".grande"), { autoAlpha: 0, scale: 1.15 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "expo.out" }, w("Sola") - 0.08);
+      } else if (modo === "aviones") {
+        gsap.set($(".avion"), { rotation: 70, left: 0, top: 420 });
+        tl.set($(".avion"), { visibility: "visible" }, w("aviones") - 0.4);
+        tl.fromTo($(".avion"), { x: -200, y: 0 }, { x: 1300, y: -170, duration: 2.2, ease: "none", immediateRender: false }, w("aviones") - 0.4);
+        sello("No la ven", w("No", 2));
+      } else if (modo === "arroyo") {
+        dia([5, 5], 0.05, 0.01);
+        $(".nota").textContent = "Sigue el arroyo";
+        entra($(".nota"), w("arroyo") - 0.05, 0.35, 10);
+        dia([5, 8], w("día", 1) - 0.05, f("día", 2) - w("día", 1) + 0.1);
+      } else if (modo === "refugio") {
+        dia([8, 9], w("nueve") - 0.1, 0.3);
+        etiqueta(".e1", "Refugio", 520, 450, w("refugio"));
+        etiqueta(".e2", "Barca ↓", 250, 1050, w("barca"));
+        etiqueta(".e3", "Gasolina ↓", 610, 1050, w("gasolina"));
+      } else if (modo === "rescate") {
+        dia([9, 10], w("día", 3) - 0.05, 0.3);
+        sello("Rescatada", w("leñadores"));
+      }
+      fin();
+    })();
+  </script>
+</template>

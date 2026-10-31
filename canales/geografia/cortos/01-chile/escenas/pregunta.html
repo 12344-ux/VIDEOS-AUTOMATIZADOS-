@@ -1,0 +1,44 @@
+<template>
+  <!-- El bucle abierto: «¿Cómo acabó un país con esta forma?», a toda pantalla; «tres razones»: tres casillas; «la tercera
+       cambió el mapa»: la tercera se queda con su interrogación, en amarillo, hasta el final del vídeo. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.mapa { opacity: 0.16; }
+    #{{ID}} .q { position: absolute; left: 80px; top: 300px; width: 900px; font: 900 108px/0.96 "Archivo", sans-serif;
+      letter-spacing: -0.035em; text-transform: uppercase; white-space: nowrap; }
+    #{{ID}} .tres { position: absolute; left: 80px; top: 760px; font: 900 64px/1 "Archivo", sans-serif; text-transform: uppercase;
+      letter-spacing: -0.01em; visibility: hidden; }
+    #{{ID}} .cas { position: absolute; top: 860px; width: 200px; height: 200px; border: 6px solid #8fa6bd; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center; font: 900 130px/1 "Archivo", sans-serif; color: #8fa6bd;
+      visibility: hidden; }
+    #{{ID}} .cas.c3 { border-color: #ffc531; color: #081521; background: #ffc531; }
+    #{{ID}} .cambio { position: absolute; left: 80px; top: 1096px; visibility: hidden; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920"><path class="prota" d="{{p:chile}}" transform="translate(560,0)" /></svg>
+      <div class="q">¿Cómo acabó<br>un país con<br>esta forma?</div>
+      <div class="tres">Tres razones</div>
+      <div class="cas c1" style="left: 80px">1</div>
+      <div class="cas c2" style="left: 320px">2</div>
+      <div class="cas c3" style="left: 560px">?</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const ps = trocea($(".q"));
+      const tq = serie("Cómo", 7);
+      ps.forEach((p, i) => sube(p, (tq[i] ?? tq[tq.length - 1]) - 0.08, 0.4));
+      // «Hay tres razones»: la pregunta sube y deja sitio; tres casillas, una tras otra.
+      tl.to($(".q"), { y: -60, scale: 0.78, transformOrigin: "left top", duration: 0.45, ease: "expo.inOut" }, w("Hay") - 0.1);
+      entra($(".tres"), w("tres") - 0.08, 0.35, 16);
+      [".c1", ".c2", ".c3"].forEach((c, i) => tl.fromTo($(c), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, w("tres") + 0.12 * i));
+      // «Y la tercera»: la casilla 3 se adelanta; «cambió el mapa»: un temblor.
+      tl.to($(".c3"), { scale: 1.12, duration: 0.3, ease: "expo.out" }, w("tercera") - 0.05);
+      tl.fromTo($(".c3"), { x: 0 }, { keyframes: [{ x: -8, duration: 0.05 }, { x: 7, duration: 0.05 }, { x: -3, duration: 0.05 }, { x: 0, duration: 0.06 }] }, w("mapa") + 0.02);
+      fin();
+    })();
+  </script>
+</template>

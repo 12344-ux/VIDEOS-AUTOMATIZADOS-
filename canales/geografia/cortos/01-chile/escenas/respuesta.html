@@ -1,0 +1,49 @@
+<template>
+  <!-- La respuesta, el momento más grande: Chile entero a la izquierda y las tres razones que caen una a una con la voz;
+       «Por eso Chile parece una cinta»: las tres se recogen y queda UNA CINTA, con un brillo que recorre el país. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .chile { filter: drop-shadow(0 0 22px rgba(255, 197, 49, 0.5)); }
+    #{{ID}} .lista { position: absolute; left: 360px; top: 300px; width: 600px; }
+    #{{ID}} .it { font: 900 104px/0.96 "Archivo", sans-serif; letter-spacing: -0.03em; text-transform: uppercase; margin-bottom: 34px;
+      visibility: hidden; }
+    #{{ID}} .it small { display: block; font: 500 28px/1.2 "Plex Mono", monospace; letter-spacing: 0.08em; color: #8fa6bd; }
+    #{{ID}} .cinta { position: absolute; left: 360px; top: 560px; width: 620px; font: 900 150px/0.9 "Archivo", sans-serif;
+      letter-spacing: -0.04em; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .cinta .bloque { display: inline-block; padding: 0.04em 0.1em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="{{ID}}-brillo" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff6d6" stop-opacity="0" />
+            <stop offset="0.5" stop-color="#fff6d6" stop-opacity="0.95" />
+            <stop offset="1" stop-color="#fff6d6" stop-opacity="0" />
+          </linearGradient>
+          <clipPath id="{{ID}}-forma"><path d="{{p:chile}}" /></clipPath>
+        </defs>
+        <path class="prota chile" d="{{p:chile}}" />
+        <g clip-path="url(#{{ID}}-forma)"><rect class="brillo" x="0" y="-300" width="600" height="260" fill="url(#{{ID}}-brillo)" /></g>
+      </svg>
+      <div class="lista">
+        <div class="it i1">Una muralla<small>los Andes</small></div>
+        <div class="it i2">Un tratado<small>1881</small></div>
+        <div class="it i3">Una guerra<small>1879–1884</small></div>
+      </div>
+      <div class="cinta">= Una<br><span class="bloque">cinta</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      [["i1", w("muralla", 2)], ["i2", w("tratado", 2)], ["i3", w("guerra", 2)]].forEach(([c, t]) =>
+        tl.fromTo($("." + c), { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08));
+      tl.to($(".lista"), { autoAlpha: 0, y: -40, duration: 0.3, ease: "power2.in" }, w("Por") - 0.2);
+      tl.fromTo($(".cinta"), { autoAlpha: 0, scale: 1.2, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "expo.out" }, w("cinta") - 0.12);
+      tl.fromTo($(".brillo"), { attr: { y: -300 } }, { attr: { y: 1400 }, duration: 1.0, ease: "power2.inOut" }, w("cinta") - 0.1);
+      fin();
+    })();
+  </script>
+</template>

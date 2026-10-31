@@ -5,6 +5,10 @@ sus escenas (videos/<vídeo>/escenas/*.html, una plantilla por escena) y los tie
 
   python3 canales/businessformen/kit/montar.py 01-flujo-de-caja
   python3 canales/businessformen/kit/montar.py cortos/01-la-clausula      (un corto: canales/businessformen/cortos/…)
+  python3 canales/businessformen/kit/montar.py --canal canales/geografia cortos/01-chile     (otro canal con este kit)
+
+Otro canal: su carpeta trae marca/marca.css (y, si quiere, marca/corto.css) y marca/canal.json (nombre, fondo y estilo de
+los subtítulos); sus fuentes van en salidas/<canal>/marca/fuentes y su trabajo en salidas/<canal>/<vídeo>.
 
 En montaje.py hay disponibles:
   formato(ancho, alto, voz0=…, cola=…)    el lienzo y la entrada de la voz (por defecto 1920 × 1080, voz a 0,8 s); va
@@ -47,7 +51,12 @@ CANAL = os.path.dirname(AQUI)
 REPO = os.path.dirname(os.path.dirname(CANAL))
 H = os.environ.get('HERRAMIENTAS', os.path.expanduser('~/herramientas-videos'))
 SFX_HF = os.path.join(H, 'hyperframes/node_modules/hyperframes/dist/skills/media-use/audio/assets/sfx')
-FUENTES = os.path.join(REPO, 'salidas', 'businessformen', 'marca', 'fuentes')
+SLUG = 'businessformen'
+FUENTES = os.path.join(REPO, 'salidas', SLUG, 'marca', 'fuentes')
+# Lo propio de cada canal (por defecto, BusinessForMen): ver configurar().
+CONF = dict(nombre='BusinessForMen', prefijo='bfm', fondo='#0a0b0d',
+            subtitulos=dict(fuente='intertight-800.woff2', familia='Inter Tight', peso=800, color='#f4f3f0',
+                            resalte='176, 18, 47'))
 VOZ0 = 0.8
 COLA = 2.0
 SFX = {n: 'hf:' + n + '.mp3' for n in ('chime', 'click', 'click-soft', 'impact-bass-1', 'impact-bass-2', 'key-press', 'pop',
@@ -75,7 +84,7 @@ class Video:
     def __init__(self, vid):
         self.id = vid
         self.dir = os.path.join(CANAL, vid) if '/' in vid else os.path.join(CANAL, 'videos', vid)
-        self.trabajo = os.environ.get('TRABAJO', os.path.join(REPO, 'salidas', 'businessformen', vid))
+        self.trabajo = os.environ.get('TRABAJO', os.path.join(REPO, 'salidas', SLUG, vid))
         self.voz = json.load(open(os.path.join(self.trabajo, 'voz', 'voz.json')))
         self.palabras = [p for f in self.voz['frases'] for p in f['palabras']]
         self.escenas, self.sonidos, self.musicas = [], [], []
@@ -152,7 +161,7 @@ def comp_escena(v, e, marca_css, ayuda_js):
         return val if isinstance(val, str) else json.dumps(val, ensure_ascii=False)
 
     s = fuente.replace('/*MARCA*/', marca_css).replace('/*AYUDA*/', ayuda_js)
-    s = s.replace('/*CORTO*/', open(os.path.join(AQUI, 'corto.css')).read())
+    s = s.replace('/*CORTO*/', open(propio('corto.css')).read())
     s = s.replace('/*W*/', json.dumps(v.mapa(), ensure_ascii=False, separators=(',', ':')))
     s = s.replace('/*L*/', json.dumps([[limpia(q['texto']), r3(v.voz0 + q['inicio']), r3(v.voz0 + q['fin'])] for q in v.palabras],
                                       ensure_ascii=False, separators=(',', ':')))
@@ -216,6 +225,8 @@ def grupos_subtitulos(v):
 
 def comp_subtitulos(v):
     e = dict(top=1168, tam=64, **(v.subs or {}))
+    st = CONF['subtitulos']
+    r = st['resalte']
     grupos = grupos_subtitulos(v)
     filas = []
     for i, g in enumerate(grupos):
@@ -225,10 +236,10 @@ def comp_subtitulos(v):
     return f'''<template>
   <!-- Subtítulos quemados (generados por kit/montar.py): grupos cortos y la palabra que suena en un bloque rojo. -->
   <style>
-    @font-face {{ font-family: "Inter Tight"; src: url("assets/fonts/intertight-800.woff2") format("woff2"); font-weight: 800; }}
+    @font-face {{ font-family: "{st['familia']}"; src: url("assets/fonts/{st['fuente']}") format("woff2"); font-weight: {st['peso']}; }}
     #subs {{ position: absolute; inset: 0; }}
     #subs .g {{ position: absolute; left: 0; right: 0; top: {e['top']}px; padding: 0 96px; text-align: center; visibility: hidden;
-      font: 800 {e['tam']}px/1.14 "Inter Tight", sans-serif; letter-spacing: -0.012em; color: #f4f3f0;
+      font: {st['peso']} {e['tam']}px/1.14 "{st['familia']}", sans-serif; letter-spacing: -0.012em; color: {st['color']};
       text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 0 3px rgba(0, 0, 0, 0.5); }}
     #subs .g span {{ display: inline-block; padding: 0.02em 0.13em 0.07em; }}
   </style>
@@ -246,9 +257,9 @@ def comp_subtitulos(v):
         tl.fromTo(g, {{ autoAlpha: 0, y: 10 }}, {{ autoAlpha: 1, y: 0, duration: 0.12, ease: "power3.out" }}, a);
         ps.forEach(([t0, t1], k) => {{
           const fin = k + 1 < ps.length ? ps[k + 1][0] : b;
-          tl.fromTo(sp[k], {{ backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" }},
-            {{ backgroundColor: "rgba(176, 18, 47, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", duration: 0.05 }}, Math.max(a, t0 - 0.03));
-          tl.to(sp[k], {{ backgroundColor: "rgba(176, 18, 47, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", duration: 0.05 }}, Math.max(t0, fin - 0.05));
+          tl.fromTo(sp[k], {{ backgroundColor: "rgba({r}, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "{st['color']}" }},
+            {{ backgroundColor: "rgba({r}, 1)", textShadow: "0 0 0 rgba(0, 0, 0, 0)", color: "{st.get('color_resalte', st['color'])}", duration: 0.05 }}, Math.max(a, t0 - 0.03));
+          tl.to(sp[k], {{ backgroundColor: "rgba({r}, 0)", textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)", color: "{st['color']}", duration: 0.05 }}, Math.max(t0, fin - 0.05));
         }});
         tl.to(g, {{ opacity: 0, duration: 0.08, ease: "power2.in" }}, b - 0.08);
         tl.set(g, {{ visibility: "hidden" }}, b);
@@ -309,7 +320,7 @@ def escribir(v):
     if os.path.isdir(os.path.join(p, 'compositions')):
         shutil.rmtree(os.path.join(p, 'compositions'))
     os.makedirs(os.path.join(p, 'compositions'), exist_ok=True)
-    marca_css = open(os.path.join(AQUI, 'marca.css')).read()
+    marca_css = open(propio('marca.css')).read()
     ayuda_js = open(os.path.join(AQUI, 'ayuda.js')).read()
     avisos, anfitriones = [], []
     for e in v.escenas:
@@ -324,17 +335,17 @@ def escribir(v):
     frames = round(v.dur * 30)
     A, B = v.ancho, v.alto
     indice = f'''<!doctype html>
-<!-- Generado por canales/businessformen/kit/montar.py desde videos/{v.id}/montaje.py: no editar a mano. -->
+<!-- Generado por canales/businessformen/kit/montar.py desde {os.path.relpath(v.dir, REPO)}/montaje.py: no editar a mano. -->
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width={A}, height={B}" />
-    <title>BusinessForMen · {v.id.replace('/', ' · ')}</title>
+    <title>{CONF['nombre']} · {v.id.replace('/', ' · ')}</title>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-      html, body {{ width: {A}px; height: {B}px; overflow: hidden; background: #0a0b0d; }}
-      #root {{ position: relative; width: {A}px; height: {B}px; overflow: hidden; background: #0a0b0d; }}
+      html, body {{ width: {A}px; height: {B}px; overflow: hidden; background: {CONF['fondo']}; }}
+      #root {{ position: relative; width: {A}px; height: {B}px; overflow: hidden; background: {CONF['fondo']}; }}
       #grano {{ position: absolute; inset: 0; background: url("assets/img/grano.png"); opacity: 0.05; mix-blend-mode: overlay; z-index: 50; pointer-events: none; }}
     </style>
   </head>
@@ -355,9 +366,12 @@ def escribir(v):
 '''
     open(os.path.join(p, 'index.html'), 'w').write(indice)
     for f in ('hyperframes.json',):
-        shutil.copy2(os.path.join(CANAL, 'marca', 'plantillas', f), os.path.join(p, f))
+        origen = os.path.join(CANAL, 'marca', 'plantillas', f)
+        shutil.copy2(origen if os.path.exists(origen) else os.path.join(os.path.dirname(AQUI), 'marca', 'plantillas', f),
+                     os.path.join(p, f))
     with open(os.path.join(p, 'meta.json'), 'w') as fh:
-        json.dump({'id': 'bfm-' + v.id.replace('/', '-'), 'name': 'bfm-' + v.id.replace('/', '-')}, fh, indent=2)
+        ident = CONF['prefijo'] + '-' + v.id.replace('/', '-')
+        json.dump({'id': ident, 'name': ident}, fh, indent=2)
     # Recursos: voz, músicas, imágenes, fuentes y efectos.
     a = os.path.join(p, 'assets')
     for sub in ('audio', 'img', 'fonts', 'sfx'):
@@ -369,7 +383,10 @@ def escribir(v):
         if f.endswith('.jpg'):
             shutil.copy2(os.path.join(v.trabajo, 'img', f), os.path.join(a, 'img', f))
     for f in ('grano.png', 'desgaste.png'):
-        shutil.copy2(os.path.join(REPO, 'salidas', 'businessformen', 'marca', 'img', f), os.path.join(a, 'img', f))
+        origen = os.path.join(REPO, 'salidas', SLUG, 'marca', 'img', f)
+        if not os.path.exists(origen):   # las texturas son las mismas para todos los canales
+            origen = os.path.join(REPO, 'salidas', 'businessformen', 'marca', 'img', f)
+        shutil.copy2(origen, os.path.join(a, 'img', f))
     for f in os.listdir(FUENTES):
         shutil.copy2(os.path.join(FUENTES, f), os.path.join(a, 'fonts', f))
     for s in {s['nombre'] for s in v.sonidos}:
@@ -378,8 +395,31 @@ def escribir(v):
     return avisos
 
 
+def propio(nombre):
+    """El archivo del canal (marca/<nombre>) si lo tiene; si no, el del kit."""
+    ruta = os.path.join(CANAL, 'marca', nombre)
+    return ruta if os.path.exists(ruta) else os.path.join(AQUI, nombre)
+
+
+def configurar(canal):
+    """Monta para otro canal: su carpeta (canales/<slug>), su marca y sus salidas."""
+    global CANAL, SLUG, FUENTES
+    CANAL = os.path.abspath(canal)
+    SLUG = os.path.basename(CANAL.rstrip('/'))
+    FUENTES = os.path.join(REPO, 'salidas', SLUG, 'marca', 'fuentes')
+    conf = os.path.join(CANAL, 'marca', 'canal.json')
+    if os.path.exists(conf):
+        c = json.load(open(conf))
+        CONF.update({k: x for k, x in c.items() if k != 'subtitulos'})
+        CONF['subtitulos'] = dict(CONF['subtitulos'], **c.get('subtitulos', {}))
+
+
 def main():
-    vid = sys.argv[1]
+    args = sys.argv[1:]
+    if args and args[0] == '--canal':
+        configurar(args[1])
+        args = args[2:]
+    vid = args[0]
     v = cargar(vid)
     avisos = escribir(v)
     print(json.dumps({'video': vid, 'duracion': v.dur, 'escenas': len(v.escenas), 'sonidos': len(v.sonidos), 'musicas': len(v.musicas)}))

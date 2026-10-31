@@ -1,0 +1,30 @@
+    /* Marca del canal de geografía: océano azul noche, tierra pizarra, el país del que se habla en amarillo mapa (#FFC531)
+       con texto oscuro encima; Archivo para todo y Plex Mono para coordenadas y cifras pequeñas. */
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/archivo-900.woff2") format("woff2"); font-weight: 900; }
+    @font-face { font-family: "Plex Mono"; src: url("assets/fonts/plexmono-500.woff2") format("woff2"); font-weight: 500; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #081521; color: #f5f1e8; font-family: "Archivo", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .mono { font: 500 34px/1.25 "Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: #8fa6bd; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.19em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .titular { font: 900 112px/0.98 "Archivo", sans-serif; letter-spacing: -0.03em; text-transform: uppercase; }
+    .esc .heroe { font: 900 300px/0.86 "Archivo", sans-serif; letter-spacing: -0.045em; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    .esc .bloque { background: #ffc531; color: #081521; padding: 0 0.12em; }
+    .esc .cortina { position: absolute; inset: 0; background: #ffc531; z-index: 40; visibility: hidden; }
+    /* El mapa: océano, tierra, fronteras y el país protagonista. */
+    .esc svg.mapa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    .esc .oceano { fill: #081521; }
+    .esc .tierra { fill: #1d3347; stroke: #2f4c66; stroke-width: 2; stroke-linejoin: round; }
+    .esc .vecino { fill: #24405a; stroke: #3a5f80; stroke-width: 2; stroke-linejoin: round; }
+    .esc .prota { fill: #ffc531; stroke: #fff1c4; stroke-width: 2; stroke-linejoin: round; }
+    .esc .rotulo { position: absolute; font: 800 44px/1 "Archivo", sans-serif; letter-spacing: 0.02em; text-transform: uppercase;
+      color: #f5f1e8; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7); white-space: nowrap; }
+    .esc .rotulo.chico { font: 500 30px/1.1 "Plex Mono", monospace; letter-spacing: 0.08em; color: #b9cadb; }
+    .esc .regla { stroke: #f5f1e8; stroke-width: 4; fill: none; }
+    .esc svg.mapa path, .esc svg.mapa line { vector-effect: non-scaling-stroke; }
+    .esc .cabecera { position: absolute; left: 80px; top: 214px; font: 800 40px/1 "Archivo", sans-serif; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #081521; background: #ffc531; padding: 0.22em 0.4em 0.18em; }
+    .esc .cabecera b { font-weight: 900; }

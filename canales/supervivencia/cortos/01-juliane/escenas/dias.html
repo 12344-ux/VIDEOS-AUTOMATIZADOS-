@@ -1,0 +1,36 @@
+<template>
+  <!-- «Pasan los días»: el cuaderno de días, enorme, salta de 1 a 4 sobre la selva en sombra; «Los gusanos entran en la
+       herida de su brazo»: GUSANOS EN LA HERIDA, en el bloque naranja. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.3) saturate(0.6); transform: scale(1.2); }
+    #{{ID}} .dia { position: absolute; left: 80px; top: 300px; font: 400 200px/1 "Special Elite", monospace; letter-spacing: 0.02em; }
+    #{{ID}} .dia small { display: block; font-size: 0.32em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 10px; }
+    #{{ID}} .marcas { position: absolute; left: 86px; top: 600px; display: flex; gap: 22px; }
+    #{{ID}} .marcas i { width: 14px; height: 120px; background: #f2ede4; transform: rotate(8deg); visibility: hidden; }
+    #{{ID}} .herida { position: absolute; left: 80px; top: 820px; font: 800 112px/0.98 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      visibility: hidden; }
+    #{{ID}} .herida span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/sola.jpg" alt="" />
+      <div class="dia num"><small>Día</small><span class="n">1</span></div>
+      <div class="marcas"><i></i><i></i><i></i><i></i></div>
+      <div class="herida"><span>Gusanos</span><br>en la herida</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo($(".foto"), { scale: 1.2 }, { scale: 1.32, duration: DUR, ease: "none" }, 0);
+      // «Pasan los días»: la escena entra en «días» y las cuatro marcas caen en la pausa que sigue (cada una con su tecla).
+      const ts = [0.05, 0.2, 0.35, 0.5];
+      ts.forEach((t, i) => tl.fromTo($$(".marcas i")[i], { autoAlpha: 0, scaleY: 0, transformOrigin: "50% 100%" }, { autoAlpha: 1, scaleY: 1, duration: 0.12, ease: "power3.out" }, t));
+      alBuscar((t) => { $(".dia .n").textContent = String(Math.max(1, ts.filter((x) => t >= x).length)); });
+      tl.fromTo($(".herida"), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, w("gusanos") - 0.08);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,6 @@
+    /* Cortos verticales del canal de supervivencia (1080 × 1920): lo que se lee entre x 80–940 e y 200–1130; subtítulos
+       de 1168 a 1320; debajo, solo imagen. */
+    .esc .fuente { position: absolute; left: 80px; top: 1096px; width: 860px; font: 400 26px/1.3 "Special Elite", monospace;
+      letter-spacing: 0.04em; color: rgba(242, 237, 228, 0.55); }
+    .esc .velo { background: linear-gradient(180deg, rgba(11, 10, 9, 0.7) 0%, rgba(11, 10, 9, 0) 18%, rgba(11, 10, 9, 0) 42%,
+      rgba(11, 10, 9, 0.85) 63%, rgba(11, 10, 9, 0.97) 100%); }

@@ -715,10 +715,62 @@ sesión de Claude puede trabajar a la vez en el repositorio: cada una en su rama
   motion graphics) pesa más, sin derechos de terceros ni riesgos. Reservas: historias reales de supervivencia (el hueco
   más puro) e historias de Reddit (los números más altos, pero con problemas de derechos y de contenido reutilizado).
 
+### 4. Dos canales nuevos: geografía y supervivencia, un corto de cada uno
+
+- **Pedido del usuario:** dos canales de YouTube y dos páginas de Facebook para probar geografía e historias reales de
+  supervivencia, con una estrategia de retención excepcional y guiones más sencillos pero intrigantes; un vídeo de cada
+  nicho, usando las herramientas que hagan falta (FLUX incluido).
+- **La estrategia de retención** ([canales/RETENCION.md](../canales/RETENCION.md)): diez reglas, cada una con su
+  porqué: el golpe en el fotograma 0, la pregunta abierta antes de los 10 s, un reenganche cada 15–20 s, algo que cambia
+  en pantalla cada 1–3 s, el pago al 75–90 %, el último fotograma igual al primero (bucle), 60–90 s (la franja que
+  acierta el doble en los tres idiomas), frases cortas y subtítulos quemados salvo cuando la pantalla escribe en grande
+  lo que dice la voz. Con un esqueleto de guion por nicho y la lista de revisión (P0, P1, P2).
+- **El kit, para varios canales:** `montar.py --canal canales/<canal>` toma la marca de `marca/canal.json` (nombre,
+  fondo, voz, fuente y colores de los subtítulos) y sus `marca.css` y `corto.css`; sin `--canal`, BusinessForMen como
+  siempre. `canales/preparar-corto.sh <canal> <corto>` deja fuentes, texturas, voz, candidatas de música con sus graves
+  medidos e imágenes de FLUX ampliadas a 1080 × 1920.
+- **Voces:** las nueve de Supertonic-3 con la misma frase, transcritas con Whisper para ver cuál se entiende mejor.
+  Geografía, **F4** (femenina, clara, unas 3,2 palabras por segundo); supervivencia, **M2** (masculina, grave, de
+  narrador). Las dos, distintas de la M1 de BusinessForMen.
+- **Geografía** (`canales/geografia/`): marca de mapa (océano azul noche, tierra pizarra, el protagonista en amarillo
+  `#FFC531`; Archivo e IBM Plex Mono) y `kit/geo.py`: fronteras de Natural Earth (dominio público, por jsDelivr),
+  fronteras compartidas, recortes, una proyección azimutal local para comparar a escala real y medidas propias. Chile:
+  4.274 km de norte a sur y 93 km en lo más estrecho, a 31,6° S (las cifras oficiales: unos 4.270 km y 90 km a 31°37′ S).
+- **Corto 1, «¿Por qué Chile es tan largo?»** (59,7 s, 9 escenas): Chile puesto sobre Europa, de Noruega al Sáhara;
+  tres razones (la muralla de los Andes, el tratado de 1881 con la frontera en las cumbres que dividen las aguas, la
+  guerra del Pacífico y sus unos 700 km más al norte) y el bucle: «Y por eso Bolivia no tiene mar. Pero esa es otra
+  historia», que deja en pantalla la pregunta del principio.
+- **Supervivencia** (`canales/supervivencia/`): marca de cuaderno de campo (negro, naranja bengala `#FF5E1A`, Barlow
+  Condensed y Special Elite a máquina). **Corto 1, «La chica que cayó del cielo»** (Juliane Koepcke, Perú, 1971;
+  69,4 s, 14 escenas): el final va delante (17 años, cayó 3.000 m, sobrevivió); la historia, en presente y contada por
+  días, con un contador que cruza el vídeo; la regla del padre aparece tachada en el segundo 29 y no se lee hasta el 42
+  (bucle abierto de 13 s); «iban 92 personas», 92 puntos que se apagan menos uno, y vuelve el primer plano.
+- **Medido (Xeon con AMX):** la voz, 59,1 s en unos 40 s y 68,7 s en unos 46 s (frase a frase y alineada); la música,
+  dos candidatas de 30 s por canal en un lote (339 y 388 s); FLUX.3 Klein a 720 × 1280, de 109 a 276 s por imagen (2
+  para Chile y 8 para Juliane, parte de ellas mientras se renderizaba Chile), y EDSR a 1080 × 1920 en 7–10 s; el render
+  de Chile, 276 s con FLUX a la vez; el de Juliane, 171 s (sin nada más a la vez).
+- **Graves de la música, medidos antes de usarla:** en geografía, una candidata con el 3 % de la energía bajo 150 Hz (la
+  elegida) y otra con el 79 % que además se apagaba a los 25 s; en supervivencia, una que se apaga (de −23 a −76 dB) y
+  otra con el 30 % que crece de −25 a −17 dB (la elegida: sube con la historia).
+- **La revisión** (fotogramas de cada escena, mirados como un director): títulos que partían línea, rótulos sobre el
+  amarillo sin fondo, el perfil de los Andes en dientes de sierra, una gota visible antes de tiempo, etiquetas que se
+  pisaban, el contador de días que empezaba en el 4, la ficha de la regla pequeña, «Día 9» sobre un cielo blanco, texto
+  blanco sobre naranja (2,6:1; ahora oscuro), subtítulos que repetían lo que la pantalla escribe en grande (SOLA, NO LA
+  VEN, SOBREVIVIÓ UNA) y «SOBREVIVIÓ UNA» encima de los puntos. Las trampas nuevas, en CLAUDE.md.
+- **Entregas:** `salidas/geografia/cortos/01-chile/entrega/chile.mp4` (59,7 s, −14,0 LUFS, −1,9 dBTP, 9,6 MB) y
+  `salidas/supervivencia/cortos/01-juliane/entrega/juliane.mp4` (69,4 s, −14,4 LUFS, −1,4 dBTP, 40 MB: el grano y la
+  lluvia sobre fotos a sangre pesan cuatro veces más que los mapas). En los dos, el último fotograma es el primero (en
+  Juliane, 1,9 de diferencia media sobre 255) y el sonido no se corta en ningún momento. La ficha de publicación de cada uno (títulos, texto, fuentes y aviso de voz, imágenes y música
+  generadas) está en su `PUBLICACION.md`, y los nombres propuestos para los canales, en su `CANAL.md`.
+- **Lo que no se pudo comprobar:** qué día vio Juliane los gusanos y cuándo encontró el arroyo (ni su libro ni las
+  entrevistas lo fechan): el contador de días es orientativo entre la caída y el refugio, y su ficha lo dice.
+
 ## Siguiente paso
 
-0. Canal nuevo: que el usuario elija nicho. Si es geografía: kit de mapas (fronteras de Natural Earth por jsDelivr,
-   cámara que vuela al lugar), 14 temas contrastados y producción de la semana; medir a los 7 días.
+0. Canales nuevos: que el usuario vea los dos cortos, elija los nombres y cree los dos canales de YouTube y las dos
+   páginas de Facebook. Publicar y medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el
+   porcentaje medio visto; las vistas, también con `rastreador/youtube.py canal`). Mientras, producir la semana: 4–6
+   temas por canal contrastados con fuentes, con el mismo kit (`canales/preparar-corto.sh` y `montar.py --canal`).
 1. Rastreador: que el usuario guarde desde la app 3–5 de los vídeos del informe (o los que elija), los suba y
    desmontarlos; con eso, el vídeo 2 y cortos nuevos de 60–90 s para medir frente a los de 50 s. Repetir el mapa cada
    mes (`tiktok.py extraer` del mes nuevo) y los Shorts cada semana.

@@ -1,0 +1,40 @@
+<template>
+  <!-- «Recuerda cómo su padre curó a un perro»: el refugio de cerca, a media luz, y la nota a máquina; «echa gasolina en la
+       herida»: GASOLINA EN LA HERIDA; «saca los gusanos, uno a uno»: marcas que caen una a una. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 40% 70%; filter: brightness(0.5); }
+    #{{ID}} .nota { position: absolute; left: 80px; top: 236px; width: 880px; font: 400 54px/1.3 "Special Elite", monospace; visibility: hidden; }
+    #{{ID}} .accion { position: absolute; left: 80px; top: 560px; font: 800 120px/0.96 "Barlow Condensed", sans-serif; text-transform: uppercase;
+      visibility: hidden; }
+    #{{ID}} .accion span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    #{{ID}} .tachas { position: absolute; left: 86px; top: 880px; display: flex; flex-wrap: wrap; gap: 16px; width: 860px; }
+    #{{ID}} .tachas i { width: 10px; height: 70px; background: #f2ede4; transform: rotate(10deg); visibility: hidden; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/refugio.jpg" alt="" />
+      <div class="capa velo"></div>
+      <div class="nota">Lo que hizo su padre con un perro herido:</div>
+      <div class="accion"><span>Gasolina</span><br>en la herida</div>
+      <div class="tachas"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo($(".foto"), { scale: 1.35 }, { scale: 1.6, duration: DUR, ease: "none" }, 0);
+      entra($(".nota"), Math.max(0.02, w("padre", 4) - 0.1), 0.35, 10);
+      tl.fromTo($(".accion"), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "expo.out" }, w("gasolina", 2) - 0.08);
+      // «saca los gusanos, uno a uno»: 24 marcas que caen entre «saca» y el último «uno» (ilustrativo: no hay una cifra).
+      const caja = $(".tachas"), n = 24, t0 = w("saca") - 0.05, t1 = f("uno", 3);
+      for (let i = 0; i < n; i++) {
+        const m = document.createElement("i");
+        caja.appendChild(m);
+        tl.fromTo(m, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: "power2.out" }, t0 + (t1 - t0) * i / n);
+      }
+      fin();
+    })();
+  </script>
+</template>

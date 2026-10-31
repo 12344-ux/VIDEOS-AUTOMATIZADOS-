@@ -1,0 +1,98 @@
+<template>
+  <!-- Razón 3, la guerra: el norte en 1879 (Chile llegaba al paralelo 24° S; arriba, la costa de Bolivia y el sur de Perú).
+       «ganó la Guerra del Pacífico»: el norte se llena de amarillo desde el 24° S; «unos setecientos kilómetros más»: la
+       regla de lo ganado. Los límites de 1879, aproximados (el río Loa entre Perú y Bolivia). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .bol { fill: #3a5f80; stroke: #5b84a8; stroke-width: 2; }
+    #{{ID}} .per { fill: #2f4c66; stroke: #4f7393; stroke-width: 2; }
+    #{{ID}} .exb { fill: #3a5f80; stroke: #9cc3e6; stroke-width: 3; }
+    #{{ID}} .exp { fill: #2f4c66; stroke: #9cc3e6; stroke-width: 3; }
+    #{{ID}} .linea24 { stroke: #f5f1e8; stroke-width: 4; stroke-dasharray: 16 10; fill: none; }
+    #{{ID}} .medida { stroke: #ffc531; stroke-width: 5; fill: none; }
+    #{{ID}} .anios { position: absolute; left: 600px; top: 300px; font: 900 120px/0.9 "Archivo", sans-serif; letter-spacing: -0.03em;
+      text-shadow: 0 4px 30px rgba(8, 21, 33, 0.9); visibility: hidden; }
+    #{{ID}} .anios small { display: block; font: 500 28px/1.3 "Plex Mono", monospace; letter-spacing: 0.08em; color: #b9cadb; margin-top: 10px; }
+    #{{ID}} .mas { position: absolute; font: 900 110px/0.9 "Archivo", sans-serif; letter-spacing: -0.03em; color: #ffc531;
+      text-shadow: 0 4px 30px rgba(8, 21, 33, 0.9); visibility: hidden; }
+    #{{ID}} .mas small { font-size: 0.45em; margin-left: 0.1em; }
+    #{{ID}} .hasta { position: absolute; left: 80px; visibility: hidden; color: #f5f1e8; font-size: 36px; }
+    #{{ID}} .rotulo { visibility: hidden; }
+    #{{ID}} .foto { z-index: 5; }
+    #{{ID}} .velo.atacama-velo { z-index: 6; }
+    #{{ID}} .r-atacama { position: absolute; left: 80px; top: 300px; z-index: 7; font: 900 120px/0.9 "Archivo", sans-serif;
+      letter-spacing: -0.03em; text-transform: uppercase; text-shadow: 0 4px 30px rgba(8, 21, 33, 0.9); }
+    #{{ID}} .r-atacama small { display: block; font: 500 30px/1.3 "Plex Mono", monospace; letter-spacing: 0.08em; margin-top: 12px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs><clipPath id="{{ID}}-clip"><rect class="sube" x="0" y="0" width="1080" height="1920" /></clipPath></defs>
+        <path class="tierra" d="{{p:tierra}}" />
+        <path class="vecino" d="{{p:vecinos}}" />
+        <path class="bol" d="{{p:bolivia}}" />
+        <path class="per" d="{{p:peru}}" />
+        <path class="exb" d="{{p:ex_bolivia}}" />
+        <path class="exp" d="{{p:ex_peru}}" />
+        <path class="prota" d="{{p:antes}}" />
+        <path class="prota gan" d="{{p:ganado}}" clip-path="url(#{{ID}}-clip)" />
+        <path class="linea24" />
+        <path class="medida" />
+      </svg>
+      <div class="rotulo r-per">Perú</div>
+      <div class="rotulo r-bol">Bolivia</div>
+      <div class="rotulo r-chi" style="color: #081521; text-shadow: none">Chile</div>
+      <div class="mono hasta">Hasta 1879</div>
+      <div class="anios num"><span class="n">1879</span><small>Guerra del Pacífico</small></div>
+      <div class="mas num">+<span class="n">0</span><small>KM</small></div>
+      <div class="cabecera"><b>3</b> · Una guerra</div>
+      <img class="foto atacama" src="assets/img/atacama.jpg" alt="" />
+      <div class="capa velo atacama-velo"></div>
+      <div class="r-atacama">El norte<small>el desierto de Atacama</small></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const Y24 = {{p:y24}}, YT = {{p:ytope}}, XC = {{p:x_costa}}, XF = {{p:x_frontera}};
+      // Rótulos: Perú arriba, Bolivia a la derecha de su antigua costa, Chile bajo el 24° S.
+      gsap.set($(".r-per"), { left: 330, top: Math.max(330, YT - 160) });
+      gsap.set($(".r-bol"), { left: XF + 70, top: (Y24 + YT) / 2 - 60 });
+      gsap.set($(".r-chi"), { left: XC - 10, top: Y24 + 90 });
+      gsap.set($(".hasta"), { top: Y24 - 58 });
+      $(".linea24").setAttribute("d", `M${XC - 120},${Y24} L${XF + 120},${Y24}`);
+      [".r-per", ".r-bol"].forEach((r) => aparece($(r), w("norte") + 0.2, 0.3));
+      entra($(".r-chi"), w("norte") + 0.25, 0.3, 10);
+      // «Chile ya era largo, pero le faltaba el norte»: el desierto de Atacama, y al decir «norte», el mapa.
+      tl.fromTo($(".atacama"), { scale: 1.12 }, { scale: 1.0, duration: w("norte") + 0.2, ease: "power1.out" }, 0);
+      tl.fromTo($(".r-atacama"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.05);
+      tl.to([$(".atacama"), $(".atacama-velo"), $(".r-atacama")], { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, w("norte") + 0.15);
+      // «le faltaba el norte»: la línea del 24° S.
+      tl.fromTo($(".linea24"), { autoAlpha: 0, scaleX: 0, transformOrigin: "50% 50%" }, { autoAlpha: 1, scaleX: 1, duration: 0.4, ease: "expo.out" }, w("norte") - 0.15);
+      entra($(".hasta"), w("norte") - 0.05, 0.35, 12);
+      // El amarillo nace oculto bajo el 24° S y sube hasta la punta.
+      gsap.set($(".sube"), { attr: { y: Y24, height: 0 } });
+      entra($(".cabecera"), w("Entre", 2) - 0.1, 0.35, 14);
+      tl.set($(".anios"), { visibility: "visible" }, w("Entre", 2) - 0.05);
+      entra($(".anios"), w("Entre", 2) - 0.05, 0.35, 14);
+      cuenta($(".anios .n"), 1879, 1884, w("cuatro", 2) - 0.6, 0.6, { crudo: true, ease: "none" });
+      tl.to($(".sube"), { attr: { y: YT - 10, height: Y24 - YT + 10 }, duration: 1.0, ease: "power2.inOut" }, w("ganó") - 0.05);
+      tl.to([$(".hasta"), $(".linea24")], { opacity: 0.35, duration: 0.3 }, w("ganó") + 0.6);
+      tl.to($(".r-bol"), { x: 40, duration: 0.6, ease: "expo.inOut" }, w("ganó") + 0.4);
+      // «la costa de Bolivia y el sur de Perú»: cada pedazo destella.
+      tl.fromTo($(".exb"), { opacity: 1 }, { keyframes: [{ opacity: 0.2, duration: 0.15 }, { opacity: 1, duration: 0.15 }, { opacity: 0.2, duration: 0.15 }, { opacity: 1, duration: 0.15 }] }, w("costa") - 0.05);
+      tl.fromTo($(".exp"), { opacity: 1 }, { keyframes: [{ opacity: 0.2, duration: 0.15 }, { opacity: 1, duration: 0.15 }, { opacity: 0.2, duration: 0.15 }, { opacity: 1, duration: 0.15 }] }, w("sur") - 0.05);
+      // «unos setecientos kilómetros más»: la regla de lo ganado, a la derecha de la frontera.
+      const xm = XC - 50;
+      $(".medida").setAttribute("d", `M${xm},${Y24} L${xm},${YT} M${xm - 16},${Y24} L${xm + 16},${Y24} M${xm - 16},${YT} L${xm + 16},${YT}`);
+      tl.fromTo($(".medida"), { autoAlpha: 0, scaleY: 0, transformOrigin: `${xm}px ${Y24}px` }, { autoAlpha: 1, scaleY: 1, duration: 0.6, ease: "expo.out" }, w("unos") - 0.1);
+      gsap.set($(".mas"), { left: Math.max(60, xm - 360), top: (Y24 + YT) / 2 - 50 });
+      tl.set($(".mas"), { visibility: "visible" }, w("unos") - 0.05);
+      tl.fromTo($(".mas"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, w("unos") - 0.05);
+      cuenta($(".mas .n"), 0, 700, w("unos") - 0.05, f("setecientos") - w("unos"), { ease: "power3.out" });
+      tl.to($(".anios"), { autoAlpha: 0, duration: 0.25 }, w("unos") - 0.3);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,23 @@
+    /* Marca del canal de supervivencia: negro carbón, blanco hueso y el naranja de una bengala (#FF5E1A), solo en lo que
+       importa; Barlow Condensed para los golpes, Barlow para el texto y Special Elite (máquina de escribir) para el
+       cuaderno de días. */
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/barlowcond-600.woff2") format("woff2"); font-weight: 600; }
+    @font-face { font-family: "Barlow Condensed"; src: url("assets/fonts/barlowcond-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Barlow"; src: url("assets/fonts/barlow-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Barlow"; src: url("assets/fonts/barlow-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Special Elite"; src: url("assets/fonts/specialelite-400.woff2") format("woff2"); font-weight: 400; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #0b0a09; color: #f2ede4; font-family: "Barlow", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.16em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .golpe { font: 800 150px/0.9 "Barlow Condensed", sans-serif; letter-spacing: -0.01em; text-transform: uppercase; }
+    .esc .heroe { font: 800 360px/0.84 "Barlow Condensed", sans-serif; letter-spacing: -0.02em; }
+    .esc .diario { font: 400 44px/1.2 "Special Elite", monospace; letter-spacing: 0.04em; color: #f2ede4; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    .esc .bengala { color: #ff5e1a; }
+    .esc .bloque { background: #ff5e1a; color: #0b0a09; padding: 0 0.12em; }
+    .esc .cortina { position: absolute; inset: 0; background: #ff5e1a; z-index: 40; visibility: hidden; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    .esc svg.mapa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    .esc .tierra { fill: #1c1a17; stroke: #3b3731; stroke-width: 2; }
+    .esc .prota { fill: #2b2621; stroke: #8c8174; stroke-width: 3; }
