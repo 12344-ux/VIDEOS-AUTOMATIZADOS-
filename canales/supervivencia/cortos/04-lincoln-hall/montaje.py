@@ -37,7 +37,7 @@ escena('s06', 'foto', w('Cae', mas=-0.12), foto='noche',
            dict(html='Señales de vida: 0', clase='diario', x=80, y=370, en=['señales', 1, -0.1], modo='escribe'),
            dict(html='Orden: dejarlo', clase='sello', x=80, y=960, en=['dejarlo', 1, -0.05], modo='sello')]))
 escena('s07', 'perfil', w('En Australia', mas=-0.12), modo='noche')
-escena('s08', 'foto', w('Doce', mas=-0.12), foto='amanecer',
+escena('s08', 'foto', w('Doce', 1, mas=-0.12), foto='amanecer',
        conf=dict(camara=[1.0, 1.12, 0, 40], techo=True, textos=[
            dict(html='12 horas después', clase='diario', x=80, y=236, en=['Doce', 1, -0.05], modo='escribe', duracion=1.2),
            dict(html='4 alpinistas', clase='etiqueta', x=80, y=330, en=['cuatro', 1, -0.05]),
@@ -85,4 +85,4 @@ musica('lecho', 0, DURACION, vol=0.1, fi=0.05, fo=0.1,
 # --- Efectos: solo los fuertes, con su golpe en pantalla.
 sonido('0154', w('Cae', mas=-0.5), vol=0.08, ini=3.6, dur=2.6, fi=0.25, fo=1.2)                # la ráfaga al caer la noche
 sonido('impact-bass-1', w('muerto', 2, mas=-0.05), vol=0.03)                                  # el sello HA MUERTO
-sonido('3363', w('Doce', mas=-0.1), vol=0.3, ini=0.0, dur=w('precipicio', fin=True) - w('Doce', mas=-0.1), fi=0.15, fo=0.05)  # los pasos que se paran
+sonido('3363', w('Doce', 1, mas=-0.1), vol=0.3, ini=0.0, dur=w('precipicio', fin=True) - w('Doce', 1, mas=-0.1), fi=0.15, fo=0.05)  # los pasos que se paran

@@ -13,7 +13,7 @@ subtitulos()
 
 FICHA = dict(cab='Día 17', linea='El papel decía:', tapada='Estamos bien<br>en el refugio<br>los 33')
 escena('s01', 'gancho', 0, foto='refugio', conf=dict(cifra='69', unidad='días', linea='Bajo tierra', camara=[1.1, 0, 30], modo='inicio'))
-escena('s02', 'ficha', w('Pero', mas=-0.12), fondo='refugio',
+escena('s02', 'ficha', w('Pero', 1, mas=-0.12), fondo='refugio',
        conf=dict(FICHA, modo='oculta', en=['durante', 1, -0.3], escribe=[['respuesta', 1, -0.1], ['papel', 1, 0.0, 'fin']],
                  barra=['papel', 1, 0.05, 'fin'], late=['papel', 1, 0.2, 'fin']))
 escena('s03', 'foto', w('Cinco', mas=-0.12), foto='desierto',
@@ -30,7 +30,7 @@ escena('s05', 'foto', w('Hay comida', mas=-0.12), foto='atun',
            dict(html='· 1 cucharada de atún', clase='diario', x=80, y=430, en=['cucharada', 1, -0.1], modo='escribe'),
            dict(html='· 1 sorbo de leche', clase='diario', x=80, y=500, en=['sorbo', 1, -0.1], modo='escribe'),
            dict(html='Cada 48 horas', clase='sello', x=80, y=960, en=['cuarenta', 1, -0.05], modo='sello')]))
-escena('s06', 'mina', w('Arriba', mas=-0.12), modo='sondas')
+escena('s06', 'mina', w('Arriba', 1, mas=-0.12), modo='sondas')
 escena('s07', 'foto', w('Arriba', 2, mas=-0.12), foto='campamento',
        conf=dict(camara=[1.0, 1.1, 0, 30], techo=True, textos=[
            dict(html='Campamento Esperanza', clase='etiqueta', x=80, y=300, en=['Arriba', 2, 0.1]),
@@ -44,7 +44,7 @@ escena('s10', 'ficha', w('Estamos', mas=-0.12), fondo='sonda',
 escena('s11', 'foto', w('Chile', 2, mas=-0.12), foto='fiesta',
        conf=dict(camara=[1.0, 1.1, 0, 30], techo=True, textos=[
            dict(html='Chile, a la calle', clase='etiqueta', x=80, y=300, en=['calle', 1, -0.1])]))
-escena('s12', 'mina', w('Cincuenta', mas=-0.12), modo='rescate')
+escena('s12', 'mina', w('Cincuenta', 1, mas=-0.12), modo='rescate')
 escena('s13', 'foto', w('Unos', mas=-0.12), foto='capsula',
        conf=dict(camara=[1.0, 1.12, 0, 0], techo=True, textos=[
            dict(html='1.000 millones', clase='golpe', x=80, y=560, en=['millones', 1, -0.15]),
@@ -59,7 +59,7 @@ escena('s15', 'gancho', w('Sesenta', 2, mas=-0.12), foto='refugio',
 DURACION = w('tierra', 2, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
-sin_subtitulos(0, w('Sesenta', mas=-0.12))                              # 69 DÍAS · BAJO TIERRA (el fotograma 0, limpio)
+sin_subtitulos(0, w('Sesenta', 1, mas=-0.12))                              # 69 DÍAS · BAJO TIERRA (el fotograma 0, limpio)
 sin_subtitulos(w('Estamos', mas=-0.12), w('Chile', 2, mas=-0.12))       # la nota, revelada en la ficha
 sin_subtitulos(w('Unos', mas=-0.12), DURACION)                          # 1.000 MILLONES · 33 DE 33 · vuelve el gancho
 

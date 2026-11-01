@@ -1,0 +1,46 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Joe Simpson y Simon Yates son personas reales: nunca de cara. Joe, siempre con chaqueta azul; Simon, con chaqueta roja. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "siula",
+   "semilla": 121,
+   "prompt": "The huge steep icy west face of Siula Grande in the Peruvian Andes, a sharp snowy summit against a deep blue sky, two tiny climbers on the face, the face filling the lower two thirds of the frame, vertical composition"
+  },
+  {
+   "nombre": "cumbre",
+   "semilla": 122,
+   "prompt": "Two mountaineers roped together on a narrow corniced snow ridge high in the Peruvian Andes, one in a blue jacket and one in a red jacket, seen from behind, dramatic clouds below, the climbers in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "pierna",
+   "semilla": 123,
+   "prompt": "A climber in a blue jacket lying injured in the snow on a steep icy slope, holding his leg in pain, an ice axe beside him, seen from behind and from a distance, cold grey light, the climber in the lower half of the frame, only one person in the whole image, no other people, vertical composition"
+  },
+  {
+   "nombre": "descenso",
+   "semilla": 124,
+   "prompt": "A climber in a red jacket sitting in a snow seat on a steep slope, holding a taut rope that goes down into a stormy white-out, seen from behind, spindrift blowing, the climber in the lower half of the frame, only one person in the whole image, no other people, vertical composition"
+  },
+  {
+   "nombre": "colgando",
+   "semilla": 125,
+   "prompt": "A climber in a blue jacket hanging on a single rope in mid-air below an overhanging ice cliff, a dark crevasse far below him, snow blowing, seen from a distance, only one person in the whole image, no other people, vertical composition"
+  },
+  {
+   "nombre": "grieta",
+   "semilla": 126,
+   "prompt": "Inside a deep glacier crevasse, walls of blue ice, a climber in a blue jacket sitting on a narrow ice ledge in the dim blue light, a thin shaft of daylight from far above, seen from above and from far away, only one person in the whole image, no other people, vertical composition"
+  },
+  {
+   "nombre": "glaciar",
+   "semilla": 127,
+   "prompt": "A lone climber in a blue jacket crawling across a vast glacier and a moraine of grey rocks in the Peruvian Andes, seen from behind and from far away, dragging one leg, overcast light, the small figure in the lower half of the frame, only one person in the whole image, no other people, vertical composition"
+  },
+  {
+   "nombre": "campamento",
+   "semilla": 128,
+   "prompt": "A small mountain base camp with two tents beside a glacial lake below the snowy Andes at night, a faint warm light inside one tent, stars, vertical composition"
+  }
+ ]
+}

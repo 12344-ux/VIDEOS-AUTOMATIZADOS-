@@ -151,7 +151,9 @@ inventar lo que las fuentes no dicen.
 - Supertonic da ya siempre la misma voz (semilla por frase en `voz/supertonic_frases.py`). Para encajar una toma
   nueva en una composición ya cronometrada, `voz/ajustar.py` (anclas en palabras; tramos de menos de un 5 %).
 - Kit de vídeos largos (`videos/anticitera/kit/`): los montajes se anclan a palabras con `w("palabra", n)`; si la
-  palabra sale más de una vez, `montar.py` lo avisa y hay que elegir la aparición. Las etiquetas en versalitas
+  palabra sale más de una vez, `montar.py` lo avisa y hay que elegir la aparición. El de los cortos (`canales/businessformen/kit/montar.py`) también,
+  desde el 1-nov, y con frases: `w('Su familia')` cogía «una despedida a su familia» y la escena entraba 13 s antes
+  (`n=1` explícito calla el aviso). Las etiquetas en versalitas
   ocupan unos 46 px por letra: junto a un dibujo, de 16 letras como mucho.
 - HyperFrames toma cada HTML con `data-composition-id` de la raíz de un proyecto por otra composición
   (`multiple_root_compositions`): las plantillas, fuera (ver `canales/businessformen/marca/plantillas/`).
@@ -183,7 +185,9 @@ inventar lo que las fuentes no dicen.
 - En las plantillas de escena, el `w()` de JavaScript solo acepta **una palabra** (`w("Por")`, no `w("Por eso")`): con dos
   da un error y la escena entera se queda sin animar (invisible). El de `montaje.py` sí acepta varias.
 - Dentro de una escena, los tiempos de `w()` son desde que empieza la escena: si la escena entra después de la palabra,
-  sale negativo y lo anclado ahí ya está hecho en el primer fotograma (el contador de días empezaba en el 4).
+  sale negativo. Un tween que empieza antes y acaba después ya va por la mitad en el primer fotograma (el contador de días
+  empezaba en el 4); uno que **acaba** antes de que empiece la escena **no se aplica** (la 2.ª escena del hielo, en el
+  corto 7, salía con el hielo entero y sin ella): lo que deba seguir hecho en una escena repetida va en `alBuscar`.
 - `tl.fromTo` pinta su origen al crearse (`immediateRender`): un segundo `fromTo` sobre el mismo elemento, o uno que
   empieza visible, lo enseña antes de tiempo. `immediateRender: false` o empezar oculto con CSS.
 - El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.

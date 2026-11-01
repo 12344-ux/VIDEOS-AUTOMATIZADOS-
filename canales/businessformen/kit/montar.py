@@ -19,7 +19,8 @@ En montaje.py hay disponibles:
   subtitulos(**estilo)                   subtítulos quemados, en grupos de pocas palabras con la palabra que suena en un
                                          bloque rojo (los cortos: muchos los ven sin sonido)
   sin_subtitulos(desde, hasta)           los quita en un tramo (cuando la escena ya escribe en grande lo que dice la voz)
-  w("palabra", n=1, fin=False, mas=0.0)   tiempo en el vídeo de esa palabra (n: la aparición n)
+  w("palabra", n=1, fin=False, mas=0.0)   tiempo en el vídeo de esa palabra (n: la aparición n; sin n, la 1.ª, y si
+                                          sale más de una vez lo avisa: n=1 explícito lo calla)
   VOZ0                                   entrada de la voz
   escena(id, plantilla, desde, **p)      una escena: subcomposición escenas/<plantilla>.html; acaba donde empieza
                                          la siguiente (o en DURACION). p son sus parámetros. Con entrada=… la escena
@@ -105,11 +106,17 @@ class Video:
         self.ancho, self.alto, self.voz0, self.desenfoque = 1920, 1080, VOZ0, False
         self.dur = r3(self.voz0 + self.voz['duracion'] + COLA)
         self.subs, self.sin_subs = None, []
+        self.repetidas = {}   # anclas sin n cuya palabra (o frase) sale más de una vez en la voz
 
-    def w(self, palabra, n=1, fin=False, mas=0.0):
+    def w(self, palabra, n=None, fin=False, mas=0.0):
         busca = [limpia(x) for x in palabra.split()]
         hechas = [i for i in range(len(self.palabras) - len(busca) + 1)
                   if all(limpia(self.palabras[i + j]['texto']) == b for j, b in enumerate(busca))]
+        if n is None:
+            # «Su familia» salía antes («una despedida a su familia») y la escena entraba 13 s pronto, sin aviso.
+            n = 1
+            if len(hechas) > 1:
+                self.repetidas[palabra] = [r3(self.voz0 + self.palabras[i]['inicio']) for i in hechas]
         if len(hechas) < n:
             raise SystemExit(f'{self.id}: no está «{palabra}» (aparición {n})')
         i = hechas[n - 1]
@@ -480,6 +487,9 @@ def main():
     print(json.dumps({'video': vid, 'variante': VARIANTE, 'duracion': v.dur, 'escenas': len(v.escenas), 'sonidos': len(v.sonidos), 'musicas': len(v.musicas)}))
     for a in avisos:
         print('aviso:', a)
+    for palabra, ts in v.repetidas.items():
+        print(f'aviso: «{palabra}» sale {len(ts)} veces ({", ".join(f"{t:.1f}" for t in ts)} s): w() toma la 1.ª; '
+              f'si es otra, w("{palabra}", n); si es la 1.ª, n=1 calla el aviso')
     limite = 4.5 if v.alto > v.ancho else 9      # un corto vertical cambia cada 1–3 s
     for e in v.escenas:
         d = e['hasta'] - e['desde']

@@ -1,0 +1,94 @@
+<template>
+  <!-- El mapa del sur de Marruecos y el oeste de Argelia (Natural Earth; los datos, de mapa.py). Su camino es un esquema:
+       nadie lo registró. Modos:
+       carrera  la salida de la carrera late en Marruecos; «Abril»: la fecha a máquina; «Maratón»: el nombre de la carrera
+       argelia  el camino se dibuja de la carrera a Argelia; «Argelia»: el país se enciende y Tinduf; «doscientos»: los km -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.mapa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo-m { fill: #0e0c0a; }
+    #{{ID}} .vecinos { fill: #1a1714; stroke: #3b3731; stroke-width: 1.2; }
+    #{{ID}} .pais { fill: #2a2420; stroke: #6b5f52; stroke-width: 2; }
+    #{{ID}} .pais.marruecos { fill: #3a312a; }   /* Marruecos, un poco más claro: se distingue de Argelia sin leer la frontera */
+    #{{ID}} .argelia-luz { fill: rgba(255, 94, 26, 0.22); stroke: #ff5e1a; stroke-width: 3; opacity: 0; }
+    #{{ID}} .frontera { fill: none; stroke: #c9c1b4; stroke-width: 3; stroke-dasharray: 10 8; }
+    #{{ID}} .camino { fill: none; stroke: #ff5e1a; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100 100; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .punto.o { fill: #ff5e1a; }
+    #{{ID}} .halo { fill: none; stroke: #f2ede4; stroke-width: 4; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.lugar { font: 800 64px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(242, 237, 228, 0.4); }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.km { font: 800 150px/1 "Barlow Condensed", sans-serif; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.km small { display: block; font: 400 40px/1.2 "Special Elite", monospace; color: #c9c1b4; margin-top: 8px; }
+    #{{ID}} .t.nota { font: 400 30px/1.2 "Special Elite", monospace; color: rgba(242, 237, 228, 0.6); }
+    #{{ID}} .t .m { font-style: normal; text-transform: none; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <g class="mundo">
+          <rect class="fondo-m" x="-100" y="-100" width="1280" height="2120" />
+          <path class="vecinos" d="{{p:vecinos}}" />
+          <path class="pais marruecos" d="{{p:marruecos}}" />
+          <path class="pais" d="{{p:argelia}}" />
+          <path class="argelia-luz" d="{{p:argelia}}" />
+          <path class="frontera" d="{{p:frontera}}" />
+          <path class="camino" pathLength="100" d="{{p:camino}}" />
+          <circle class="halo h-carrera" r="20" /><circle class="punto o p-carrera" r="13" />
+          <circle class="punto p-tinduf" r="11" style="visibility: hidden" />
+        </g>
+      </svg>
+      <div class="t lugar l-marruecos">Marruecos</div>
+      <div class="t lugar l-argelia">Argelia</div>
+      <div class="t fecha">ABR 1994</div>
+      <div class="t et e-carrera"><span>Maratón de las Arenas</span></div>
+      <div class="t et e-tinduf"><span>Tinduf · Argelia</span></div>
+      <div class="t km"><span class="n">0</span> <i class="m">km</i><small>fuera de la carrera</small></div>
+      <div class="t nota">El camino, en esquema</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const C = {{p:carrera}}, T = {{p:tinduf}};
+      gsap.set([$(".p-carrera"), $(".h-carrera")], { attr: { cx: C[0], cy: C[1] } });
+      gsap.set($(".p-tinduf"), { attr: { cx: T[0], cy: T[1] } });
+      const pon = (sel, x, y) => gsap.set($(sel), { left: x, top: y });
+      const entraT = (sel, t) => tl.fromTo($(sel), { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08);
+      // El halo de la carrera late (función del tiempo: vale al buscar cualquier cuadro).
+      alBuscar((t) => { const k = (Math.max(0, t) * 0.9) % 1; gsap.set($(".h-carrera"), { attr: { r: 14 + 30 * k }, opacity: 1 - k }); });
+      pon(".l-marruecos", 100, 500); pon(".l-argelia", 640, 1060);
+      if (modo === "carrera") {
+        tl.fromTo($(".mundo"), { scale: 1.06, transformOrigin: "61% 23%" }, { scale: 1.0, duration: DUR, ease: "power2.out" }, 0);
+        aparece($(".l-marruecos"), 0.1, 0.4); aparece($(".l-argelia"), 0.2, 0.4);
+        pon(".fecha", 80, 236);
+        const tf = w("Abril") - 0.05, d = Math.max(0.6, f("cuatro") - tf);
+        tl.set($(".fecha"), { visibility: "visible" }, tf);
+        alBuscar((t) => { const s = "ABR 1994"; $(".fecha").textContent = s.slice(0, Math.round(s.length * Math.min(1, Math.max(0, (t - tf) / d)))); });
+        pon(".e-carrera", 80, 340); entraT(".e-carrera", w("Maratón", 2));   // la 1.ª, «Corría una maratón»
+      } else {
+        // argelia: el camino, Argelia y los km.
+        gsap.set([$(".l-marruecos"), $(".l-argelia")], { autoAlpha: 1 });
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 40%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        traza($(".camino"), 0.05, Math.max(0.9, w("Argelia") - 0.1), "power1.inOut");
+        tl.to($(".argelia-luz"), { opacity: 1, duration: 0.4, ease: "power2.out" }, w("Argelia") - 0.1);
+        tl.to($(".l-argelia"), { color: "#ff5e1a", duration: 0.3 }, w("Argelia") - 0.1);
+        tl.set($(".p-tinduf"), { visibility: "visible" }, w("Argelia") - 0.1);
+        tl.fromTo($(".p-tinduf"), { scale: 0.2, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, w("Argelia") - 0.1);
+        pon(".e-tinduf", T[0] - 330, T[1] + 40); entraT(".e-tinduf", w("Argelia") + 0.2);
+        pon(".km", 80, 236);
+        const tk = w("doscientos") - 0.1;
+        aparece($(".km"), tk, 0.25);
+        cuenta($(".km .n"), 0, 291, tk, f("kilómetros") - tk, { ease: "power2.out" });
+        pon(".nota", 80, 1100); aparece($(".nota"), 0.3, 0.4, 0.8);
+      }
+      fin();
+    })();
+  </script>
+</template>

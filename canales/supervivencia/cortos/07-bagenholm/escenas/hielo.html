@@ -1,0 +1,191 @@
+<template>
+  <!-- Anna Bågenholm, dibujada (un esquema, no a escala). Modos:
+       hielo        el río helado en corte: «rompe»: el hielo se abre; ella queda debajo con los pies fuera; «aire»: la
+                    bolsa de aire; los minutos corren de 0 a 40; «moverse»: DEJA DE MOVERSE
+       temperatura  un termómetro: de 37 °C a 13,7 °C en «temperatura»…«siete»; «muerta»: la línea de 37 °C, tachada
+       latido       el monitor, plano; «máquina»: la sangre que se calienta; «latir»: la línea vuelve a latir (cada 0,8 s,
+                    con un pitido en cada latido) y LATE -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .aire-sup { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .nieve { fill: #d9e2e6; }
+    #{{ID}} .hielo { fill: #bcd7df; stroke: #e9f3f6; stroke-width: 3; }
+    #{{ID}} .agua { fill: url(#agua-{{ID}}); }
+    #{{ID}} .lecho { fill: #15110e; stroke: #3b3731; stroke-width: 3; }
+    #{{ID}} .grieta { fill: none; stroke: #0b2a30; stroke-width: 4; visibility: hidden; }
+    #{{ID}} .flujo { fill: none; stroke: rgba(190, 225, 230, 0.25); stroke-width: 3; stroke-linecap: round; }
+    #{{ID}} .ella { fill: #ff5e1a; }
+    #{{ID}} .esqui { fill: #f2ede4; }
+    #{{ID}} .bolsa { fill: rgba(235, 248, 250, 0.9); visibility: hidden; }
+    #{{ID}} .tubo { fill: #1d1a17; stroke: #c9c1b4; stroke-width: 5; }
+    #{{ID}} .mercurio { fill: #ff5e1a; }
+    #{{ID}} .marca { stroke: rgba(242, 237, 228, 0.6); stroke-width: 3; }
+    #{{ID}} .marca-t { fill: rgba(242, 237, 228, 0.75); font: 400 34px "Special Elite", monospace; }
+    #{{ID}} .tacha { stroke: #ff5e1a; stroke-width: 8; stroke-linecap: round; visibility: hidden; }
+    #{{ID}} .pantalla { fill: #071612; stroke: #2c4a40; stroke-width: 4; }
+    #{{ID}} .rejilla-m { stroke: rgba(80, 200, 140, 0.12); stroke-width: 2; }
+    #{{ID}} .traza { fill: none; stroke: #4fe09a; stroke-width: 6; stroke-linejoin: round; }
+    #{{ID}} .traza.viva { stroke: #ff5e1a; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.cuenta { font: 400 150px/1 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.cuenta small { display: block; font-size: 0.24em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 10px; }
+    #{{ID}} .t.grados { font: 800 150px/1 "Barlow Condensed", sans-serif; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.diario { font: 400 54px/1.2 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.sello { font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0d1620" /><stop offset="1" stop-color="#2a3a48" />
+          </linearGradient>
+          <linearGradient id="agua-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="740" x2="0" y2="1300">
+            <stop offset="0" stop-color="#14424a" /><stop offset="1" stop-color="#051316" />
+          </linearGradient>
+        </defs>
+        <g class="v-hielo" style="display: none">
+          <rect class="aire-sup" x="-100" y="-100" width="1280" height="800" />
+          <path class="nieve" d="M-100,700 L-100,640 C60,620 160,660 260,690 L260,700 Z M820,700 L820,688 C900,660 1000,630 1180,640 L1180,700 Z" />
+          <rect class="agua" x="-100" y="700" width="1280" height="700" />
+          <path class="lecho" d="M-100,1300 C120,1270 300,1310 520,1285 C760,1260 900,1300 1180,1280 L1180,2020 L-100,2020 Z" />
+          <g class="flujos"></g>
+          <path class="hielo h-izq" d="M-100,700 L392,700 L398,742 L-100,742 Z" />
+          <path class="hielo h-der" d="M462,700 L1180,700 L1180,742 L456,742 Z" />
+          <path class="hielo h-tapa" d="M392,700 L462,700 L456,742 L398,742 Z" />
+          <path class="grieta" d="M425,700 L410,722 L432,742 M425,700 L445,724 L438,742" />
+          <ellipse class="bolsa" cx="700" cy="752" rx="78" ry="16" />
+          <g class="ella" style="visibility: hidden">
+            <rect x="404" y="610" width="16" height="140" rx="8" transform="rotate(-6 412 680)" />
+            <rect x="428" y="612" width="16" height="140" rx="8" transform="rotate(6 436 682)" />
+            <rect class="esqui" x="330" y="600" width="190" height="12" rx="6" transform="rotate(-14 425 606)" />
+            <rect class="esqui" x="340" y="600" width="190" height="12" rx="6" transform="rotate(12 435 606)" />
+            <rect x="420" y="758" width="230" height="58" rx="28" />
+            <circle cx="690" cy="772" r="34" />
+          </g>
+        </g>
+        <g class="v-termo" style="display: none">
+          <rect class="tubo" x="490" y="400" width="100" height="700" rx="50" />
+          <circle class="tubo" cx="540" cy="1110" r="80" />
+          <rect class="mercurio m-col" x="512" y="500" width="56" height="620" rx="28" />
+          <circle class="mercurio" cx="540" cy="1110" r="60" />
+          <g class="marcas"></g>
+          <line class="tacha" x1="150" y1="520" x2="440" y2="480" />
+        </g>
+        <g class="v-latido" style="display: none">
+          <rect class="pantalla" x="60" y="480" width="960" height="420" rx="24" />
+          <g class="rejilla-g"></g>
+          <path class="traza" />
+        </g>
+      </svg>
+      <div class="t cuenta"><small>MINUTOS BAJO EL HIELO</small><span class="n">0</span></div>
+      <div class="t grados"><span class="n">37,0</span> °C</div>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div>
+      <div class="t diario d1"></div>
+      <div class="t sello s1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      const pon = (sel, x, y) => gsap.set($(sel), { left: x, top: y });
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); };
+      const escribe = (sel, txt, x, y, t, d) => { const e = $(sel); pon(sel, x, y); tl.set(e, { visibility: "visible" }, t); alBuscar((u) => { e.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (u - t) / d)))); }); };
+      if (modo === "hielo") {
+        $(".v-hielo").style.display = "";
+        // El agua corre por debajo del hielo.
+        const fl = [];
+        for (let i = 0; i < 9; i++) fl.push(svg("path", { class: "flujo" }, $(".flujos")));
+        alBuscar((t) => fl.forEach((p, i) => {
+          const y = 860 + i * 45, x = ((Math.max(0, t) * (60 + i * 7) + i * 170) % 1400) - 200;
+          p.setAttribute("d", `M${x.toFixed(1)},${y} l90,0`);
+        }));
+        tl.fromTo($(".v-hielo"), { scale: 1.12, transformOrigin: "40% 38%" }, { scale: 1.0, duration: DUR, ease: "power2.out" }, 0);
+        // Cae: el hielo se agrieta y se abre; ella queda debajo, con los pies y los esquís fuera; la bolsa de aire; los
+        // minutos, de 0 a 40. Todo lo que deja huella va en función del tiempo (alBuscar), no en tweens: este modo sale en
+        // dos escenas (antes y después de la foto de debajo del hielo), y un tween que acaba antes de que empiece su escena
+        // no se aplica (la 2.ª escena salía con el hielo entero, sin ella y sin el contador).
+        const tc = w("cabeza") - 0.1, tr = w("rompe") - 0.1, tE = w("asoman") - 0.05, tA = w("aire") - 0.1, tM = w("moverse");
+        const t0 = w("atrapada") - 0.1, t40 = w("cuarenta") + 0.2;
+        $(".e1 span").textContent = "Solo asoman sus pies"; pon(".e1", 80, 400);
+        $(".e2 span").textContent = "Bolsa de aire"; pon(".e2", 520, 640);
+        pon(".cuenta", 80, 200);
+        alBuscar((t) => {
+          $(".grieta").style.visibility = t >= tc && t < tr + 0.1 ? "visible" : "hidden";
+          const k = paso(t, tr, 0.5, "power2.in");
+          gsap.set($(".h-tapa"), { y: 70 * k, rotation: 25 * k, opacity: 1 - k, transformOrigin: "50% 50%" });
+          const ke = paso(t, tr + 0.15, 0.45, "power3.out");
+          gsap.set($(".ella"), { visibility: t >= tr + 0.15 ? "visible" : "hidden", y: -80 * (1 - ke), opacity: ke * (1 - 0.55 * paso(t, tM, 0.6, "power1.inOut")) });
+          gsap.set($(".bolsa"), { visibility: t >= tA ? "visible" : "hidden", scaleX: 0.2 + 0.8 * paso(t, tA, 0.4, "back.out(2)"), transformOrigin: "50% 50%" });
+          const k1 = paso(t, tE - 0.08, 0.3, "expo.out");
+          gsap.set($(".e1"), { autoAlpha: k1 * (1 - paso(t, tA - 0.4, 0.2, "power2.in")), x: -24 * (1 - k1) });   // se va antes de la bolsa
+          const k2 = paso(t, tA + 0.02, 0.3, "expo.out");
+          gsap.set($(".e2"), { autoAlpha: k2, x: -24 * (1 - k2) });
+          gsap.set($(".cuenta"), { autoAlpha: paso(t, t0, 0.25, "power2.out") });
+          $(".cuenta .n").textContent = String(Math.round(40 * Math.min(1, Math.max(0, (t - t0) / (t40 - t0)))));
+        });
+        if (tr + 0.2 > 0) tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10, y: 6, duration: 0.05 }, { x: 8, y: -5, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, tr + 0.2);
+        sello(".s1", "Deja de moverse", 80, 1010, tM);
+      } else if (modo === "temperatura") {
+        $(".v-termo").style.display = "";
+        // 20 px por grado: 40 °C en y 440 y 10 °C en y 1040.
+        const Y = (c) => 440 + (40 - c) * 20;
+        [37, 30, 20, 13.7].forEach((c) => {
+          svg("line", { class: "marca", x1: 450, y1: Y(c), x2: 490, y2: Y(c) }, $(".marcas"));
+          const tx = svg("text", { class: "marca-t", x: 140, y: Y(c) + 12 }, $(".marcas"));
+          tx.textContent = c === 37 ? "37 °C normal" : c === 13.7 ? "" : `${c} °C`;
+        });
+        const col = $(".m-col"), fondo = 1120;
+        const pinta = (c) => { const y = Y(c); col.setAttribute("y", y.toFixed(1)); col.setAttribute("height", (fondo - y).toFixed(1)); };
+        const t0 = w("temperatura") - 0.1, t1 = f("siete");
+        const v = { c: 37 };
+        pinta(37);
+        tl.fromTo(v, { c: 37 }, { c: 13.7, duration: t1 - t0, ease: "power1.inOut", onUpdate: () => { pinta(v.c); $(".grados .n").textContent = v.c.toFixed(1).replace(".", ","); } }, t0);
+        pon(".grados", 620, 860); aparece($(".grados"), 0.1, 0.3);
+        tl.to($(".grados"), { color: "#ff5e1a", duration: 0.3 }, t1);
+        tl.fromTo($(".v-termo"), { scale: 1.0, transformOrigin: "50% 50%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        tl.set($(".tacha"), { visibility: "visible" }, w("muerta") - 0.15);
+        tl.fromTo($(".tacha"), { attr: { x2: 150, y2: 520 } }, { attr: { x2: 440, y2: 480 }, duration: 0.3, ease: "power2.out" }, w("muerta") - 0.15);
+      } else {
+        // latido: el monitor plano; la sangre que se calienta; y vuelve a latir.
+        $(".v-latido").style.display = "";
+        for (let x = 100; x < 1000; x += 60) svg("line", { class: "rejilla-m", x1: x, y1: 490, x2: x, y2: 890 }, $(".rejilla-g"));
+        for (let y = 520; y < 900; y += 60) svg("line", { class: "rejilla-m", x1: 70, y1: y, x2: 1010, y2: y }, $(".rejilla-g"));
+        const tL = w("latir") - 0.05, Y0 = 700;
+        // El trazo avanza de izquierda a derecha (barrido de un monitor): plano hasta «latir»; después, un latido cada 0,8 s
+        // (montaje.py pone un pitido del monitor, BigSoundBank 1310, en la punta de cada uno: tL + 0,12 + 0,8·k).
+        const latido = (u) => {   // u: segundos desde el latido; un complejo QRS de unos 0,3 s
+          if (u < 0 || u > 0.32) return 0;
+          if (u < 0.06) return -30 * (u / 0.06);
+          if (u < 0.12) return -30 + 220 * ((u - 0.06) / 0.06);
+          if (u < 0.2) return 190 - 290 * ((u - 0.12) / 0.08);
+          return -100 + 100 * ((u - 0.2) / 0.12);
+        };
+        alBuscar((t) => {
+          const pts = [], ancho = 900, x0 = 90, ventana = 3.0;
+          for (let i = 0; i <= 180; i++) {
+            const x = x0 + ancho * i / 180, s = t - ventana * (1 - i / 180);   // el tiempo de ese punto del trazo
+            let y = Y0;
+            if (s >= tL) { const k = (s - tL) % 0.8; y = Y0 - latido(k); }
+            pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+          }
+          const p = $(".traza"); p.setAttribute("d", "M" + pts.join("L"));
+          p.setAttribute("class", t >= tL ? "traza viva" : "traza");
+        });
+        et(".e2", "La máquina calienta su sangre", 80, 960, w("máquina"));
+        tl.to($(".e2"), { autoAlpha: 0, duration: 0.2 }, tL - 0.3);
+        sello(".s1", "Late", 80, 960, tL + 0.1);
+      }
+      fin();
+    })();
+  </script>
+</template>

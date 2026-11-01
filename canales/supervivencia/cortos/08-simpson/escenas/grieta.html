@@ -1,0 +1,216 @@
+<template>
+  <!-- La pared y la grieta del Siula Grande, dibujadas (un esquema; en «grieta» y «salida», la profundidad va a escala:
+       8,3 px por metro, hasta la repisa de −60 m; el fondo, en esquema). Simon, rojo; Joe, azul (los colores de sus chaquetas
+       en las imágenes), con su nombre al lado. Modos:
+       cuerda   la pared: Simon, sentado arriba, baja a Joe por la ladera en tramos («noventa»: 90 M); «visibilidad»: la
+                ventisca; «precipicio»: Joe pasa el borde y queda colgando (lo que no ve ni oye Simon, en las fotos);
+                «cede»: Simon resbala; «corta»: la cuerda se corta
+       grieta   la grieta en corte: Joe cae de la superficie a una repisa a −60 m; «llama»: las ondas de la voz de Simon;
+                «contesta»: NADIE CONTESTA; «cuelga»: el hielo que cuelga sobre su cabeza y la flecha hacia arriba, tachada
+       salida   Joe baja, más hondo, por la grieta; «salida»: encuentra el camino al glaciar y sube hacia la luz -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .nieve { fill: url(#nieve-{{ID}}); stroke: #e9f0f3; stroke-width: 3; }
+    #{{ID}} .roca { fill: #2a2e33; stroke: #4a5058; stroke-width: 3; }
+    #{{ID}} .hielo-p { fill: #9fc3cf; stroke: #d8ebf1; stroke-width: 3; }
+    #{{ID}} .sima { fill: url(#sima-{{ID}}); }
+    #{{ID}} .grieta-b { fill: #06121a; }
+    #{{ID}} .cuerda { fill: none; stroke: #f2ede4; stroke-width: 4; stroke-linecap: round; }
+    #{{ID}} .simon { fill: #e0352b; }
+    #{{ID}} .joe { fill: #3b82f6; }
+    #{{ID}} .contorno { stroke: #0b0a09; stroke-width: 3; }
+    #{{ID}} .niebla { fill: rgba(225, 232, 236, 0.0); }
+    #{{ID}} .copo { stroke: rgba(240, 245, 248, 0.7); stroke-width: 3; stroke-linecap: round; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 12; stroke-linecap: round; }
+    #{{ID}} .chispa { fill: #ff5e1a; opacity: 0; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 5; opacity: 0; }
+    #{{ID}} .flecha { fill: none; stroke: #f2ede4; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; visibility: hidden; }
+    #{{ID}} .camino { fill: none; stroke: #3b82f6; stroke-width: 5; stroke-dasharray: 10 10; visibility: hidden; }
+    #{{ID}} .luz { fill: url(#luz-{{ID}}); opacity: 0; }
+    #{{ID}} .regla line { stroke: rgba(242, 237, 228, 0.5); stroke-width: 3; }
+    #{{ID}} .nombre { font: 800 36px "Barlow Condensed", sans-serif; letter-spacing: 0.06em; fill: #f2ede4; paint-order: stroke;
+      stroke: #0b0a09; stroke-width: 6px; stroke-linejoin: round; }
+    #{{ID}} .regla text { fill: rgba(242, 237, 228, 0.75); font: 400 30px "Special Elite", monospace; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.diario { font: 400 54px/1.2 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.sello { font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    #{{ID}} .t.cifra { font: 800 64px/1 "Barlow Condensed", sans-serif; color: #ff5e1a; text-shadow: 0 3px 18px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t .m { font-style: normal; text-transform: none; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#101820" /><stop offset="1" stop-color="#34414e" />
+          </linearGradient>
+          <linearGradient id="nieve-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="0" y2="1300">
+            <stop offset="0" stop-color="#eef3f6" /><stop offset="1" stop-color="#8fa0ad" />
+          </linearGradient>
+          <linearGradient id="sima-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="400" x2="0" y2="1400">
+            <stop offset="0" stop-color="#2d6f86" /><stop offset="1" stop-color="#04121a" />
+          </linearGradient>
+          <radialGradient id="luz-{{ID}}"><stop offset="0" stop-color="#fff6d8" stop-opacity="0.9" /><stop offset="1" stop-color="#fff6d8" stop-opacity="0" /></radialGradient>
+        </defs>
+        <!-- cuerda: la pared y el precipicio -->
+        <g class="v-pared" style="display: none">
+          <rect class="cielo" x="-100" y="-100" width="1280" height="2120" />
+          <path class="nieve" d="M-100,330 L80,360 L700,720 L708,1000 L1180,1000 L1180,2020 L-100,2020 Z" />
+          <path class="hielo-p" d="M700,720 L760,712 L740,760 L712,1000 L700,1000 Z" />
+          <path class="grieta-b" d="M790,1000 L880,1000 L860,1500 L820,1500 Z" />
+          <path class="cuerda c-arriba" />
+          <path class="cuerda c-abajo" />
+          <circle class="chispa" r="26" />
+          <g class="fig-s"><circle class="simon contorno" r="22" /><text class="nombre" text-anchor="middle" y="-36">SIMON</text></g>
+          <g class="fig-j"><circle class="joe contorno" r="20" /><text class="nombre" x="32" y="12">JOE</text></g>
+          <rect class="niebla" x="-100" y="-100" width="1280" height="2120" />
+          <g class="copos"></g>
+        </g>
+        <!-- grieta y salida: la grieta en corte -->
+        <g class="v-grieta" style="display: none">
+          <rect class="cielo" x="-100" y="-100" width="1280" height="520" />
+          <path class="nieve" d="M-100,400 L380,400 L380,2020 L-100,2020 Z" />
+          <path class="nieve" d="M700,400 L1180,400 L1180,2020 L700,2020 Z" />
+          <path class="sima" d="M380,400 L700,400 L700,2020 L380,2020 Z" />
+          <path class="hielo-p labio" d="M380,400 L560,400 L520,470 L470,520 L380,540 Z" />
+          <path class="hielo-p" d="M380,900 L520,900 L520,930 L380,930 Z" />
+          <path class="hielo-p" d="M380,1100 L700,1100 L700,1160 L380,1160 Z" />
+          <path class="hielo-p rampa" d="M560,1100 L700,760 L700,1100 Z" />
+          <g class="regla">
+            <line x1="90" y1="400" x2="90" y2="900" /><line x1="76" y1="400" x2="104" y2="400" /><line x1="76" y1="900" x2="104" y2="900" />
+            <text x="110" y="416">0 m</text><text x="110" y="916">−60 m</text>
+          </g>
+          <circle class="luz" cx="760" cy="420" r="220" />
+          <path class="flecha f-arriba" d="M450,860 L450,640 M418,676 L450,640 L482,676" />
+          <g class="cruz-g2" style="visibility: hidden"><line class="cruz" x1="420" y1="700" x2="480" y2="760" /><line class="cruz" x1="480" y1="700" x2="420" y2="760" /></g>
+          <path class="camino c-salida" d="M450,880 L450,1085 L600,1085 L700,760 L760,400" />
+          <g class="ondas"><path class="onda o1" /><path class="onda o2" /><path class="onda o3" /></g>
+          <g class="fig-s2" style="visibility: hidden"><circle class="simon contorno" r="22" /><text class="nombre" text-anchor="middle" y="-36">SIMON</text></g>
+          <g class="fig-j2"><circle class="joe contorno" r="20" /><text class="nombre" x="32" y="12">JOE</text></g>
+        </g>
+      </svg>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div>
+      <div class="t sello s1"><span></span></div>
+      <div class="t cifra c1"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      const pon = (sel, x, y) => gsap.set($(sel), { left: x, top: y });
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); };
+      const pos = (g, x, y) => g.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+      const lerp = (a, b, k) => a + (b - a) * k;
+      if (modo === "cuerda") {
+        $(".v-pared").style.display = "";
+        // Simon arriba (200, 410); el borde del precipicio (705, 722); Joe baja por la ladera y luego cuelga en el vacío.
+        const S0 = [200, 410], BORDE = [705, 722], COLGADO = [748, 880];
+        const tP = w("precipicio") - 0.2, tH = w("cede") - 0.05, tC = w("corta") + 0.05;
+        // Antes del precipicio, Joe baja la ladera en dos tramos de 90 m (con una parada entre tramos).
+        const tramo1 = [w("baja") - 0.1, w("noventa") + 0.3], tramo2 = [w("cada") + 0.1, tP];
+        const enLadera = (k) => [lerp(S0[0] + 70, BORDE[0] - 20, k), lerp(S0[1] + 42, BORDE[1] - 12, k)];
+        const copos = [];
+        for (let i = 0; i < 70; i++) copos.push(svg("line", { class: "copo" }, $(".copos")));
+        alBuscar((t) => {
+          // Simon resbala en tres tirones cuando cede la nieve.
+          const res = [0, 0.35, 0.7].reduce((a, d) => a + 14 * paso(t, tH + d, 0.12, "power2.out"), 0);
+          const S = [S0[0] + res * 0.84, S0[1] + res * 0.54];
+          pos($(".fig-s"), S[0], S[1]);
+          let J;
+          if (t < tramo1[1]) J = enLadera(0.45 * paso(t, tramo1[0], tramo1[1] - tramo1[0], "power1.inOut"));
+          else if (t < tP) J = enLadera(0.45 + 0.55 * paso(t, tramo2[0], tramo2[1] - tramo2[0], "power1.inOut"));
+          else { const k = paso(t, tP, 0.6, "power2.in"); J = [lerp(BORDE[0] - 20, COLGADO[0], k), lerp(BORDE[1] - 12, COLGADO[1], k)]; }
+          const kc = paso(t, tC, 0.8, "power2.in"), caida = 600 * kc;
+          J = [lerp(J[0], 835, kc), lerp(J[1], 1460, kc)];
+          pos($(".fig-j"), J[0], J[1]);
+          // La cuerda: de Simon al borde y del borde a Joe (cuando cuelga), o de Simon a Joe por la ladera.
+          const cortada = t > tC;
+          const ca = $(".c-arriba"), cb = $(".c-abajo");
+          if (t < tP + 0.3) { ca.setAttribute("d", `M${S[0]},${S[1]} L${J[0]},${J[1]}`); cb.setAttribute("d", ""); }
+          else if (!cortada) { ca.setAttribute("d", `M${S[0]},${S[1]} L${BORDE[0]},${BORDE[1]} L${J[0]},${J[1] - 20}`); cb.setAttribute("d", ""); }
+          else {
+            ca.setAttribute("d", `M${S[0]},${S[1]} L${lerp(S[0], BORDE[0], 0.15)},${lerp(S[1], BORDE[1], 0.15)}`);
+            cb.setAttribute("d", `M${lerp(BORDE[0], 835, kc)},${BORDE[1] + caida}L${J[0]},${J[1] - 20}`);
+          }
+          // La ventisca: niebla y copos que cruzan en diagonal.
+          const v = 0.55 * paso(t, w("visibilidad") - 0.2, 0.8, "power2.out");
+          $(".niebla").setAttribute("style", `fill: rgba(225,232,236,${(v * 0.6).toFixed(3)})`);
+          copos.forEach((c, i) => {
+            const x = ((i * 137 + Math.max(0, t) * (420 + (i % 7) * 40)) % 1400) - 160, y = ((i * 263 + Math.max(0, t) * (260 + (i % 5) * 30)) % 2000) - 40;
+            c.setAttribute("x1", x.toFixed(1)); c.setAttribute("y1", y.toFixed(1)); c.setAttribute("x2", (x + 26).toFixed(1)); c.setAttribute("y2", (y + 14).toFixed(1));
+            c.setAttribute("opacity", (v * 1.6).toFixed(3));
+          });
+        });
+        tl.fromTo($(".v-pared"), { scale: 1.0, transformOrigin: "55% 40%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        et(".e1", "Tramos de 90 <i class=\"m\">m</i>", 80, 236, w("noventa"));
+        tl.to($(".e1"), { autoAlpha: 0, duration: 0.2 }, tP);
+        // El corte: un destello en la cuerda, junto a Simon.
+        gsap.set($(".chispa"), { attr: { cx: 290, cy: 470 } });
+        tl.fromTo($(".chispa"), { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" }, { keyframes: [{ opacity: 1, scale: 1.4, duration: 0.08 }, { opacity: 0, scale: 2.2, duration: 0.3 }] }, tC - 0.05);
+        sello(".s1", "Corta", 80, 1000, tC);
+      } else {
+        $(".v-grieta").style.display = "";
+        tl.fromTo($(".v-grieta"), { scale: 1.0, transformOrigin: "50% 45%" }, { scale: 1.04, duration: DUR, ease: "none" }, 0);
+        const REPISA = [450, 880];
+        if (modo === "grieta") {
+          // Cae de la superficie a la repisa (a −60 m), con un rebote.
+          const tf = 0.1, tr = w("sesenta") + 0.2;
+          alBuscar((t) => {
+            const k = paso(t, tf, tr - tf, "power2.in"), reb = t > tr ? 14 * Math.exp(-(t - tr) * 7) * Math.sin((t - tr) * 20) : 0;
+            pos($(".fig-j2"), REPISA[0], lerp(330, REPISA[1], k) - reb);
+          });
+          $$(".regla text")[1].style.display = "none";   // el −60 m de la regla: lo dice el contador, al lado
+          const prof = $(".c1"); pon(".c1", 130, 820);
+          tl.fromTo(prof, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.3);
+          cuenta(prof, 0, 60, 0.3, tr - 0.3, { ease: "power2.in", pre: "−", suf: " m", crudo: true });
+          // Simon, arriba, llama: tres ondas que bajan y se apagan antes de llegar.
+          pos($(".fig-s2"), 300, 380);
+          tl.set($(".fig-s2"), { visibility: "visible" }, w("llama") - 0.3);
+          tl.fromTo($(".fig-s2"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, w("llama") - 0.3);
+          $$(".onda").forEach((o, i) => {
+            const t0 = w("llama") + i * 0.35;
+            tl.fromTo(o, { attr: { d: "M330,420 Q420,440 470,430" }, opacity: 0 },
+              { keyframes: [{ opacity: 0.9, duration: 0.1 }, { attr: { d: "M360,560 Q470,600 560,560" }, opacity: 0, duration: 0.8 }] }, t0);
+          });
+          et(".e1", "Nadie contesta", 80, 236, w("contesta"));
+          // «Lo da por muerto»: Simon se va, y el rótulo con él.
+          tl.to($(".fig-s2"), { opacity: 0, duration: 0.5 }, w("muerto") + 0.2);
+          tl.to($(".e1"), { autoAlpha: 0, duration: 0.25 }, w("muerto") + 0.4);
+          // El hielo cuelga sobre su cabeza: la salida de arriba, imposible.
+          tl.to($(".labio"), { fill: "#ff5e1a", duration: 0.2, yoyo: true, repeat: 1 }, w("cuelga") - 0.05);
+          tl.set($(".f-arriba"), { visibility: "visible" }, w("subir") - 0.1);
+          tl.fromTo($(".f-arriba"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, w("subir") - 0.1);
+          tl.set($(".cruz-g2"), { visibility: "visible" }, w("cuelga") + 0.1);
+          tl.fromTo($(".cruz-g2"), { scale: 1.6, opacity: 0, transformOrigin: "450px 730px" }, { scale: 1, opacity: 1, duration: 0.2, ease: "power4.in" }, w("cuelga") + 0.1);
+        } else {
+          // salida: baja más hondo, cruza el fondo y sube por la rampa hacia la luz.
+          const camino = [[450, 880], [450, 1085], [600, 1085], [700, 760], [760, 400]];
+          const largos = camino.slice(1).map((p, i) => Math.hypot(p[0] - camino[i][0], p[1] - camino[i][1]));
+          const total = largos.reduce((a, b) => a + b, 0);
+          const en = (u) => { let d = u * total; for (let i = 0; i < largos.length; i++) { if (d <= largos[i] || i === largos.length - 1) { const k = Math.min(1, d / largos[i]); return [lerp(camino[i][0], camino[i + 1][0], k), lerp(camino[i][1], camino[i + 1][1], k)]; } d -= largos[i]; } };
+          const t0 = 0.15, t1 = w("salida") - 0.1, t2 = Math.min(DUR - 0.2, f("glaciar") + 0.4);
+          alBuscar((t) => {
+            // Hasta «salida», baja y cruza el fondo (hasta el pie de la rampa); después sube a la superficie.
+            const u = t < t1 ? 0.62 * paso(t, t0, t1 - t0, "power1.inOut") : 0.62 + 0.38 * paso(t, t1, t2 - t1, "power1.inOut");
+            const p = en(u); pos($(".fig-j2"), p[0], p[1]);
+          });
+          tl.set($(".c-salida"), { visibility: "visible" }, 0.1);
+          tl.fromTo($(".c-salida"), { opacity: 0 }, { opacity: 0.8, duration: 0.4 }, 0.1);
+          tl.to($(".luz"), { opacity: 1, duration: 0.8, ease: "power2.out" }, t1);
+          et(".e1", "Salida al glaciar", 80, 236, w("salida"));
+        }
+      }
+      fin();
+    })();
+  </script>
+</template>

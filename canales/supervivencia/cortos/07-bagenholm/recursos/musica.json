@@ -1,0 +1,15 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings»: lo que salió limpio de graves en la sesión 7 (6 y 7 %); se mide con audio/graves.py. Irá unos 16 LU bajo la voz (CANAL.md).",
+ "semilla": 65,
+ "candidatas": [
+  "cold and fragile documentary music, solo piano and high strings, slow, tense then hopeful, no drums, 66 bpm",
+  "delicate solo piano and high strings with celesta, slow, cold, hopeful ending, no drums, 70 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 71,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_2: 10 % bajo 150 Hz y estable (−23 a −29 dB); la 1 se apagaba a los 15 s (−38 a −41 dB)."
+ }
+}

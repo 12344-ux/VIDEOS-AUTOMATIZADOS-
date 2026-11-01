@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings»: lo que salió limpio de graves en la sesión 7 (6 y 7 %); se mide con audio/graves.py. Irá unos 16 LU bajo la voz (CANAL.md).",
+ "semilla": 66,
+ "candidatas": [
+  "tense mountain documentary music, solo piano and high strings, slow, building, hopeful ending, no drums, 72 bpm",
+  "dramatic solo piano and high strings, slow, cold and tense, hopeful ending, no drums, 76 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 77,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_1: 11 % de la energía bajo 150 Hz y estable (−21 a −24 dB); la 2 se apagaba desde los 15 s (−33 a −67 dB). Con compresión suave (3:1): el piano tenía valles de −36 dB que, bajo la voz, dejaban microhuecos en las pausas.",
+  "comprimir": 3
+ }
+}

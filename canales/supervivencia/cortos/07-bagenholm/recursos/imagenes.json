@@ -1,0 +1,46 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Anna Bågenholm, sus compañeros y el equipo del hospital son personas reales: nunca de cara. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "rio",
+   "semilla": 111,
+   "prompt": "A frozen mountain stream in a snowy birch forest in northern Norway with a jagged hole broken in the ice near a small frozen waterfall, a pair of skis and ski poles left on the snow beside the hole, cold blue dusk light, no people, the hole in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "esqui",
+   "semilla": 112,
+   "prompt": "Three skiers in winter jackets skiing down a steep snowy slope among birch trees in the mountains of northern Norway, seen from behind and from far away, bright cold afternoon light, the skiers in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "bajo_hielo",
+   "semilla": 113,
+   "prompt": "Underwater view looking up from beneath a thick sheet of ice on a frozen river, a small pocket of air trapped under the ice, a woman's gloved hand pressed against the ice from below, cold blue-green light, bubbles, vertical composition"
+  },
+  {
+   "nombre": "rescate",
+   "semilla": 114,
+   "prompt": "Two people in winter jackets kneeling on a frozen river at dusk, pulling a person out of a hole in the ice, broken ice and snow, seen from behind and from a distance, no faces visible, the group in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "helicoptero",
+   "semilla": 115,
+   "prompt": "A red rescue helicopter with its lights on flying over snowy mountains and a dark fjord in northern Norway at dusk, seen from far away, the helicopter in the upper middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "quirofano",
+   "semilla": 116,
+   "prompt": "A hospital operating room at night, a team of doctors and nurses in green scrubs seen from behind gathered around a patient connected to a heart-lung machine with tubes, monitors glowing, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "monitor",
+   "semilla": 117,
+   "prompt": "Close-up of a hospital heart monitor screen in a dark room showing a single flat green line, reflections on the glass, no readable numbers, no letters, vertical composition"
+  },
+  {
+   "nombre": "hospital",
+   "semilla": 118,
+   "prompt": "A large modern hospital building at night in an arctic Norwegian city by a fjord, snow on the ground, green northern lights in the sky, seen from outside and from far away, no signs, vertical composition"
+  }
+ ]
+}

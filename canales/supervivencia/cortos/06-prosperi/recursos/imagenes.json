@@ -1,0 +1,49 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Mauro Prosperi y la familia tuareg que lo encontró son personas reales: nunca de cara. Él, siempre con gorra blanca, camiseta gris claro y mochila pequeña. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "dunas",
+   "semilla": 101,
+   "prompt": "A lone marathon runner with a white cap, a light grey shirt and a small backpack walking alone across endless golden sand dunes of the Sahara under a burning sun, seen from behind and from far away, heat haze, the small figure in the lower third of the frame, wide empty pale sky above, vertical composition"
+  },
+  {
+   "nombre": "carrera",
+   "semilla": 102,
+   "prompt": "A long line of marathon runners with backpacks and caps crossing the Sahara desert during a race, seen from behind, dunes and rocky hills, harsh midday sun, the runners in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "tormenta",
+   "semilla": 131,
+   "prompt": "A huge wall of a sandstorm swallowing one single lone runner in the Sahara desert, only one person in the whole image, he wears a white cap, a light grey t-shirt and a small backpack, orange dust everywhere, almost no visibility, the tiny figure seen from behind in the lower third of the frame, no other people, vertical composition",
+   "_rehecha": "semilla 103: salían dos corredores (la voz dice «está solo»)."
+  },
+  {
+   "nombre": "santuario",
+   "semilla": 134,
+   "prompt": "A small abandoned whitewashed Muslim shrine with a dome, a marabout, alone in the Sahara desert at dusk, a thin exhausted European marathon runner sitting in its dark doorway, he wears a white baseball cap, a light grey t-shirt, black running shorts and a small backpack, seen from far away, long shadows, the shrine in the lower half of the frame, no other people, vertical composition",
+   "_rehecha": "semilla 104: el hombre de la puerta parecía un lugareño con túnica, no el corredor."
+  },
+  {
+   "nombre": "murcielagos",
+   "semilla": 105,
+   "prompt": "Inside a dark abandoned desert shrine, small bats hanging from the dusty domed ceiling, a single beam of light through a small window, sand on the floor, no people, vertical composition"
+  },
+  {
+   "nombre": "carbon",
+   "semilla": 106,
+   "prompt": "Close-up of a man's dirty sunburned hand writing with a piece of charcoal on a scrap of paper resting on the sand, the writing is blurred and unreadable, shallow depth of field, warm low desert light, vertical composition"
+  },
+  {
+   "nombre": "oasis",
+   "semilla": 137,
+   "prompt": "A small muddy pool of water among rocks and a few dry palm trees in the Sahara desert at dawn, one single thin exhausted man, the only person in the whole image, with a white cap, a light grey t-shirt and black shorts, on his knees drinking from it with his hands, seen from behind, the man in the lower half of the frame, no other people, vertical composition",
+   "_rehecha": "semilla 107: salían dos hombres (estaba solo)."
+  },
+  {
+   "nombre": "rebano",
+   "semilla": 108,
+   "prompt": "A young nomad girl in a colorful headscarf tending a flock of goats in a dry rocky desert valley, seen from behind and from far away, a weak thin man with a white cap approaching in the far distance, soft morning light, the girl and the goats in the lower half of the frame, vertical composition"
+  }
+ ]
+}

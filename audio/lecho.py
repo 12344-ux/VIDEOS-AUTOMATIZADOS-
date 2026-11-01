@@ -4,7 +4,10 @@ de potencia constante hasta la duración pedida, con entrada y salida suaves, y 
 estándar (loudnorm de ffmpeg). Se le quita el último segundo y medio a la pieza, que MusicGen suele
 cortar en seco.
 
-  python3 audio/lecho.py pieza.wav 62.4 -o lecho.wav [--cruce 3] [--lufs -16]
+  python3 audio/lecho.py pieza.wav 62.4 -o lecho.wav [--cruce 3] [--lufs -16] [--comprimir 3]
+
+--comprimir R: una compresión suave (umbral −26 dBFS, R:1) antes de normalizar, para una pieza de piano con valles muy
+hondos: bajo la voz, sus valles dejaban huecos casi en silencio en las pausas (corto 8 de supervivencia).
 """
 import argparse
 import os
@@ -32,6 +35,7 @@ def main():
     p.add_argument('--entrada', type=float, default=1.0)
     p.add_argument('--salida-fundido', type=float, default=2.0, dest='fin')
     p.add_argument('--lufs', type=float, default=-16.0)
+    p.add_argument('--comprimir', type=float, default=0, help='relación de una compresión suave (0: ninguna)')
     a = p.parse_args()
 
     x, sr = leer(a.pieza)
@@ -53,7 +57,10 @@ def main():
             w.setsampwidth(2)
             w.setframerate(sr)
             w.writeframes((np.clip(y, -1, 1) * 32767).astype('<i2').tobytes())
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', crudo, '-af', f'loudnorm=I={a.lufs}:TP=-2:LRA=11',
+        filtro = f'loudnorm=I={a.lufs}:TP=-2:LRA=11'
+        if a.comprimir > 1:
+            filtro = f'acompressor=threshold=0.05:ratio={a.comprimir:g}:attack=20:release=400:knee=4,' + filtro
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', crudo, '-af', filtro,
                         '-ar', str(sr), a.salida], check=True)
     print(f'{a.salida}  {a.duracion:.1f} s desde {len(x) / sr:.1f} s de pieza')
 
