@@ -65,8 +65,8 @@ sonido('2475', T_PERSIANA, vol=0.08, ini=8.9, dur=1.6, fo=0.4,
        puntos=[(TAPA - 0.12, 0.08), (TAPA - 0.02, 0.3)])                                  # …y golpea al tapar la cortina
 
 # Las acciones.
-sonido('3555', w('ochocientos', mas=-0.1), vol=0.3, ini=0.65, dur=0.8, fo=0.3)          # las multas se imprimen
+sonido('3555', w('ochocientos', 1, mas=-0.1), vol=0.3, ini=0.65, dur=0.8, fo=0.3)          # las multas se imprimen
 sonido('2461', w('odiaban', mas=-0.1 + 0.22 + 0.033 - 0.07), vol=0.6)                   # el sello LO QUE MÁS ODIABAN
 sonido('2463', w('multas', 2, mas=-0.05 + 0.12 + 0.033 - 0.06), vol=0.6)                 # el sello SIN MULTAS
 sonido('2460', w('no', mas=-0.05 + 0.2 + 0.033 - 0.08), vol=0.48)                        # el NO de Blockbuster
-sonido('2461', w('quebró', fin=True, mas=0.12 + 0.12 + 0.033 - 0.07), vol=0.6)           # el sello QUIEBRA · 2010
+sonido('2461', w('quebró', 1, fin=True, mas=0.12 + 0.12 + 0.033 - 0.07), vol=0.6)           # el sello QUIEBRA · 2010

@@ -19,8 +19,9 @@
   },
   {
    "nombre": "rescate",
-   "semilla": 114,
-   "prompt": "Two people in winter jackets kneeling on a frozen river at dusk, pulling a person out of a hole in the ice, broken ice and snow, seen from behind and from a distance, no faces visible, the group in the lower half of the frame, vertical composition"
+   "semilla": 144,
+   "prompt": "Two people in winter jackets kneeling on a frozen river at dusk, pulling a limp unconscious skier out of a hole in the ice, only her legs and back visible, her head hidden, broken ice and snow, seen from behind and from a distance, no faces visible, the group in the lower half of the frame, vertical composition",
+   "_rehecha": "semilla 114: la rescatada salía de rodillas, como si estuviera bien, y con la cara medio visible."
   },
   {
    "nombre": "helicoptero",
@@ -29,8 +30,9 @@
   },
   {
    "nombre": "quirofano",
-   "semilla": 116,
-   "prompt": "A hospital operating room at night, a team of doctors and nurses in green scrubs seen from behind gathered around a patient connected to a heart-lung machine with tubes, monitors glowing, no faces visible, vertical composition"
+   "semilla": 146,
+   "prompt": "A hospital operating room at night seen from behind a team of doctors and nurses in green scrubs and caps, their backs to the camera, gathered around an operating table connected to a heart-lung machine with tubes, the patient completely hidden by their backs and by green surgical drapes, monitors glowing, no faces visible, vertical composition",
+   "_rehecha": "semilla 116: se veía la cara de la paciente (y no se parecía a ella) y la de una enfermera."
   },
   {
    "nombre": "monitor",

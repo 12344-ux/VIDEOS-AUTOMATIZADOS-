@@ -75,6 +75,8 @@ DURACION = w('Sahara', 2, fin=True, mas=0.9)
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
 sin_subtitulos(w('Cuarenta', mas=-0.1), w('Y de repente', mas=-0.12))      # 46 °C
 sin_subtitulos(w('solo', 1, mas=-0.1), w('No ve', mas=-0.12))                  # SOLO
+sin_subtitulos(w('quédate', mas=-0.1), w('Y él', mas=-0.12))                   # QUÉDATE QUIETO
+sin_subtitulos(w('la regla', mas=-0.1), w('camina', mas=-0.12))               # ROMPE LA REGLA
 sin_subtitulos(w('Lo encuentra', mas=-0.12), w('Su familia', 2, mas=-0.12))   # quién lo encontró, revelado en la ficha
 sin_subtitulos(w('A doscientos', mas=-0.1), w('Había', mas=-0.12))         # 291 KM · FUERA DE LA CARRERA
 sin_subtitulos(w('quince', mas=-0.1), DURACION)                             # −15 KG · vuelve el gancho

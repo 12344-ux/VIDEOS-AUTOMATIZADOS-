@@ -171,7 +171,39 @@ def cargar(vid):
         # Si la siguiente entra con una transición, esta sigue debajo mientras dura.
         sig = v.escenas[i + 1]['entrada'] if i + 1 < len(v.escenas) else None
         e['solape'] = sig['d'] if sig else 0
+    v.fuera = anclas_fuera(v)
     return v
+
+
+def anclas_fuera(v):
+    """Las anclas de los parámetros de cada escena (["palabra", n, desfase, "fin"]) que caen fuera de ella: el rótulo
+    sale de golpe al empezar o no sale. «Años después» cogía «29 años», 47 s antes, y se montaba encima de «10 días
+    después»; con una animación que acaba antes de que empiece su escena, además, ni se aplica."""
+    m, fuera = v.mapa(), []
+
+    def anclas(x):
+        if (isinstance(x, (list, tuple)) and 2 <= len(x) <= 4 and isinstance(x[0], str) and ' ' not in x[0].strip()
+                and isinstance(x[1], int) and not isinstance(x[1], bool)
+                and (len(x) < 3 or isinstance(x[2], (int, float))) and (len(x) < 4 or x[3] == 'fin')):
+            yield x
+        elif isinstance(x, dict):
+            for y in x.values():
+                yield from anclas(y)
+        elif isinstance(x, (list, tuple)):
+            for y in x:
+                yield from anclas(y)
+
+    for e in v.escenas:
+        dura = e['hasta'] - e['desde']
+        for a in anclas(e['p']):
+            l = m.get(limpia(a[0]))
+            if not l or len(l) < a[1]:
+                fuera.append(f'{e["id"]}: el ancla {list(a)} no está en la voz')
+                continue
+            t = l[a[1] - 1][1 if len(a) > 3 else 0] + (a[2] if len(a) > 2 else 0) - e['desde']
+            if t < -0.15 or t > dura + 0.05:   # un poco antes vale: entra ya empezada
+                fuera.append(f'{e["id"]}: el ancla {list(a)} cae a {t:.1f} s de su escena, que dura {dura:.1f} s')
+    return fuera
 
 
 def plantilla(v, nombre):
@@ -486,6 +518,8 @@ def main():
     avisos = escribir(v)
     print(json.dumps({'video': vid, 'variante': VARIANTE, 'duracion': v.dur, 'escenas': len(v.escenas), 'sonidos': len(v.sonidos), 'musicas': len(v.musicas)}))
     for a in avisos:
+        print('aviso:', a)
+    for a in v.fuera:
         print('aviso:', a)
     for palabra, ts in v.repetidas.items():
         print(f'aviso: «{palabra}» sale {len(ts)} veces ({", ".join(f"{t:.1f}" for t in ts)} s): w() toma la 1.ª; '

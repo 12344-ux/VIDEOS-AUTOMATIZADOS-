@@ -65,6 +65,7 @@ escena('s16', 'gancho', w('Todo empezó', mas=-0.12), foto='siula',
 DURACION = w('cuerda', 4, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
+sin_subtitulos(w('Más de seis', mas=-0.1), w('Al bajar', mas=-0.12))           # 6.344 M (con «más de 6.300» a la vez, dos cifras)
 sin_subtitulos(w('Baja', 2, mas=-0.12), w('grieta', 3, fin=True, mas=-0.15))   # cómo salió, revelado en la ficha
 sin_subtitulos(w('Tocando', mas=-0.12), w('Todo empezó', mas=-0.12))           # «TOCANDO EL VACÍO»
 sin_subtitulos(w('Todo empezó', mas=-0.12), DURACION)                           # vuelve el gancho
