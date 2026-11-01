@@ -77,10 +77,10 @@ sin_subtitulos(w('Lésli', mas=-0.12), w('Sacó', mas=-0.12))                   
 sin_subtitulos(w('Cuarenta', 3, mas=-0.12), DURACION)                          # vuelve el gancho
 
 # --- Música: 16–20 LU bajo la voz (CANAL.md); se retira para la ficha revelada y vuelve con la fariña.
-musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.1,
-       puntos=[(w('Quién', mas=-0.3), 0.09), (w('Lésli', mas=-0.2), 0.055), (w('Sacó', mas=-0.1), 0.09)])
+musica('lecho', 0, DURACION, vol=0.07, fi=0.05, fo=0.1,
+       puntos=[(w('Quién', mas=-0.3), 0.07), (w('Lésli', mas=-0.2), 0.045), (w('Sacó', mas=-0.1), 0.07)])
 
 # --- Efectos: solo los fuertes, con su golpe en pantalla.
-sonido('1299', w('cae', mas=0.15), vol=0.25, ini=0.1, dur=2.0, fo=0.5)                    # las ramas (el mapa tiembla)
-sonido('0264', w('Desde', mas=-0.1), vol=0.08, ini=0.0, dur=3.2, fi=0.4, fo=1.2)           # el helicóptero
+sonido('1299', w('cae', mas=-0.94), vol=0.42, ini=2.5, dur=1.8, fo=0.4)                    # las ramas: el chasquido de 3,74 s, con el temblor
+sonido('0264', w('Desde', mas=-0.1), vol=0.07, ini=0.0, dur=3.2, fi=0.4, fo=1.2)           # el helicóptero
 sonido('2954', w('perro', mas=-0.05), vol=0.12, ini=0.0, dur=0.9, fo=0.2)                 # los ladridos de Wilson

@@ -4,5 +4,12 @@
  "candidatas": [
   "tense documentary music, solo piano and high strings, slow, mysterious jungle mood, hopeful ending, no drums, 70 bpm",
   "solo piano and high strings, slow, tender and hopeful, emotional, no drums, 66 bpm"
- ]
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 86,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_2: 0 % de la energía bajo 150 Hz y estable (−18 a −21 dB); la 1 bajaba a −29 dB al final."
+ }
 }
