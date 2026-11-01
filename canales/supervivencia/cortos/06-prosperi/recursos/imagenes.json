@@ -20,9 +20,9 @@
   },
   {
    "nombre": "santuario",
-   "semilla": 134,
-   "prompt": "A small abandoned whitewashed Muslim shrine with a dome, a marabout, alone in the Sahara desert at dusk, a thin exhausted European marathon runner sitting in its dark doorway, he wears a white baseball cap, a light grey t-shirt, black running shorts and a small backpack, seen from far away, long shadows, the shrine in the lower half of the frame, no other people, vertical composition",
-   "_rehecha": "semilla 104: el hombre de la puerta parecía un lugareño con túnica, no el corredor."
+   "semilla": 141,
+   "prompt": "A small abandoned whitewashed Muslim shrine with a dome, a marabout, alone in the Sahara desert at dusk, a thin exhausted European marathon runner sitting in its dark doorway with his head down on his knees and his face hidden, he wears a white baseball cap, a light grey t-shirt, black running shorts and a race bib, seen from far away, long shadows, the shrine in the lower half of the frame, no other people, vertical composition",
+   "_rehecha": "semilla 104: el hombre de la puerta parecía un lugareño con túnica; semilla 134: ya era el corredor, pero miraba a cámara."
   },
   {
    "nombre": "murcielagos",
