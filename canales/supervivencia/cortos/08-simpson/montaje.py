@@ -34,8 +34,8 @@ escena('s06', 'grieta', w('Sáimon lo baja', mas=-0.12), modo='cuerda')
 escena('s07', 'foto', w('y queda', mas=-0.12), foto='colgando',
        conf=dict(camara=[1.0, 1.1, 0, -30], textos=[
            dict(html='En el vacío', clase='etiqueta', x=80, y=300, en=['vacío', 1, -0.05])]))
-escena('s08', 'foto', w('Sáimon no', mas=-0.12), foto='descenso',          # la ventisca (lluvia: la nieve que cruza)
-       conf=dict(camara=[1.0, 1.14, 0, 40], techo=True, lluvia=True, brillo=0.78, textos=[
+escena('s08', 'foto', w('Sáimon no', mas=-0.12), foto='descenso',          # más oscura: salió soleada (la ventisca, en el dibujo)
+       conf=dict(camara=[1.0, 1.14, 0, 40], techo=True, brillo=0.78, textos=[
            dict(html='· No lo ve', clase='diario', x=80, y=236, en=['ve', 1, -0.1], modo='escribe'),
            dict(html='· No lo oye', clase='diario', x=80, y=306, en=['oye', 1, -0.1], modo='escribe'),
            dict(html='+1 hora', clase='sello', x=80, y=960, en=['hora', 1, -0.05], modo='sello')]))
