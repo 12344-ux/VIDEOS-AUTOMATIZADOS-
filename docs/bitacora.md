@@ -1203,11 +1203,60 @@ estaba en otra rama sin unir (`ccr-4888b5fc-onnsee`, que ya contiene las de las 
   tardó 16 min (compartiendo el disco con un `check`, que en frío pasó de 10 min) y la primera imagen después, 336 s con la
   carga de FLUX.
 
+### 11. Dos cortos para la audiencia colombiana: los niños de la selva y el náufrago (1 de noviembre)
+
+- **Pedido del usuario:** «más del 50 % de la audiencia son de Colombia y entre 50-60 años. Quiero que hagas dos vídeos
+  cortos para el canal de supervivencia PERO que busques historias de supervivencia de Colombia quizás de esa época. El
+  vídeo de los 33 pegó bien, y supongo que es porque es una historia conocida». Anotado en el `CANAL.md` y en `CLAUDE.md`.
+- **Medido** (`rastreador/youtube.py buscar --region CO`, 10 años): los cuatro niños de la selva, demanda probada (4,8 M;
+  1,35 M; 1,33 M); Armero, también (4,2 M), pero su historia más conocida es la de Omayra, que no sobrevivió, y las de
+  los supervivientes son poco conocidas y delicadas: descartado; el náufrago de García Márquez, el mejor Short llega a
+  2.856 vistas en canales pequeños: un hueco, con una historia que esa generación leyó en el colegio; Avianca 52, 99.000.
+- **Elegidos:** **«40 días en la selva»** (los cuatro hermanos de la avioneta de Araracuara, 2023) y **«El náufrago»**
+  (Luis Alejandro Velasco y el destructor Caldas, 1955). Datos de Wikipedia, Telemundo, Infobae, El País, El Colombiano,
+  N+ y Cambio para los niños; de Wikipedia (inglés y español), Biografías y Vidas, Psyciencia, la Universidad de Lima y el
+  propio libro para el náufrago (la lista «neveras, televisores, lavadoras» sale del texto del libro; «electrodomésticos»,
+  de las otras dos). Lo que varía según la fuente, en el `PUBLICACION.md` de cada uno.
+
+### 12. Cómo están hechos
+
+- **«40 días en la selva»** (81,1 s, 15 escenas): el mapa de Colombia de Natural Earth (`mapa.py`, `escenas/mapa.html`),
+  de Colombia entera con Bogotá a la ruta Araracuara–San José del Guaviare, con la avioneta que vuela, tiembla y cae en el
+  punto del accidente (00°54′ N, 72°24′ O); sale en dos escenas y todo su estado va en función del tiempo. El contador de
+  días hasta el 40 y la ficha «Quién los salvó → Su hermana de 13 años». Los niños son menores y reales: siempre de
+  espaldas y de lejos; de la madre, solo que murió.
+- **«El náufrago»** (84,8 s, 16 escenas): el destructor dibujado (`escenas/barco.html`) con la carga bajo lonas: en
+  «golpe», el barco se escora, caen los ocho y Velasco (naranja) llega a la balsa; en «carga», las lonas se levantan y
+  aparecen las neveras, los televisores y las lavadoras, que se sueltan y arrastran a los marineros. La ficha «Lo que
+  pasó en el barco → No hubo tormenta» se revela sobre la cubierta llena de electrodomésticos; el final, con el libro.
+- **Voz** M2: 80,2 y 83,8 s, los más largos del canal (dentro de 60–90). **Música:** «solo piano and high strings»:
+  las cuatro candidatas, con el 0–2 % de graves. **Sonido:** las ramas al caer la avioneta, el helicóptero y los ladridos
+  de Wilson; la ola, el chapuzón de los marineros, el avión que pasa y la carga que cae al mar. `revisar_mezcla.py`: 0
+  avisos, sin huecos; la música a −16,9 y −18,0 LU.
+- **Imágenes:** 18 de FLUX.3 (135–178 s; 278–349 s las que coincidieron con un render) y **ninguna rehecha**: los
+  prompts llevaban desde el principio lo aprendido en los cortos 6–8 («only one person», «seen from behind, no faces
+  visible»). La balsa salió más moderna que una de 1955 y el avión con un emblema rojo borroso: valen.
+- **La revisión** encontró los rótulos del helicóptero encima de sus aspas y el barco pequeño para un móvil (20 % más
+  grande y fuera de la franja de los subtítulos). Los avisos nuevos de `montar.py` señalaron dos anclas («En cubierta»,
+  «La dictadura») que eran la primera aparición: `n=1`.
+- **La máquina se reinició otra vez** entre el pedido y el trabajo: la voz iba lenta (caché vacía) y la precarga, en
+  paralelo con la voz y la música, tardó 13 min 22 s.
+
+### 13. Render y entrega
+
+- **Render:** 5 min 42 s el 9 (con FLUX en paralelo) y 3 min 51 s el 10. `check`: 0 errores y 0 avisos en los dos.
+- **Entregas** (`BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`):
+  `salidas/supervivencia/cortos/09-ninos-selva/entrega/ninos-selva.mp4` (81,11 s, −14,5 LUFS, −0,9 dBTP, 83 MB) y
+  `10-velasco/entrega/velasco.mp4` (84,78 s, −14,5 LUFS, −1,7 dBTP, 51 MB). Bucle: 3,0 y 2,2 de diferencia media sobre
+  255; ningún silencio. El −0,9 dBTP del 9 es un solo golpe de la propia voz («día cuarenta», 58,8 s; lo demás, por debajo
+  de −2,2): con `PICO=-2.6` seguía en −0,9 y la sonoridad bajaba a −14,8, así que se quedó la entrega estándar.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
-   Prosperi, Bågenholm y Simpson en supervivencia), elija los nombres y cree los dos canales de YouTube y las dos
-   páginas de Facebook. Publicar y
+   Prosperi, Bågenholm, Simpson, los niños de la selva y el náufrago en supervivencia), elija los nombres y cree los
+   dos canales de YouTube y las dos páginas de Facebook. Supervivencia: más historias colombianas y latinoamericanas
+   conocidas de los años 50–90 (la audiencia, 1-nov), medidas con `--region CO`. Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.
