@@ -51,7 +51,7 @@ escena('s15', 'foto', w('Despierta', mas=-0.12), foto='hospital',
            dict(html='10 días después', clase='diario', x=80, y=236, en=['Despierta', 1, -0.05], modo='escribe', sale=['Años', 2, -0.25]),
            dict(html='Paralizada', clase='etiqueta', x=80, y=330, en=['paralizada', 1, -0.05], sale=['Años', 2, -0.25]),
            dict(html='Del cuello para abajo', clase='etiqueta', x=80, y=420, en=['cuello', 1, -0.05], sale=['Años', 2, -0.25]),
-           dict(html='Se recupera', clase='sello', x=80, y=960, en=['recupera', 1, -0.05], modo='sello'),
+           dict(html='Se recupera', clase='sello', x=80, y=960, en=['recupera', 1, -0.05], modo='sello', sale=['Años', 2, -0.25]),
            dict(html='Años después', clase='diario', x=80, y=236, en=['Años', 2, -0.05], modo='escribe'),
            dict(html='Radióloga', clase='etiqueta', x=80, y=330, en=['radióloga', 1, -0.05]),
            dict(html='En el hospital que la salvó', clase='etiqueta', x=80, y=420, en=['hospital', 2, -0.05])]))
@@ -62,6 +62,7 @@ DURACION = w('hielo', 3, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
 sin_subtitulos(w('aguanta', mas=-0.1), w('A los', 1, mas=-0.12))            # AGUANTA
+sin_subtitulos(w('trece', mas=-0.1), w('Cualquiera', mas=-0.12))           # 13,7 °C en el termómetro
 sin_subtitulos(w('caliente', mas=-0.12), w('Más de cien', mas=-0.12))     # la regla, revelada en la ficha
 sin_subtitulos(w('durante', mas=-0.1), w('Una máquina', mas=-0.12))         # 9 HORAS
 sin_subtitulos(w('Y se', 2, mas=-0.1), w('Años', 2, mas=-0.12))             # SE RECUPERA
