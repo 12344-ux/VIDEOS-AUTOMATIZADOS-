@@ -37,7 +37,8 @@ voz F4) e **historias reales de supervivencia** (`canales/supervivencia/`, voz M
 página de Reels de Facebook. Los eligió el usuario con el informe del rastreador. Cortos de 60–90 s, guiones sencillos
 pero intrigantes y la retención de `canales/RETENCION.md`; se montan con el kit de BusinessForMen y la marca de cada
 canal (`montar.py --canal`, `canales/preparar-corto.sh`). Las historias reales, con los datos contrastados y sin
-inventar lo que las fuentes no dicen.
+inventar lo que las fuentes no dicen. **La audiencia de supervivencia** (1-nov): más del 50 % de Colombia y de 50–60 años;
+historias conocidas, colombianas o latinoamericanas, de su época (ver `canales/supervivencia/CANAL.md`).
 
 ## Al empezar una sesión
 

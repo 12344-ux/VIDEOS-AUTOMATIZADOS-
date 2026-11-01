@@ -3,6 +3,13 @@
 Por qué este nicho: `rastreador/informes/2026-10-30-hueco.md` (en inglés, mediana de 18.900 vistas en Shorts; en español,
 1.300). Cómo se escribe y se monta: `../RETENCION.md`.
 
+## Audiencia (lo que vio el usuario en las estadísticas, 1-nov)
+
+Más del 50 % es de **Colombia** y la mayoría tiene **50–60 años**. «Los 33» pegó bien, seguramente por ser una historia
+conocida. Para elegir historia: conocidas, colombianas o latinoamericanas, mejor de su época (los años 50–90 que vivieron
+o leyeron de jóvenes), y medidas con el rastreador en `--region CO`. Los dos primeros así: los niños de la selva del
+Guaviare (2023) y el náufrago Luis Alejandro Velasco (1955, el «Relato de un náufrago»).
+
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 
 - **Contra Todo Pronóstico**: la promesa de cada historia.
