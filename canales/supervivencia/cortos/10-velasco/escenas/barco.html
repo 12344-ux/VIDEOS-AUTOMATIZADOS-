@@ -1,0 +1,152 @@
+<template>
+  <!-- El destructor Caldas, de perfil y dibujado (un esquema, no a escala). En cubierta, la carga bajo lonas y ocho
+       marineros. Modos:
+         golpe  «golpe»: el barco se escora con un golpe de mar; «caen»: los ocho caen al agua; «alcanza»: uno llega a la
+                balsa (VELASCO); «vuelven»: los otros siete se apagan
+         carga  lo que había bajo las lonas: se levantan y aparecen las cajas («neveras», «televisores», «lavadoras»);
+                «oleaje»: el barco se escora; «soltó»: la carga resbala y cae al mar; «arrastró»: se lleva a los marineros
+       Todo lo que se mueve va en función del tiempo (alBuscar). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .ola { fill: none; stroke: rgba(210, 228, 235, 0.35); stroke-width: 3; }
+    #{{ID}} .casco { fill: #4b5359; stroke: #1a1d20; stroke-width: 3; }
+    #{{ID}} .obra { fill: #5d666d; stroke: #1a1d20; stroke-width: 3; }
+    #{{ID}} .lona { fill: #6f6a5c; stroke: #2a2822; stroke-width: 2; }
+    #{{ID}} .caja { fill: #d9cfb8; stroke: #3a352b; stroke-width: 2; }
+    #{{ID}} .caja.on { stroke: #ff5e1a; stroke-width: 4; }
+    #{{ID}} .marino { stroke: #f2ede4; stroke-width: 5; stroke-linecap: round; fill: #f2ede4; }
+    #{{ID}} .marino.v { stroke: #ff5e1a; fill: #ff5e1a; }
+    #{{ID}} .balsa { fill: #8c8a80; stroke: #2a2822; stroke-width: 2; }
+    #{{ID}} .salpica { fill: none; stroke: rgba(235, 245, 250, 0.8); stroke-width: 3; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 54px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.sello { font: 800 104px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151b22" /><stop offset="1" stop-color="#3d4a55" /></linearGradient>
+          <linearGradient id="mar-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f4250" /><stop offset="1" stop-color="#061219" /></linearGradient>
+        </defs>
+        <rect class="cielo" x="-100" y="-100" width="1280" height="1200" />
+        <g class="barco">
+          <path class="casco" d="M110,930 L980,930 L930,1010 L170,1010 Z" />
+          <path class="obra" d="M560,930 L560,840 L640,840 L640,800 L700,800 L700,930 Z" />
+          <rect class="obra" x="480" y="850" width="50" height="80" />
+          <path class="obra" d="M640,800 L640,700 M600,730 L680,730" style="fill: none; stroke: #1a1d20; stroke-width: 6" />
+          <rect class="obra" x="800" y="905" width="60" height="25" rx="6" /><path d="M860,915 L930,905" style="stroke: #1a1d20; stroke-width: 7" />
+          <rect class="obra" x="190" y="905" width="60" height="25" rx="6" /><path d="M190,915 L120,905" style="stroke: #1a1d20; stroke-width: 7" />
+          <g class="cajas"></g>
+          <g class="lonas"><path class="lona" d="M270,930 Q270,872 365,868 Q460,872 460,930 Z" /><path class="lona" d="M715,930 Q715,880 790,876 Q870,880 870,930 Z" /></g>
+        </g>
+        <rect class="mar" x="-100" y="990" width="1280" height="1100" />
+        <g class="olas"></g>
+        <g class="caidas"></g>
+        <rect class="balsa" x="-60" y="-14" width="120" height="28" rx="6" style="visibility: hidden" />
+        <g class="marinos"></g>
+        <g class="salpicas"></g>
+      </svg>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div><div class="t et e3"><span></span></div>
+      <div class="t et e4"><span></span></div>
+      <div class="t sello s1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const pon = (sel, x, y) => gsap.set($(sel), { left: x, top: y });
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; pon(sel, x, y); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); };
+      // Las olas (función del tiempo).
+      const olas = [];
+      for (let i = 0; i < 8; i++) olas.push(svg("path", { class: "ola" }, $(".olas")));
+      const dibujaOlas = (t, fuerza) => olas.forEach((o, i) => {
+        const y0 = 1010 + i * 34, amp = (6 + i * 1.5) * (1 + 1.5 * fuerza), pts = [];
+        for (let x = -60; x <= 1140; x += 30) pts.push(`${x},${(y0 + amp * Math.sin(x / (70 + i * 9) + t * (1.2 + i * 0.15) + i)).toFixed(1)}`);
+        o.setAttribute("d", "M" + pts.join("L"));
+      });
+      // Los ocho marineros, en cubierta junto a la carga; el cuarto es Velasco.
+      const X0 = [290, 335, 410, 455, 700, 745, 885, 925], V = 3;
+      const figs = X0.map((x, i) => { const g = svg("g", {}, $(".marinos")); svg("circle", { class: "marino" + (i === V ? " v" : ""), r: 8, cx: 0, cy: -34 }, g); svg("path", { class: "marino" + (i === V ? " v" : ""), d: "M0,-26 L0,-4 M0,-20 L-9,-10 M0,-20 L9,-10 M0,-4 L-7,8 M0,-4 L7,8" }, g); return g; });
+      const salpicas = X0.map(() => svg("circle", { class: "salpica", r: 0 }, $(".salpicas")));
+      // Dónde cae cada uno: delante del casco, repartidos.
+      const XA = [230, 300, 380, 470, 640, 720, 810, 880], YA = [1078, 1105, 1090, 1122, 1084, 1112, 1095, 1070];
+      const BALSA = [330, 1150];
+      // Las cajas (modo carga): neveras (altas), televisores (pequeñas) y lavadoras (cubos).
+      const cajas = [];
+      const caja = (x, y, w, h, grupo) => { const r = svg("rect", { class: "caja", x: -w / 2, y: -h, width: w, height: h }, $(".cajas")); cajas.push({ r, x, y, grupo }); };
+      [[300, 34, 62], [345, 34, 62], [390, 34, 62], [435, 34, 62]].forEach(([x, w, h]) => caja(x, 930, w, h, 0));
+      [[740, 40, 30], [790, 40, 30], [765, 40, 30, 900]].forEach(([x, w, h, y]) => caja(x, y || 930, w, h, 1));
+      [[835, 44, 44], [880, 44, 44]].forEach(([x, w, h]) => caja(x, 930, w, h, 2));
+      const dibujaCajas = (t, tS, tGrupos) => cajas.forEach((c, i) => {
+        const k = tS == null ? 0 : paso(t, tS + (i % 4) * 0.12, 0.9, "power2.in");
+        const dx = 260 * k * (c.x < 600 ? -0.4 : 1), dy = 160 * k * k;
+        c.r.setAttribute("transform", `translate(${(c.x + dx).toFixed(1)},${(c.y + dy).toFixed(1)}) rotate(${(70 * k * (c.x < 600 ? -1 : 1)).toFixed(1)})`);
+        c.r.setAttribute("opacity", (1 - paso(t, (tS || 0) + 0.9, 0.4)).toFixed(3));
+        c.r.setAttribute("class", "caja" + (tGrupos && t >= tGrupos[c.grupo] && t < tGrupos[c.grupo] + 1.4 ? " on" : ""));
+      });
+      // Los marineros: en cubierta; al caer, una parábola hasta el agua; Velasco, a la balsa; los otros, se apagan.
+      const dibujaMarinos = (t, tCae, tBalsa, tApaga, roll) => figs.forEach((g, i) => {
+        const td = tCae + i * 0.07, k = paso(t, td, 0.75, "power1.in");
+        let x = lerp(X0[i], XA[i], k), y = lerp(930, YA[i], k) - 90 * Math.sin(Math.PI * Math.min(1, k)) * 0.6;
+        if (i === V && tBalsa != null) { const kb = paso(t, tBalsa - 0.2, 0.7, "power2.out"); x = lerp(x, BALSA[0], kb); y = lerp(y, BALSA[1] - 14, kb); }
+        const ang = k * (i % 2 ? 150 : -140) * (1 - (i === V && tBalsa != null ? paso(t, tBalsa - 0.2, 0.7) : 0));
+        const sube = k < 1 ? 0 : 2.5 * Math.sin(t * 3 + i);
+        const yy = k < 1 ? y - roll * (X0[i] - 540) * 0.0 : y + sube;
+        g.setAttribute("transform", `translate(${x.toFixed(1)},${yy.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+        g.setAttribute("opacity", (i === V || tApaga == null ? 1 : 1 - 0.95 * paso(t, tApaga + (i % 4) * 0.15, 0.9)).toFixed(3));
+        const s = salpicas[i], ks = t >= td + 0.75 ? Math.min(1, (t - td - 0.75) / 0.6) : 0;
+        s.setAttribute("cx", XA[i]); s.setAttribute("cy", YA[i]); s.setAttribute("r", (ks > 0 && ks < 1 ? 8 + 40 * ks : 0).toFixed(1)); s.setAttribute("opacity", (1 - ks).toFixed(3));
+      });
+      const escora = (t, t0) => (t0 == null ? 0 : 9 * Math.exp(-Math.max(0, t - t0) * 0.9) * Math.sin(Math.max(0, t - t0) * 3.2) * (t >= t0 ? 1 : 0));
+      if (modo === "golpe") {
+        const tG = w("golpe"), tCae = w("caen") - 0.1, tB = w("alcanza"), tA = w("vuelven") - 0.2;
+        gsap.set($(".balsa"), { attr: { transform: `translate(${BALSA[0]},${BALSA[1]})` } });
+        alBuscar((t) => {
+          const roll = escora(t, tG - 0.1);
+          $(".barco").setAttribute("transform", `rotate(${roll.toFixed(2)} 540 960)`);
+          dibujaOlas(t, paso(t, tG - 0.3, 0.6) * (1 - 0.6 * paso(t, tG + 3, 2)));
+          dibujaCajas(t, null, null);
+          dibujaMarinos(t, tCae, tB, tA, roll);
+          $(".balsa").style.visibility = t >= tB - 0.4 ? "visible" : "hidden";
+          $(".balsa").setAttribute("opacity", paso(t, tB - 0.4, 0.3).toFixed(3));
+        });
+        tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10, y: 6, duration: 0.05 }, { x: 8, y: -5, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, Math.max(0, tG));
+        et(".e1", "8 al agua", 80, 236, w("Ocho"));
+        et(".e2", "Velasco", BALSA[0] + 80, BALSA[1] - 120, tB + 0.3);
+      } else {
+        // carga: las lonas se levantan; la carga a la vista; el oleaje; se suelta y se lleva a los marineros.
+        const tO = w("oleaje") - 0.1, tS = w("soltó") - 0.1, tArr = w("arrastró") - 0.15;
+        const tGr = [w("neveras") - 0.05, w("televisores") - 0.05, w("lavadoras") - 0.05];
+        alBuscar((t) => {
+          const roll = escora(t, tO);
+          $(".barco").setAttribute("transform", `rotate(${roll.toFixed(2)} 540 960)`);
+          dibujaOlas(t, paso(t, tO - 0.3, 0.6));
+          const kl = paso(t, 0.25, 0.7, "power2.in");
+          $(".lonas").setAttribute("transform", `translate(0,${(-140 * kl).toFixed(1)})`);
+          $(".lonas").setAttribute("opacity", (1 - kl).toFixed(3));
+          dibujaCajas(t, tS, tGr);
+          dibujaMarinos(t, tArr, null, null, roll);
+        });
+        tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10, y: 6, duration: 0.05 }, { x: 8, y: -5, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, Math.max(0, tS + 0.3));
+        sello(".s1", "Contrabando", 80, 236, w("contrabando"));
+        et(".e1", "Neveras", 80, 400, tGr[0] + 0.05);
+        et(".e2", "Televisores", 80, 490, tGr[1] + 0.05);
+        et(".e3", "Lavadoras", 80, 580, tGr[2] + 0.05);
+        et(".e4", "Mal amarrados", 80, 670, w("amarrados"));
+      }
+      fin();
+    })();
+  </script>
+</template>

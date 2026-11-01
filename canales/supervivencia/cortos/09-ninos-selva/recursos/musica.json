@@ -1,0 +1,8 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–17 LU bajo la voz (CANAL.md).",
+ "semilla": 67,
+ "candidatas": [
+  "tense documentary music, solo piano and high strings, slow, mysterious jungle mood, hopeful ending, no drums, 70 bpm",
+  "solo piano and high strings, slow, tender and hopeful, emotional, no drums, 66 bpm"
+ ]
+}

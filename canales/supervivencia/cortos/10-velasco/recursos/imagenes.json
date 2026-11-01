@@ -1,0 +1,56 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Luis Alejandro Velasco y García Márquez son personas reales: nunca de cara. Velasco, marinero joven con uniforme blanco. Años cincuenta. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "balsa",
+   "semilla": 211,
+   "prompt": "A lone young sailor in a white 1950s navy uniform sitting on a small rectangular grey life raft in the middle of the calm open Caribbean sea, seen from behind and from far away, harsh sun, endless horizon, only one person in the whole image, the raft small in the lower third of the frame, vertical composition"
+  },
+  {
+   "nombre": "destructor",
+   "semilla": 212,
+   "prompt": "A grey 1950s navy destroyer sailing on a rough Caribbean sea, big waves breaking against the bow, seen from far away, dramatic clouds, the ship in the lower half of the frame, no text, vertical composition"
+  },
+  {
+   "nombre": "cubierta",
+   "semilla": 213,
+   "prompt": "The open deck of a 1950s grey navy destroyer at sea, many large cardboard boxes and crates of refrigerators, washing machines and television sets roped down on the deck, sea spray, waves, seen from behind, no people, no text, vertical composition"
+  },
+  {
+   "nombre": "tiburones",
+   "semilla": 214,
+   "prompt": "Several dark shark fins circling a small lone grey life raft on the open sea at dusk, a sailor in white sitting on the raft seen from far above, orange evening light, only one person, vertical composition"
+  },
+  {
+   "nombre": "gaviota",
+   "semilla": 215,
+   "prompt": "A white seagull standing on the edge of a small grey life raft on the open sea, the sunburned hand of a sailor in a white sleeve reaching slowly toward it, close-up, harsh sunlight, no face, vertical composition"
+  },
+  {
+   "nombre": "avion",
+   "semilla": 216,
+   "prompt": "A 1950s propeller search plane flying high over the empty Caribbean sea, seen from far below, a tiny raft far below on the water, bright hazy sky, vertical composition"
+  },
+  {
+   "nombre": "playa",
+   "semilla": 217,
+   "prompt": "An exhausted thin young man in a torn white sailor uniform crawling out of the waves onto a deserted tropical beach with palm trees, seen from behind, early morning light, only one person in the whole image, no face visible, vertical composition"
+  },
+  {
+   "nombre": "heroe",
+   "semilla": 218,
+   "prompt": "A 1950s Colombian street crowd cheering a young sailor in a white uniform walking among them, confetti, flags without symbols, seen from behind the sailor, warm sepia tones like an old press photo, no faces visible, no text, vertical composition"
+  },
+  {
+   "nombre": "periodico",
+   "semilla": 219,
+   "prompt": "An old 1950s newspaper office at night, a black typewriter on a wooden desk with a sheet of paper, piles of newspapers, a desk lamp, cigarette smoke, no people, no readable text, vertical composition"
+  },
+  {
+   "nombre": "libro",
+   "semilla": 220,
+   "prompt": "An old worn hardcover book with a plain dark blue cloth cover and no title lying closed on a wooden table next to a white 1950s sailor cap, soft window light, shallow depth of field, no text, vertical composition"
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+<template>
+  <!-- Colombia (Natural Earth; los datos, de mapa.py) y la ruta de la avioneta del 1 de mayo de 2023, de Araracuara a San
+       José del Guaviare. Sale en dos escenas (antes y después de la foto de la avioneta): todo lo que deja huella va en
+       función del tiempo (alBuscar), porque un tween que acaba antes de que empiece su escena no se aplica.
+       «Primero»: la fecha, a máquina; «Araracuara»: la cámara baja de Colombia entera a la ruta; «Guaviare»: el destino;
+       «despega»: la avioneta sale; «falla»: tiembla; «cae»: cae donde cayó (00°54′ N, 72°24′ O) y queda la marca. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.mapa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo-m { fill: #0e0c0a; }
+    #{{ID}} .vecinos { fill: #1a1714; stroke: #3b3731; stroke-width: 1.2; }
+    #{{ID}} .pais { fill: #2c3326; stroke: #74806a; stroke-width: 2; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(242, 237, 228, 0.55); stroke-width: 3; stroke-dasharray: 8 8; }
+    #{{ID}} .hecha { fill: none; stroke: #ff5e1a; stroke-width: 4; stroke-linecap: round; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .avion { fill: #f2ede4; stroke: #0b0a09; stroke-width: 1.5; }
+    #{{ID}} .marca { fill: none; stroke: #ff5e1a; stroke-width: 3.5; stroke-linecap: round; }
+    #{{ID}} .halo { fill: none; stroke: #ff5e1a; stroke-width: 2; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.lugar { font: 800 72px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.14em;
+      color: rgba(242, 237, 228, 0.35); }
+    #{{ID}} .t.chico { font: 400 34px/1 "Special Elite", monospace; color: rgba(242, 237, 228, 0.8); text-shadow: 0 2px 10px #000; }
+    #{{ID}} .t.et { font: 800 50px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <rect class="fondo-m" x="-100" y="-100" width="1280" height="2120" />
+        <g class="mundo">
+          <path class="vecinos" d="{{p:vecinos}}" />
+          <path class="pais" d="{{p:colombia}}" />
+          <circle class="punto p-bogota" r="5" />
+          <path class="ruta" />
+          <path class="hecha" />
+          <circle class="punto p-a" r="5" /><circle class="punto p-sj" r="5" />
+          <circle class="halo" r="0" />
+          <g class="marca-g" style="visibility: hidden"><path class="marca" d="M-9,-9 L9,9 M9,-9 L-9,9" /></g>
+          <g class="avion-g"><path class="avion" d="M0,-11 L2.2,-3 L10,1.5 L10,3.5 L2.2,1.5 L1.5,7 L4,9 L4,10.5 L0,9.5 L-4,10.5 L-4,9 L-1.5,7 L-2.2,1.5 L-10,3.5 L-10,1.5 L-2.2,-3 Z" /></g>
+        </g>
+      </svg>
+      <div class="t lugar l-col">Colombia</div>
+      <div class="t chico l-bog">Bogotá</div>
+      <div class="t fecha">1 MAY 2023</div>
+      <div class="t et e-a"><span>Araracuara</span></div>
+      <div class="t et e-sj"><span>San José del Guaviare</span></div>
+      <div class="t et e-cae"><span>Aquí cae</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const A = {{p:araracuara}}, SJ = {{p:sanjose}}, X = {{p:accidente}}, B = {{p:bogota}};
+      const lerp = (a, b, k) => a + (b - a) * k;
+      // La cámara: de Colombia entera (escala 1) a la ruta, con su centro en (540, 700) y escala 2,2.
+      const F0 = [540, 960], C0 = [540, 960], F1 = [(A[0] + SJ[0]) / 2, (A[1] + SJ[1]) / 2], C1 = [540, 700], S1 = 2.2;
+      const tZ = w("Araracuara") - 0.3, tD = w("despega"), tG = w("Guaviare"), tF = w("falla"), tC = w("cae");
+      const uX = Math.hypot(X[0] - A[0], X[1] - A[1]) / Math.hypot(SJ[0] - A[0], SJ[1] - A[1]);   // el accidente, a qué parte de la ruta
+      const camara = (t) => { const k = paso(t, tZ, 1.6, "power2.inOut"); return [lerp(1, S1, k), [lerp(F0[0], F1[0], k), lerp(F0[1], F1[1], k)], [lerp(C0[0], C1[0], k), lerp(C0[1], C1[1], k)]]; };
+      const aPantalla = (p, cam) => [(p[0] - cam[1][0]) * cam[0] + cam[2][0], (p[1] - cam[1][1]) * cam[0] + cam[2][1]];
+      const pon = (sel, x, y) => gsap.set($(sel), { left: x, top: y });
+      // Los rótulos, en su sitio de pantalla con la cámara ya abajo.
+      const camF = [S1, F1, C1], Ap = aPantalla(A, camF), SJp = aPantalla(SJ, camF), Xp = aPantalla(X, camF);
+      pon(".e-a", Ap[0] + 34, Ap[1] - 26); pon(".e-sj", SJp[0] + 34, SJp[1] - 26); pon(".e-cae", Xp[0] + 40, Xp[1] - 26);
+      pon(".l-col", 330, 700); pon(".l-bog", B[0] + 14, B[1] - 14); pon(".fecha", 80, 236);
+      gsap.set($(".p-bogota"), { attr: { cx: B[0], cy: B[1] } });
+      gsap.set($(".p-a"), { attr: { cx: A[0], cy: A[1] } }); gsap.set($(".p-sj"), { attr: { cx: SJ[0], cy: SJ[1] } });
+      gsap.set($(".ruta"), { attr: { d: `M${A[0]},${A[1]} L${SJ[0]},${SJ[1]}` } });
+      gsap.set($(".marca-g"), { attr: { transform: `translate(${X[0]},${X[1]})` } });
+      alBuscar((t) => {
+        const cam = camara(t);
+        $(".mundo").setAttribute("transform", `translate(${(cam[2][0] - cam[1][0] * cam[0]).toFixed(2)},${(cam[2][1] - cam[1][1] * cam[0]).toFixed(2)}) scale(${cam[0].toFixed(4)})`);
+        const kz = paso(t, tZ, 0.5, "power1.out");
+        gsap.set($(".l-col"), { autoAlpha: (1 - kz) * paso(t, 0.1, 0.4) });
+        gsap.set($(".l-bog"), { autoAlpha: (1 - kz) * paso(t, 0.2, 0.4) });
+        // La fecha, a máquina, y fuera cuando baja la cámara.
+        const tf = w("Primero") - 0.05, s = "1 MAY 2023";
+        $(".fecha").textContent = s.slice(0, Math.round(s.length * Math.min(1, Math.max(0, (t - tf) / 1.1))));
+        gsap.set($(".fecha"), { visibility: t >= tf ? "visible" : "hidden", autoAlpha: t >= tf ? 1 - paso(t, tZ + 1.6, 0.4) : 0 });
+        // Origen y destino.
+        const ka = paso(t, tZ + 1.0, 0.3, "expo.out"), ks = paso(t, tG - 0.1, 0.3, "expo.out");
+        gsap.set($(".e-a"), { autoAlpha: ka, x: -20 * (1 - ka) }); gsap.set($(".e-sj"), { autoAlpha: ks, x: -20 * (1 - ks) });
+        gsap.set($(".ruta"), { opacity: 0.9 * ks * (t > tC ? 1 - 0.6 * paso(t, tC, 0.6) : 1) });
+        // La avioneta: de Araracuara hacia el norte; tras «falla», tiembla; en «cae», cae donde cayó.
+        const u = t < tF ? uX * 0.97 * paso(t, tD, tF - tD, "none") : uX * (0.97 + 0.03 * paso(t, tF, tC - tF, "power1.in"));
+        const P = [lerp(A[0], SJ[0], u), lerp(A[1], SJ[1], u)];
+        const tiembla = t > tF && t < tC ? 1.6 * Math.sin(t * 60) : 0;
+        const kc = paso(t, tC, 0.7, "power2.in");
+        const ang = Math.atan2(SJ[1] - A[1], SJ[0] - A[0]) * 180 / Math.PI + 90 + tiembla * 4 + 70 * kc;
+        $(".avion-g").setAttribute("transform", `translate(${(P[0] + tiembla).toFixed(2)},${(P[1] + 8 * kc).toFixed(2)}) rotate(${ang.toFixed(1)}) scale(${(1.25 - 0.8 * kc).toFixed(3)})`);
+        gsap.set($(".avion-g"), { autoAlpha: t >= tD - 0.2 ? 1 - kc : 0 });
+        $(".hecha").setAttribute("d", t >= tD ? `M${A[0]},${A[1]} L${P[0].toFixed(2)},${P[1].toFixed(2)}` : "");
+        // La marca del accidente, con su halo que late.
+        $(".marca-g").style.visibility = t >= tC + 0.3 ? "visible" : "hidden";
+        const kh = t >= tC + 0.3 ? ((t - tC - 0.3) * 0.9) % 1 : 0;
+        gsap.set($(".halo"), { attr: { cx: X[0], cy: X[1], r: t >= tC + 0.3 ? 4 + 16 * kh : 0 }, opacity: 1 - kh });
+        const ke = paso(t, tC + 0.35, 0.3, "expo.out");
+        gsap.set($(".e-cae"), { autoAlpha: ke, x: -20 * (1 - ke) });
+      });
+      if (tC + 0.3 > 0) tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -9, y: 5, duration: 0.05 }, { x: 7, y: -4, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, tC + 0.3);
+      fin();
+    })();
+  </script>
+</template>

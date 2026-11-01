@@ -1,0 +1,8 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–17 LU bajo la voz (CANAL.md).",
+ "semilla": 68,
+ "candidatas": [
+  "melancholic sea documentary music, solo piano and high strings, slow, lonely, hopeful ending, no drums, 68 bpm",
+  "solo piano and high strings, slow, nostalgic and tense, emotional, no drums, 72 bpm"
+ ]
+}

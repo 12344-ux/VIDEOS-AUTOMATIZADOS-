@@ -1,0 +1,46 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Los cuatro hermanos y su familia son personas reales, y menores: nunca de cara, siempre de espaldas y de lejos. Nada de restos humanos. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "selva",
+   "semilla": 201,
+   "prompt": "Aerial view of the dense Colombian Amazon rainforest with a winding brown river, morning mist over the green canopy, no people, the river in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "avioneta",
+   "semilla": 202,
+   "prompt": "A small white single-engine propeller plane flying low over the endless Amazon rainforest canopy, seen from far away and slightly below, grey cloudy sky, the plane small in the upper half of the frame, vertical composition"
+  },
+  {
+   "nombre": "restos",
+   "semilla": 203,
+   "prompt": "The wreck of a small white single-engine plane nose-down among giant trees and vines in the dense Amazon jungle, a broken wing, no people, no bodies, dim green light through the leaves, vertical composition"
+  },
+  {
+   "nombre": "pistas",
+   "semilla": 204,
+   "prompt": "A small plastic baby bottle lying on the leaf-covered jungle floor next to a tiny improvised shelter made of branches and big leaves, dense Amazon rainforest, dim light, no people, vertical composition"
+  },
+  {
+   "nombre": "busqueda",
+   "semilla": 205,
+   "prompt": "Colombian soldiers in camouflage uniforms and indigenous men walking in a line through the dense Amazon jungle, seen from behind, light rain, mud, the group in the lower half of the frame, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "helicoptero",
+   "semilla": 206,
+   "prompt": "A military helicopter hovering low over the dense Amazon rainforest canopy, mist rising from the trees, seen from far away, the helicopter in the upper half of the frame, no text, vertical composition"
+  },
+  {
+   "nombre": "perro",
+   "semilla": 207,
+   "prompt": "A Belgian Malinois search dog with a harness standing alone on a narrow trail in the dense Amazon rainforest, looking into the trees, seen from behind, no people, vertical composition"
+  },
+  {
+   "nombre": "hermanos",
+   "semilla": 208,
+   "prompt": "Four indigenous children seen from behind and from far away walking through the dense Amazon jungle, the oldest girl carrying a baby on her hip and holding a small bag, two younger children beside her, tiny figures among giant trees, soft rays of light, no faces visible, vertical composition"
+  }
+ ]
+}
