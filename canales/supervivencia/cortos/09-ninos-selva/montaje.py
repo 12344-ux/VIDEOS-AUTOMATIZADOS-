@@ -44,8 +44,8 @@ escena('s08', 'foto', w('Empieza', mas=-0.12), foto='busqueda',
            dict(html='Soldados e indígenas', clase='etiqueta', x=80, y=390, en=['soldados', 2, -0.05])]))
 escena('s09', 'foto', w('Desde', mas=-0.12), foto='helicoptero',
        conf=dict(camara=[1.0, 1.12, 0, -30], textos=[
-           dict(html='La voz de su abuela', clase='etiqueta', x=80, y=300, en=['abuela', 1, -0.05]),
-           dict(html='En su lengua, el huitoto', clase='etiqueta', x=80, y=390, en=['lengua', 1, -0.05])]))
+           dict(html='La voz de su abuela', clase='etiqueta', x=80, y=620, en=['abuela', 1, -0.05]),   # bajo el helicóptero
+           dict(html='En su lengua, el huitoto', clase='etiqueta', x=80, y=710, en=['lengua', 1, -0.05])]))
 escena('s10', 'foto', w('Un perro', mas=-0.12), foto='perro',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='Wilson', clase='etiqueta', x=80, y=300, en=['uílson', 1, -0.05]),
