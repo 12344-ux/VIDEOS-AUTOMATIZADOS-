@@ -1,7 +1,7 @@
 <template>
   <!-- El destructor Caldas, de perfil y dibujado (un esquema, no a escala). En cubierta, la carga bajo lonas y ocho
        marineros. Modos:
-         golpe  «golpe»: el barco se escora con un golpe de mar; «caen»: los ocho caen al agua; «alcanza»: uno llega a la
+         golpe  «Luis»: VELASCO, el marinero naranja; «golpe»: el barco se escora con un golpe de mar; «caen»: los ocho caen al agua; «alcanza»: uno llega a la
                 balsa (VELASCO); «vuelven»: los otros siete se apagan
          carga  lo que había bajo las lonas: se levantan y aparecen las cajas («neveras», «televisores», «lavadoras»);
                 «oleaje»: el barco se escora; «soltó»: la carga resbala y cae al mar; «arrastró»: se lleva a los marineros
@@ -123,6 +123,10 @@
           $(".balsa").setAttribute("opacity", paso(t, tB - 0.4, 0.3).toFixed(3));
         });
         tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10, y: 6, duration: 0.05 }, { x: 8, y: -5, duration: 0.05 }, { x: -3, y: 2, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, Math.max(0, tG));
+        // Antes del golpe, quién es quién: Velasco es el marinero naranja.
+        et(".e3", "Luis Alejandro Velasco", 80, 236, w("Luis"));
+        et(".e4", "20 años", 80, 326, w("veinte"));
+        tl.to([$(".e3"), $(".e4")], { autoAlpha: 0, duration: 0.25 }, Math.max(0, tG - 0.3));
         et(".e1", "8 al agua", 80, 236, w("Ocho"));
         et(".e2", "Velasco", BALSA[0] + 80, BALSA[1] - 120, tB + 0.3);
       } else {
