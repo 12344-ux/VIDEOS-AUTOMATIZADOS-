@@ -47,8 +47,11 @@ con respeto por quienes murieron. Las imágenes son ilustraciones y la descripci
 ## Cómo se hace un vídeo
 
 La música elegida (tras medir las candidatas con `audio/graves.py`) se apunta en `recursos/musica.json` como `lecho`
-(`pieza`, `duracion`, `entrada` 0 para el bucle) y `preparar-corto.sh` la alarga a la duración del vídeo; si una tanda se
-descarta, se sustituye en ese archivo y se anota en `_descartada`. Los efectos de BigSoundBank que pida el montaje los baja
+(`pieza`, `duracion`, `entrada` 0 para el bucle y, si la pieza tiene valles muy hondos que dejan huecos bajo la voz,
+`comprimir` 3) y `preparar-corto.sh` la alarga a la duración del vídeo; si una tanda se descarta, se sustituye en ese
+archivo y se anota en `_descartada`. Al mirar las imágenes: una sola persona cuando la voz dice «solo» (FLUX añade
+gente: pedir «only one person in the whole image, no other people») y nadie de cara («his back to the camera, no face
+visible»; «seen from behind» no basta). Los efectos de BigSoundBank que pida el montaje los baja
 `montar.py` si faltan (en `salidas/supervivencia/cortos/sfx/`). Mejor grabaciones sin procesar: los sonidos procesados
 de Okene (`bajoagua`, `golpecasco`, `gemido`) no tienen guardado cómo se hicieron.
 

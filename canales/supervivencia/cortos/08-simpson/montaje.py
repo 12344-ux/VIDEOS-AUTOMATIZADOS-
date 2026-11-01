@@ -54,8 +54,7 @@ escena('s13', 'foto', w('Le quedan', mas=-0.12), foto='glaciar',
 escena('s14', 'foto', w('Llega', mas=-0.12), foto='campamento',
        conf=dict(camara=[1.0, 1.1, 0, 30], textos=[
            dict(html='El campamento', clase='etiqueta', x=80, y=300, en=['campamento', 2, -0.05]),
-           dict(html='Unas horas antes', clase='diario', x=80, y=400, en=['horas', 1, -0.1], modo='escribe'),
-           dict(html='de que se marchen', clase='diario', x=80, y=470, en=['marchen', 1, -0.3], modo='escribe')]))
+           dict(html='A tiempo', clase='sello', x=80, y=960, en=['horas', 1, -0.05], modo='sello')]))   # unas horas antes de que se marchen
 escena('s15', 'foto', w('Lo contó', mas=-0.12), foto='cumbre',
        conf=dict(camara=[1.14, 1.22, 0, 40], techo=True, textos=[
            dict(html='Su libro · 1988', clase='etiqueta', x=80, y=300, en=['libro', 1, -0.05]),
@@ -65,6 +64,8 @@ escena('s16', 'gancho', w('Todo empezó', mas=-0.12), foto='siula',
 DURACION = w('cuerda', 4, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
+sin_subtitulos(w('de una hora', mas=-0.1), w('La nieve', mas=-0.12))           # +1 HORA
+sin_subtitulos(w('tres', mas=-0.1), w('Llega', mas=-0.12))                     # 3 DÍAS
 sin_subtitulos(w('Más de seis', mas=-0.1), w('Al bajar', mas=-0.12))           # 6.344 M (con «más de 6.300» a la vez, dos cifras)
 sin_subtitulos(w('Baja', 2, mas=-0.12), w('grieta', 3, fin=True, mas=-0.15))   # cómo salió, revelado en la ficha
 sin_subtitulos(w('Tocando', mas=-0.12), w('Todo empezó', mas=-0.12))           # «TOCANDO EL VACÍO»

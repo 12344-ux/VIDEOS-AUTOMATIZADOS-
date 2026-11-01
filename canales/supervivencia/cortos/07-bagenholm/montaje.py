@@ -63,6 +63,7 @@ DURACION = w('hielo', 3, fin=True, mas=0.9)
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
 sin_subtitulos(w('aguanta', mas=-0.1), w('A los', 1, mas=-0.12))            # AGUANTA
 sin_subtitulos(w('caliente', mas=-0.12), w('Más de cien', mas=-0.12))     # la regla, revelada en la ficha
+sin_subtitulos(w('durante', mas=-0.1), w('Una máquina', mas=-0.12))         # 9 HORAS
 sin_subtitulos(w('Y se', 2, mas=-0.1), w('Años', 2, mas=-0.12))             # SE RECUPERA
 sin_subtitulos(w('Ochenta', 3, mas=-0.12), DURACION)                        # vuelve el gancho
 

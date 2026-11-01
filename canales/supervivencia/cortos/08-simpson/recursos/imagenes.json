@@ -14,23 +14,27 @@
   },
   {
    "nombre": "pierna",
-   "semilla": 123,
-   "prompt": "A climber in a blue jacket lying injured in the snow on a steep icy slope, holding his leg in pain, an ice axe beside him, seen from behind and from a distance, cold grey light, the climber in the lower half of the frame, only one person in the whole image, no other people, vertical composition"
+   "semilla": 153,
+   "prompt": "A climber in a blue jacket lying injured on his side in the snow on a steep icy slope, his back to the camera and his face turned away, holding his right leg, an ice axe beside him, seen from behind and from a distance, cold grey light, the climber in the lower half of the frame, only one person in the whole image, no face visible, vertical composition",
+   "_rehecha": "semilla 123: se le veía la cara."
   },
   {
    "nombre": "descenso",
-   "semilla": 124,
-   "prompt": "A climber in a red jacket sitting in a snow seat on a steep slope, holding a taut rope that goes down into a stormy white-out, seen from behind, spindrift blowing, the climber in the lower half of the frame, only one person in the whole image, no other people, vertical composition"
+   "semilla": 154,
+   "prompt": "A climber in a red jacket sitting in a hollow dug in the snow on a steep slope, seen from behind and slightly above, holding a taut rope that runs down the slope below him and disappears into a stormy white-out, spindrift blowing, the climber in the lower half of the frame, only one person in the whole image, no face visible, vertical composition",
+   "_rehecha": "semilla 124: la cuerda subía al cielo en vez de bajar hacia Joe y el asiento parecía una silla."
   },
   {
    "nombre": "colgando",
-   "semilla": 125,
-   "prompt": "A climber in a blue jacket hanging on a single rope in mid-air below an overhanging ice cliff, a dark crevasse far below him, snow blowing, seen from a distance, only one person in the whole image, no other people, vertical composition"
+   "semilla": 155,
+   "prompt": "A climber in a blue jacket hanging on a single rope in mid-air below an overhanging ice cliff, a dark crevasse far below him, snow blowing, seen from behind and from far away, his back to the camera, no face visible, only one person in the whole image, vertical composition",
+   "_rehecha": "semilla 125: se le veía la cara."
   },
   {
    "nombre": "grieta",
-   "semilla": 126,
-   "prompt": "Inside a deep glacier crevasse, walls of blue ice, a climber in a blue jacket sitting on a narrow ice ledge in the dim blue light, a thin shaft of daylight from far above, seen from above and from far away, only one person in the whole image, no other people, vertical composition"
+   "semilla": 156,
+   "prompt": "Inside a deep glacier crevasse, walls of blue ice, a climber in a blue jacket sitting on a narrow ice ledge in the dim blue light, his back to the camera, looking up at a thin shaft of daylight far above, seen from above and behind and from far away, no face visible, only one person in the whole image, vertical composition",
+   "_rehecha": "semilla 126: se le veía la cara."
   },
   {
    "nombre": "glaciar",
