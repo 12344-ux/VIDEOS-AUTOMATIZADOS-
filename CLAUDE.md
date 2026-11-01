@@ -153,7 +153,8 @@ inventar lo que las fuentes no dicen.
 - Kit de vídeos largos (`videos/anticitera/kit/`): los montajes se anclan a palabras con `w("palabra", n)`; si la
   palabra sale más de una vez, `montar.py` lo avisa y hay que elegir la aparición. El de los cortos (`canales/businessformen/kit/montar.py`) también,
   desde el 1-nov, y con frases: `w('Su familia')` cogía «una despedida a su familia» y la escena entraba 13 s antes
-  (`n=1` explícito calla el aviso). Las etiquetas en versalitas
+  (`n=1` explícito calla el aviso). También avisa de las anclas de los rótulos (`["palabra", n, …]`) que caen fuera de
+  su escena: «Años después» cogía «29 años» y se montaba encima de otro rótulo. Las etiquetas en versalitas
   ocupan unos 46 px por letra: junto a un dibujo, de 16 letras como mucho.
 - HyperFrames toma cada HTML con `data-composition-id` de la raíz de un proyecto por otra composición
   (`multiple_root_compositions`): las plantillas, fuera (ver `canales/businessformen/marca/plantillas/`).

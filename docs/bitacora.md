@@ -1135,10 +1135,79 @@ estaba en otra rama sin unir (`ccr-4888b5fc-onnsee`, que ya contiene las de las 
 - Los sonidos procesados de Okene (`bajoagua`, `golpecasco`, `gemido`) no tienen guardado cómo se hicieron: anotado en el
   `CANAL.md`; en estos dos cortos, solo grabaciones sin procesar.
 
+### 7. Tres cortos más de supervivencia: Prosperi, Bågenholm y Simpson (1 de noviembre)
+
+- **Pedido del usuario:** «El canal de supervivencia es el que mejor está funcionando, vamos a crear otros 3 videos cortos
+  con estas historias interesantes».
+- **Medido** con `rastreador/youtube.py buscar` (10 años, por vistas por hora): **Mauro Prosperi**, el hueco más claro
+  (1,5 M en inglés; en español, el mejor llega a 61.000); **Anna Bågenholm**, poca competencia en español (156.000 y
+  117.000); **Joe Simpson**, la demanda probada en español (2,5 M y 1,1 M). Alternan escenario con los anteriores:
+  desierto, hielo y montaña.
+- **Datos** de Wikipedia (inglés), Offgrid, El Diario NY, Discover, ScienceAlert, Explorersweb, The Lancet y The Red
+  Bulletin; lo que varía según la fuente, en el `PUBLICACION.md` de cada uno (los días y los kilos de Prosperi, la hora del
+  primer latido de Bågenholm, cuánto aguantó Yates). Se deja fuera, a propósito, el intento de suicidio de Prosperi.
+
+### 8. Cómo están hechos
+
+- **«9 días en el Sahara»** (72,8 s, 17 escenas), **«80 minutos bajo el hielo»** (66,5 s, 16) y **«Cortó la cuerda»**
+  (72,5 s, 16), con las plantillas del canal y tres escenas dibujadas nuevas: `mapa.html` (el sur de Marruecos y el oeste
+  de Argelia de Natural Earth, Marruecos un poco más claro, la carrera, el camino en esquema hasta Tinduf y los 291 km),
+  `hielo.html` (el río en corte con ella bajo el hielo, la bolsa de aire y los minutos; el termómetro de 37 a 13,7 °C; el
+  monitor que vuelve a latir) y `grieta.html` (la pared con Simon arriba y Joe que baja por tramos, la ventisca, el
+  precipicio y el corte, con Joe cayendo dentro de la grieta; la grieta en corte con la repisa a −60 m, la voz de Simon
+  que no llega y el hielo que cuelga; la salida por abajo hacia la luz). Los dos alpinistas llevan su nombre al lado.
+- **Voz** M2: 72,1, 65,8 y 71,9 s (1 min 32 s, 52 s y 58 s con la marca). **Música:** «solo piano and high strings»
+  otra vez, 2 candidatas por corto en unos 6 min; de cada par, una válida (13, 10 y 11 % bajo 150 Hz) y, en dos de los
+  tres, la otra se apagaba a los 15 s. El lecho del 8, con compresión suave (`audio/lecho.py --comprimir 3`, nuevo, y
+  `comprimir` en `musica.json`): el piano tenía valles de −36 dB que dejaban microhuecos en las pausas de la voz.
+- **Sonido**, con la regla estricta: la ráfaga de la tormenta de arena (la imagen tiembla), el aleteo de los murciélagos y
+  el balido de las cabras; el hielo que se rompe y un pitido del monitor en cada latido dibujado (un solo pitido de
+  BigSoundBank 1310 colocado en la punta de cada latido); la ráfaga de la ventisca, la cuerda que se va al cortarla y el
+  golpe de Joe en la repisa. `revisar_mezcla.py`: 0 avisos y ningún hueco; la música, a 16,5–16,8 LU bajo la voz.
+- **Imágenes:** 24 de FLUX.3 a 720 × 1280 (124–203 s, 144 s de media; unos 19–23 min por corto con el EDSR) y **11
+  rehechas** tras mirarlas: dos con gente de más cuando la voz dice que estaba solo (la tormenta, con dos corredores; el
+  oasis, con dos hombres), cinco con la cara de alguien real (el santuario, dos veces; la paciente del quirófano; Joe con la
+  pierna rota, colgando y en la grieta), el lugareño de túnica donde debía estar el corredor (el santuario y el rebaño), la
+  rescatada de rodillas como si estuviera bien y la cuerda del descenso que subía al cielo. Lo que funcionó, en el
+  `CANAL.md`: «only one person in the whole image, no other people» y «his back to the camera, no face visible» («seen from
+  behind» no basta). El descenso salió soleado: va oscurecido (la ventisca la enseña el dibujo de antes).
+
+### 9. Lo que encontró la revisión
+
+- **Un ancla con dos palabras cogía la primera aparición:** `w('Su familia')` era «una despedida a su familia» (44 s) y no
+  «Su familia lo lleva en camello» (61 s): el mapa de Argelia entraba 13 s antes. El `montar.py` de los cortos no avisaba
+  de las palabras repetidas (el aviso que anotaba `CLAUDE.md` era del kit de vídeos largos): ahora avisa, también con
+  frases, y `n=1` explícito lo calla. Lo mismo pasaba con «ocho» («treinta y ocho años») y «pasa» («cuando pasa»).
+- **Las anclas de los rótulos también:** «Años después» cogía «29 años», 47 s antes, y se montaba encima de «10 días
+  después». `montar.py` avisa ahora de toda ancla de los parámetros de una escena que caiga fuera de ella; el aviso
+  encontró enseguida otro fallo mío (un `sin_subtitulos` con «Y se», que escondía 8 subtítulos).
+- **Un tween que acaba antes de que empiece su escena no se aplica:** la 2.ª escena del hielo (tras la foto de debajo del
+  hielo) salía con el hielo entero, sin ella y sin el contador. El modo «hielo» va ahora en función del tiempo
+  (`alBuscar`), como la cuerda y el monitor; corregida la trampa de `CLAUDE.md`, que decía que ya salía hecho.
+- Además: la tilde de la Ñ de «NIÑA» asomaba por encima de la barra de la ficha (la barra sube ahora 22 px), el fondo de
+  la grieta bajo la franja de los subtítulos, la etiqueta de Marruecos encima de la fecha, «13 coma siete» en los
+  subtítulos (ahora «13,7»: `pantalla.json` acepta frases), dos cifras a la vez («6.344 m» con «más de 6.300 metros»),
+  subtítulos que repetían un sello grande (QUÉDATE QUIETO, ROMPE LA REGLA, AGUANTA, 9 HORAS, SE RECUPERA, +1 HORA, 3 DÍAS)
+  y un rótulo que repetía la frase en el campamento (ahora el sello A TIEMPO). Las cifras del gancho, más grandes.
+
+### 10. Render y entrega
+
+- **Render:** 3 min 46 s el 7 y 4 min 8 s el 8 (los dos compartiendo la CPU con FLUX) y 3 min 13 s el 6. `check`: 0
+  errores y 0 avisos en los tres.
+- **Entregas** (`BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`):
+  `salidas/supervivencia/cortos/06-prosperi/entrega/prosperi.mp4` (72,77 s, −14,4 LUFS, −1,6 dBTP, 54 MB),
+  `07-bagenholm/entrega/bagenholm.mp4` (66,47 s, −14,5 LUFS, −1,5 dBTP, 48 MB) y `08-simpson/entrega/simpson.mp4`
+  (72,47 s, −14,5 LUFS, −1,6 dBTP, 52 MB). El último fotograma es el primero (1,9, 2,8 y 2,4 de diferencia media sobre
+  255), ningún silencio, y el principio y el final del bucle, a menos de 1,1 dB. Medido y mirado, no escuchado.
+- **El reinicio de la máquina** (a mitad, con todo guardado en la rama) vació la caché de disco: `./instalar.sh precargar`
+  tardó 16 min (compartiendo el disco con un `check`, que en frío pasó de 10 min) y la primera imagen después, 336 s con la
+  carga de FLUX.
+
 ## Siguiente paso
 
-0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall y los 33
-   en supervivencia), elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Publicar y
+0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
+   Prosperi, Bågenholm y Simpson en supervivencia), elija los nombres y cree los dos canales de YouTube y las dos
+   páginas de Facebook. Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.
