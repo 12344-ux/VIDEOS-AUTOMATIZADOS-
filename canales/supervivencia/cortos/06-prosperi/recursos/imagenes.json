@@ -42,8 +42,9 @@
   },
   {
    "nombre": "rebano",
-   "semilla": 108,
-   "prompt": "A young nomad girl in a colorful headscarf tending a flock of goats in a dry rocky desert valley, seen from behind and from far away, a weak thin man with a white cap approaching in the far distance, soft morning light, the girl and the goats in the lower half of the frame, vertical composition"
+   "semilla": 138,
+   "prompt": "A nomad girl of about ten years old in a colorful headscarf tending a flock of goats in a dry rocky desert valley, seen from behind, in the far distance a weak thin European runner walks toward her, he wears a light grey t-shirt, black running shorts and a white cap, soft morning light, the girl and the goats in the lower half of the frame, vertical composition",
+   "_rehecha": "semilla 108: el hombre del fondo llevaba túnica oscura (no parecía el corredor) y la niña parecía mayor."
   }
  ]
 }
