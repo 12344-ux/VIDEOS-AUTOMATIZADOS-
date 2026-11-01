@@ -82,8 +82,8 @@ sin_subtitulos(w('A doscientos', mas=-0.1), w('Había', mas=-0.12))         # 29
 sin_subtitulos(w('quince', mas=-0.1), DURACION)                             # −15 KG · vuelve el gancho
 
 # --- Música: 16–20 LU bajo la voz (CANAL.md); se retira para la ficha revelada y vuelve con la familia.
-musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.1,
-       puntos=[(w('Y el noveno', mas=-0.3), 0.09), (w('Lo encuentra', mas=-0.2), 0.055), (w('Su familia', 2, mas=-0.1), 0.09)])
+musica('lecho', 0, DURACION, vol=0.085, fi=0.05, fo=0.1,
+       puntos=[(w('Y el noveno', mas=-0.3), 0.085), (w('Lo encuentra', mas=-0.2), 0.055), (w('Su familia', 2, mas=-0.1), 0.085)])
 
 # --- Efectos: solo los fuertes, con su golpe en pantalla.
 sonido('0154', w('tormenta', mas=-0.5), vol=0.08, ini=3.6, dur=3.0, fi=0.25, fo=1.4)        # la ráfaga (la imagen tiembla)
