@@ -4,5 +4,12 @@
  "candidatas": [
   "melancholic sea documentary music, solo piano and high strings, slow, lonely, hopeful ending, no drums, 68 bpm",
   "solo piano and high strings, slow, nostalgic and tense, emotional, no drums, 72 bpm"
- ]
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 89,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_1: 2 % de la energía bajo 150 Hz y estable (−19 a −22 dB); la 2, parecida (1 %, −18 a −22 dB)."
+ }
 }

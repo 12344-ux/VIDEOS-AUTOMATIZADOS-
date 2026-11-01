@@ -78,6 +78,6 @@ musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.1,
 
 # --- Efectos: solo los fuertes, con su golpe en pantalla.
 sonido('2570', w('golpe', mas=-0.7), vol=0.15, ini=293.2, dur=2.6, fi=0.1, fo=1.0)        # la ola contra el barco
-sonido('1521', w('caen', mas=0.45), vol=0.15, ini=0.0, dur=1.6, fo=0.4)                  # los marineros, al agua
+sonido('1521', w('caen', mas=0.45), vol=0.13, ini=0.0, dur=1.6, fo=0.4)                  # los marineros, al agua
 sonido('3008', w('aviones', mas=-0.6), vol=0.1, ini=1.2, dur=3.2, fi=0.4, fo=1.0)        # el avión que pasa
 sonido('1519', w('soltó', mas=0.8), vol=0.15, ini=0.0, dur=1.4, fo=0.4)                  # la carga, al mar

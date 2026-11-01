@@ -35,7 +35,8 @@
           <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151b22" /><stop offset="1" stop-color="#3d4a55" /></linearGradient>
           <linearGradient id="mar-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f4250" /><stop offset="1" stop-color="#061219" /></linearGradient>
         </defs>
-        <rect class="cielo" x="-100" y="-100" width="1280" height="1200" />
+        <g class="todo" transform="translate(-108,-252) scale(1.2)">   <!-- 20 % más grande y 60 px más arriba: fuera de los subtítulos -->
+        <rect class="cielo" x="-100" y="-100" width="1280" height="1300" />
         <g class="barco">
           <path class="casco" d="M110,930 L980,930 L930,1010 L170,1010 Z" />
           <path class="obra" d="M560,930 L560,840 L640,840 L640,800 L700,800 L700,930 Z" />
@@ -46,12 +47,13 @@
           <g class="cajas"></g>
           <g class="lonas"><path class="lona" d="M270,930 Q270,872 365,868 Q460,872 460,930 Z" /><path class="lona" d="M715,930 Q715,880 790,876 Q870,880 870,930 Z" /></g>
         </g>
-        <rect class="mar" x="-100" y="990" width="1280" height="1100" />
+        <rect class="mar" x="-100" y="990" width="1280" height="1300" />
         <g class="olas"></g>
         <g class="caidas"></g>
         <rect class="balsa" x="-60" y="-14" width="120" height="28" rx="6" style="visibility: hidden" />
         <g class="marinos"></g>
         <g class="salpicas"></g>
+        </g>
       </svg>
       <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div><div class="t et e3"><span></span></div>
       <div class="t et e4"><span></span></div>
@@ -82,7 +84,8 @@
       const salpicas = X0.map(() => svg("circle", { class: "salpica", r: 0 }, $(".salpicas")));
       // Dónde cae cada uno: delante del casco, repartidos.
       const XA = [230, 300, 380, 470, 640, 720, 810, 880], YA = [1078, 1105, 1090, 1122, 1084, 1112, 1095, 1070];
-      const BALSA = [330, 1150];
+      const BALSA = [330, 1120];
+      const enPantalla = (p) => [1.2 * p[0] - 108, 1.2 * p[1] - 252];   // el transform del grupo .todo
       // Las cajas (modo carga): neveras (altas), televisores (pequeñas) y lavadoras (cubos).
       const cajas = [];
       const caja = (x, y, w, h, grupo) => { const r = svg("rect", { class: "caja", x: -w / 2, y: -h, width: w, height: h }, $(".cajas")); cajas.push({ r, x, y, grupo }); };
@@ -128,7 +131,8 @@
         et(".e4", "20 años", 80, 326, w("veinte"));
         tl.to([$(".e3"), $(".e4")], { autoAlpha: 0, duration: 0.25 }, Math.max(0, tG - 0.3));
         et(".e1", "8 al agua", 80, 236, w("Ocho"));
-        et(".e2", "Velasco", BALSA[0] + 80, BALSA[1] - 120, tB + 0.3);
+        const Bp = enPantalla(BALSA);
+        et(".e2", "Velasco", Bp[0] + 70, Bp[1] - 110, tB + 0.3);
       } else {
         // carga: las lonas se levantan; la carga a la vista; el oleaje; se suelta y se lleva a los marineros.
         const tO = w("oleaje") - 0.1, tS = w("soltó") - 0.1, tArr = w("arrastró") - 0.15;
