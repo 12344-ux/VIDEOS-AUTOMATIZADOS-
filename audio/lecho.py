@@ -4,7 +4,10 @@ de potencia constante hasta la duración pedida, con entrada y salida suaves, y 
 estándar (loudnorm de ffmpeg). Se le quita el último segundo y medio a la pieza, que MusicGen suele
 cortar en seco.
 
-  python3 audio/lecho.py pieza.wav 62.4 -o lecho.wav [--cruce 3] [--lufs -16] [--comprimir 3]
+  python3 audio/lecho.py pieza.wav 62.4 -o lecho.wav [--cruce 3] [--lufs -16] [--comprimir 3] [--inicio 4.5]
+
+--inicio S: segundos que se quitan del principio de la pieza, si arranca muy baja (si no, ese hueco se repite en cada
+vuelta del lecho: la pieza 2 del Apolo 13 empezaba a −31 dB y seguía a −20).
 
 --comprimir R: una compresión suave (umbral −26 dBFS, R:1) antes de normalizar, para una pieza de piano con valles muy
 hondos: bajo la voz, sus valles dejaban huecos casi en silencio en las pausas (corto 8 de supervivencia).
@@ -32,6 +35,7 @@ def main():
     p.add_argument('-o', '--salida', required=True)
     p.add_argument('--cruce', type=float, default=3.0, help='segundos de fundido cruzado entre repeticiones')
     p.add_argument('--recorte', type=float, default=1.5, help='segundos que se quitan del final de la pieza')
+    p.add_argument('--inicio', type=float, default=0.0, help='segundos que se quitan del principio de la pieza')
     p.add_argument('--entrada', type=float, default=1.0)
     p.add_argument('--salida-fundido', type=float, default=2.0, dest='fin')
     p.add_argument('--lufs', type=float, default=-16.0)
@@ -39,7 +43,7 @@ def main():
     a = p.parse_args()
 
     x, sr = leer(a.pieza)
-    x = x[:len(x) - int(a.recorte * sr)]
+    x = x[int(a.inicio * sr):len(x) - int(a.recorte * sr)]
     n, c = int(a.duracion * sr), int(a.cruce * sr)
     t = np.linspace(0, np.pi / 2, c)[:, None]
     sube, baja = np.sin(t), np.cos(t)

@@ -4,5 +4,14 @@
  "candidatas": [
   "space documentary music, solo piano and high strings, slow, vast and lonely, tense, hopeful ending, no drums, 68 bpm",
   "solo piano and high strings, slow, awe and suspense, emotional, cosmic, no drums, 72 bpm"
- ]
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 91,
+  "entrada": 0,
+  "recorte": 1.5,
+  "inicio": 4.5,
+  "_por_que": "pieza_2: 21 % de la energía bajo 150 Hz y estable (−19 a −20 dB) desde los 5 s; empieza a −31 dB, por eso «inicio» 4,5 s. La 1, descartada: 70 % de graves y crece hasta −11 dB. Con compresión suave (3): sin ella, los valles del piano dejaban microhuecos de silencio en las pausas de la voz (revisar_mezcla.py).",
+  "comprimir": 3
+ }
 }

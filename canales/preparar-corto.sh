@@ -60,11 +60,12 @@ if etapa musica; then
   # «lecho» en recursos/musica.json (opcional): la pieza elegida tras medirla, alargada a la duración del vídeo; sin
   # fundido de entrada si el corto va en bucle (entrada 0). Sin esto, el lecho se hacía a mano y no quedaba guardado.
   # «comprimir» (opcional, p. ej. 3): compresión suave antes de normalizar, para una pieza con valles muy hondos que
-  # bajo la voz dejaba huecos casi en silencio (el piano del corto 8 de supervivencia).
-  python3 -c "import json; l = json.load(open('$AQUI/recursos/musica.json')).get('lecho'); l and print(l['pieza'], l['duracion'], l.get('entrada', 0), l.get('recorte', 1.5), l.get('comprimir', 0))" |
-    while read -r pieza dura entrada recorte comprimir; do
+  # bajo la voz dejaba huecos casi en silencio (el piano del corto 8 de supervivencia). «inicio» (opcional): segundos que
+  # se quitan del principio de una pieza que arranca muy baja (si no, ese hueco se repite en cada vuelta: la del Apolo 13).
+  python3 -c "import json; l = json.load(open('$AQUI/recursos/musica.json')).get('lecho'); l and print(l['pieza'], l['duracion'], l.get('entrada', 0), l.get('recorte', 1.5), l.get('comprimir', 0), l.get('inicio', 0))" |
+    while read -r pieza dura entrada recorte comprimir inicio; do
       [ -s "$T/musica/lecho.wav" ] || python3 "$REPO/audio/lecho.py" "$T/musica/$pieza.wav" "$dura" -o "$T/musica/lecho.wav" \
-        --entrada "$entrada" --recorte "$recorte" --cruce 3 --comprimir "$comprimir"
+        --entrada "$entrada" --recorte "$recorte" --cruce 3 --comprimir "$comprimir" --inicio "$inicio"
     done
 fi
 

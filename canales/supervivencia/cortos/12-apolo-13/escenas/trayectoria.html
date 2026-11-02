@@ -115,7 +115,7 @@
           tl.fromTo(g, { opacity: 0.9, x: 0, y: 0 }, { opacity: 0, x: Math.cos(ang) * dd, y: Math.sin(ang) * dd, duration: 1.4 + (i % 3) * 0.3, ease: "power2.out", immediateRender: false }, te + 0.02);
         }
         tl.to(nave, { fill: "#ffd2a8", duration: 0.1, yoyo: true, repeat: 5 }, te);
-        et(".e1", "Tanque de oxígeno n.º 2", 80, 560, te + 0.25);
+        et(".e1", "Tanque de oxígeno 2", 80, 560, te + 0.1);
       } else {
         // luna: de la explosión a la cara oculta (la cifra sube hasta 400.171) y empieza el regreso.
         gsap.set(dist, { autoAlpha: 1 });

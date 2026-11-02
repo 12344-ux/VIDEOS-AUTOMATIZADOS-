@@ -21,7 +21,7 @@ escena('s03', 'foto', w('Veintitrés', mas=-0.12), foto='entrada',
        conf=dict(camara=[1.04, 1.14, 0, 40], techo=True, textos=[
            dict(html='23 JUN 2018', clase='diario', x=80, y=236, en=['Veintitrés', 1, -0.05], modo='escribe', duracion=1.3),
            dict(html='Norte de Tailandia', clase='etiqueta', x=80, y=330, en=['Norte', 1, -0.05]),
-           dict(html='Cueva de Tham Luang', clase='etiqueta', x=80, y=420, en=['Tam', 1, -0.05])]))
+           dict(html='Cueva de Tham Luang', clase='etiqueta', x=80, y=420, en=['entra', 1, -0.05])]))
 escena('s04', 'puntos', w('Los niños tienen', mas=-0.12), fondo='entrada',
        conf=dict(n=12, cols=6, tam=64, hueco=30, x=144, y=640, cifra=dict(html='12 niños<small>de 11 a 16 años</small>', x=80, y=300),
                  aparecen=[['niños', 2, -0.1], ['dieciséis', 1, 0.0]],
@@ -54,7 +54,7 @@ escena('s12', 'foto', w('Están vivos', 2, mas=-0.12), foto='tunel',
            dict(html='Imposible', clase='sello', x=80, y=960, en=['imposible', 1, -0.05], modo='sello', sale=['Hay', 1, -0.2]),
            dict(html='Túneles inundados', clase='etiqueta', x=80, y=330, en=['túneles', 2, -0.05]),
            dict(html='A oscuras', clase='etiqueta', x=80, y=420, en=['oscuras', 1, -0.05]),
-           dict(html='No saben bucear', clase='etiqueta', x=80, y=510, en=['bucear', 2, -0.05])]))
+           dict(html='No saben bucear', clase='etiqueta', x=80, y=510, en=['niños', 3, -0.1])]))
 escena('s13', 'cueva', w('El oxígeno', mas=-0.12), modo='salida')
 escena('s14', 'foto', w('Un exbuzo', mas=-0.12), foto='tanques',
        conf=dict(camara=[1.0, 1.08, 0, 20], techo=True, brillo=0.8, textos=[
@@ -70,9 +70,9 @@ escena('s16', 'foto', w('Un anestesista', mas=-0.12), foto='dormido',
 escena('s17', 'cueva', w('Y los buzos', mas=-0.12), modo='rescate')
 escena('s18', 'puntos', w('Trece de trece', mas=-0.12), fondo='salida',
        conf=dict(n=13, cols=7, tam=64, hueco=30, x=120, y=640, cifra=dict(html='13<small>de 13</small>', x=80, y=300),
-                 aparecen=[0.0, 0.4], sello=dict(html='Todos vivos', en=['trece', 4, 0.1, 'fin'], x=80, y=960)))
+                 aparecen=[0.0, 0.4], sello=dict(html='Todos vivos', en=['trece', 3, -0.05], x=80, y=960)))
 escena('s19', 'gancho', w('Dieciocho', 3, mas=-0.12), foto='roca',          # la 2.ª es la fecha («dos mil dieciocho»)
-       conf=dict(GANCHO, modo='vuelta', en_cifra=['dieciocho', 3, -0.05], en_linea=['cueva', 6, 0.0]))
+       conf=dict(GANCHO, modo='vuelta', en_cifra=['dieciocho', 3, -0.05], en_linea=['dieciocho', 3, 0.1]))
 DURACION = w('cueva', 6, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.

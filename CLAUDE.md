@@ -178,8 +178,10 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
   `audio/lecho.py` directamente.
 - La unidad en minúscula dentro de un rótulo (`8.849 m`) va en `<i class="m">`: un `span` dentro del `span` del rótulo
   hereda su caja y su filete naranja, y la «m» sale en una cajita aparte.
-- El `check` de HyperFrames no avisa de una imagen que falta (sale en negro en el render): lo avisa `montar.py` («faltan
-  imágenes») desde la sesión 7. Y un círculo SVG que nace sin radio, o con uno calculado negativo antes de su escena, da
+- Una imagen que falta sale en negro en el render: la avisa `montar.py` («faltan imágenes», desde la sesión 7) y, en la
+  sesión 8, también el `check` (`missing_local_asset`), que entonces se salta todas las pruebas del navegador: para revisar
+  antes de tener todas las planchas, una provisional en `proyecto/assets/img/` (nunca en `salidas/`: taparía la ampliación
+  de la buena). En esta máquina no hay `/usr/bin/time`: medir con `$SECONDS`. Y un círculo SVG que nace sin radio, o con uno calculado negativo antes de su escena, da
   avisos del navegador en el render: radio inicial 0 y el tiempo de la escena, como mínimo, 0.
 - El 2.5D por capas (`imagen/capas25d.py`) solo vale si el corte sigue el contorno de un objeto sobre un fondo liso: en
   una mesa, un pasillo o una pizza en su caja deja una franja borrosa. Mirarlo a tamaño real en el MP4, no en la hoja.
@@ -194,6 +196,9 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 - `tl.fromTo` pinta su origen al crearse (`immediateRender`): un segundo `fromTo` sobre el mismo elemento, o uno que
   empieza visible, lo enseña antes de tiempo. `immediateRender: false` o empezar oculto con CSS.
 - El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.
+- En SVG, el CSS de la plantilla pisa los atributos `fill` y `stroke`: `setAttribute('fill', …)` o un tween de `attr: { stroke }`
+  no cambian nada si una regla CSS ya los fija (la barra de CO₂ del corto 12 seguía verde). Usar `el.style.fill` o tweens de
+  `fill`/`stroke` como propiedades CSS.
 - Texto blanco sobre el naranja `#FF5E1A` da 2,6:1 y no se lee: texto oscuro (`#0b0a09`). Con amarillos y naranjas,
   medir el contraste antes de elegir el color del texto.
 - **Los efectos de sonido se miden antes de renderizar** (`python3 audio/revisar_mezcla.py <proyecto>`, 0 avisos): en

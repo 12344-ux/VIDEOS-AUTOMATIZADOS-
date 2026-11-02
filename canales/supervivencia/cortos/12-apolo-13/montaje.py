@@ -49,14 +49,14 @@ escena('s09', 'foto', w('Para ahorrar', mas=-0.12), foto='frio',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='Todo apagado', clase='etiqueta', x=80, y=330, en=['apagan', 1, -0.05]),
            dict(html='Pocos grados sobre cero', clase='etiqueta', x=80, y=420, en=['temperatura', 1, -0.05]),
-           dict(html='Agua: unos 180 <i class="m">ml</i> al día', clase='etiqueta', x=80, y=510, en=['vaso', 1, -0.05])]))
+           dict(html='Agua: unos 180 <i class="m">ml</i> al día', clase='etiqueta', x=80, y=510, en=['Beben', 1, -0.05])]))
 escena('s10', 'filtro', w('Pero lo peor', mas=-0.12), modo='sube')
 escena('s11', 'filtro', w('Hay filtros', mas=-0.12), modo='cuadrado')
 escena('s12', 'foto', w('En Jiúston', mas=-0.12), foto='ingenieros',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='Ingenieros de la NASA', clase='etiqueta', x=80, y=330, en=['inventan', 1, -0.05]),
            dict(html='Por radio:', clase='diario', x=80, y=440, en=['dictan', 1, -0.05], modo='escribe', duracion=0.6),
-           dict(html='paso 1… paso 2…', clase='diario', x=80, y=510, en=['paso', 1, -0.05], modo='escribe', duracion=0.9)]))
+           dict(html='paso 1… paso 2…', clase='diario', x=80, y=510, en=['radio', 1, 0.0], modo='escribe', duracion=0.9)]))
 escena('s13', 'ficha', w('Cinta adhesiva', mas=-0.12), fondo='adaptador',
        conf=dict(FICHA, modo='revela', en=0.05, fondo_en=0.0, quita=['Cinta', 1, -0.05]))
 escena('s14', 'filtro', w('plástico', fin=True, mas=0.15), modo='arreglo')   # usa la pausa tras la revelación
@@ -71,7 +71,7 @@ escena('s16', 'foto', w('Y por fin', mas=-0.12), foto='paracaidas',
            dict(html='Océano Pacífico', clase='etiqueta', x=80, y=330, en=['Pacífico', 1, -0.05]),
            dict(html='Vivos', clase='sello', x=80, y=960, en=['vivos', 2, -0.05], modo='sello')]))
 escena('s17', 'gancho', w('Con cinta', mas=-0.12), foto='nave',
-       conf=dict(GANCHO, modo='vuelta', en_cifra=['trescientos', 2, -0.05], en_linea=['casa', 2, 0.0]))
+       conf=dict(GANCHO, modo='vuelta', en_cifra=['trescientos', 2, -0.05], en_linea=['veinte', 2, 0.0]))
 DURACION = w('casa', 2, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
@@ -82,12 +82,12 @@ sin_subtitulos(w('Con cinta', mas=-0.12), DURACION)                             
 
 # --- Música: 16–20 LU bajo la voz (CANAL.md); se retira para lo que los salvó y en el silencio de radio, y vuelve al
 # amerizar. Sin callarla del todo (deja huecos en las pausas de la voz).
-musica('lecho', 0, DURACION, vol=0.09, fi=0.05, fo=0.1,
-       puntos=[(w('Se lo dictan', mas=-0.3), 0.09), (w('Cinta adhesiva', mas=-0.2), 0.05), (w('El aire', 2, mas=-0.1), 0.09),
-               (w('Lo normal', mas=-0.3), 0.09), (w('Pasan cuatro', mas=-0.2), 0.04), (w('Y por fin', mas=-0.1), 0.09)])
+musica('lecho', 0, DURACION, vol=0.075, fi=0.05, fo=0.1,
+       puntos=[(w('Se lo dictan', mas=-0.3), 0.075), (w('Cinta adhesiva', mas=-0.2), 0.05), (w('El aire', 2, mas=-0.1), 0.075),
+               (w('Lo normal', mas=-0.3), 0.075), (w('Pasan cuatro', mas=-0.2), 0.04), (w('Y por fin', mas=-0.1), 0.075)])
 
 # --- Efectos: solo los fuertes, con su golpe en pantalla (se ajustan con audio/revisar_mezcla.py).
-sonido('1023', w('explota', 2, mas=-0.08), vol=0.14, ini=0.0, dur=2.4, fo=1.0)                 # el golpe de la explosión, con el destello
-sonido('2380', w('Jiúston', 1, mas=-0.45), vol=0.1, ini=0.0, dur=0.5, fo=0.1)                  # el pitido de la radio de Houston
-sonido('1341', w('Casi cuatro días después', mas=-0.1), vol=0.12, ini=0.0, dur=3.0, fo=1.2)   # el fuego de la reentrada
+sonido('1023', w('explota', 2, mas=-0.08), vol=0.25, ini=0.0, dur=2.4, fo=1.0)                 # el golpe de la explosión, con el destello
+sonido('2380', w('Jiúston', 1, mas=-0.45), vol=0.06, ini=0.0, dur=0.5, fo=0.1)                  # el pitido de la radio de Houston
+sonido('1341', w('Casi cuatro días después', mas=-0.1), vol=0.22, ini=0.0, dur=3.0, fo=1.2)   # el fuego de la reentrada
 sonido('1521', w('Caen', mas=-0.3), vol=0.14, ini=0.0, dur=1.6, fo=0.5)                        # la cápsula cae al mar

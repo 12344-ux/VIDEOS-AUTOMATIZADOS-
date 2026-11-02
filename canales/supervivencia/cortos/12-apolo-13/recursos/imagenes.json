@@ -4,8 +4,9 @@
  "planchas": [
   {
    "nombre": "nave",
-   "semilla": 1201,
-   "prompt": "The Apollo command and service module spacecraft with the lunar module docked at its nose, drifting in black space, a white cloud of gas venting from a torn open panel on the side of the cylindrical service module, the small blue Earth far away in the lower part of the frame, vertical composition"
+   "semilla": 1231,
+   "prompt": "A 1970 Apollo spacecraft drifting in black space: a silver cone-shaped capsule attached to a long white cylindrical service module with a big engine bell at its back, a gaping hole torn open in the side of the cylinder venting a white cloud of gas, seen from the side, the spacecraft in the middle of the frame, the small blue Earth far away in the lower part of the frame, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1201): la nave era un híbrido raro del módulo lunar y una cápsula con ventanas."
   },
   {
    "nombre": "cabina",
@@ -21,11 +22,6 @@
    "nombre": "modulo",
    "semilla": 1204,
    "prompt": "The Apollo lunar module, a spidery spacecraft covered in gold foil and grey panels, docked to the cone-shaped command module, floating in black space with the grey Moon behind, vertical composition"
-  },
-  {
-   "nombre": "luna",
-   "semilla": 1205,
-   "prompt": "The far side of the Moon seen close up through a small spacecraft window, grey cratered surface, the small blue Earth rising above the lunar horizon, black space, vertical composition"
   },
   {
    "nombre": "frio",

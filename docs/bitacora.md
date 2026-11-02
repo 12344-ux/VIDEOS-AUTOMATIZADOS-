@@ -1251,12 +1251,96 @@ estaba en otra rama sin unir (`ccr-4888b5fc-onnsee`, que ya contiene las de las 
   255; ningún silencio. El −0,9 dBTP del 9 es un solo golpe de la propia voz («día cuarenta», 58,8 s; lo demás, por debajo
   de −2,2): con `PICO=-2.6` seguía en −0,9 y la sonoridad bajaba a −14,8, así que se quedó la entrega estándar.
 
+## Sesión 8 — 2 de noviembre de 2026
+
+Máquina nueva (Xeon a 2,1 GHz con AMX). Mi rama estaba en la sesión 1; el trabajo de la 7 (`ccr-0d6de690-khcyff`, que ya
+contiene las demás) se trajo por avance rápido.
+
+### 1. Instalación y un reinicio
+
+- **Instalación en 8 min 14 s** (`./instalar.sh`): todo menos los dos opcionales; 15 GB, quedan 16 GB libres.
+- **La máquina se reinició** a los pocos minutos y la caché de disco quedó vacía: la voz del corto 11 tardó 16 min 23 s, casi
+  todo leyendo el alineador mientras `./instalar.sh precargar` (14 min 51 s) ocupaba el disco; hasta `ffprobe` tardó más de
+  2 min. Con la precarga hecha, la voz del 12 salió en 1 min 21 s.
+
+### 2. De vuelta a la fórmula normal
+
+- **Pedido del usuario:** «No funcionaron los de Colombia, sigamos con la fórmula normal. Hagamos 2 videos cortos más para
+  supervivencia». Anotado en el `CANAL.md` y en `CLAUDE.md`. (Antes, mientras se instalaba todo, se habían medido en
+  `--region CO` los Andes, el vuelo 965 de Buga, Yungay, Avianca 052, Chapecoense y Yossi Ghinsberg: quedan como reserva.)
+- **Medido** (`rastreador/youtube.py buscar`, 10 años, por vistas por hora, en inglés y en español; unas 6.000 unidades de
+  cuota en el día): la **cueva de Tailandia** (2018), 62 M, 3,9 M y 1 M en inglés y, en español, 430.000 (un clip de
+  noticias de hace 8 años) y 223.000; **Apolo 13**, 8 M y 4,5 M en inglés en canales de 16.000 y 2.000 suscriptores (con
+  Artemis II en las noticias) y 2,1 M, 623.000 y 241.000 en español; Hugh Glass, 609.000 en español en un canal de 556
+  suscriptores, pero su historia es casi toda leyenda; Alexander Selkirk, 524.000 en inglés y 11.000 en español; Aron
+  Ralston, 4,1 M y 2,1 M en español; Shackleton, Mawson y Vesna Vulović, por debajo.
+- **Elegidas:** la cueva (el hueco más grande, y lo más parecido a Los 33, que fue el que mejor funcionó) y Apolo 13 (la
+  demanda probada en español). Las dos cambian de escenario (una cueva inundada y el espacio) y están muy documentadas.
+- **Datos:** Wikipedia, History.com, The Nation Thailand y Gulf News («¿Cuántos son?» «Trece»), CNN y Business Insider (el
+  oxígeno al 15 %), BigThink y Khaosod (la meditación) y The Globe and Mail (una excursión de una hora); NASA, el Smithsonian,
+  Popular Science, Universe Today y AP/Al Jazeera (Artemis II superó el récord de distancia el 6 de abril de 2026). Lo que
+  varía según la fuente, en el `PUBLICACION.md` de cada uno. Descartado por no estar claro: el calcetín del filtro (Houston lo
+  propuso; no se sabe si lo usaron) y «tenemos un problema» (es la frase de la película: la real es «hemos tenido»).
+
+### 3. Cómo están hechos
+
+- **«La cueva»** (85,2 s, 19 escenas): el gancho 18 DÍAS · EN UNA CUEVA; el secreto tachado, «cómo los sacaron», que se lee al
+  80 % («Sacarlos dormidos»); los doce como puntos, el contador de días del 2 al 10, «¿Cuántos son?» con un 13 enorme, Saman
+  Kunan con respeto, el rescate uno a uno (8, 9 y 10 de julio) y «13 de 13 · Todos vivos». Escena dibujada nueva,
+  `escenas/cueva.html`: la montaña en corte con un túnel irregular (la línea central muestreada y una banda de grosor
+  variable), tres sifones que se llenan por separado (el agua es un rectángulo recortado por la banda), la regla de 4 km, el
+  camino de salida, el oxígeno del 21 al 15 % y los trece que salen uno a uno con su fecha.
+- **«Apolo 13»** (87,4 s, 18 escenas): el gancho 320.000 KM · DE LA TIERRA; el secreto, «lo que los salvó · lo tienes en casa»,
+  que se lee al 76 % («Cinta, cartón y bolsas» sobre la foto del buzón). Dos escenas dibujadas nuevas: `trayectoria.html`
+  (la Tierra y la Luna en esquema, la nave que avanza con la cifra de distancia, la explosión con destello y gas, y la vuelta a
+  la Luna hasta 400.171 km) y `filtro.html` (el medidor de CO₂ que pasa de verde a PELIGRO, los tres astronautas que respiran,
+  el filtro cuadrado que choca con el hueco redondo y el arreglo pieza a pieza). Y «Hecho para 2 · casi 4 días» con puntos.
+- **Voz** M2: 84,6 y 86,8 s. **Música:** «solo piano and high strings», dos candidatas por corto (unos 6,5 min cada par); la
+  cueva, la 1 (10 % bajo 150 Hz, estable); Apolo 13, la 2 (21 %), que empezaba a −31 dB: `audio/lecho.py --inicio` (nuevo, y
+  `inicio` en `musica.json`, que `preparar-corto.sh` ya lee) le quita los primeros 4,5 s, y con `comprimir` 3 desaparecieron
+  los microhuecos. Los dos lechos se rehacen idénticos, byte a byte, desde el repositorio.
+- **Sonido** (BigSoundBank, CC0), con la regla estricta: el agua que llena el sifón, el trueno con el destello de las
+  bicicletas, el chapoteo de los buzos y la tormenta que vuelve; la explosión lejana con el destello, el pitido de la radio de
+  Houston (2380, «Aerospace communication beep»), el fuego de la reentrada y la cápsula que cae al mar. `revisar_mezcla.py`:
+  0 avisos y ningún hueco; la música a −17,2 y −16,9 LU bajo la voz.
+- **Imágenes:** 21 de FLUX.3 a 720 × 1280 (144–228 s; 60 min el lote con la ampliación, compartiendo la CPU con las
+  revisiones) y **4 rehechas** (13 min 35 s con la carga): tres de la cueva en las que los niños salían de cara o de perfil
+  (el grupo de la roca, la meditación en corro y los buzos de frente a los niños: ahora la cámara está detrás de ellos, con las
+  linternas de frente) y la nave del gancho, un híbrido raro del módulo lunar y una cápsula (ahora, un Apolo reconocible).
+  Dos planchas que no se usaban (la lluvia y la Luna) se quitaron de los `imagenes.json`.
+
+### 4. Lo que encontró la revisión
+
+- En los dibujos, antes de tener las imágenes (`snapshot --at`): el túnel parecía una onda y el dibujo se quedaba arriba con
+  un corte negro debajo; la regla de 4 km pisaba su cifra; la nave empezaba más allá del punto de la explosión y volvía
+  atrás (la ida es menos de la mitad del camino de retorno libre); el anillo y el gas de la explosión se veían antes de tiempo
+  (`fromTo` pinta su origen al crearse: `immediateRender: false`); el color de la barra de CO₂ y el borde naranja del filtro no
+  cambiaban (**el CSS pisa los atributos SVG `fill` y `stroke`**: con `el.style.fill` o tweens de `fill`/`stroke`, no de
+  `attr`); los cascos parecían ojos (les puse hombros); y «TIERRA» bajaba hasta los subtítulos con el zoom.
+- `montar.py` avisó de dos anclas mal cogidas: «Dieciocho» también estaba en la fecha («dos mil dieciocho») y el plano final
+  se montaba en el segundo 10; «Dos días», dos veces.
+- `check`: tiempos de lectura cortos (rótulos que entraban tarde, el sello «Todos vivos» de 0,24 s y las líneas finales de
+  menos de 2 s) y sellos que no cabían (a 120 px, unas 15 letras): 0 errores y 0 avisos en los dos al final.
+
+### 5. Render y entrega
+
+- **Render:** 4 min 4 s la cueva y 3 min 55 s Apolo 13 (unos 2,8 s por segundo de vídeo), uno tras otro y con la CPU libre.
+- **Entregas** (`BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`, 30 s cada una):
+  `salidas/supervivencia/cortos/11-tham-luang/entrega/tham-luang.mp4` (85,2 s, −14,5 LUFS, −1,7 dBTP, 73 MB) y
+  `salidas/supervivencia/cortos/12-apolo-13/entrega/apolo-13.mp4` (87,4 s, −14,5 LUFS, −1,5 dBTP, 43 MB). El último fotograma
+  es el primero (2,4 y 1,5 de diferencia media sobre 255) y no hay ningún silencio. El primer segundo y medio frente al último:
+  0,9 dB en la cueva y 4,8 dB en Apolo 13, donde el final es casi solo música (la voz acaba en «…de casa» y quedan 0,9 s de
+  cola); es el contenido, no el tratamiento. Medido y mirado, no escuchado.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
-   Prosperi, Bågenholm, Simpson, los niños de la selva y el náufrago en supervivencia), elija los nombres y cree los
-   dos canales de YouTube y las dos páginas de Facebook. Supervivencia: más historias colombianas y latinoamericanas
-   conocidas de los años 50–90 (la audiencia, 1-nov), medidas con `--region CO`. Publicar y
+   Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia y Apolo 13 en supervivencia),
+   elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
+   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–12 (historias conocidas en todo el mundo, una con hueco
+   y otra con demanda probada en español, medidas en inglés y en español). Candidatas ya medidas: Aron Ralston (4,1 M y
+   2,1 M en español), Alexander Selkirk, el Robinson Crusoe real (524.000 en inglés, 11.000 en español), Shackleton (el
+   inglés, en alza) y Yossi Ghinsberg (2,3 M en español); Hugh Glass, solo contándolo como leyenda. Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.
