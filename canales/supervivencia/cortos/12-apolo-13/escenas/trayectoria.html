@@ -1,0 +1,136 @@
+<template>
+  <!-- El viaje del Apolo 13, en esquema (no a escala: la Tierra y la Luna, grandes; las distancias, en la cifra). La
+       trayectoria de retorno libre: de la Tierra a la Luna, la vuelta por detrás y el regreso, que cruza la ida. La nave es
+       un punto naranja; la cifra de arriba, su distancia a la Tierra. Modos:
+         explota  la nave avanza hacia la Luna y la cifra sube hasta 320.000 km; en «explota», el destello, el temblor y la
+                  nube de gas; la nave sigue, más despacio y tocada
+         luna     la nave rodea la Luna: la cifra sube hasta 400.171 km por detrás de ella («lejos») y empieza el regreso;
+                  «récord»: el récord, 1970–2026 -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.viaje { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo { fill: #05070b; }
+    #{{ID}} .estrella { fill: #d8dde6; }
+    #{{ID}} .tierra { fill: url(#tierra-{{ID}}); }
+    #{{ID}} .atm { fill: none; stroke: rgba(120, 180, 255, 0.35); stroke-width: 10; }
+    #{{ID}} .nube-t { fill: rgba(240, 244, 250, 0.75); }
+    #{{ID}} .luna { fill: url(#luna-{{ID}}); }
+    #{{ID}} .crater { fill: rgba(60, 60, 64, 0.35); }
+    #{{ID}} .tray { fill: none; stroke: rgba(242, 237, 228, 0.32); stroke-width: 4; stroke-dasharray: 2 12; stroke-linecap: round; }
+    #{{ID}} .hecho { fill: none; stroke: #f2ede4; stroke-width: 5; stroke-linecap: round; }
+    #{{ID}} .nave { fill: #ff5e1a; }
+    #{{ID}} .halo { fill: rgba(255, 94, 26, 0.25); }
+    #{{ID}} .estallido { fill: none; stroke: #ffd2a8; stroke-width: 6; opacity: 0; }
+    #{{ID}} .gas { fill: rgba(235, 240, 248, 0.8); opacity: 0; }
+    #{{ID}} .flash { position: absolute; inset: 0; background: #fff4e6; opacity: 0; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.dist { font: 400 120px/1 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dist small { display: block; font-size: 0.27em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 10px; }
+    #{{ID}} .t.dist .m { font-size: 0.45em; font-style: normal; margin-left: 0.15em; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .nom { font: 800 44px "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.08em; fill: rgba(242, 237, 228, 0.8); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="viaje" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="tierra-{{ID}}" cx="0.38" cy="0.35" r="0.75">
+            <stop offset="0" stop-color="#5fa3e8" /><stop offset="0.55" stop-color="#1f5fae" /><stop offset="1" stop-color="#0b2347" />
+          </radialGradient>
+          <radialGradient id="luna-{{ID}}" cx="0.4" cy="0.35" r="0.75">
+            <stop offset="0" stop-color="#d9d6cf" /><stop offset="0.6" stop-color="#9c988f" /><stop offset="1" stop-color="#4a4844" />
+          </radialGradient>
+        </defs>
+        <rect class="fondo" x="-100" y="-100" width="1280" height="2120" />
+        <g class="mundo">
+          <g class="estrellas"></g>
+          <circle class="atm" cx="300" cy="1010" r="80" />
+          <circle class="tierra" cx="300" cy="1010" r="76" />
+          <path class="nube-t" d="M250,975 C262,960 290,962 296,975 C312,970 326,982 318,992 L248,992 Z" />
+          <path class="nube-t" d="M300,1040 C310,1030 334,1032 338,1044 C350,1042 356,1052 350,1058 L296,1058 Z" />
+          <circle class="luna" cx="770" cy="470" r="50" />
+          <circle class="crater" cx="752" cy="456" r="9" /><circle class="crater" cx="786" cy="488" r="6" /><circle class="crater" cx="770" cy="440" r="5" />
+          <path class="tray" d="M350,962 C430,860 560,760 680,660 C760,594 830,546 846,492 C862,436 820,392 768,394 C712,396 690,440 700,492 C712,560 650,640 560,720 C460,810 330,900 252,1000" />
+          <path class="hecho" d="M350,962 C430,860 560,760 680,660 C760,594 830,546 846,492 C862,436 820,392 768,394 C712,396 690,440 700,492 C712,560 650,640 560,720 C460,810 330,900 252,1000" />
+          <text class="nom" x="236" y="1136">TIERRA</text><text class="nom" x="640" y="366">LUNA</text>
+          <circle class="estallido" r="10" />
+          <g class="gases"></g>
+          <circle class="halo" r="24" />
+          <circle class="nave" r="11" />
+        </g>
+      </svg>
+      <div class="flash"></div>
+      <div class="t dist"><small>Distancia a la Tierra</small><span class="n"></span><i class="m">km</i></div>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      // Estrellas con semilla fija (el render es determinista): fuera de la Tierra, la Luna y la cifra.
+      let sem = 13; const azar = () => { sem = (sem * 1664525 + 1013904223) % 4294967296; return sem / 4294967296; };
+      for (let i = 0; i < 170; i++) { const x = azar() * 1080, y = 380 + azar() * 790, r = azar() < 0.85 ? 1.6 : 2.8; svg("circle", { class: "estrella", cx: x.toFixed(1), cy: y.toFixed(1), r, opacity: (0.3 + azar() * 0.6).toFixed(2) }, $(".estrellas")); }
+      // La trayectoria: dónde está la nave (u de 0 a 1) y cuánto se ha dibujado.
+      const tray = $(".hecho"), LT = tray.getTotalLength();
+      tray.setAttribute("stroke-dasharray", `${LT} ${LT}`);
+      const punto = (u) => tray.getPointAtLength(LT * Math.max(0, Math.min(1, u)));
+      // u del punto más cercano a (x, y): la explosión (a unos 320.000 km, el 83 % del camino) y lo más lejos, tras la Luna.
+      const cerca = (x, y) => { let mejor = 0, d = 1e9; for (let i = 0; i <= 400; i++) { const p = punto(i / 400), e = (p.x - x) ** 2 + (p.y - y) ** 2; if (e < d) { d = e; mejor = i / 400; } } return mejor; };
+      const U_EXP = cerca(742, 612), U_LEJOS = cerca(812, 402), U_VUELTA = cerca(700, 500);
+      // Distancia a la Tierra en función de u: 0 → 320.000 (explosión) → 400.171 (tras la Luna) → baja al volver.
+      const km = (u) => u <= U_EXP ? 320000 * Math.pow(u / U_EXP, 0.9)
+        : u <= U_LEJOS ? 320000 + 80171 * paso(u, U_EXP, U_LEJOS - U_EXP, "sine.out")
+        : 400171 - 30000 * paso(u, U_LEJOS, 1 - U_LEJOS, "sine.in");
+      const nave = $(".nave"), halo = $(".halo"), cifra = $(".dist .n");
+      const situa = (u) => {
+        const p = punto(u);
+        nave.setAttribute("cx", p.x.toFixed(1)); nave.setAttribute("cy", p.y.toFixed(1));
+        halo.setAttribute("cx", p.x.toFixed(1)); halo.setAttribute("cy", p.y.toFixed(1));
+        tray.setAttribute("stroke-dashoffset", (LT * (1 - u)).toFixed(1));
+        cifra.textContent = fmt(Math.round(km(u) / 10) * 10);
+      };
+      const dist = $(".dist"); gsap.set(dist, { left: 80, top: 176 });
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const tiembla = (t, k = 1) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -14 * k, y: 8 * k, duration: 0.05 }, { x: 11 * k, y: -7 * k, duration: 0.05 }, { x: -7 * k, y: 5 * k, duration: 0.05 }, { x: 4 * k, y: -2 * k, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, t);
+      if (modo === "explota") {
+        // Todo a la vista desde el primer fotograma (la cifra y los nombres): la nave ya va de camino.
+        gsap.set(dist, { autoAlpha: 1 });
+        const te = w("explota", 2) - 0.05;              // «explota un tanque» (la 1.ª es la del gancho)
+        alBuscar((x) => situa(U_EXP * (0.55 + 0.45 * paso(x, 0, te, "sine.inOut")) + 0.03 * paso(x, te, DUR - te, "sine.out")));
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "62% 45%" }, { scale: 1.08, duration: DUR, ease: "none" }, 0);
+        // La explosión: destello, temblor, un anillo y la nube de gas que se escapa.
+        const pe = punto(U_EXP), est = $(".estallido");
+        est.setAttribute("cx", pe.x); est.setAttribute("cy", pe.y);
+        tl.fromTo($(".flash"), { opacity: 0 }, { keyframes: [{ opacity: 0.7, duration: 0.05 }, { opacity: 0.12, duration: 0.1 }, { opacity: 0.4, duration: 0.05 }, { opacity: 0, duration: 0.45 }] }, te);
+        tiembla(te + 0.02, 1.3);
+        tl.fromTo(est, { attr: { r: 8 }, opacity: 1 }, { attr: { r: 120 }, opacity: 0, duration: 0.8, ease: "power2.out", immediateRender: false }, te);
+        for (let i = 0; i < 12; i++) {
+          const g = svg("circle", { class: "gas", cx: pe.x, cy: pe.y, r: 6 + (i % 4) * 3 }, $(".gases"));
+          const ang = (i / 12) * Math.PI * 2 + 0.4, dd = 60 + (i % 5) * 26;
+          tl.fromTo(g, { opacity: 0.9, x: 0, y: 0 }, { opacity: 0, x: Math.cos(ang) * dd, y: Math.sin(ang) * dd, duration: 1.4 + (i % 3) * 0.3, ease: "power2.out", immediateRender: false }, te + 0.02);
+        }
+        tl.to(nave, { fill: "#ffd2a8", duration: 0.1, yoyo: true, repeat: 5 }, te);
+        et(".e1", "Tanque de oxígeno n.º 2", 80, 560, te + 0.25);
+      } else {
+        // luna: de la explosión a la cara oculta (la cifra sube hasta 400.171) y empieza el regreso.
+        gsap.set(dist, { autoAlpha: 1 });
+        const tl0 = Math.max(0.6, w("lejos") + 0.1), t2 = DUR;
+        alBuscar((x) => {
+          const u = x <= tl0 ? U_EXP + 0.03 + (U_LEJOS - U_EXP - 0.03) * paso(x, 0, tl0, "sine.inOut")
+            : U_LEJOS + (U_VUELTA + 0.06 - U_LEJOS) * paso(x, tl0, t2 - tl0, "sine.in");
+          situa(u);
+        });
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "62% 50%" }, { scale: 1.06, duration: DUR, ease: "none" }, 0);
+        tl.fromTo(cifra, { color: "#f2ede4" }, { color: "#ff5e1a", duration: 0.25 }, tl0 - 0.1);
+        et(".e1", "Más lejos que nadie", 80, 560, w("lejos"));
+        et(".e2", "Récord: 1970 – 2026", 80, 650, w("récord"));
+      }
+      fin();
+    })();
+  </script>
+</template>

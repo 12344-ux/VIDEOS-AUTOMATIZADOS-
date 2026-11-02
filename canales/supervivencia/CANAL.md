@@ -3,12 +3,18 @@
 Por qué este nicho: `rastreador/informes/2026-10-30-hueco.md` (en inglés, mediana de 18.900 vistas en Shorts; en español,
 1.300). Cómo se escribe y se monta: `../RETENCION.md`.
 
-## Audiencia (lo que vio el usuario en las estadísticas, 1-nov)
+## Audiencia y elección de historias (lo que vio el usuario en las estadísticas, 1 y 2 de noviembre)
 
 Más del 50 % es de **Colombia** y la mayoría tiene **50–60 años**. «Los 33» pegó bien, seguramente por ser una historia
-conocida. Para elegir historia: conocidas, colombianas o latinoamericanas, mejor de su época (los años 50–90 que vivieron
-o leyeron de jóvenes), y medidas con el rastreador en `--region CO`. Los dos primeros así: los niños de la selva del
-Guaviare (2023) y el náufrago Luis Alejandro Velasco (1955, el «Relato de un náufrago»).
+conocida. Con eso se probaron dos historias colombianas medidas con el rastreador en `--region CO`: los niños de la selva
+del Guaviare (2023) y el náufrago Luis Alejandro Velasco (1955, el «Relato de un náufrago»).
+
+**2-nov: los dos colombianos no funcionaron** (lo vio el usuario en las estadísticas; no dio cifras). Se vuelve a **la
+fórmula de los cortos 1–8**: historias conocidas en todo el mundo, medidas con `rastreador/youtube.py buscar` en inglés y
+en español (10 años, por vistas por hora; sin `--region`), y por cada tanda una con **hueco** (mucho en inglés, poco en
+español) y otra con **la demanda probada en español**, cambiando de escenario respecto a las anteriores. Así salieron el
+11 (la cueva de Tailandia: 62 M en inglés, 430 k como mucho en español) y el 12 (Apolo 13: 2,1 M en español; 8 M y 4,5 M en
+inglés en canales pequeños).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

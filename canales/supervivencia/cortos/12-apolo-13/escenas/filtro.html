@@ -1,0 +1,164 @@
+<template>
+  <!-- El aire del Apolo 13, en esquema. Arriba, el medidor de CO₂ de la cabina (verde, ámbar y PELIGRO). Modos:
+         sube      los tres cascos respiran y el CO₂ sube («aliento», «sube»); la cabina se tiñe de rojo
+         cuadrado  el filtro de repuesto (cuadrado) y el hueco del módulo lunar (redondo): el filtro va hacia el hueco y no
+                   entra (cruz); el CO₂ sigue subiendo
+         arreglo   el arreglo, pieza a pieza (cartón, bolsa, cinta y la manguera hasta el hueco); el aire pasa y el CO₂ baja
+                   a verde («limpiarse»); lo llamaron «el buzón» -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.aire { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo { fill: url(#panel-{{ID}}); }
+    #{{ID}} .tecla { fill: rgba(200, 210, 220, 0.04); stroke: rgba(200, 210, 220, 0.07); stroke-width: 2; }
+    #{{ID}} .pista { fill: rgba(242, 237, 228, 0.1); stroke: rgba(242, 237, 228, 0.35); stroke-width: 3; }
+    #{{ID}} .zona { opacity: 0.28; }
+    #{{ID}} .nivel { fill: #3fa36b; }
+    #{{ID}} .tope { stroke: #f2ede4; stroke-width: 5; }
+    #{{ID}} .casco { fill: #e9e6df; stroke: #9a968e; stroke-width: 4; }
+    #{{ID}} .visor { fill: #1b2733; }
+    #{{ID}} .brillo { fill: rgba(255, 255, 255, 0.35); }
+    #{{ID}} .co2 { font: 800 46px "Barlow Condensed", sans-serif; fill: #ff9a7a; opacity: 0; }
+    #{{ID}} .traje { fill: #d9d5cc; stroke: #9a968e; stroke-width: 4; }
+    #{{ID}} .filtro { fill: #8e939a; stroke: #d6d9dd; stroke-width: 4; }
+    #{{ID}} .malla { fill: none; stroke: rgba(30, 34, 40, 0.55); stroke-width: 3; }
+    #{{ID}} .lado { fill: #6c7177; stroke: #d6d9dd; stroke-width: 3; }
+    #{{ID}} .aro { fill: #2a2e33; stroke: #c9ccd0; stroke-width: 10; }
+    #{{ID}} .boca { fill: #07090b; }
+    #{{ID}} .carton { fill: #b48a55; stroke: #7e5f38; stroke-width: 3; opacity: 0; }
+    #{{ID}} .bolsa { fill: rgba(220, 235, 245, 0.28); stroke: rgba(235, 245, 250, 0.8); stroke-width: 3; opacity: 0; }
+    #{{ID}} .cinta { fill: #9da1a6; stroke: #6f7378; stroke-width: 2; opacity: 0; }
+    #{{ID}} .manguera { fill: none; stroke: #3d6fb6; stroke-width: 26; stroke-linecap: round; }
+    #{{ID}} .flujo { fill: none; stroke: rgba(242, 237, 228, 0.85); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 6 22; opacity: 0; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 14; stroke-linecap: round; }
+    #{{ID}} .rojo { position: absolute; inset: 0; background: radial-gradient(ellipse 700px 900px at 50% 52%, rgba(160, 30, 20, 0) 30%, rgba(160, 30, 20, 0.55) 100%); opacity: 0; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.cab { font: 400 34px/1 "Special Elite", monospace; letter-spacing: 0.1em; color: #ff5e1a; text-transform: uppercase; }
+    #{{ID}} .t.peligro { font: 800 40px/1 "Barlow Condensed", sans-serif; letter-spacing: 0.06em; color: #e5523a; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.diario { font: 400 54px/1.2 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="aire" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="panel-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#101317" /><stop offset="1" stop-color="#1a1d22" />
+          </linearGradient>
+        </defs>
+        <rect class="fondo" x="-100" y="-100" width="1280" height="2120" />
+        <g class="teclas"></g>
+        <g class="medidor">
+          <rect class="zona" x="80" y="236" width="360" height="48" fill="#3fa36b" />
+          <rect class="zona" x="440" y="236" width="220" height="48" fill="#e0a43a" />
+          <rect class="zona" x="660" y="236" width="220" height="48" fill="#d8442f" />
+          <rect class="nivel" x="80" y="236" width="0" height="48" />
+          <rect class="pista" x="80" y="236" width="800" height="48" />
+          <line class="tope" x1="80" y1="226" x2="80" y2="294" />
+        </g>
+        <g class="mundo">
+          <g class="cascos"></g>
+          <g class="co2s"></g>
+          <g class="pieza">
+            <rect class="carton" x="150" y="690" width="290" height="300" rx="6" />
+            <g class="caja">
+              <path class="lado" d="M190,740 L230,712 L430,712 L390,740 Z" />
+              <path class="lado" d="M390,740 L430,712 L430,912 L390,940 Z" />
+              <rect class="filtro" x="190" y="740" width="200" height="200" />
+              <path class="malla" d="M215,765 L365,765 M215,795 L365,795 M215,825 L365,825 M215,855 L365,855 M215,885 L365,885 M215,915 L365,915 M240,750 L240,930 M290,750 L290,930 M340,750 L340,930" />
+            </g>
+            <path class="bolsa" d="M176,880 C176,960 210,1010 300,1010 C390,1010 420,960 420,880 L420,860 L176,860 Z" />
+            <rect class="cinta c1" x="168" y="846" width="262" height="26" rx="3" />
+            <rect class="cinta c2" x="168" y="902" width="262" height="22" rx="3" transform="rotate(-4 300 913)" />
+            <rect class="cinta c3" x="282" y="690" width="26" height="300" rx="3" />
+          </g>
+          <path class="manguera" pathLength="100" stroke-dasharray="100 100" style="visibility: hidden" d="M300,1006 C320,1090 520,1100 610,1010 C660,960 690,900 716,860" />
+          <path class="flujo" d="M300,1006 C320,1090 520,1100 610,1010 C660,960 690,900 716,860" />
+          <g class="hueco">
+            <circle class="aro" cx="740" cy="830" r="118" />
+            <circle class="boca" cx="740" cy="830" r="92" />
+          </g>
+          <g class="cruz-g" style="visibility: hidden"><line class="cruz" x1="-34" y1="-34" x2="34" y2="34" /><line class="cruz" x1="34" y1="-34" x2="-34" y2="34" /></g>
+        </g>
+      </svg>
+      <div class="rojo"></div>
+      <div class="t cab">CO₂ en la cabina</div><div class="t peligro">PELIGRO</div>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div><div class="t et e3"><span></span></div>
+      <div class="t diario d1"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      // El panel de la cabina: filas de teclas, apenas visibles.
+      for (let y = 420; y < 1140; y += 64) for (let x = 60; x < 1020; x += 76) svg("rect", { class: "tecla", x, y, width: 46, height: 30, rx: 4 }, $(".teclas"));
+      // El medidor: el nivel (0–1) pinta la barra con el color de su zona.
+      const color = (k) => (k < 0.45 ? "#3fa36b" : k < 0.7 ? "#e0a43a" : "#d8442f");
+      const nivel = (k) => { const n = $(".nivel"); n.setAttribute("width", (800 * k).toFixed(1)); n.style.fill = color(k); };
+      const medidor = (pasos) => alBuscar((x) => { let k = pasos[0][1]; for (let i = 1; i < pasos.length; i++) { const [t0, k0] = pasos[i - 1], [t1, k1] = pasos[i]; if (x >= t0) k = k0 + (k1 - k0) * paso(x, t0, Math.max(0.01, t1 - t0), "sine.inOut"); } nivel(k); });
+      gsap.set($(".cab"), { left: 80, top: 176, autoAlpha: 1 }); gsap.set($(".peligro"), { left: 742, top: 186, autoAlpha: 1 });
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const tiembla = (t, k = 1) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -12 * k, y: 6 * k, duration: 0.05 }, { x: 9 * k, y: -5 * k, duration: 0.05 }, { x: -5 * k, y: 3 * k, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, t);
+      if (modo === "sube") {
+        // Los tres cascos (los tres astronautas) y el CO₂ que sale de cada uno y sube.
+        gsap.set([$(".pieza"), $(".hueco")], { autoAlpha: 0 });
+        [330, 540, 750].forEach((x, i) => {
+          const g = svg("g", { transform: `translate(${x},900)` }, $(".cascos"));
+          svg("path", { class: "traje", d: "M-96,190 L-96,110 C-96,70 -60,58 0,58 C60,58 96,70 96,110 L96,190 Z" }, g);
+          svg("circle", { class: "casco", cx: 0, cy: 0, r: 82 }, g);
+          svg("ellipse", { class: "visor", cx: 0, cy: 8, rx: 60, ry: 44 }, g);
+          svg("ellipse", { class: "brillo", cx: -22, cy: -6, rx: 16, ry: 9 }, g);
+          for (let j = 0; j < 4; j++) {
+            const c = svg("text", { class: "co2", x: x - 34 + (j % 2) * 24, y: 790 }, $(".co2s")); c.textContent = "CO₂";
+            const t = 0.3 + i * 0.25 + j * 0.7;
+            tl.fromTo(c, { opacity: 0, y: 0 }, { keyframes: [{ opacity: 0.95, y: -60, duration: 0.5 }, { opacity: 0, y: -260 - j * 30, duration: 1.4 }], ease: "none" }, t);
+          }
+        });
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 48%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        medidor([[0, 0.3], [w("aliento") - 0.2, 0.42], [f("sube") + 0.1, 0.84]]);
+        tl.fromTo($(".rojo"), { opacity: 0 }, { opacity: 1, duration: 1.4, ease: "power1.in" }, w("dióxido") - 0.2);
+        et(".e1", "Los tres respiran", 80, 380, w("aliento") - 0.05);
+      } else if (modo === "cuadrado") {
+        // El filtro (cuadrado) no entra en el hueco (redondo).
+        gsap.set($(".rojo"), { opacity: 0.7 });
+        medidor([[0, 0.84], [DUR, 0.92]]);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 45%" }, { scale: 1.04, duration: DUR, ease: "none" }, 0);
+        aparece($(".caja"), 0.05, 0.3); aparece($(".hueco"), 0.15, 0.3);
+        et(".e1", "Filtro: cuadrado", 80, 380, w("cuadrados"));
+        tl.to($(".filtro"), { stroke: "#ff5e1a", duration: 0.15 }, w("cuadrados") - 0.05);
+        et(".e2", "Hueco: redondo", 470, 980, w("redondo"));
+        tl.to($(".aro"), { stroke: "#ff5e1a", duration: 0.15 }, w("redondo") - 0.05);
+        // El filtro va hacia el hueco y choca.
+        const tc = Math.min(DUR - 1.2, w("redondo") + 0.15);
+        tl.fromTo($(".caja"), { x: 0 }, { x: 330, duration: 0.45, ease: "power2.in" }, tc);
+        tl.to($(".caja"), { x: 300, duration: 0.25, ease: "power2.out" }, tc + 0.45);
+        tiembla(tc + 0.45, 0.8);
+        gsap.set($(".cruz-g"), { x: 640, y: 830 });
+        tl.set($(".cruz-g"), { visibility: "visible" }, tc + 0.47);
+        tl.fromTo($(".cruz-g"), { scale: 1.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "power4.in" }, tc + 0.47);
+      } else {
+        // arreglo: cartón, bolsa, cinta y la manguera hasta el hueco; el aire pasa y el CO₂ baja a verde.
+        gsap.set($(".rojo"), { opacity: 0.75 });
+        tl.fromTo($(".mundo"), { scale: 1.04, transformOrigin: "50% 48%" }, { scale: 1.0, duration: DUR, ease: "none" }, 0);
+        gsap.set([$(".caja"), $(".hueco")], { autoAlpha: 1 });
+        // Pieza a pieza, rápido (la escena dura unos 2 s): cartón, bolsa, cinta, la manguera hasta el hueco y el aire que pasa.
+        tl.to($(".carton"), { opacity: 1, duration: 0.15 }, 0.05);
+        tl.to($(".bolsa"), { opacity: 1, duration: 0.15 }, 0.2);
+        tl.fromTo($$(".cinta"), { opacity: 0, scaleX: 0.2, transformOrigin: "50% 50%" }, { opacity: 1, scaleX: 1, duration: 0.14, stagger: 0.08 }, 0.35);
+        tl.set($(".manguera"), { visibility: "visible" }, 0.6);
+        traza($(".manguera"), 0.6, 0.3, "power2.out");
+        tl.to($(".flujo"), { opacity: 1, duration: 0.15 }, 0.9);
+        alBuscar((x) => { $(".flujo").setAttribute("stroke-dashoffset", (-x * 90).toFixed(1)); });
+        const tb = Math.max(1.6, w("limpiarse") + 0.6);
+        medidor([[0, 0.92], [0.8, 0.92], [tb, 0.22]]);
+        tl.to($(".rojo"), { opacity: 0, duration: 0.9, ease: "power1.out" }, 0.8);
+        et(".e1", "«El buzón», lo llamaron", 80, 380, 0.5);
+      }
+      fin();
+    })();
+  </script>
+</template>

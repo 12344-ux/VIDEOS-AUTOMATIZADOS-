@@ -1,0 +1,15 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–17 LU bajo la voz (CANAL.md).",
+ "semilla": 111,
+ "candidatas": [
+  "dark tense cave documentary music, solo piano and high strings, slow, suspense, dripping water feeling, hopeful ending, no drums, 66 bpm",
+  "solo piano and high strings, slow, claustrophobic and tense, emotional, hopeful, no drums, 70 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 89,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_1: 10 % de la energía bajo 150 Hz y estable (−21 a −20 dB cada 5 s); la 2, con el 3 %, empieza a −30 dB y baja a −25 a los 20 s."
+ }
+}

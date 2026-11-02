@@ -1,0 +1,66 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Los niños y su entrenador son personas reales (los niños, menores en 2018): siempre de espaldas y de lejos. Los buzos, con máscara o de espaldas. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "roca",
+   "semilla": 1101,
+   "prompt": "A group of about a dozen young teenage boys in football jerseys and one young man huddled together on a muddy rock ledge inside a pitch-dark flooded limestone cave, seen from behind and from far away, a single weak headlamp beam lighting them, still black water below the ledge, no faces visible, the group small in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "entrada",
+   "semilla": 1102,
+   "prompt": "The huge dark mouth of a limestone cave at the foot of a jungle-covered mountain in northern Thailand, late afternoon light, a group of boys in red football jerseys and their young coach walking into the cave, seen from behind and from far away, tiny figures at the bottom of the frame, lush green jungle, vertical composition"
+  },
+  {
+   "nombre": "lluvia",
+   "semilla": 1103,
+   "prompt": "Heavy monsoon rain pouring over the entrance of a jungle cave, a stream of muddy brown water rushing into the dark cave mouth, dusk, no people, vertical composition"
+  },
+  {
+   "nombre": "bicicletas",
+   "semilla": 1104,
+   "prompt": "Several children's bicycles and a few small backpacks left leaning against a rock at the entrance of a dark jungle cave, heavy rain, muddy ground, dusk, no people, the bicycles in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "gotas",
+   "semilla": 1105,
+   "prompt": "Close-up of a boy's cupped hands catching water dripping from a stalactite inside a dark cave, faint headlamp light, glistening water drops, only the hands visible, no face, vertical composition"
+  },
+  {
+   "nombre": "meditar",
+   "semilla": 1106,
+   "prompt": "A young man and several boys sitting cross-legged in meditation on a muddy rock ledge in a pitch-dark cave, seen from behind, a single dim headlamp light, calm and silent, no faces visible, the group in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "rescatistas",
+   "semilla": 1107,
+   "prompt": "Hundreds of rescue workers, soldiers and volunteers at night in front of a jungle cave entrance, bright floodlights, thick hoses and water pumps, mud and rain, tents, seen from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "buzos",
+   "semilla": 1108,
+   "prompt": "Two cave divers in black wetsuits with bright headlamps surfacing from black water in a narrow flooded cave passage, their beams shining on a muddy slope where a group of boys sit in the dark, seen from behind the divers, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "tunel",
+   "semilla": 1109,
+   "prompt": "A cave diver squeezing through a very narrow flooded underwater cave tunnel, murky brown water, a white guide rope, a single headlamp beam, claustrophobic, seen from behind, no face visible, vertical composition"
+  },
+  {
+   "nombre": "tanques",
+   "semilla": 1110,
+   "prompt": "A row of yellow and grey diving air tanks lying on a muddy rock beside still black water inside a dark flooded cave, lit by a single headlamp, quiet and solemn, no people, vertical composition"
+  },
+  {
+   "nombre": "dormido",
+   "semilla": 1111,
+   "prompt": "Underwater in a flooded cave tunnel, a cave diver with a headlamp guiding a motionless boy strapped into an orange rescue stretcher, the boy wears a full-face diving mask, murky water, light beams, seen from the side, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "salida",
+   "semilla": 1112,
+   "prompt": "Night outside a jungle cave entrance, rescuers in helmets carrying a covered stretcher towards a waiting ambulance and a helicopter, flashing lights, rain, mud, seen from far away, no faces visible, vertical composition"
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Lovell, Swigert y Haise son personas reales: nunca de cara (de espaldas o con el casco). La nave, como se entienda: no hace falta el detalle técnico exacto. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "nave",
+   "semilla": 1201,
+   "prompt": "The Apollo command and service module spacecraft with the lunar module docked at its nose, drifting in black space, a white cloud of gas venting from a torn open panel on the side of the cylindrical service module, the small blue Earth far away in the lower part of the frame, vertical composition"
+  },
+  {
+   "nombre": "cabina",
+   "semilla": 1202,
+   "prompt": "Three astronauts in white 1970 Apollo flight suits inside a cramped spacecraft cabin full of switches and dials, seen from behind, looking out of a small window at the Moon far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "control",
+   "semilla": 1203,
+   "prompt": "The 1970 NASA mission control room, rows of grey consoles with small green screens and buttons, flight controllers in white shirts and ties seen from behind, a big wall screen with a trajectory map, tense atmosphere, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "modulo",
+   "semilla": 1204,
+   "prompt": "The Apollo lunar module, a spidery spacecraft covered in gold foil and grey panels, docked to the cone-shaped command module, floating in black space with the grey Moon behind, vertical composition"
+  },
+  {
+   "nombre": "luna",
+   "semilla": 1205,
+   "prompt": "The far side of the Moon seen close up through a small spacecraft window, grey cratered surface, the small blue Earth rising above the lunar horizon, black space, vertical composition"
+  },
+  {
+   "nombre": "frio",
+   "semilla": 1206,
+   "prompt": "Three astronauts huddled in the dark inside a cramped cold spacecraft cabin, water condensation droplets on the walls and the small window, faint breath fog, dim blue light, seen from behind, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "ingenieros",
+   "semilla": 1207,
+   "prompt": "1970 NASA engineers in white short-sleeved shirts around a table covered with a square metal canister, clear plastic bags, a roll of grey duct tape, cardboard sheets and blue hoses, seen from behind and above, hands working, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "adaptador",
+   "semilla": 1208,
+   "prompt": "A homemade air filter made from a square grey metal canister wrapped in clear plastic bags, cardboard and lots of grey duct tape, connected to a blue hose, taped to the wall inside a cramped spacecraft cabin full of switches, close-up, no people, vertical composition"
+  },
+  {
+   "nombre": "reentrada",
+   "semilla": 1209,
+   "prompt": "A cone-shaped Apollo space capsule re-entering the atmosphere wrapped in orange fire and glowing plasma, a long bright trail behind it, the dark blue curve of the Earth below, vertical composition"
+  },
+  {
+   "nombre": "paracaidas",
+   "semilla": 1210,
+   "prompt": "An Apollo space capsule hanging under three large red and white striped parachutes descending over the calm blue Pacific Ocean, a grey navy aircraft carrier far away on the horizon, morning light, vertical composition"
+  }
+ ]
+}

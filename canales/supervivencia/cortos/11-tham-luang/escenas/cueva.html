@@ -1,0 +1,204 @@
+<template>
+  <!-- La cueva de Tham Luang en corte, dibujada (un esquema, no a escala: la regla de abajo dice la distancia). La
+       entrada, a la izquierda; el túnel baja y sube por tres sifones hasta la roca donde esperan los trece, a la derecha.
+       Los trece son puntos naranjas. Modos:
+         inunda   llueve sobre la montaña («llover»); el agua llena el primer sifón («inunda») y corta la salida («salida»)
+         adentro  los trece huyen por el túnel hasta la roca («Huyen»), el agua llena los otros sifones detrás de ellos y la
+                  regla de 4 km se dibuja («cuatro»)
+         salida   todo inundado; el camino de vuelta, a trazos («bucear»); el oxígeno baja del 21 al 15 % («quince») y
+                  vuelve la lluvia («lluvias»)
+         rescate  los trece salen uno a uno por el túnel (8, 9 y 10 de julio: 4, 4 y 5) y el contador sube hasta 13 -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.cueva { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .monte { fill: url(#monte-{{ID}}); }
+    #{{ID}} .selva { fill: none; stroke: #3f5a35; stroke-width: 26; stroke-linejoin: round; stroke-linecap: round; }
+    #{{ID}} .selva2 { fill: none; stroke: #2c4227; stroke-width: 12; stroke-dasharray: 3 16; stroke-linecap: round; }
+    #{{ID}} .suelo { fill: #1b1611; }
+    #{{ID}} .veta { fill: none; stroke: rgba(176, 156, 120, 0.13); stroke-width: 3; }
+    #{{ID}} .borde { fill: #8a775c; }
+    #{{ID}} .hueco { fill: #0a0806; }
+    #{{ID}} .agua { fill: url(#agua-{{ID}}); }
+    #{{ID}} .boca { fill: #0a0806; stroke: #8a775c; stroke-width: 5; }
+    #{{ID}} .roca { fill: #6e5d47; stroke: #b59d78; stroke-width: 3; }
+    #{{ID}} .punto { fill: #ff5e1a; }
+    #{{ID}} .camino { fill: none; stroke: #ff5e1a; stroke-width: 6; stroke-linecap: round; }
+    #{{ID}} .regla line { stroke: rgba(242, 237, 228, 0.7); stroke-width: 3; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 12; stroke-linecap: round; }
+    #{{ID}} .lluvia { position: absolute; left: -200px; top: -200px; width: 1480px; height: 1300px; opacity: 0; pointer-events: none;
+      background: repeating-linear-gradient(102deg, rgba(200, 215, 230, 0) 0 22px, rgba(200, 215, 230, 0.45) 22px 24px);
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 80%); mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 80%); }
+    #{{ID}} .nubes { position: absolute; left: 0; top: 0; width: 1080px; height: 720px; opacity: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(5, 7, 10, 0.85) 0%, rgba(5, 7, 10, 0.5) 50%, rgba(5, 7, 10, 0) 100%); }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.sello { font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    #{{ID}} .t.km { font: 800 64px/1 "Barlow Condensed", sans-serif; color: #f2ede4; text-shadow: 0 3px 18px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.km .m { font-style: normal; text-transform: none; }
+    #{{ID}} .t.dia { font: 400 104px/1 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dia small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+    #{{ID}} .t.diario { font: 400 54px/1.2 "Special Elite", monospace; color: #f2ede4; text-shadow: 0 3px 22px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.nom { font: 400 36px/1 "Special Elite", monospace; letter-spacing: 0.06em; color: rgba(242, 237, 228, 0.85); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="cueva" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0c1014" /><stop offset="1" stop-color="#1f2a26" />
+          </linearGradient>
+          <linearGradient id="monte-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="420" x2="0" y2="1200">
+            <stop offset="0" stop-color="#4a4232" /><stop offset="0.4" stop-color="#2e271e" /><stop offset="1" stop-color="#120e0a" />
+          </linearGradient>
+          <linearGradient id="agua-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="880" x2="0" y2="1040">
+            <stop offset="0" stop-color="#4f93a6" /><stop offset="1" stop-color="#173f4d" />
+          </linearGradient>
+          <clipPath id="banda-{{ID}}"><polygon class="banda" points="0,0" /></clipPath>
+        </defs>
+        <g class="mundo">
+          <rect class="cielo" x="-100" y="-100" width="1280" height="1300" />
+          <path class="monte" d="M-60,2000 L-60,842 L96,842 C120,740 170,640 250,560 C330,480 420,430 520,412 C610,396 700,430 790,480 C880,530 980,600 1140,660 L1140,2000 Z" />
+          <path class="selva" d="M96,844 C120,740 170,640 250,560 C330,480 420,430 520,412 C610,396 700,430 790,480 C880,530 980,600 1140,660" />
+          <path class="selva2" d="M96,850 C120,746 170,646 250,566 C330,486 420,436 520,418 C610,402 700,436 790,486 C880,536 980,606 1140,666" />
+          <rect class="suelo" x="-60" y="842" width="160" height="1200" />
+          <path class="veta" d="M150,690 C350,660 550,720 790,670 C930,642 1030,670 1140,660" />
+          <path class="veta" d="M100,1080 C330,1100 560,1050 800,1090 C940,1110 1040,1080 1140,1090" />
+          <path class="veta" d="M240,575 C440,545 640,585 900,555" />
+          <path class="veta" d="M100,1260 C360,1240 600,1290 860,1250 C980,1232 1060,1250 1140,1244" />
+          <!-- El túnel: su línea central (para muestrearla) y la banda que se rellena en JS. -->
+          <path class="centro" fill="none" stroke="none"
+            d="M100,820 C150,822 175,870 225,874 C285,878 300,790 360,786 C420,782 440,910 500,914 C560,918 590,806 640,800 C690,794 705,860 750,862 C800,864 820,780 880,772" />
+          <polygon class="borde contorno" points="0,0" />
+          <polygon class="hueco interior" points="0,0" />
+          <g clip-path="url(#banda-{{ID}})">
+            <rect class="agua a1" x="90" y="960" width="272" height="200" />
+            <rect class="agua a2" x="360" y="960" width="282" height="200" />
+            <rect class="agua a3" x="640" y="960" width="260" height="200" />
+          </g>
+          <path class="roca" d="M838,795 C858,787 902,786 924,793 L928,805 L834,805 Z" />
+          <path class="boca" d="M70,842 C70,790 128,790 128,842 Z" />
+          <path class="camino" pathLength="100" stroke-dasharray="100 100" style="visibility: hidden"
+            d="M880,772 C820,780 800,864 750,862 C705,860 690,794 640,800 C590,806 560,918 500,914 C440,910 420,782 360,786 C300,790 285,878 225,874 C175,870 150,822 100,820" />
+          <g class="regla" style="visibility: hidden">
+            <line class="rl" x1="100" y1="1000" x2="880" y2="1000" />
+            <line x1="100" y1="986" x2="100" y2="1014" /><line x1="880" y1="986" x2="880" y2="1014" />
+          </g>
+          <g class="cruz-g" style="visibility: hidden"><line class="cruz" x1="-30" y1="-30" x2="30" y2="30" /><line class="cruz" x1="30" y1="-30" x2="-30" y2="30" /></g>
+          <g class="puntos"></g>
+        </g>
+      </svg>
+      <div class="nubes"></div>
+      <div class="lluvia"></div>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div><div class="t et e3"><span></span></div>
+      <div class="t sello s1t"><span></span></div>
+      <div class="t km"></div>
+      <div class="t dia"><small></small><span class="n"></span></div>
+      <div class="t diario fecha"></div>
+      <div class="t nom n-ent">entrada</div><div class="t nom n-roca">la roca</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      // La banda del túnel: la línea central muestreada, ±20 px (el hueco) y ±27 px (su borde de roca).
+      const centro = $(".centro"), largo = centro.getTotalLength();
+      const muestras = []; for (let i = 0; i <= 160; i++) { const p = centro.getPointAtLength(largo * i / 160); muestras.push([p.x, p.y]); }
+      const R = muestras.map((_, i) => 1 + 0.18 * Math.sin(i * 0.37) + 0.1 * Math.sin(i * 1.13 + 1));
+      const banda = (r) => muestras.map(([x, y], i) => `${x.toFixed(1)},${(y - r * R[i]).toFixed(1)}`).concat(muestras.map(([x, y], i) => `${x.toFixed(1)},${(y + r * R[i]).toFixed(1)}`).reverse()).join(" ");
+      $(".contorno").setAttribute("points", banda(29));
+      $(".interior").setAttribute("points", banda(22));
+      $(".banda").setAttribute("points", banda(22));
+      gsap.set($(".n-ent"), { left: 40, top: 880, autoAlpha: 1 }); gsap.set($(".n-roca"), { left: 790, top: 712, autoAlpha: 1 });
+      // Un punto del túnel: u de 0 (la entrada) a 1 (la roca).
+      const en = (u) => { const p = centro.getPointAtLength(largo * Math.max(0, Math.min(1, u))); return [p.x, p.y]; };
+      // Los trece, en un racimo (5 + 5 + 3) alrededor de su centro.
+      const OFF = []; for (let i = 0; i < 13; i++) { const fila = Math.floor(i / 5), col = i % 5, n = fila < 2 ? 5 : 3; OFF.push([(col - (n - 1) / 2) * 15, -fila * 14 - 6]); }
+      const puntos = OFF.map(() => svg("circle", { class: "punto", r: 7.5 }, $(".puntos")));
+      const coloca = (u) => { const [x, y] = en(u); puntos.forEach((p, i) => { p.setAttribute("cx", (x + OFF[i][0]).toFixed(1)); p.setAttribute("cy", (y + OFF[i][1] + 16).toFixed(1)); }); };
+      // El agua de cada sifón: su superficie (y) entre dos tiempos. 960 = vacío; ~840 = el sifón tapado hasta el techo (las
+      // crestas, en y 786 y 800, quedan secas).
+      const agua = (sel, desde, hasta, t, d) => tl.fromTo($(sel), { attr: { y: desde } }, { attr: { y: hasta }, duration: d, ease: "power1.inOut" }, t);
+      const nivel = (sel, y) => $(sel).setAttribute("y", y);
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -7, duration: 0.05 }, { x: 5, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.12); };
+      const cruz = (x, y, t) => { gsap.set($(".cruz-g"), { x, y }); tl.set($(".cruz-g"), { visibility: "visible" }, t); tl.fromTo($(".cruz-g"), { scale: 1.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.2, ease: "power4.in" }, t); };
+      const llueve = (t, max = 1) => {
+        tl.fromTo($(".lluvia"), { opacity: 0 }, { opacity: 0.55 * max, duration: 0.6, ease: "power1.out" }, t);
+        tl.fromTo($(".nubes"), { opacity: 0 }, { opacity: max, duration: 0.8, ease: "power1.out" }, t);
+        alBuscar((x) => { $(".lluvia").style.transform = `translate(${-(x * 260) % 120}px, ${(x * 900) % 240}px)`; });
+      };
+      const regla = (t) => {
+        tl.set($(".regla"), { visibility: "visible" }, t);
+        tl.fromTo($(".rl"), { attr: { x2: 100 } }, { attr: { x2: 880 }, duration: 0.7, ease: "power2.inOut" }, t);
+        const k = $(".km"); k.innerHTML = '4 <i class="m">km</i>'; gsap.set(k, { left: 436, top: 1018 }); entra(k, t + 0.35, 0.35, 10);
+      };
+      if (modo === "inunda") {
+        // Dentro ya, pasado el primer sifón; llueve, el primer sifón se llena y corta la salida.
+        coloca(0.3);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "30% 45%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        et(".e1", "La cueva, por dentro", 80, 216, 0.15);
+        llueve(w("llover") - 0.2);
+        agua(".a1", 960, 840, w("inunda") - 0.1, 1.6);
+        cruz(226, 876, w("salida") - 0.05);
+        sello(".s1t", "Salida cortada", 80, 330, w("salida"));
+      } else if (modo === "adentro") {
+        // El primer sifón ya lleno; huyen hasta la roca y el agua llena los otros dos detrás de ellos.
+        nivel(".a1", 840);
+        const t0 = w("Huyen") - 0.1, t1 = w("roca") + 0.2;
+        alBuscar((x) => coloca(0.3 + 0.7 * paso(x, t0, t1 - t0, "power1.inOut")));
+        tl.fromTo($(".mundo"), { scale: 1.02, transformOrigin: "60% 45%" }, { scale: 1.07, duration: DUR, ease: "none" }, 0);
+        agua(".a2", 960, 845, t0 + 0.5, 1.6);
+        agua(".a3", 960, 832, t1 - 0.2, 1.4);
+        et(".e1", "Una roca sobre el agua", 80, 216, w("roca"));
+        tl.to($(".n-roca"), { color: "#ff5e1a", duration: 0.2 }, w("roca"));
+        regla(w("cuatro") - 0.1);
+      } else if (modo === "salida") {
+        // Todo inundado; el camino de vuelta a trazos; el oxígeno baja; vuelve la lluvia.
+        nivel(".a1", 840); nivel(".a2", 845); nivel(".a3", 832); coloca(1);
+        tl.fromTo($(".mundo"), { scale: 1.04, transformOrigin: "50% 45%" }, { scale: 1.0, duration: DUR, ease: "none" }, 0);
+        traza($(".camino"), 0.1, 1.4, "power1.inOut");
+        tl.set($(".camino"), { visibility: "visible" }, 0.1);
+        et(".e1", "El camino de salida", 80, 216, 0.3);
+        const ox = $(".dia"); ox.querySelector("small").textContent = "OXÍGENO"; gsap.set(ox, { left: 80, top: 320 });
+        aparece(ox, w("oxígeno") - 0.1, 0.25);
+        cuenta(ox.querySelector(".n"), 21, 15, w("oxígeno") + 0.2, w("quince") - w("oxígeno") + 0.1, { ease: "power1.in", crudo: true, suf: " %" });
+        tl.to(ox.querySelector(".n"), { color: "#ff5e1a", duration: 0.2 }, w("quince"));
+        llueve(w("lluvias") - 0.3, 0.9);
+        agua(".a1", 840, 830, w("lluvias") - 0.2, 1.2); agua(".a2", 845, 834, w("lluvias") - 0.2, 1.2); agua(".a3", 832, 826, w("lluvias") - 0.2, 1.2);
+      } else {
+        // rescate: los trece salen uno a uno, en tres tandas (4, 4 y 5), con su fecha; el contador sube.
+        nivel(".a1", 830); nivel(".a2", 834); nivel(".a3", 826);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 45%" }, { scale: 1.04, duration: DUR, ease: "none" }, 0);
+        const t0 = 0.3, t1 = Math.max(t0 + 3, f("trece", 2) - 0.4);         // «salen los trece»
+        const tandas = [[0, 4, "8 JUL"], [4, 8, "9 JUL"], [8, 13, "10 JUL"]];
+        const tanda = (t1 - t0) / 3, viaje = Math.min(1.1, tanda * 0.55);
+        const sal = []; tandas.forEach(([a, b], k) => { for (let i = a; i < b; i++) sal[i] = t0 + k * tanda + (i - a) * (tanda - viaje) / Math.max(1, b - a - 1); });
+        const fch = $(".fecha"); gsap.set(fch, { left: 80, top: 330 });
+        const cnt = $(".dia"); cnt.querySelector("small").textContent = "FUERA"; gsap.set(cnt, { left: 80, top: 176 }); aparece(cnt, 0.1, 0.25);
+        alBuscar((x) => {
+          let fuera = 0;
+          puntos.forEach((p, i) => {
+            const k = paso(x, sal[i], viaje, "power1.inOut"), [cx, cy] = en(1 - k);
+            const ox = OFF[i][0] * (1 - k), oy = (OFF[i][1] + 16) * (1 - k);
+            p.setAttribute("cx", (cx + ox).toFixed(1)); p.setAttribute("cy", (cy + oy).toFixed(1));
+            p.setAttribute("opacity", k >= 1 ? 0 : 1);
+            if (k >= 1) fuera++;
+          });
+          cnt.querySelector(".n").textContent = String(fuera);
+          const k = tandas.findIndex((_, j) => x < t0 + (j + 1) * tanda);
+          fch.textContent = tandas[k < 0 ? 2 : k][2];
+        });
+        aparece(fch, 0.1, 0.25);
+        et(".e1", "Uno a uno, dormidos", 80, 436, w("buzos", 2) - 0.05);
+      }
+      fin();
+    })();
+  </script>
+</template>
