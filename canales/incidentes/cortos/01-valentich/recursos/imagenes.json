@@ -1,0 +1,63 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Frederick Valentich es una persona real: nunca de cara. Octubre de 1978, de noche sobre el estrecho de Bass. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, night, cold blue and teal tones with a faint green glow, dramatic light, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "luces",
+   "semilla": 2121,
+   "prompt": "A small white high-wing Cessna 182 airplane, a single straight wing mounted on top of the cabin and fixed landing gear, flying alone over a dark sea at night in 1978, seen from behind and slightly above, small in the lower third of the frame; in the middle of the dark sky above it, exactly four very bright white lights in one horizontal row, like the landing lights of a much larger unseen craft, glowing with soft halos; the top third of the image is empty dark night sky, vertical composition",
+   "_rehecha": "1.ª versión (semilla 2101): la avioneta salió como un biplano (la Cessna 182 tiene una sola ala, encima de la cabina)."
+  },
+  {
+   "nombre": "cabina",
+   "semilla": 2102,
+   "prompt": "Inside the cockpit of a small 1970s Cessna airplane at dusk, a young pilot seen from behind wearing a headset, his hand holding the radio microphone, the instrument panel glowing, through the windshield the dark sea and the last light of the sunset, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "luces2",
+   "semilla": 2122,
+   "prompt": "View through the windshield of a small 1970s airplane at night over the dark sea, exactly four very bright white lights in one horizontal row in the dark sky ahead and above, glare and reflections on the glass, the instrument panel glowing dimly at the bottom of the frame, no people visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 2103): seis luces en dos columnas (la voz dice cuatro)."
+  },
+  {
+   "nombre": "pasada",
+   "semilla": 2104,
+   "prompt": "A huge dark shape with four blinding white lights passing very low above a small white single-engine airplane at night over the sea, seen from far below and to the side, light beams cutting through thin mist, the small airplane in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "objeto",
+   "semilla": 2105,
+   "prompt": "A long shiny metallic shape with a single green light hovering motionless in the night sky directly above a small white single-engine airplane over the dark sea, seen from far away, the shape blurred and partly hidden by thin clouds, eerie, the airplane small in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "motor",
+   "semilla": 2106,
+   "prompt": "Close-up of the instrument panel of a small 1970s Cessna airplane at night, the round engine gauges with shaking needles, a pilot's hand gripping the throttle knob, dim red and green instrument lights, tension, no face visible, vertical composition"
+  },
+  {
+   "nombre": "radio",
+   "semilla": 2107,
+   "prompt": "A 1970s air traffic radio room at night, an operator seen from behind wearing headphones in front of a large radio console with dials, switches and a microphone, a reel-to-reel tape recorder turning beside him, dim light, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "busqueda",
+   "semilla": 2108,
+   "prompt": "A 1970s maritime patrol airplane with four propeller engines flying low over a grey stormy sea at dawn, searching, seen from the side and far away, the airplane small in the upper half of the frame, endless empty sea below, vertical composition"
+  },
+  {
+   "nombre": "pieza",
+   "semilla": 2109,
+   "prompt": "A weathered white curved metal aircraft engine cowl panel with rivets washed up on a rocky beach of a windswept island, grey sky, kelp and wet stones around it, no people, the panel in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "cuarto",
+   "semilla": 2110,
+   "prompt": "A young man's bedroom at night in 1978, a wooden desk with a small model airplane, a telescope by the window, star charts and a pencil drawing of a flying saucer pinned on the wall, a desk lamp glowing, no people, no readable text, vertical composition"
+  },
+  {
+   "nombre": "mar",
+   "semilla": 2111,
+   "prompt": "The dark sea of Bass Strait at night under a sky full of stars, the beam of a distant lighthouse on a rocky cape, calm black water reflecting faint lights, empty, no aircraft, the horizon in the lower half of the frame, vertical composition"
+  }
+ ]
+}

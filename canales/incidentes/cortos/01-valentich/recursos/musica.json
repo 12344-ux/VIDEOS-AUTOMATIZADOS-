@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). Familia «solo piano and high strings», la que sale limpia de graves (CLAUDE.md); se mide con audio/graves.py. Irá unos 16–20 LU bajo la voz (CANAL.md).",
+ "semilla": 202,
+ "candidatas": [
+  "slow mysterious documentary underscore, solo piano and high strings, steady and continuous, suspense, cold night, no drums, 60 bpm",
+  "eerie suspense, solo piano repeating soft notes and sustained high strings, steady, unsettling, night sky, no drums, 64 bpm"
+ ],
+ "_descartada": "1.ª tanda (semilla 201): «eerie mysterious documentary music, solo piano and high strings…» salió con el 23 % de graves pero de −33 dB a −15 dB y en silencio desde los 22 s; «mysterious suspense, high strings tremolo…», con el 54 % bajo 150 Hz.",
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 80,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_2 de la 2.ª tanda: 11 % de la energía bajo 150 Hz y estable (de −21 a −19 dB cada 5 s). La 1 subía de −24 a −11 dB."
+ }
+}

@@ -1,0 +1,128 @@
+<template>
+  <!-- La radio de Melbourne (el servicio de vuelo) con la avioneta VH-DSJ: el reloj de la conversación, la onda de la radio
+       y la transcripción, línea a línea (traducida de la transcripción oficial). Encima de la foto de la sala de radio,
+       muy oscurecida. Parámetros (conf):
+         reloj    [{h, en}…] la hora que marca (la primera, desde el principio)
+         lineas   [{hora, quien, texto, en, grande}…] lo que se dice; la nueva entra y las de antes se apagan
+         onda     [[ancla, nivel]…] cuánto se mueve la onda (0 quieta, 1 voz; por defecto, 0,25)
+         abierto  {en, hasta, segundos, desde} el micrófono abierto: la onda se vuelve ruido, la cuenta va de 0 a
+                  «segundos» y, con desde (los segundos del reloj al empezar), el reloj corre con ella
+         silencio {en} la onda se queda plana y entra «SIN SEÑAL»
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.3) saturate(0.6); transform-origin: 50% 40%; }
+    #{{ID}} .tinte { background: linear-gradient(180deg, rgba(6, 9, 12, 0.55) 0%, rgba(6, 9, 12, 0.25) 40%, rgba(6, 9, 12, 0.7) 100%); }
+    #{{ID}} .rayas { background: repeating-linear-gradient(0deg, rgba(98, 245, 155, 0.035) 0 2px, rgba(0, 0, 0, 0) 2px 6px); }
+    #{{ID}} .cab { position: absolute; left: 80px; top: 214px; font: 700 32px/1 "JetBrains Mono", monospace; letter-spacing: 0.08em;
+      color: rgba(232, 238, 240, 0.75); text-transform: uppercase; }
+    #{{ID}} .cab .vivo { display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: #62f59b; margin-right: 14px;
+      box-shadow: 0 0 16px rgba(98, 245, 155, 0.9); vertical-align: 1px; }
+    #{{ID}} .reloj { position: absolute; left: 76px; top: 262px; font: 700 132px/1 "JetBrains Mono", monospace; letter-spacing: -0.03em;
+      color: #e8eef0; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .panel { position: absolute; left: 60px; top: 450px; width: 960px; height: 330px; border: 2px solid rgba(98, 245, 155, 0.35);
+      background: rgba(4, 12, 9, 0.55); }
+    #{{ID}} .panel .rej { position: absolute; inset: 0; background:
+      repeating-linear-gradient(90deg, rgba(98, 245, 155, 0.1) 0 1px, rgba(0, 0, 0, 0) 1px 80px),
+      repeating-linear-gradient(0deg, rgba(98, 245, 155, 0.1) 0 1px, rgba(0, 0, 0, 0) 1px 66px); }
+    #{{ID}} .panel svg { position: absolute; left: 0; top: 0; width: 960px; height: 330px; overflow: visible; }
+    #{{ID}} .onda { fill: none; stroke: #62f59b; stroke-width: 3.5; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(98, 245, 155, 0.8)); }
+    #{{ID}} .lineas { position: absolute; left: 80px; top: 840px; width: 900px; }
+    #{{ID}} .l { position: absolute; left: 0; width: 900px; visibility: hidden; }
+    #{{ID}} .l .q { font: 700 30px/1 "JetBrains Mono", monospace; letter-spacing: 0.06em; color: rgba(232, 238, 240, 0.6); }
+    #{{ID}} .l.dsj .q { color: #62f59b; }
+    #{{ID}} .l .x { margin-top: 12px; font: 700 56px/1.12 "Space Grotesk", sans-serif; color: #e8eef0; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .l.grande .x { font: 800 132px/0.92 "Big Shoulders Display", sans-serif; text-transform: uppercase; color: #62f59b; }
+    #{{ID}} .abierto { position: absolute; left: 60px; top: 470px; width: 960px; text-align: center; visibility: hidden; }
+    #{{ID}} .abierto .et { font: 700 40px/1 "JetBrains Mono", monospace; letter-spacing: 0.12em; color: #62f59b; }
+    #{{ID}} .abierto .n { margin-top: 10px; font: 700 200px/1 "JetBrains Mono", monospace; letter-spacing: -0.04em; color: #e8eef0;
+      text-shadow: 0 6px 40px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .sinsenal { position: absolute; left: 80px; top: 860px; font: 800 150px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase;
+      visibility: hidden; }
+    #{{ID}} .sinsenal span { display: inline-block; background: #62f59b; color: #06090c; padding: 0.06em 0.16em 0.01em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/radio.jpg" alt="" />
+      <div class="capa tinte"></div>
+      <div class="capa rayas"></div>
+      <div class="visor"><i></i><i></i><i></i><i></i></div>
+      <div class="cab"><span class="vivo"></span><span class="ct"></span></div>
+      <div class="reloj num"></div>
+      <div class="panel"><div class="rej"></div><svg viewBox="0 0 960 330"><path class="onda" d="M0,165L960,165" /></svg></div>
+      <div class="abierto"><div class="et">MICRÓFONO ABIERTO</div><div class="n num">00:00</div></div>
+      <div class="lineas"></div>
+      <div class="sinsenal"><span>Sin señal</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      $(".ct").textContent = C.cab || "Melbourne ⇄ VH-DSJ";
+      tl.fromTo($(".foto"), { scale: 1.06 }, { scale: 1.12, duration: DUR, ease: "none" }, 0);
+      // El reloj: salta a la hora de cada momento (la conversación duró seis minutos; aquí, segundos).
+      const relojes = (C.reloj || []).map((r, i) => [r.h, i ? A(r.en) : -1]);
+      // Las líneas, una debajo de otra: la nueva entra desde abajo y las de antes se apagan.
+      const LIN0 = [];
+      const LIN = (C.lineas || []).map((s) => {
+        const el = document.createElement("div");
+        el.className = "l" + (s.quien === "VH-DSJ" ? " dsj" : "") + (s.grande ? " grande" : "");
+        el.innerHTML = `<div class="q">${s.hora} · ${s.quien}</div><div class="x">${s.texto}</div>`;
+        el.style.top = (LIN0.length ? LIN0[LIN0.length - 1] : 0) + "px";
+        LIN0.push((LIN0.length ? LIN0[LIN0.length - 1] : 0) + (s.grande ? 190 : 135));
+        $(".lineas").appendChild(el);
+        return [el, A(s.en)];
+      });
+      LIN.forEach(([el, t], i) => {
+        tl.fromTo(el, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "expo.out" }, t - 0.05);
+        // Al entrar la siguiente, esta se apaga.
+        if (i + 1 < LIN.length) tl.to(el, { autoAlpha: 0.4, duration: 0.3, ease: "power2.inOut" }, LIN[i + 1][1] - 0.1);
+        if (el.classList.contains("grande")) tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -8, duration: 0.05 }, { x: 6, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.25);
+      });
+      const onda = (C.onda || [[0, 0.25]]).map(([a, v]) => [A(a), v]);
+      const ab = C.abierto ? { t0: A(C.abierto.en), t1: A(C.abierto.hasta), s: C.abierto.segundos || 17 } : null;
+      const si = C.silencio ? A(C.silencio.en) : null;
+      if (ab) {
+        tl.set($(".abierto"), { visibility: "visible" }, ab.t0 - 0.05);
+        tl.fromTo($(".abierto"), { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "expo.out" }, ab.t0 - 0.05);
+        tl.to($(".panel"), { autoAlpha: 0.35, duration: 0.3 }, ab.t0 - 0.05);
+      }
+      if (si != null) {
+        tl.fromTo($(".sinsenal"), { autoAlpha: 0, scale: 1.25, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, si + 0.15);
+        tl.to($(".cab .vivo"), { backgroundColor: "#53636b", boxShadow: "0 0 0 rgba(0,0,0,0)", duration: 0.2 }, si);
+      }
+      // Ruido determinista (el render salta de fotograma en fotograma: nada de Math.random).
+      const h = (i, k) => { const s = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return (s - Math.floor(s)) * 2 - 1; };
+      const N = 160, path = $(".onda");
+      alBuscar((t) => {
+        let hora = relojes.length ? relojes[0][0] : "";
+        relojes.forEach(([x, tt]) => { if (t >= tt) hora = x; });
+        let nivel = onda[0][1];
+        onda.forEach(([tt, v]) => { if (t >= tt) nivel = v; });
+        let ruido = 0;
+        if (ab && t >= ab.t0) {
+          ruido = 1;
+          const u = Math.min(1, Math.max(0, (t - ab.t0) / (ab.t1 - ab.t0)));
+          $(".abierto .n").textContent = "00:" + String(Math.round(u * ab.s)).padStart(2, "0");
+          // El reloj corre con la cuenta: 19:12:28 + 17 s = 19:12:45.
+          if (C.abierto.desde != null) hora = hora.slice(0, 6) + String(C.abierto.desde + Math.round(u * ab.s)).padStart(2, "0");
+        }
+        if (si != null && t >= si) { nivel = 0; ruido = 0; }
+        $(".reloj").textContent = hora;
+        const k = Math.floor(t * 30), d = [];
+        for (let i = 0; i <= N; i++) {
+          const x = (i / N) * 960;
+          const voz = Math.sin(i * 0.31 + t * 9) * 0.5 + Math.sin(i * 0.73 - t * 13) * 0.3 + h(i, k) * 0.35;
+          const env = Math.sin((i / N) * Math.PI);
+          const y = 165 + (nivel * 110 * voz + ruido * 150 * h(i * 3, k + 7)) * env;
+          d.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+        }
+        path.setAttribute("d", "M" + d.join("L"));
+      });
+      fin();
+    })();
+  </script>
+</template>

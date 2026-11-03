@@ -1,0 +1,141 @@
+<template>
+  <!-- El mapa del caso (mapa.py, Natural Earth): Australia y el estrecho de Bass en la misma proyección, con una cámara que
+       vuela de un nivel a otro (el zoom va en escala logarítmica: el foco no se tuerce al acercarse siete veces).
+       Modos (conf.modo):
+         ruta   «Australia» (Australia entera y la fecha); «Frederik»: la cámara baja al estrecho de Bass; «cruza»: la ruta de
+                Moorabbin al cabo Otway y a la isla King, con la avioneta; «veinte»: su nombre y su edad; «Bass»: el estrecho
+         pieza  el estrecho con la ruta y la zona del último contacto; «después»: la fecha (1983); «isla»: se enciende la isla
+                Flinders; «pieza»: el punto y el rótulo -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .aus { fill: #10181d; stroke: #3a4c56; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .fli { fill: #10181d; stroke: #3a4c56; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(232, 238, 240, 0.4); stroke-width: 2px; stroke-dasharray: 7 7; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #62f59b; stroke-width: 3.5px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #e8eef0; }
+    #{{ID}} .zona { fill: rgba(98, 245, 155, 0.08); stroke: #62f59b; stroke-width: 2.5px; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke; }
+    #{{ID}} .avion { fill: #e8eef0; stroke: #06090c; stroke-width: 1.2; }
+    #{{ID}} .marca { fill: #62f59b; stroke: #06090c; stroke-width: 2; }
+    #{{ID}} .nom { font-family: "JetBrains Mono", monospace; font-weight: 700; fill: #dfe7ea; letter-spacing: 0.04em;
+      paint-order: stroke; stroke: rgba(6, 9, 12, 0.85); stroke-width: 4px; stroke-linejoin: round; }
+    #{{ID}} .nom.verde { fill: #62f59b; }
+    #{{ID}} .nom.mar-n { fill: #8fa3ab; font-weight: 500; letter-spacing: 0.18em; }
+    #{{ID}} .grande { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; fill: #3a4f5a; letter-spacing: 0.12em; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(6, 9, 12, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #62f59b; }
+    #{{ID}} .t.fecha { font: 700 80px/1 "JetBrains Mono", monospace; letter-spacing: 0.02em; color: #e8eef0; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="45%" r="75%">
+            <stop offset="0" stop-color="#0c1820" /><stop offset="1" stop-color="#05080b" />
+          </radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="aus" d="{{p:australia}}" />
+          <path class="fli" d="{{p:flinders}}" />
+          <text class="grande g-aus" text-anchor="middle" font-size="640">AUSTRALIA</text>
+          <path class="ruta" d="{{p:ruta}}" />
+          <path class="hecho" d="{{p:ruta}}" />
+          <circle class="zona" r="30" style="visibility: hidden" />
+          <circle class="punto p-moo" r="5" />
+          <circle class="punto p-king" r="5" />
+          <circle class="punto p-otw" r="4" />
+          <path class="marca" d="M0,-16 L11,0 L0,16 L-11,0 Z" style="visibility: hidden" />
+          <path class="avion" d="M0,-15 L3,-6 L14,0 L14,3 L3,1 L2,10 L6,13 L6,15 L0,13 L-6,15 L-6,13 L-2,10 L-3,1 L-14,3 L-14,0 L-3,-6 Z" style="visibility: hidden" />
+          <text class="nom n-mel" font-size="32">MELBOURNE</text>
+          <text class="nom n-otw" font-size="30">CABO OTWAY</text>
+          <text class="nom n-king" font-size="32">ISLA KING</text>
+          <text class="nom mar-n n-bass" font-size="30" text-anchor="middle">ESTRECHO DE BASS</text>
+          <text class="nom verde n-fli" font-size="32" text-anchor="middle">ISLA FLINDERS</text>
+          <text class="nom verde n-zona" font-size="28">ÚLTIMO CONTACTO</text>
+        </g>
+      </svg>
+      <div class="visor"><i></i><i></i><i></i><i></i></div>
+      <div class="t fecha"></div>
+      <div class="t et e1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const MOO = {{p:moorabbin}}, OTW = {{p:otway}}, KING = {{p:king}}, FLI = {{p:flinders_c}}, ZONA = {{p:zona}}, AUS = {{p:centro_aus}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      at(".p-moo", { cx: MOO[0], cy: MOO[1] }); at(".p-king", { cx: KING[0], cy: KING[1] }); at(".p-otw", { cx: OTW[0], cy: OTW[1] });
+      at(".zona", { cx: ZONA[0], cy: ZONA[1] }); at(".g-aus", { x: AUS[0] - 200, y: AUS[1] + 250 });
+      at(".n-mel", { x: MOO[0] + 14, y: MOO[1] - 12 }); at(".n-otw", { x: OTW[0] + 14, y: OTW[1] + 6 });
+      at(".n-king", { x: KING[0] + 16, y: KING[1] + 8 }); at(".n-bass", { x: 590, y: 930 });
+      at(".n-fli", { x: FLI[0] - 10, y: FLI[1] - 62 }); at(".n-zona", { x: ZONA[0] + 44, y: ZONA[1] + 10 });
+      gsap.set($(".marca"), { x: FLI[0] - 6, y: FLI[1] + 4 });
+      const nombres = [".n-mel", ".n-otw", ".n-king", ".n-bass", ".n-fli", ".n-zona"].map($);
+      gsap.set(nombres, { autoAlpha: 0 });
+      // La cámara: el punto (fx, fy) del mapa en el centro de la pantalla (540, 860), con escala k; entre dos planos, la
+      // escala va en logaritmo y el foco sigue a la escala (así el sitio al que se va no se sale de cuadro).
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });   // en un <g> de SVG, transformOrigin cuenta desde la esquina de su dibujo
+      const pon = (fx, fy, k) => gsap.set(mundo, { x: 540 - k * fx, y: 860 - k * fy, scale: k });
+      const LEJOS = [-1850, -2050, 0.125], CERCA = [540, 860, 1.0];
+      const vuelo = (a, b, u) => {
+        const lk = Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u, k = Math.exp(lk);
+        const v = (k - a[2]) / (b[2] - a[2]);   // el foco avanza con la escala: llega cuando ya se ve de cerca
+        pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const fecha = (txt, t0, d) => {
+        const e = $(".fecha"); gsap.set(e, { left: 80, top: 196 }); e.style.visibility = "visible";
+        return (x) => { e.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / d)))); };
+      };
+      const hecho = $(".hecho"), Lr = hecho.getTotalLength(), avion = $(".avion");
+      hecho.setAttribute("stroke-dasharray", `${Lr} ${Lr}`);
+      // La avioneta sobre la ruta: u de 0 a 1 (con su rumbo).
+      const vuela = (u) => {
+        const l = Lr * u, p = hecho.getPointAtLength(l), q = hecho.getPointAtLength(Math.min(Lr, l + 2));
+        const ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI + 90;
+        avion.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+        hecho.setAttribute("stroke-dashoffset", (Lr * (1 - u)).toFixed(1));
+      };
+      if (modo === "ruta") {
+        const ta = w("Australia") - 0.1, tz = w("Frederik") - 0.2, dz = 1.9, tr = w("cruza") - 0.15;
+        gsap.set([$(".zona")], { visibility: "hidden" });
+        tl.fromTo($(".g-aus"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, Math.max(0, ta));
+        tl.to($(".g-aus"), { autoAlpha: 0, duration: 0.4 }, tz + 0.3);
+        const escribe = fecha("OCT 1978", w("octubre") - 0.05, 0.9);
+        tl.set([hecho, avion], { visibility: "visible" }, tr);
+        alBuscar((x) => {
+          escribe(x);
+          // Lejos, la cámara se acerca un poco; desde «Frederik», baja al estrecho.
+          if (x < tz) pon(LEJOS[0], LEJOS[1], LEJOS[2] * (1 + 0.04 * Math.min(1, x / Math.max(0.1, tz))));
+          else vuelo([LEJOS[0], LEJOS[1], LEJOS[2] * 1.04], CERCA, paso(x, tz, dz, "power2.inOut"));
+          vuela(paso(x, tr, 2.6, "sine.inOut"));
+        });
+        tl.to([$(".n-mel"), $(".n-king"), $(".n-otw")], { autoAlpha: 1, duration: 0.3, stagger: 0.12 }, tz + dz - 0.4);
+        tl.to($(".n-bass"), { autoAlpha: 1, duration: 0.4 }, w("estrecho") - 0.1);
+        et(".e1", "Frederick Valentich · 20 años", 80, 300, w("veinte") - 0.05);
+      } else {
+        // pieza: el estrecho, la ruta hecha y la zona del último contacto; 1983; la isla Flinders y la pieza.
+        gsap.set([hecho, avion], { visibility: "visible" });
+        gsap.set(avion, { visibility: "hidden" });
+        vuela(1);
+        hecho.setAttribute("stroke-dasharray", "none");
+        gsap.set([$(".n-mel"), $(".n-king"), $(".n-zona")], { autoAlpha: 1 });
+        gsap.set($(".zona"), { visibility: "visible" });
+        const escribe = fecha("1983", w("después", 2) - 0.1, 0.6);
+        alBuscar((x) => { escribe(x); pon(560 + 40 * paso(x, 0, DUR, "none"), 880, 1.0 + 0.06 * paso(x, 0, DUR, "none")); });
+        const ti = w("isla") - 0.1;
+        tl.to($(".fli"), { fill: "#16302a", stroke: "#62f59b", strokeWidth: 2.5, duration: 0.35 }, ti);
+        tl.to($(".n-fli"), { autoAlpha: 1, duration: 0.3 }, ti + 0.1);
+        const tp = w("pieza") - 0.1;
+        tl.set($(".marca"), { visibility: "visible" }, tp);
+        tl.fromTo($(".marca"), { scale: 2.2, autoAlpha: 0, transformOrigin: "50% 50%" }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "power4.in" }, tp);
+        et(".e1", "Una pieza de una Cessna 182", 80, 300, tp + 0.1);
+      }
+      fin();
+    })();
+  </script>
+</template>

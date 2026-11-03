@@ -15,4 +15,5 @@ canales/**/renders/
 # Canales nuevos: el proyecto de HyperFrames y los mapas se rehacen (montar.py y mapa.py) y pesan varios MB.
 canales/geografia/cortos/*/proyecto/
 canales/supervivencia/cortos/*/proyecto/
+canales/incidentes/cortos/*/proyecto/
 canales/*/cortos/*/recursos/mapa.json

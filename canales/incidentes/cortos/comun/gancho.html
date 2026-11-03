@@ -1,0 +1,65 @@
+<template>
+  <!-- Plantilla común del canal de incidentes: el gancho (la frase que no se explica, en el fotograma 0) y la vuelta al
+       principio para el bucle. Parámetros (conf): foto, camara [escala1, x1, y1] (desde escala 1), etiqueta (la hora o el
+       dato del expediente, en mono), frase (en grande, admite <br>), tam (px de la frase, 200 por defecto), linea (el
+       bloque verde), modo y:
+         inicio  todo a la vista en el fotograma 0
+         vuelta  la imagen y los textos vuelven (en_etiqueta, en_frase, en_linea) y el último fotograma es el primero
+       Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { transform-origin: 50% 62%; }
+    #{{ID}} .velo { opacity: 0.6; }
+    #{{ID}} .techo { background: linear-gradient(180deg, rgba(6, 9, 12, 0.86) 0%, rgba(6, 9, 12, 0.6) 22%, rgba(6, 9, 12, 0) 44%); }
+    #{{ID}} .bloque-g { position: absolute; left: 80px; top: 214px; width: 900px; }
+    #{{ID}} .etiq { font: 700 38px/1 "JetBrains Mono", monospace; letter-spacing: 0.06em; color: #62f59b; text-transform: uppercase;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .etiq::before { content: ""; display: inline-block; width: 18px; height: 18px; margin-right: 16px; border-radius: 50%;
+      background: #62f59b; box-shadow: 0 0 18px rgba(98, 245, 155, 0.8); vertical-align: 2px; }
+    #{{ID}} .frase { margin-top: 26px; font: 800 200px/0.86 "Big Shoulders Display", sans-serif; text-transform: uppercase;
+      letter-spacing: 0.005em; text-shadow: 0 6px 44px rgba(0, 0, 0, 0.8); }
+    #{{ID}} .frase .q { color: #62f59b; }
+    #{{ID}} .linea { margin-top: 26px; font: 800 86px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase; white-space: nowrap; }
+    #{{ID}} .linea span { display: inline-block; background: #62f59b; color: #06090c; padding: 0.06em 0.16em 0.02em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa vista">
+        <img class="foto" src="assets/img/{{p:foto}}.jpg" alt="" />
+        <div class="capa velo"></div>
+        <div class="capa techo"></div>
+        <div class="visor"><i></i><i></i><i></i><i></i></div>
+        <div class="bloque-g">
+          <div class="etiq"></div>
+          <div class="frase"></div>
+          <div class="linea"><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const C = {{p:conf}};
+      const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
+      if (C.tam) $(".frase").style.fontSize = C.tam + "px";
+      $(".etiq").textContent = C.etiqueta || "";
+      // Las comillas de la frase, en verde: lo que se dijo.
+      $(".frase").innerHTML = String(C.frase).replace(/«/g, '<span class="q">«</span>').replace(/»/g, '<span class="q">»</span>');
+      if (C.linea) $(".linea span").textContent = C.linea; else $(".linea").style.display = "none";
+      const cam = C.camara || [1.1, 0, -30];
+      if (C.modo === "vuelta") {
+        // La imagen vuelve a escala 1 justo al acabar: el último fotograma es el primero del vídeo.
+        tl.fromTo($(".vista"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 0);
+        tl.fromTo($(".foto"), { scale: 1.07, x: 0, y: 30 }, { scale: 1.0, x: 0, y: 0, duration: DUR, ease: "power2.out" }, 0);
+        tl.fromTo($(".etiq"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, A(C.en_etiqueta ?? 0.1));
+        tl.fromTo($(".frase"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" }, A(C.en_frase));
+        if (C.linea) tl.fromTo($(".linea"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, A(C.en_linea));
+      } else {
+        tl.fromTo($(".foto"), { scale: 1.0, x: 0, y: 0 }, { scale: cam[0], x: cam[1], y: cam[2], duration: DUR, ease: "none" }, 0);
+      }
+      fin();
+    })();
+  </script>
+</template>

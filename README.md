@@ -28,6 +28,12 @@ Alejandro Velasco, 85 s); y, de vuelta a la fórmula normal, «La cueva» (los n
 `canales/supervivencia/cortos/`,
 con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md) y el sonido medido antes de renderizar.
 
+**Un tercer canal, de incidentes sin resolver** (3-nov, `canales/incidentes/`): casos reales que nadie ha explicado, como
+expedientes numerados, con su marca (negro, blanco frío y el verde de una pantalla de radar), la voz M5 y el visor en cada
+plano. El primero, «No es un avión» (la desaparición del piloto Frederick Valentich sobre el estrecho de Bass en 1978,
+unos 79 s, `canales/incidentes/cortos/01-valentich/`), con la radio de Melbourne dibujada (la hora, la onda y la
+transcripción) y el mapa del estrecho.
+
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una
 descripción corta anclada a las palabras de la narración (`videos/anticitera/kit/`), con dibujos animados para cada

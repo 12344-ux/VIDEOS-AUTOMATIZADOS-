@@ -41,6 +41,11 @@ inventar lo que las fuentes no dicen. **La audiencia de supervivencia** (1-nov):
 Los dos cortos colombianos (9 y 10) **no funcionaron** (2-nov): se vuelve a la fórmula de los cortos 1–8, historias conocidas
 en todo el mundo medidas en inglés y en español, una con hueco y otra con demanda probada (ver `canales/supervivencia/CANAL.md`).
 
+**Tercer canal, de incidentes sin resolver** (3-nov, `canales/incidentes/`, voz M5): lo pidió el usuario para «atraer a más
+población»: casos reales y extraños que nadie ha explicado (un avistamiento, una desaparición), como expedientes numerados.
+Mismas reglas de retención y de sonido; las hipótesis se cuentan como preguntas, sin afirmar lo que no se sabe (ver su
+`CANAL.md`). El primero, Frederick Valentich («No es un avión»).
+
 ## Al empezar una sesión
 
 1. Lee `README.md` y `docs/bitacora.md`.
@@ -118,7 +123,8 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 - SDXS solo da buen resultado a 512 × 512. FLUX acepta cualquier múltiplo de 16.
 - FLUX toma los prompts al pie de la letra: «small gold rings» llenó un bolso de anillas. Y la época hay que describirla
   prenda a prenda: «early 1700s uniforms» dio soldados de la Primera Guerra Mundial; «black tricorn hats, long blue coats»,
-  los de 1705.
+  los de 1705. Tampoco cuenta bien ni conoce los modelos: «four bright lights» salieron seis en dos columnas, y «Cessna 182»,
+  un biplano o un ala baja (hay que decir «exactly four… in one horizontal row» y «high-wing, the wing on top of the cabin»).
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
 - Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`.
@@ -200,6 +206,9 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 - `tl.fromTo` pinta su origen al crearse (`immediateRender`): un segundo `fromTo` sobre el mismo elemento, o uno que
   empieza visible, lo enseña antes de tiempo. `immediateRender: false` o empezar oculto con CSS.
 - El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.
+- En un `<g>` de SVG, `transformOrigin: "0px 0px"` de GSAP cuenta desde la esquina de **su dibujo**, no desde el origen del
+  SVG: con Australia entera (que llega a x −5.300) la cámara del mapa se desplazaba cientos de píxeles. Para una cámara
+  sobre un mapa, `svgOrigin: "0 0"`. Y `vector-effect: non-scaling-stroke` en los trazos, si el zoom es grande.
 - En SVG, el CSS de la plantilla pisa los atributos `fill` y `stroke`: `setAttribute('fill', …)` o un tween de `attr: { stroke }`
   no cambian nada si una regla CSS ya los fija (la barra de CO₂ del corto 12 seguía verde). Usar `el.style.fill` o tweens de
   `fill`/`stroke` como propiedades CSS.

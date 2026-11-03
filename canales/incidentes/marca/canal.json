@@ -1,0 +1,22 @@
+{
+ "_nota": "Lo propio del canal para el kit de montaje (canales/businessformen/kit/montar.py --canal canales/incidentes).",
+ "nombre": "Incidentes",
+ "prefijo": "inc",
+ "fondo": "#06090c",
+ "voz": "supertonic-M5",
+ "subtitulos": {
+  "fuente": "spacegrotesk-700.woff2",
+  "familia": "Space Grotesk",
+  "peso": 700,
+  "color": "#e8eef0",
+  "resalte": "98, 245, 155",
+  "color_resalte": "#06090c"
+ },
+ "fuentes": {
+  "bigshoulders-800.woff2": "@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2",
+  "spacegrotesk-500.woff2": "@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2",
+  "spacegrotesk-700.woff2": "@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2",
+  "jetbrains-500.woff2": "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2",
+  "jetbrains-700.woff2": "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2"
+ }
+}

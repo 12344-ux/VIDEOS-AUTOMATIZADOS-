@@ -1,0 +1,30 @@
+    /* Marca del canal de incidentes sin resolver: negro de noche (#06090c), blanco frío (#e8eef0) y el verde fósforo de una
+       pantalla de radar (#62f59b), solo en lo que importa (la hora, lo que no se explica, el dato clave); Big Shoulders
+       Display para los golpes, Space Grotesk para el texto y JetBrains Mono para el expediente (horas, radio, fichas). */
+    @font-face { font-family: "Big Shoulders Display"; src: url("assets/fonts/bigshoulders-800.woff2") format("woff2"); font-weight: 800; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/spacegrotesk-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/spacegrotesk-700.woff2") format("woff2"); font-weight: 700; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-500.woff2") format("woff2"); font-weight: 500; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-700.woff2") format("woff2"); font-weight: 700; }
+    .esc { position: absolute; inset: 0; overflow: hidden; background: #06090c; color: #e8eef0; font-family: "Space Grotesk", sans-serif; }
+    .esc .capa { position: absolute; inset: 0; }
+    .esc .pal { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0.04em 0.03em 0.1em; margin: 0 0.16em -0.1em 0; }
+    .esc .pal > span { display: inline-block; }
+    .esc .golpe { font: 800 150px/0.9 "Big Shoulders Display", sans-serif; letter-spacing: 0.005em; text-transform: uppercase; }
+    .esc .heroe { font: 800 360px/0.84 "Big Shoulders Display", sans-serif; }
+    .esc .diario { font: 500 44px/1.25 "JetBrains Mono", monospace; letter-spacing: 0.01em; color: #e8eef0; }
+    .esc .num { font-variant-numeric: tabular-nums lining-nums; }
+    .esc .senal { color: #62f59b; }
+    .esc .bloque { background: #62f59b; color: #06090c; padding: 0 0.12em; }
+    .esc .cortina { position: absolute; inset: 0; background: #62f59b; z-index: 40; visibility: hidden; }
+    .esc .foto { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    .esc svg.mapa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    .esc .tierra { fill: #10181d; stroke: #2b3a43; stroke-width: 2; }
+    .esc .prota { fill: #16262c; stroke: #62f59b; stroke-width: 2.5; }
+    /* El visor: cuatro esquinas finas sobre la imagen, la firma del canal (el vídeo es un expediente que se mira). */
+    .esc .visor { position: absolute; left: 44px; top: 150px; width: 992px; height: 1630px; pointer-events: none; z-index: 30; }
+    .esc .visor i { position: absolute; width: 54px; height: 54px; border: 0 solid rgba(232, 238, 240, 0.55); }
+    .esc .visor i:nth-child(1) { left: 0; top: 0; border-left-width: 3px; border-top-width: 3px; }
+    .esc .visor i:nth-child(2) { right: 0; top: 0; border-right-width: 3px; border-top-width: 3px; }
+    .esc .visor i:nth-child(3) { left: 0; bottom: 0; border-left-width: 3px; border-bottom-width: 3px; }
+    .esc .visor i:nth-child(4) { right: 0; bottom: 0; border-right-width: 3px; border-bottom-width: 3px; }

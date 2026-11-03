@@ -1411,9 +1411,78 @@ La misma clase de máquina que en la 8 (Xeon a 2,1 GHz con AMX), con la sesión 
   debajo del principio (la misma cola de música). Las dos entregas, con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14
   copiar` (27 y 26 s). Medido y mirado, no escuchado.
 
+## Sesión 10 — 3 de noviembre de 2026 (tarde)
+
+La máquina se reinició (la misma clase de Xeon con AMX y todo instalado: `./instalar.sh comprobar`, 61 s). La precarga
+tardó 16 min 22 s, y durante ella la API de YouTube volvió a agotarse: se midió al terminar.
+
+### 1. Un canal nuevo: incidentes sin resolver
+
+- **Pedido del usuario:** «El canal supervivencia va muy bien pero vamos a hacer otro tipo de videos que atraiga a más
+  población… de incidentes, cosas extrañas que no se resolvieron, por ejemplo un avistamiento de un objeto volador…
+  Vamos a realizar el primer video corto para este canal».
+- **Medido:** en TikTok en español, «terror y paranormal» llega a 100.000 vistas 2,4 veces más que la media y «misterios»,
+  2,2 (informe del 30-oct). En Shorts (14 búsquedas en español en 72 s y 6 en inglés en 38 s, unas 4.000 unidades): el
+  caso Valentich, 273.000 vistas en un canal de 4.700 suscriptores (30 veces su mediana, hace 60 días) y 766.000 en inglés;
+  el «Tic Tac» del Nimitz, 1,5 M en inglés en un canal nuevo de 1.400 y 34.000 como mucho en español (el hueco, para el
+  segundo); el Mary Celeste, 635.000 en español; las luces de Phoenix, 2,4 M en inglés y 18.000 en español; la señal Wow!,
+  20 M y 2,1 M (pero ya tiene una explicación natural propuesta). Westall, Rendlesham y Varginha, casi nada.
+- **Elegido:** **Frederick Valentich** (1978), la demanda probada y justo el ejemplo del usuario: un avistamiento y una
+  desaparición, con la transcripción de la radio como prueba. Datos: la transcripción del Departamento de Transporte de
+  Australia (19:06:14–19:12:28), su informe de 1982 («no se ha determinado»), Wikipedia, Skeptoid, Plane & Pilot y Flight
+  Safety Australia; lo que varía, en `PUBLICACION.md` (el ruido, la pieza de 1983, las horas).
+- **El canal** (`canales/incidentes/`, con su `CANAL.md`): expedientes numerados; negro, blanco frío y el verde fósforo de
+  una pantalla de radar (`#62f59b`); Big Shoulders Display, Space Grotesk y JetBrains Mono (OFL, de @fontsource); el visor
+  (cuatro esquinas finas) en cada plano. **Voz M5**, medida contra las otras con la misma frase: 97 Hz de tono mediano y 2,9
+  palabras por segundo (M3, 111 Hz y 3,6; M4, 122 Hz; M1, 140 Hz; M2, la de supervivencia, 105 Hz).
+
+### 2. Cómo está hecho «No es un avión» (78,9 s, 20 escenas)
+
+- **Plantillas comunes nuevas** (`cortos/comun/`): `gancho` (la frase en grande con sus comillas en verde, la etiqueta en
+  mono y el bloque verde), `foto` (la de supervivencia con esta marca, el visor y `apagones`: la imagen se apaga en
+  «Desaparece» y vuelve con un destello en «Y vuelve») y `expediente` (la hoja de archivo: oculta, revela e informe, con un
+  sello gastado con la máscara de desgaste).
+- **Escenas dibujadas:** `radio.html` (la sala de radio de Melbourne muy oscurecida, el reloj de la conversación, una onda
+  de osciloscopio con ruido determinista, la transcripción línea a línea, el micrófono abierto que cuenta de 00:00 a 00:17
+  mientras el reloj corre de 19:12:28 a 19:12:45, y SIN SEÑAL) y `mapa.html` con `mapa.py` (Natural Earth: Australia
+  entera y el estrecho de Bass en una sola proyección; la cámara baja siete veces en escala logarítmica, con la ruta del
+  plan de vuelo, la avioneta, la zona aproximada del último contacto y la isla Flinders que se enciende en 1983).
+- **Voz:** 76,9 s; se rehízo con dos pausas más largas (78,2 s; las frases, idénticas): 1,4 s tras «micrófono abierto», para
+  que se oiga la radio, y 0,9 s tras «Y silencio».
+- **Música:** la 1.ª tanda (semilla 201) no valió: una pieza con el 54 % de graves y la otra, buena de graves (23 %), pero en
+  silencio desde los 22 s. La 2.ª (semilla 202, «solo piano and high strings… steady and continuous»): la 2, con el 11 % y
+  estable (de −21 a −19 dB). 535 s cada tanda de dos.
+- **Sonido** (BigSoundBank, CC0): la radio que se abre (0313), las luces que pasan (3006, un avión) y, en la pausa, la
+  interferencia del micrófono abierto (0310) y un roce metálico (0303), que evocan el ruido sin pretender ser la grabación.
+  `revisar_mezcla.py`: 0 avisos, ningún hueco, la música a −18,1 LU y los efectos de −8,7 a −14,2 LU bajo la voz.
+- **Imágenes:** 11 de FLUX.3 (158–212 s cada una; 41 min 41 s el lote, con las revisiones a la vez) y **2 rehechas**: la del
+  gancho, con la Cessna 182 dibujada como un biplano, y la vista desde la cabina, con seis luces en dos columnas cuando la voz
+  dice cuatro («exactly four… in one horizontal row», «high-wing, the wing on top of the cabin»).
+
+### 3. Lo que encontró la revisión
+
+- **El mapa:** la cámara se desplazaba cientos de píxeles porque, en un `<g>` de SVG, el `transformOrigin` de GSAP cuenta
+  desde la esquina de su dibujo (Australia llega a x −5.300): con `svgOrigin: "0 0"` cuadró. Rótulos del mapa por debajo de
+  28 px, «ESTRECHO DE BASS» que duraba 0,6 s y «ÚLTIMO CONTACTO» encima de «ISLA KING».
+- **La radio:** al subir, la línea anterior pisaba la onda: ahora se apilan hacia abajo y la de antes se apaga. `L` chocaba
+  con la lista de palabras de `ayuda.js` (otra vez): `LIN`.
+- **El final:** la frase de cierre estaba 1,3 s en pantalla (pide 2): el gancho vuelve con «Solo queda». Y el texto tapado
+  del expediente ya no se escribe (solo su caja): el `check` medía el contraste de un texto que nadie ve.
+- `check` al final: 0 errores y un aviso, el contraste falso del subtítulo a medio pasar de «dicen» a «que».
+
+### 4. Render y entrega
+
+- **Render:** 3 min 57 s, con la CPU libre. **Entrega** (`BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`, 25 s):
+  `salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4` (78,9 s, −14,0 LUFS, −1,8 dBTP, 42 MB). El último fotograma
+  es el primero (1,9 de diferencia media sobre 255), ningún silencio, y el final, 2,3 dB por debajo del principio (la cola de
+  música). Medido y mirado, no escuchado.
+
 ## Siguiente paso
 
-0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
+0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
+   elija el nombre (`canales/incidentes/CANAL.md`) y lo publique; el siguiente, el «Tic Tac» del Nimitz (2004: el hueco,
+   1,5 M en inglés y casi nada en español), con el mismo kit y las mismas plantillas.
+   Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
    Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston y
    Alexander Selkirk en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
