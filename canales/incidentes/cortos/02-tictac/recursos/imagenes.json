@@ -1,0 +1,56 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. David Fravor, Alex Dietrich y los demás aviadores son personas reales: nunca de cara. 14 de noviembre de 2004, de día y con el mar en calma (Fravor: «clear skies, light winds, calm seas»). Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, cold blue and teal tones with a faint green glow, dramatic light, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "tictac",
+   "semilla": 2201,
+   "prompt": "A small smooth white oblong object shaped exactly like a Tic Tac mint, with no wings, no windows and no markings, hovering a few meters above a patch of churning white water on a calm deep blue ocean, seen from high above at an angle, bright clear daylight, the object small in the middle of the frame, the upper third of the image is empty blue ocean, vertical composition"
+  },
+  {
+   "nombre": "flota",
+   "semilla": 2202,
+   "prompt": "A modern US Navy aircraft carrier and a guided missile cruiser with flat radar panels on its superstructure sailing side by side on the calm Pacific Ocean in 2004, seen from far away and slightly above, clear sky, the ships in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "radar",
+   "semilla": 2203,
+   "prompt": "A dark navy combat information center inside a warship in 2004, rows of glowing blue radar consoles and screens, two operators seen from behind wearing headsets, their backs to the camera, no faces visible, dim blue light, vertical composition"
+  },
+  {
+   "nombre": "cazas",
+   "semilla": 2204,
+   "prompt": "Two grey US Navy F/A-18F Super Hornet two-seat fighter jets flying side by side over the calm deep blue Pacific Ocean on a perfectly clear day, seen from the side and slightly above, small in the middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "mancha",
+   "semilla": 2205,
+   "prompt": "A view looking straight down from very high above at a calm deep blue ocean with one round patch of churning white foamy water in the middle, as if something were moving just under the surface, bright clear daylight, vertical composition"
+  },
+  {
+   "nombre": "picado",
+   "semilla": 2206,
+   "prompt": "Inside the cockpit of a fighter jet diving toward the ocean on a clear day, the pilot seen from behind wearing a grey flight helmet, his back to the camera, no face visible, through the canopy far below a tiny white oblong object above a patch of white water on the blue sea, vertical composition"
+  },
+  {
+   "nombre": "calma",
+   "semilla": 2207,
+   "prompt": "A view looking straight down from very high above at a perfectly calm empty deep blue ocean with no foam and nothing on it, bright clear daylight, faint sun glitter, vertical composition"
+  },
+  {
+   "nombre": "pentagono",
+   "semilla": 2208,
+   "prompt": "An aerial view of the Pentagon building in Arlington, Virginia, the five-sided grey building seen from high above at dusk, cold light, the building in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "congreso",
+   "semilla": 2209,
+   "prompt": "A US congressional hearing room in 2023, a man in a dark suit seen from behind sitting at the witness table raising his right hand to take an oath, the committee members out of focus far in front of him, his back to the camera, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "horizonte",
+   "semilla": 2210,
+   "prompt": "The empty Pacific Ocean at dusk seen from a ship, a calm sea and a clear sky turning dark blue, a single faint white light very far away above the horizon, mysterious, the horizon in the lower half of the frame, vertical composition"
+  }
+ ]
+}

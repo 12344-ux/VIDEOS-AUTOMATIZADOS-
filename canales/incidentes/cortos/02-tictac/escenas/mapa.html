@@ -1,0 +1,124 @@
+<template>
+  <!-- El mapa del caso (mapa.py, Natural Earth): la costa de California y Baja California y, frente a ella, las posiciones del
+       14-nov-2004 en esquema. La cámara va en escala logarítmica con svgOrigin (ver el mapa del corto 1).
+       Modos (conf.modo):
+         zona   la costa de lejos con CALIFORNIA y la fecha; la cámara baja al mar, donde está el grupo del Nimitz
+         salto  la zona del encuentro (donde desapareció) y el punto de encuentro de los cazas, a 97 km al este: la ruta de
+                vuelta se dibuja y, en «radar», el punto aparece allí -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .tierra-m { fill: #121b20; stroke: #3d5059; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .punto { fill: #e8eef0; }
+    #{{ID}} .zona { fill: rgba(98, 245, 155, 0.08); stroke: #62f59b; stroke-width: 2.5px; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke; }
+    #{{ID}} .vuelta { fill: none; stroke: #62f59b; stroke-width: 3px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .blip { fill: #62f59b; }
+    #{{ID}} .onda { fill: none; stroke: #62f59b; stroke-width: 2.5px; vector-effect: non-scaling-stroke; opacity: 0; }
+    #{{ID}} .barco { fill: #e8eef0; stroke: #06090c; stroke-width: 1; }
+    #{{ID}} .nom { font-family: "JetBrains Mono", monospace; font-weight: 700; fill: #dfe7ea; letter-spacing: 0.04em;
+      paint-order: stroke; stroke: rgba(6, 9, 12, 0.85); stroke-width: 4px; stroke-linejoin: round; }
+    #{{ID}} .nom.verde { fill: #62f59b; }
+    #{{ID}} .grande { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; fill: #3a4f5a; letter-spacing: 0.12em; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(6, 9, 12, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #62f59b; }
+    #{{ID}} .t.et .m { font-style: normal; text-transform: none; }
+    #{{ID}} .t.fecha { font: 700 80px/1 "JetBrains Mono", monospace; letter-spacing: 0.02em; color: #e8eef0; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="45%" cy="55%" r="75%">
+            <stop offset="0" stop-color="#0c1820" /><stop offset="1" stop-color="#05080b" />
+          </radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="tierra-m" d="{{p:eeuu}}" />
+          <path class="tierra-m" d="{{p:mexico}}" />
+          <text class="grande g-cal" text-anchor="middle" font-size="150">CALIFORNIA</text>
+          <circle class="punto p-sd" r="5" />
+          <circle class="punto p-la" r="5" />
+          <circle class="zona z-enc" r="26" />
+          <path class="vuelta" d="M0,0" />
+          <circle class="onda o1" r="10" />
+          <circle class="blip b-cap" r="9" style="visibility: hidden" />
+          <path class="barco" d="M0,-14 L6,-4 L6,14 L-6,14 L-6,-4 Z" />
+          <text class="nom n-sd" font-size="30">SAN DIEGO</text>
+          <text class="nom n-la" font-size="30">LOS ÁNGELES</text>
+          <text class="nom n-nim" font-size="28">GRUPO DEL NIMITZ</text>
+          <text class="nom verde n-enc" font-size="28" text-anchor="middle">DESAPARECE AQUÍ</text>
+          <text class="nom verde n-cap" font-size="28" text-anchor="middle">PUNTO DE ENCUENTRO</text>
+          <text class="nom n-km" font-size="34" text-anchor="middle">97 km</text>
+        </g>
+      </svg>
+      <div class="visor"><i></i><i></i><i></i><i></i></div>
+      <div class="t fecha"></div>
+      <div class="t et e1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const SD = {{p:san_diego}}, LA = {{p:los_angeles}}, ENC = {{p:encuentro}}, CAP = {{p:cap}}, NIM = {{p:nimitz}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      at(".p-sd", { cx: SD[0], cy: SD[1] }); at(".p-la", { cx: LA[0], cy: LA[1] });
+      at(".z-enc", { cx: ENC[0], cy: ENC[1] }); at(".b-cap", { cx: CAP[0], cy: CAP[1] }); at(".o1", { cx: CAP[0], cy: CAP[1] });
+      at(".n-sd", { x: SD[0] + 14, y: SD[1] + 10 }); at(".n-la", { x: LA[0] + 14, y: LA[1] + 10 });
+      at(".n-nim", { x: NIM[0] + 22, y: NIM[1] + 10 }); at(".n-enc", { x: ENC[0], y: ENC[1] - 50 });
+      at(".n-cap", { x: CAP[0], y: CAP[1] - 50 }); at(".n-km", { x: (ENC[0] + CAP[0]) / 2, y: ENC[1] + 46 });
+      at(".g-cal", { x: LA[0] + 420, y: LA[1] + 180 });
+      gsap.set($(".barco"), { x: NIM[0], y: NIM[1] });
+      $(".vuelta").setAttribute("d", `M${ENC[0] + 28},${ENC[1]} L${CAP[0] - 14},${CAP[1]}`);
+      const nombres = [".n-sd", ".n-la", ".n-nim", ".n-enc", ".n-cap", ".n-km"].map($);
+      gsap.set(nombres, { autoAlpha: 0 });
+      // La cámara (ver el corto 1): el punto (fx, fy) en el centro de la pantalla (540, 820), escala k; zoom en logaritmo.
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      const pon = (fx, fy, k) => gsap.set(mundo, { x: 540 - k * fx, y: 820 - k * fy, scale: k });
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const fecha = (txt, t0, d) => {
+        const e = $(".fecha"); gsap.set(e, { left: 80, top: 196 }); e.style.visibility = "visible";
+        return (x) => { e.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / d)))); };
+      };
+      if (modo === "zona") {
+        // La costa de lejos; «Noviembre»: la fecha; la cámara baja al mar, al grupo del Nimitz.
+        gsap.set([$(".z-enc"), $(".b-cap")], { visibility: "hidden" });
+        const LEJOS = [500, 700, 0.42], CERCA = [NIM[0] - 60, NIM[1] + 40, 1.25];
+        const tz = Math.max(0.4, w("California") - 0.1), dz = 1.8;
+        const escribe = fecha("NOV 2004", w("Noviembre") - 0.05, 0.9);
+        tl.fromTo($(".g-cal"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, 0.1);
+        tl.to($(".g-cal"), { autoAlpha: 0, duration: 0.3 }, tz + 0.6);
+        // Los nombres pequeños, solo de cerca (de lejos no se leen).
+        tl.to([$(".n-sd"), $(".n-nim")], { autoAlpha: 1, duration: 0.3, stagger: 0.12 }, tz + dz - 0.4);
+        et(".e1", "Océano Pacífico", 80, 300, w("Océano") - 0.05);
+        alBuscar((x) => { escribe(x); if (x < tz) pon(LEJOS[0], LEJOS[1], LEJOS[2]); else vuelo(LEJOS, CERCA, paso(x, tz, dz, "power2.inOut")); });
+      } else {
+        // salto: la zona donde desapareció y el punto de encuentro, a 97 km; la vuelta se dibuja; «radar»: el punto aparece.
+        // Solo los dos puntos y la distancia: San Diego y el grupo quedan fuera, a la derecha.
+        gsap.set($(".n-enc"), { autoAlpha: 1 }); gsap.set([$(".p-sd"), $(".barco"), $(".g-cal")], { autoAlpha: 0 });
+        // Los dos nombres a la misma altura, sin tocarse: a 24 (con la cámara a 1,4, unos 34 px).
+        [".n-enc", ".n-cap"].forEach((q) => $(q).setAttribute("font-size", "24"));
+        const centro = [(ENC[0] + CAP[0]) / 2, ENC[1] - 30];
+        alBuscar((x) => pon(centro[0], centro[1], 1.35 + 0.1 * paso(x, 0, DUR, "none")));
+        const tv = w("Vuelven", 2) - 0.05, tk = w("cien") - 0.1;   // «Vuelven a su punto de encuentro» (la 1.ª, «vuelven a subir»)
+        tl.set($(".vuelta"), { visibility: "visible" }, tv);
+        const LV = $(".vuelta").getTotalLength(); $(".vuelta").style.strokeDasharray = `${LV} ${LV}`;
+        tl.fromTo($(".vuelta"), { strokeDashoffset: LV }, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut", immediateRender: false }, tv);
+        tl.to([$(".n-cap"), $(".n-km")], { autoAlpha: 1, duration: 0.3, stagger: 0.15 }, tk);
+        const tr = w("radar", 3) - 0.05;   // «Y el radar lo vuelve a encontrar»
+        tl.set($(".b-cap"), { visibility: "visible" }, tr);
+        tl.fromTo($(".b-cap"), { scale: 2.5, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.25, ease: "power4.in" }, tr);
+        tl.fromTo($(".o1"), { attr: { r: 10 }, opacity: 0.9 }, { attr: { r: 70 }, opacity: 0, duration: 0.9, ease: "power2.out", repeat: 2, immediateRender: false }, tr);
+        et(".e1", "Radar: está aquí", 80, 300, tr + 0.15);
+      }
+      fin();
+    })();
+  </script>
+</template>

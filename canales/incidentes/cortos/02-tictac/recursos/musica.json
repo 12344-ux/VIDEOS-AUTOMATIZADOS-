@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). La familia que funcionó en el corto 1 («solo piano and high strings… steady and continuous»); se mide con audio/graves.py. Irá unos 16–20 LU bajo la voz.",
+ "semilla": 211,
+ "candidatas": [
+  "slow mysterious documentary underscore, solo piano and high strings, steady and continuous, suspense, open ocean, no drums, 62 bpm",
+  "tense mysterious documentary underscore, solo piano repeating low soft notes and sustained high strings, steady, enigmatic, no drums, 66 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 88,
+  "entrada": 0,
+  "recorte": 1.5,
+  "comprimir": 6,
+  "_por_que": "pieza_1: 6 % de la energía bajo 150 Hz, de −21 a −31 dB (un valle a los 10–15 s: compresión 6). La 2, con el 75 % bajo 150 Hz."
+ }
+}

@@ -32,7 +32,9 @@ con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md) 
 expedientes numerados, con su marca (negro, blanco frío y el verde de una pantalla de radar), la voz M5 y el visor en cada
 plano. El primero, «No es un avión» (la desaparición del piloto Frederick Valentich sobre el estrecho de Bass en 1978,
 unos 79 s, `canales/incidentes/cortos/01-valentich/`), con la radio de Melbourne dibujada (la hora, la onda y la
-transcripción) y el mapa del estrecho.
+transcripción) y el mapa del estrecho; y el segundo, «El ovni Tic Tac» (los cazas del Nimitz frente a California en 2004,
+unos 86 s, `canales/incidentes/cortos/02-tictac/`), con el radar del crucero, el encuentro visto desde arriba, el salto de
+97 km en el mapa y una recreación de la cámara térmica.
 
 **Antes, «El mecanismo de Anticitera», unos 10 minutos** (apertura y ocho capítulos; en pausa), en el estilo A,
 con la voz M1, para el canal de historia y misterios. Se hace con un kit que arma cada capítulo en HyperFrames desde una

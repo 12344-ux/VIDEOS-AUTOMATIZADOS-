@@ -1477,11 +1477,48 @@ tardó 16 min 22 s, y durante ella la API de YouTube volvió a agotarse: se midi
   es el primero (1,9 de diferencia media sobre 255), ningún silencio, y el final, 2,3 dB por debajo del principio (la cola de
   música). Medido y mirado, no escuchado.
 
+### 5. El segundo expediente: «El ovni Tic Tac» (Nimitz, 14 de noviembre de 2004)
+
+- **Pedido del usuario:** «Excelente, haz el segundo del ovni Tic Tac». Es el hueco medido: 1,5 M en inglés en un canal de
+  1.400 suscriptores y 34.000 como mucho en español.
+- **Fuente principal:** la declaración escrita de David Fravor ante el Comité de Supervisión de la Cámara (26-jul-2023, el
+  PDF leído entero con `pdftotext`): el radar del Princeton llevaba dos semanas viendo objetos que bajaban de más de 80.000
+  pies a 20.000, se quedaban horas y volvían a subir; la mancha blanca en un mar en calma; el objeto «Tic Tac», sin rotores
+  ni alas; cómo se alineó con su avión y subió girando; «it rapidly accelerated and disappeared right in front of our
+  aircraft»; y que el radar lo encontró en su punto de encuentro, a unas 60 millas, en menos de un minuto. Además, Wikipedia
+  (el tamaño, unos 12 m; el vídeo: 2007, el NYT en 2017 y el Pentágono el 27-abr-2020) y la CBS (100 millas al suroeste de
+  San Diego). Lo que varía, en `PUBLICACION.md` (la caída «en menos de un segundo» de la audiencia no está en su escrito y
+  el vídeo no la dice).
+- **Escenas dibujadas nuevas**, todas recreaciones y así rotuladas: `radar.html` (un radar con su barrido y la escala de
+  altura: los tres objetos bajan de 24 a 6 km, tiemblan «horas» y se van por arriba), `encuentro.html` (vista desde arriba:
+  el caza da la vuelta al círculo, el objeto sube por el lado contrario como si lo imitara, la línea de 800 m y la salida
+  disparada con su estela y un destello; las alturas en mono, de 6.100 a 4.600 m y de 0 a 3.700), `flir.html` (la cámara
+  térmica en grises, con «RECREACIÓN» en pantalla y el aro donde debería estar el calor de un motor) y el mapa frente a
+  California (`mapa.py`: la zona del encuentro y el punto de encuentro, a 97 km, en esquema).
+- **Voz** M5: 85,7 s, sobrevivió al reinicio de la máquina (que cortó la música a medias). **Música** («solo piano and high
+  strings… steady and continuous», semilla 211): la 1, con el 6 % de graves (un valle a los 10–15 s: `comprimir` 6), y la 2,
+  con el 75 %, descartada; 417 s con la carga en frío (94 s). **Efectos:** el sonar del radar dos veces (1920), los cazas
+  (3004) y el rugido cuando el objeto se va (3006). `revisar_mezcla.py`: 0 avisos, la música de −15 a −21 LU.
+- **La revisión con provisionales:** los miles sin punto (el es-ES de JavaScript no agrupa «4880»: `fmt()` del kit), el
+  rótulo de «97 km» encima de «DESAPARECE AQUÍ», San Diego cortado por la derecha en el salto, el «CALIFORNIA» gigante
+  asomando arriba, el HUD de la cámara térmica con poco contraste y un rótulo que duraba 1,2 s.
+- **Con las imágenes buenas,** el único aviso del `check` era un contraste en el subtítulo «Unidos» y **no era falso**: en
+  el gancho, el subtítulo blanco caía sobre la espuma blanca. El gancho tiene ahora `velo_en`: el velo pasa de 0,6 (el
+  fotograma 0, la portada, con la imagen a la vista) a 1 cuando entran los subtítulos. `check`: 0 errores y 0 avisos.
+- **Imágenes:** las 10, a la primera (130–170 s cada una; la primera, 593 s con la carga en frío tras el reinicio; 42 min
+  37 s el lote con las ampliaciones): la cápsula blanca sobre la espuma, la flota, la sala de radar, los dos F/A-18F, la
+  mancha vista desde arriba, la cabina en picado, el mar en calma, el Pentágono, la audiencia de espaldas y el horizonte.
+- **Render:** 4 min 1 s. **Entrega** (`BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar`, 25 s):
+  `salidas/incidentes/cortos/02-tictac/entrega/tictac.mp4` (86,3 s, −14,0 LUFS, −1,8 dBTP, 49 MB). El último fotograma es el
+  primero (2,9 sobre 255), ningún silencio, y el final, 3,8 dB por debajo del principio (la cola de música). Medido y
+  mirado, no escuchado.
+
 ## Siguiente paso
 
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
-   elija el nombre (`canales/incidentes/CANAL.md`) y lo publique; el siguiente, el «Tic Tac» del Nimitz (2004: el hueco,
-   1,5 M en inglés y casi nada en español), con el mismo kit y las mismas plantillas.
+   y «El ovni Tic Tac» (`salidas/incidentes/cortos/02-tictac/entrega/tictac.mp4`), elija el nombre
+   (`canales/incidentes/CANAL.md`) y los publique; los siguientes, uno con demanda probada (el Mary Celeste: 635.000 en
+   español) y otro con hueco (las luces de Phoenix: 2,4 M en inglés y 18.000 en español).
    Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
    Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston y
    Alexander Selkirk en supervivencia),

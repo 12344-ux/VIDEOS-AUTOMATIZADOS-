@@ -1,0 +1,67 @@
+<template>
+  <!-- La cámara térmica del otro caza (RECREACIÓN dibujada, no el vídeo de la Marina): imagen infrarroja en grises, el
+       objeto en blanco (lo caliente, en blanco), la retícula que lo sigue y, en «calor», el aviso de lo que no se ve: ningún
+       chorro de calor detrás, como el de un motor. Al final se va por la izquierda. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .ir { background: radial-gradient(ellipse at 50% 45%, #5d6466 0%, #3e4446 55%, #2a2e30 100%); }
+    #{{ID}} .grano { background: url("assets/img/grano.png"); opacity: 0.22; mix-blend-mode: overlay; }
+    #{{ID}} .lineas { background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.08) 0 2px, rgba(0, 0, 0, 0) 2px 5px); }
+    #{{ID}} .obj { position: absolute; left: 0; top: 0; width: 150px; height: 64px; border-radius: 32px; background: #f4f6f4;
+      filter: blur(6px); box-shadow: 0 0 40px 10px rgba(240, 245, 240, 0.35); }
+    #{{ID}} .ret { position: absolute; left: 0; top: 0; width: 300px; height: 300px; }
+    #{{ID}} .ret i { position: absolute; width: 46px; height: 46px; border: 0 solid rgba(10, 12, 12, 0.85); }
+    #{{ID}} .ret i:nth-child(1) { left: 0; top: 0; border-left-width: 4px; border-top-width: 4px; }
+    #{{ID}} .ret i:nth-child(2) { right: 0; top: 0; border-right-width: 4px; border-top-width: 4px; }
+    #{{ID}} .ret i:nth-child(3) { left: 0; bottom: 0; border-left-width: 4px; border-bottom-width: 4px; }
+    #{{ID}} .ret i:nth-child(4) { right: 0; bottom: 0; border-right-width: 4px; border-bottom-width: 4px; }
+    #{{ID}} .cruz { position: absolute; background: rgba(10, 12, 12, 0.7); }
+    #{{ID}} .hud { position: absolute; font: 700 32px/1 "JetBrains Mono", monospace; letter-spacing: 0.08em; color: #f0f3f2;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); }
+    #{{ID}} .rec { position: absolute; right: 80px; top: 214px; font: 700 32px/1 "JetBrains Mono", monospace; letter-spacing: 0.08em;
+      color: #06090c; background: #62f59b; padding: 6px 12px 4px; }
+    #{{ID}} .aro { position: absolute; left: 0; top: 0; width: 160px; height: 160px; border: 4px dashed #62f59b; border-radius: 50%; opacity: 0; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(6, 9, 12, 0.9); color: #e8eef0; padding: 0.1em 0.3em 0.04em; border-left: 6px solid #62f59b; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <div class="capa ir"></div>
+      <div class="capa grano"></div>
+      <div class="capa lineas"></div>
+      <div class="cruz" style="left: 538px; top: 330px; width: 4px; height: 270px"></div>
+      <div class="cruz" style="left: 538px; top: 920px; width: 4px; height: 240px"></div>
+      <div class="cruz" style="left: 120px; top: 758px; width: 300px; height: 4px"></div>
+      <div class="cruz" style="left: 660px; top: 758px; width: 300px; height: 4px"></div>
+      <div class="obj"></div>
+      <div class="ret"><i></i><i></i><i></i><i></i></div>
+      <div class="aro"></div>
+      <div class="hud" style="left: 80px; top: 214px">IR · CÁMARA TÉRMICA</div>
+      <div class="rec">RECREACIÓN</div>
+      <div class="t et lab"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const obj = $(".obj"), ret = $(".ret"), aro = $(".aro");
+      const tc = w("calor") - 0.1, ts = DUR - 0.55;
+      alBuscar((t) => {
+        // El objeto deriva despacio cerca del centro (540, 760), con un temblor de la imagen; al final se va por la izquierda.
+        let x = 540 + 26 * Math.sin(t * 0.9) - 10 * t, y = 760 + 10 * Math.sin(t * 1.7 + 0.5);
+        const v = paso(t, ts, 0.5, "power4.in"); x -= 1300 * v;
+        gsap.set(obj, { x: x - 75, y: y - 32, rotation: -8 + 3 * Math.sin(t * 1.3) });
+        gsap.set(ret, { x: 540 - 150 + 0.35 * (x - 540) * (1 - v), y: 760 - 150 + 0.35 * (y - 760) });
+        gsap.set(aro, { x: x + 40, y: y - 80 });
+        obj.style.opacity = (0.92 + 0.08 * Math.sin(t * 23)).toFixed(3);
+      });
+      tl.fromTo(aro, { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out", immediateRender: false }, tc);
+      tl.to(aro, { opacity: 0, duration: 0.2 }, ts);
+      const e = $(".lab"); e.querySelector("span").innerHTML = "Ningún chorro de calor"; gsap.set(e, { left: 80, top: 960 });
+      tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, tc + 0.1);
+      fin();
+    })();
+  </script>
+</template>

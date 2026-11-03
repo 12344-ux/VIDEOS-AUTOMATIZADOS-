@@ -134,7 +134,8 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   vacía y añadir «no text».
 - HyperFrames: el desenfoque de movimiento se sale de las máscaras (`overflow: hidden`); `check` da falsos
   avisos de contraste con fondos escalados o recortados y con la palabra resaltada del subtítulo a medio pasar a la
-  siguiente (mirar el fotograma); `media-treatment --apply` añade `data-hf-id` a todo
+  siguiente, pero no siempre es falso: en el gancho del Tic Tac el subtítulo blanco caía sobre espuma blanca (mirar
+  siempre el fotograma); `media-treatment --apply` añade `data-hf-id` a todo
   el HTML. Detalles en `estilos/README.md`.
 - Piper no da el mismo audio dos veces (tiene ruido aleatorio): los tiempos varían hasta 50 ms entre
   ejecuciones. Generar la narración una vez y cronometrar la composición sobre ese archivo.

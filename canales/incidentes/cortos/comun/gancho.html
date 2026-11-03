@@ -3,7 +3,8 @@
        principio para el bucle. Parámetros (conf): foto, camara [escala1, x1, y1] (desde escala 1), etiqueta (la hora o el
        dato del expediente, en mono), frase (en grande, admite <br>), tam (px de la frase, 200 por defecto), linea (el
        bloque verde), modo y:
-         inicio  todo a la vista en el fotograma 0
+         inicio  todo a la vista en el fotograma 0; velo_en (opcional): cuando entran los subtítulos, el velo se oscurece
+                 del todo (en el fotograma 0 va a 0,6, para que se vea la imagen; sobre espuma blanca, el subtítulo no se leía)
          vuelta  la imagen y los textos vuelven (en_etiqueta, en_frase, en_linea) y el último fotograma es el primero
        Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
   <style>
@@ -58,6 +59,7 @@
         if (C.linea) tl.fromTo($(".linea"), { autoAlpha: 0, scaleX: 0.3, transformOrigin: "left center" }, { autoAlpha: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, A(C.en_linea));
       } else {
         tl.fromTo($(".foto"), { scale: 1.0, x: 0, y: 0 }, { scale: cam[0], x: cam[1], y: cam[2], duration: DUR, ease: "none" }, 0);
+        if (C.velo_en != null) tl.fromTo($(".velo"), { opacity: 0.6 }, { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false }, A(C.velo_en));
       }
       fin();
     })();

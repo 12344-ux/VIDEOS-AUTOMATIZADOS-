@@ -23,8 +23,9 @@ extrañas, inquietantes e interesantes». Cómo se escribe y se monta: `../RETEN
 Como en supervivencia: casos conocidos en todo el mundo, medidos en inglés y en español, y por cada tanda uno con
 **demanda probada en español** y otro con **hueco** (mucho en inglés, poco en español). Primero los que tienen un
 documento detrás (una transcripción, un informe, un vídeo oficial, testigos con nombre), porque permiten enseñar la
-prueba en pantalla. Candidatos medidos: el «Tic Tac» del Nimitz (2004, el hueco), las luces de Phoenix (1997), el Mary
-Celeste (1872), el vuelo 19 (1945) y el caso Manises (1979, España).
+prueba en pantalla. Hechos: el 1, Valentich (la demanda probada), y el 2, el «Tic Tac» del Nimitz (2004, el hueco: 1,5 M
+en inglés y 34.000 como mucho en español; fuente principal, la declaración escrita de Fravor ante el Congreso). Quedan
+medidos: las luces de Phoenix (1997, otro hueco), el Mary Celeste (1872), el vuelo 19 (1945) y el caso Manises (1979).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

@@ -1,0 +1,113 @@
+<template>
+  <!-- El radar del crucero Princeton (recreación, no la pantalla real): un radar con su barrido y, a la derecha, la escala
+       de altura, de 0 a 25 km. Encima de la foto de la sala de combate, muy oscurecida.
+       «semanas»: los días cuentan hasta 14; «caen»: los tres objetos bajan de 24 a 6 km; «horas»: se quedan, temblando;
+       «subir»: vuelven arriba y se salen de la escala. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .foto { filter: brightness(0.32) saturate(0.6); transform-origin: 50% 40%; }
+    #{{ID}} .tinte { background: linear-gradient(180deg, rgba(6, 9, 12, 0.55) 0%, rgba(6, 9, 12, 0.3) 45%, rgba(6, 9, 12, 0.75) 100%); }
+    #{{ID}} .rayas { background: repeating-linear-gradient(0deg, rgba(98, 245, 155, 0.035) 0 2px, rgba(0, 0, 0, 0) 2px 6px); }
+    #{{ID}} .cab { position: absolute; left: 80px; top: 214px; font: 700 32px/1 "JetBrains Mono", monospace; letter-spacing: 0.08em;
+      color: rgba(232, 238, 240, 0.78); text-transform: uppercase; }
+    #{{ID}} .cab .vivo { display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: #62f59b; margin-right: 14px;
+      box-shadow: 0 0 16px rgba(98, 245, 155, 0.9); vertical-align: 1px; }
+    #{{ID}} .dias { position: absolute; left: 80px; top: 268px; font: 700 34px/1 "JetBrains Mono", monospace; letter-spacing: 0.06em; color: #62f59b;
+      visibility: hidden; }
+    #{{ID}} svg.r { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    #{{ID}} .ppi { fill: rgba(4, 14, 10, 0.6); stroke: rgba(98, 245, 155, 0.55); stroke-width: 2.5; }
+    #{{ID}} .anillo { fill: none; stroke: rgba(98, 245, 155, 0.22); stroke-width: 1.5; }
+    #{{ID}} .eje { stroke: rgba(98, 245, 155, 0.22); stroke-width: 1.5; }
+    #{{ID}} .haz { fill: url(#haz-{{ID}}); }
+    #{{ID}} .linea-b { stroke: #62f59b; stroke-width: 3; }
+    #{{ID}} .eco { fill: #c9ffe0; }
+    #{{ID}} .escala { stroke: rgba(232, 238, 240, 0.55); stroke-width: 2.5; }
+    #{{ID}} .marca-a { stroke: rgba(232, 238, 240, 0.45); stroke-width: 2; }
+    #{{ID}} .km { font: 700 30px "JetBrains Mono", monospace; fill: rgba(232, 238, 240, 0.7); }
+    #{{ID}} .km.dest { fill: #62f59b; }
+    #{{ID}} .obj { fill: #62f59b; stroke: #06090c; stroke-width: 2; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Big Shoulders Display", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(6, 9, 12, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #62f59b; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc">
+      <img class="foto" src="assets/img/radar.jpg" alt="" />
+      <div class="capa tinte"></div>
+      <div class="capa rayas"></div>
+      <div class="visor"><i></i><i></i><i></i><i></i></div>
+      <div class="cab"><span class="vivo"></span>Crucero Princeton · radar</div>
+      <div class="dias num">DÍA <span class="n">1</span></div>
+      <svg class="r" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="haz-{{ID}}" cx="0" cy="0" r="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="rgba(98,245,155,0.0)" /><stop offset="1" stop-color="rgba(98,245,155,0.0)" />
+          </radialGradient>
+        </defs>
+        <g class="radar-g">
+          <circle class="ppi" cx="340" cy="640" r="250" />
+          <circle class="anillo" cx="340" cy="640" r="167" /><circle class="anillo" cx="340" cy="640" r="84" />
+          <line class="eje" x1="90" y1="640" x2="590" y2="640" /><line class="eje" x1="340" y1="390" x2="340" y2="890" />
+          <path class="estela" d="M340,640" fill="rgba(98, 245, 155, 0.16)" />
+          <line class="linea-b" x1="340" y1="640" x2="340" y2="390" />
+          <circle class="eco e1" r="7" /><circle class="eco e2" r="7" /><circle class="eco e3" r="7" />
+        </g>
+        <g class="altura">
+          <line class="escala" x1="800" y1="330" x2="800" y2="1090" />
+          <text class="km k24" x="830" y="370">24 km</text>
+          <text class="km k18" x="830" y="552">18</text>
+          <text class="km k12" x="830" y="735">12</text>
+          <text class="km k6" x="830" y="917">6 km</text>
+          <text class="km k0" x="830" y="1100">0</text>
+          <line class="marca-a" x1="786" y1="360" x2="814" y2="360" /><line class="marca-a" x1="786" y1="543" x2="814" y2="543" />
+          <line class="marca-a" x1="786" y1="725" x2="814" y2="725" /><line class="marca-a" x1="786" y1="908" x2="814" y2="908" />
+          <line class="marca-a" x1="786" y1="1090" x2="814" y2="1090" />
+          <path class="obj o1" d="M0,-13 L10,0 L0,13 L-10,0 Z" /><path class="obj o2" d="M0,-13 L10,0 L0,13 L-10,0 Z" />
+          <path class="obj o3" d="M0,-13 L10,0 L0,13 L-10,0 Z" />
+        </g>
+      </svg>
+      <div class="t et lab"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      tl.fromTo($(".foto"), { scale: 1.04 }, { scale: 1.1, duration: DUR, ease: "none" }, 0);
+      // La altura en la escala: 30,4 px por km desde y 1090 (0 km).
+      const yk = (km) => 1090 - km * 30.42;
+      const OBJ = [$(".o1"), $(".o2"), $(".o3")], XO = [756, 726, 756];
+      OBJ.forEach((o, i) => gsap.set(o, { x: XO[i], y: yk(24) + i * 4, autoAlpha: 0 }));
+      const ECOS = [[0.6, 150], [2.2, 190], [4.1, 120]].map(([a, r]) => [340 + r * Math.sin(a), 640 - r * Math.cos(a), a]);
+      ECOS.forEach(([x, y], i) => { const e = $(".e" + (i + 1)); e.setAttribute("cx", x.toFixed(1)); e.setAttribute("cy", y.toFixed(1)); });
+      const td = w("semanas") - 0.6, tc = w("caen") - 0.1, th = w("horas") - 0.1, ts = w("subir") - 0.05;
+      // Los días: de 1 a 14 mientras dice «lleva dos semanas».
+      tl.set($(".dias"), { visibility: "visible" }, Math.max(0, td));
+      alBuscar((t) => {
+        $(".dias .n").textContent = String(Math.max(1, Math.min(14, Math.round(1 + 13 * paso(t, td, 0.9, "power1.out")))));
+        // El barrido: una vuelta cada 2,4 s; los ecos brillan al pasar y se apagan despacio.
+        const a = ((t / 2.4) % 1) * Math.PI * 2;
+        const x = 340 + 250 * Math.sin(a), y = 640 - 250 * Math.cos(a);
+        $(".linea-b").setAttribute("x2", x.toFixed(1)); $(".linea-b").setAttribute("y2", y.toFixed(1));
+        const a0 = a - 0.7, x0 = 340 + 250 * Math.sin(a0), y0 = 640 - 250 * Math.cos(a0);
+        $(".estela").setAttribute("d", `M340,640 L${x0.toFixed(1)},${y0.toFixed(1)} A250,250 0 0 1 ${x.toFixed(1)},${y.toFixed(1)} Z`);
+        ECOS.forEach(([ex, ey, ea], i) => {
+          const d = (((a - ea) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+          $(".e" + (i + 1)).style.opacity = (0.15 + 0.85 * Math.max(0, 1 - d / 3.5)).toFixed(2);
+        });
+      });
+      // Los objetos: aparecen arriba, caen a 6 km, se quedan temblando y vuelven a subir.
+      OBJ.forEach((o, i) => {
+        tl.to(o, { autoAlpha: 1, duration: 0.2 }, tc - 0.5 + i * 0.08);
+        tl.to(o, { y: yk(6) + (i - 1) * 16, duration: 0.45, ease: "power3.in" }, tc + i * 0.18);
+        tl.to(o, { keyframes: [{ y: "-=6", duration: 0.25 }, { y: "+=6", duration: 0.25 }], repeat: 2, ease: "sine.inOut" }, th + i * 0.1);
+        tl.to(o, { y: yk(27), autoAlpha: 0, duration: 0.5, ease: "power3.in" }, ts + i * 0.12);
+      });
+      tl.to($(".k24"), { fill: "#62f59b", duration: 0.2 }, tc - 0.4);
+      tl.to($(".k6"), { fill: "#62f59b", duration: 0.2 }, tc + 0.5);
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      et(".lab", "Se quedan horas", 80, 960, th);
+      fin();
+    })();
+  </script>
+</template>
