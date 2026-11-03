@@ -1,0 +1,66 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Aron Ralston es una persona real: nunca de cara (de espaldas o de lejos). Sin sangre ni nada de la amputación: lo cuenta la voz. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "canon",
+   "semilla": 1301,
+   "prompt": "A lone young climber deep inside a very narrow red sandstone slot canyon in Utah, his back to the camera, no face visible, his right hand hidden behind a large boulder wedged between the canyon walls at chest height, a thin beam of sunlight from far above, only one person in the whole image, no blood, the man in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "desierto",
+   "semilla": 1302,
+   "prompt": "Aerial view of the vast red rock canyon country of southern Utah at midday, deep winding canyons cut into the desert, one tiny lone hiker walking at the edge of a canyon far below, vertical composition"
+  },
+  {
+   "nombre": "descenso",
+   "semilla": 1312,
+   "prompt": "A lone young climber with a backpack descending alone into a very narrow red sandstone slot canyon in Utah, seen from above and behind, his back to the camera, no face visible, sunlight on the rim, deep shadows below, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "inventario",
+   "semilla": 1303,
+   "prompt": "Close-up of a small set of hiking supplies lying on red sandstone rock: a small plastic water bottle almost empty, two burritos wrapped in foil, a cheap folding multitool and a headlamp, harsh light, no people, no text, vertical composition"
+  },
+  {
+   "nombre": "noche",
+   "semilla": 1304,
+   "prompt": "Night inside a narrow slot canyon, a thin strip of starry sky far above between the high rock walls, a lone climber standing pinned against a wedged boulder in the dark, his back to the camera, no face visible, a weak headlamp glow, cold and silent, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "botella",
+   "semilla": 1305,
+   "prompt": "An empty crushed plastic water bottle lying on dusty red sandstone at the bottom of a slot canyon, a beam of harsh sunlight on it, no people, no text, vertical composition"
+  },
+  {
+   "nombre": "camara",
+   "semilla": 1306,
+   "prompt": "A small early 2000s digital video camera standing on a rock ledge inside a dark slot canyon, its small red recording light on, pointed at a man sitting in the shadows with his back to the camera, no face visible, vertical composition"
+  },
+  {
+   "nombre": "grabado",
+   "semilla": 1307,
+   "prompt": "Close-up of a hand holding a small pocket knife scratching marks into smooth red sandstone in a dim canyon, the marks are illegible scratches, no letters, no readable text, vertical composition"
+  },
+  {
+   "nombre": "navaja",
+   "semilla": 1308,
+   "prompt": "A cheap folding multitool knife with a short dull blade lying on red sandstone at the bottom of a slot canyon, a beam of light falling on it, no blood, no people, vertical composition"
+  },
+  {
+   "nombre": "caminata",
+   "semilla": 1309,
+   "prompt": "A lone man walking away through a wide sunlit desert canyon in Utah, his back to the camera, seen from far away, his right arm in a dark sling against his chest, red rock walls, harsh midday sun, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "helicoptero",
+   "semilla": 1310,
+   "prompt": "A small rescue helicopter landing on the sandy floor of a wide desert canyon in Utah, two hikers waiting far away, dust blowing, harsh sunlight, seen from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "gato",
+   "semilla": 1311,
+   "prompt": "Rescue workers in helmets in a narrow red slot canyon using a hydraulic jack and a winch with ropes to lift a large boulder wedged between the walls, seen from behind and from far away, no faces visible, vertical composition"
+  }
+ ]
+}

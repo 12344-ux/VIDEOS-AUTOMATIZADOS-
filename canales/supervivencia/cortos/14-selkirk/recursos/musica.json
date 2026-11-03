@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–17 LU bajo la voz (CANAL.md).",
+ "semilla": 141,
+ "candidatas": [
+  "lonely island adventure documentary music, solo piano and high strings, slow, nostalgic, solitude, hopeful ending, no drums, 68 bpm",
+  "solo piano and high strings, slow, wonder and solitude, emotional, old sea tale, no drums, 72 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 91,
+  "entrada": 0,
+  "recorte": 1.5,
+  "comprimir": 6,
+  "_por_que": "pieza_1: 1 % de la energía bajo 150 Hz, de −24 a −31 dB; con compresión 6 (con 3 quedaban dos microhuecos de 0,05 s en una respiración de la pieza a −34 dB, a los 17,3 s y en su repetición). La 2 se apagaba de −18 a −38 dB."
+ }
+}

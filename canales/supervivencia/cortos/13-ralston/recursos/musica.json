@@ -1,0 +1,15 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–17 LU bajo la voz (CANAL.md).",
+ "semilla": 131,
+ "candidatas": [
+  "lonely desert canyon documentary music, solo piano and high strings, slow, tense, resilience, hopeful ending, no drums, 66 bpm",
+  "solo piano and high strings, slow, suspense and determination, emotional, hopeful, no drums, 70 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 83,
+  "entrada": 0,
+  "recorte": 1.5,
+  "_por_que": "pieza_2: 26 % de la energía bajo 150 Hz y estable (−20 a −23 dB cada 5 s); la 1, con el 48 %, descartada."
+ }
+}

@@ -1,0 +1,158 @@
+<template>
+  <!-- El cañón de Bluejohn en corte, dibujado (esquema, no a escala). Una grieta estrecha entre dos paredes de arenisca;
+       Aron, un pictograma claro al fondo; la roca, que cae y le aplasta la mano derecha contra la pared. Modos:
+         cae       la roca, en un saliente arriba, se suelta («suelta»), cae y queda encajada; tiembla; «aplasta»: la mano,
+                   en naranja; «kilos»: +350 kg; «centímetro»: NI UN CENTÍMETRO
+         intentos  la roca encajada; «picar»: esquirlas; «cuerdas»: la cuerda desde un anclaje arriba, con su polea, tira y la
+                   roca apenas tiembla; «mueve»: NO SE MUEVE
+         rapel     la salida: una pared de 20 m (la regla), la cuerda y él bajando con un solo brazo -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.canon { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .pared { fill: url(#pared-{{ID}}); stroke: #c9764a; stroke-width: 4; stroke-linejoin: round; }
+    #{{ID}} .estrato { fill: none; stroke: rgba(240, 190, 140, 0.16); stroke-width: 3; }
+    #{{ID}} .grieta { fill: url(#luz-{{ID}}); }
+    #{{ID}} .suelo { fill: #3a1d12; }
+    #{{ID}} .roca { fill: #7a3f24; stroke: #e0a27a; stroke-width: 4; stroke-linejoin: round; }
+    #{{ID}} .roca-v { fill: none; stroke: rgba(30, 12, 6, 0.5); stroke-width: 3; }
+    #{{ID}} .hombre { fill: none; stroke: #f2ede4; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+    #{{ID}} .cabeza { fill: #f2ede4; }
+    #{{ID}} .mano { fill: #ff5e1a; opacity: 0; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 5; opacity: 0; }
+    #{{ID}} .chispa { fill: #ffd9a0; opacity: 0; }
+    #{{ID}} .polvo { fill: rgba(230, 170, 120, 0.55); opacity: 0; }
+    #{{ID}} .cuerda { fill: none; stroke: #e9c27a; stroke-width: 5; stroke-linecap: round; }
+    #{{ID}} .polea { fill: #c9c1b4; stroke: #0b0a09; stroke-width: 2; }
+    #{{ID}} .regla line { stroke: rgba(242, 237, 228, 0.75); stroke-width: 4; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.sello { font: 800 96px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+    #{{ID}} .t.sello span { display: inline-block; background: #ff5e1a; color: #0b0a09; padding: 0.04em 0.14em 0; }
+    #{{ID}} .t.cifra { font: 800 72px/1 "Barlow Condensed", sans-serif; color: #ff5e1a; text-shadow: 0 3px 18px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.cifra .m { font-style: normal; text-transform: none; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="canon" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2a1a14" /><stop offset="1" stop-color="#e6a36a" />
+          </linearGradient>
+          <linearGradient id="pared-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="1300">
+            <stop offset="0" stop-color="#b85a30" /><stop offset="0.5" stop-color="#7c361b" /><stop offset="1" stop-color="#3a170b" />
+          </linearGradient>
+          <linearGradient id="luz-{{ID}}" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="1200">
+            <stop offset="0" stop-color="#f0c48e" /><stop offset="0.35" stop-color="#8a4a2a" /><stop offset="1" stop-color="#1c0d07" />
+          </linearGradient>
+        </defs>
+        <rect class="cielo" x="-100" y="-100" width="1280" height="400" />
+        <g class="mundo">
+          <!-- La grieta: el hueco entre las paredes (iluminado desde arriba) y el suelo. -->
+          <g class="v-grieta">
+            <rect class="grieta" x="300" y="200" width="480" height="1100" />
+            <path class="pared" d="M-60,2000 L-60,236 L460,240 L480,380 L455,520 L490,660 L470,800 L500,940 L480,1080 L495,1180 L495,2000 Z" />
+            <path class="pared" d="M1140,2000 L1140,236 L620,240 L600,380 L630,520 L605,660 L640,800 L615,940 L635,1080 L610,1180 L610,2000 Z" />
+            <path class="estrato" d="M-60,420 L470,410 M-60,610 L470,600 M-60,830 L475,820 M-60,1020 L490,1010" />
+            <path class="estrato" d="M610,430 L1140,440 M625,640 L1140,630 M630,860 L1140,850 M625,1050 L1140,1060" />
+            <rect x="-60" y="1150" width="1200" height="900" fill="#2a120a" />
+            <path d="M478,1150 L632,1150" stroke="#8a4a2a" stroke-width="6" stroke-linecap="round" />
+          </g>
+          <!-- La salida: una pared de 20 m con la cuerda. -->
+          <g class="v-rapel" style="visibility: hidden">
+            <rect x="-100" y="-100" width="1280" height="2200" fill="#d9925c" opacity="0.18" />
+            <path class="pared" d="M-60,2000 L-60,380 L410,372 L428,520 L415,700 L436,880 L420,1040 L432,1160 L1140,1160 L1140,2000 Z" />
+            <path class="estrato" d="M-60,560 L420,552 M-60,760 L420,752 M-60,960 L428,950" />
+            <line class="cuerda c-rapel" x1="452" y1="372" x2="452" y2="1160" />
+            <circle class="polea" cx="440" cy="372" r="10" />
+            <g class="regla"><line x1="600" y1="372" x2="600" y2="1160" /><line x1="580" y1="372" x2="620" y2="372" /><line x1="580" y1="1160" x2="620" y2="1160" /></g>
+          </g>
+          <g class="cuerda-g" style="visibility: hidden">
+            <path class="cuerda c-tira" d="M560,240 L560,300 L580,925" pathLength="100" stroke-dasharray="100 100" />
+            <circle class="polea" cx="560" cy="300" r="14" />
+          </g>
+          <g class="roca-g">
+            <path class="roca" d="M505,950 L560,925 L625,940 L640,990 L615,1040 L545,1048 L500,1010 Z" />
+            <path class="roca-v" d="M530,960 L555,990 L540,1025 M590,950 L600,985 L585,1020" />
+          </g>
+          <g class="hombre-g">
+            <circle class="cabeza" cx="548" cy="985" r="17" />
+            <path class="hombre cuerpo" d="M548,1004 L548,1082 M548,1082 L532,1150 M548,1082 L564,1150 M548,1024 L524,1064" />
+            <path class="hombre brazo" d="M548,1024 L590,1010 L628,1016" />
+          </g>
+          <circle class="mano" cx="626" cy="1016" r="13" />
+          <circle class="onda" cx="626" cy="1016" r="10" />
+          <g class="chispas"></g>
+          <g class="polvos"></g>
+        </g>
+      </svg>
+      <div class="t et e1"><span></span></div><div class="t et e2"><span></span></div>
+      <div class="t sello s1t"><span></span></div>
+      <div class="t cifra c1"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = (tipo, at, padre) => { const e = document.createElementNS(NS, tipo); Object.entries(at).forEach(([k, v]) => e.setAttribute(k, v)); padre.appendChild(e); return e; };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const sello = (sel, txt, x, y, t) => { const e = $(sel); e.querySelector("span").textContent = txt; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, scale: 1.3, transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, duration: 0.22, ease: "power4.in" }, t - 0.1); tl.fromTo(RAIZ, { x: 0 }, { keyframes: [{ x: -7, duration: 0.05 }, { x: 5, duration: 0.05 }, { x: 0, duration: 0.06 }] }, t + 0.12); };
+      const tiembla = (t, k = 1) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -14 * k, y: 8 * k, duration: 0.05 }, { x: 11 * k, y: -7 * k, duration: 0.05 }, { x: -7 * k, y: 5 * k, duration: 0.05 }, { x: 4 * k, y: -2 * k, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, t);
+      // La mano atrapada: se enciende y late.
+      const mano = (t) => {
+        tl.to($(".mano"), { opacity: 1, duration: 0.15 }, t);
+        tl.fromTo($(".onda"), { attr: { r: 10 }, opacity: 0.9 }, { attr: { r: 60 }, opacity: 0, duration: 0.7, ease: "power2.out", immediateRender: false }, t);
+        tl.fromTo($(".onda"), { attr: { r: 10 }, opacity: 0.7 }, { attr: { r: 50 }, opacity: 0, duration: 0.7, ease: "power2.out", immediateRender: false }, t + 0.8);
+      };
+      // Polvo al encajarse la roca y esquirlas al picarla.
+      const polvo = (t) => { for (let i = 0; i < 10; i++) { const p = svg("circle", { class: "polvo", cx: 520 + i * 12, cy: 1000, r: 6 + (i % 3) * 4 }, $(".polvos")); tl.fromTo(p, { opacity: 0.8, x: 0, y: 0 }, { opacity: 0, x: (i - 5) * 14, y: -40 - (i % 4) * 22, duration: 1.1, ease: "power2.out", immediateRender: false }, t); } };
+      const chispas = (t) => { for (let i = 0; i < 7; i++) { const c = svg("circle", { class: "chispa", cx: 515, cy: 975, r: 4 }, $(".chispas")); const a = -Math.PI / 2 - 0.9 + i * 0.3; tl.fromTo(c, { opacity: 1, x: 0, y: 0 }, { opacity: 0, x: Math.cos(a) * 70, y: Math.sin(a) * 70, duration: 0.45, ease: "power2.out", immediateRender: false }, t); } };
+      if (modo === "cae") {
+        // La roca, arriba en un saliente; cae y queda encajada a la altura del pecho.
+        const tc = w("suelta") - 0.05;
+        tl.fromTo($(".roca-g"), { y: -560 }, { y: 0, duration: 0.5, ease: "power3.in" }, tc);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "52% 56%" }, { scale: 1.0, duration: 0.01 }, 0);
+        tl.to($(".mundo"), { scale: 1.35, duration: Math.max(1, DUR - tc - 0.5), ease: "power1.inOut" }, tc + 0.5);
+        tiembla(tc + 0.5, 1.3); polvo(tc + 0.5);
+        et(".e1", "Cañón Bluejohn", 80, 216, 0.1);
+        const k = $(".c1"); k.innerHTML = '+350 <i class="m">kg</i>'; gsap.set(k, { left: 700, top: 880 }); entra(k, Math.max(w("kilos") - 0.1, tc + 0.5), 0.35, 12);
+        mano(w("aplasta") + 0.1);
+        et(".e2", "Mano derecha", 80, 306, w("derecha") - 0.05);
+        // Forcejea: el cuerpo tira hacia atrás tres veces y la roca no cede.
+        [0, 0.35, 0.7].forEach((d) => tl.fromTo([$(".cabeza"), $(".cuerpo")], { x: 0 }, { keyframes: [{ x: -7, duration: 0.1 }, { x: 0, duration: 0.15 }], immediateRender: false }, w("moverla") + d));
+        sello(".s1t", "Ni un centímetro", 80, 420, w("centímetro") - 0.05);
+      } else if (modo === "intentos") {
+        // Encajada: esquirlas al picar; la cuerda tira y la roca apenas tiembla.
+        gsap.set($(".mano"), { opacity: 1 });
+        tl.fromTo($(".mundo"), { scale: 1.35, transformOrigin: "52% 56%" }, { scale: 1.45, duration: DUR, ease: "none" }, 0);
+        const tp = w("picar");
+        [0, 0.35, 0.7].forEach((d) => { chispas(tp + d); tl.fromTo($(".roca-g"), { x: 0 }, { keyframes: [{ x: -2, duration: 0.04 }, { x: 2, duration: 0.04 }, { x: 0, duration: 0.04 }], immediateRender: false }, tp + d); });
+        et(".e1", "Picar la roca", 80, 216, tp - 0.05);
+        const tq = w("cuerdas") - 0.15;
+        tl.set($(".cuerda-g"), { visibility: "visible" }, tq);
+        traza($(".c-tira"), tq, 0.5, "power2.out");
+        [0.6, 1.0].forEach((d) => tl.fromTo($(".roca-g"), { y: 0 }, { keyframes: [{ y: -3, duration: 0.08 }, { y: 0, duration: 0.12 }], immediateRender: false }, tq + d));
+        et(".e2", "Levantarla con cuerdas", 80, 306, tq + 0.1);
+        sello(".s1t", "No se mueve", 80, 420, w("mueve") - 0.05);
+      } else {
+        // rapel: la salida, una pared de 20 m; baja con un solo brazo.
+        gsap.set([$(".v-grieta"), $(".roca-g"), $(".mano")], { visibility: "hidden" });
+        gsap.set($(".v-rapel"), { visibility: "visible" });
+        // El hombre, colgado de la cuerda: un solo brazo arriba, en la cuerda.
+        $(".cuerpo").setAttribute("d", "M470,1004 L470,1082 M470,1082 L452,1146 M470,1082 L490,1146");
+        $(".brazo").setAttribute("d", "M470,1022 L456,990 L452,960");
+        $(".cabeza").setAttribute("cx", 470); $(".cabeza").setAttribute("cy", 985);
+        const t0 = 0.2, t1 = Math.max(t0 + 1.5, DUR - 0.4);
+        tl.fromTo($(".hombre-g"), { y: -600 }, { y: 0, duration: t1 - t0, ease: "sine.inOut" }, t0);
+        tl.fromTo($(".mundo"), { scale: 1.0, transformOrigin: "50% 50%" }, { scale: 1.05, duration: DUR, ease: "none" }, 0);
+        const k = $(".c1"); k.innerHTML = '20 <i class="m">m</i>'; gsap.set(k, { left: 640, top: 728 }); entra(k, w("veinte") - 0.1, 0.35, 12);
+        et(".e1", "Con un solo brazo", 80, 216, w("solo", 2) - 0.05);       // la 1.ª: «baja solo»
+      }
+      fin();
+    })();
+  </script>
+</template>

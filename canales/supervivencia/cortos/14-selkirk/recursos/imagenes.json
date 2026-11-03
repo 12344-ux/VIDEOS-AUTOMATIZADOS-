@@ -1,0 +1,71 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Alexander Selkirk es una persona real (no hay retratos suyos): de espaldas o de lejos, como todos en el canal. Principios del siglo XVIII. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "isla",
+   "semilla": 1401,
+   "prompt": "A lone castaway man in rough goatskin clothes and a goatskin cap standing on black volcanic rocks at the shore of a steep green mountainous island in the Pacific Ocean, early 1700s, his back to the camera, no face visible, looking out at the empty ocean, only one person in the whole image, the man small in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "barco",
+   "semilla": 1402,
+   "prompt": "An early 1700s English privateer sailing ship on a rough grey Pacific sea, sailors working the pumps on deck, the old wooden hull visibly damaged and leaking, seen from far away, stormy light, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "discusion",
+   "semilla": 1412,
+   "prompt": "On the deck of an early 1700s sailing ship in rough weather, a sailor arguing angrily with a young captain in a long coat and tricorn hat, seen from far away, no faces visible, grey stormy light, vertical composition"
+  },
+  {
+   "nombre": "abandono",
+   "semilla": 1403,
+   "prompt": "A small rowing boat pulling away from the beach of a steep green volcanic island towards a sailing ship anchored in the bay, a lone man in early 1700s sailor clothes standing on the beach next to a wooden chest, his back to the camera, no face visible, only one person on the beach, vertical composition"
+  },
+  {
+   "nombre": "inventario",
+   "semilla": 1404,
+   "prompt": "Close-up of early 1700s belongings lying on the sand of a beach: an old flintlock musket, a powder horn, a hatchet, a knife, an iron cooking pot and an old leather Bible, no text, no people, vertical composition"
+  },
+  {
+   "nombre": "gatos",
+   "semilla": 1405,
+   "prompt": "Night inside a small rough wooden hut, a bearded man in goatskin clothes sleeping on a bed of branches with several wild cats curled around him, a rat in a corner, moonlight through the door, seen from far away, no face visible, vertical composition"
+  },
+  {
+   "nombre": "cabras",
+   "semilla": 1406,
+   "prompt": "A barefoot man in goatskin clothes running after wild goats up a steep green rocky hillside of a volcanic island, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "arbol",
+   "semilla": 1407,
+   "prompt": "A man in goatskin clothes hiding high in the branches of a big tree in a dense island forest, below him soldiers in early 1700s uniforms with muskets searching, seen from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "chozas",
+   "semilla": 1408,
+   "prompt": "Two small huts of wood and dry grass on a green island hillside above the Pacific Ocean, goats grazing nearby, a lone man in goatskin clothes sitting outside looking at the sea, his back to the camera, no face visible, golden evening light, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "rescate",
+   "semilla": 1409,
+   "prompt": "Two large early 1700s English sailing ships anchored in the bay of a steep green volcanic island, a rowing boat with sailors landing on the beach, a wild-looking man in goatskin clothes waiting on the shore, seen from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "encuentro",
+   "semilla": 1413,
+   "prompt": "On the beach of a green volcanic island, a few early 1700s English sailors meeting a wild bearded man dressed in goatskin clothes and a goatskin cap, seen from behind the sailors and from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "naufragio",
+   "semilla": 1410,
+   "prompt": "An early 1700s wooden sailing ship sinking in a stormy sea at night near a lonely steep rocky island, waves crashing, broken masts, seen from far away, no people visible, vertical composition"
+  },
+  {
+   "nombre": "libro",
+   "semilla": 1411,
+   "prompt": "An old leather-bound 18th-century book lying open on a wooden table next to a candle, a black and white engraving of a castaway with a parasol and a goatskin hat on the left page, no readable text, vertical composition"
+  }
+ ]
+}
