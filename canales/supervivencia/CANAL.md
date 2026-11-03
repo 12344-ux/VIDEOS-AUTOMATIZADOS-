@@ -14,7 +14,10 @@ fórmula de los cortos 1–8**: historias conocidas en todo el mundo, medidas co
 en español (10 años, por vistas por hora; sin `--region`), y por cada tanda una con **hueco** (mucho en inglés, poco en
 español) y otra con **la demanda probada en español**, cambiando de escenario respecto a las anteriores. Así salieron el
 11 (la cueva de Tailandia: 62 M en inglés, 430 k como mucho en español) y el 12 (Apolo 13: 2,1 M en español; 8 M y 4,5 M en
-inglés en canales pequeños).
+inglés en canales pequeños), y después el 13 (Aron Ralston, «127 horas»: 4,1 M en español, la demanda probada) y el 14
+(Alexander Selkirk, el Robinson Crusoe real: 524 k en inglés y, en español, un solo Short sobre él, de 14 k; los demás
+cuentan a Pedro Serrano). Si la historia toca a Colombia sin ser colombiana, se dice (el barco de Selkirk se hundió frente
+a la actual Colombia).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

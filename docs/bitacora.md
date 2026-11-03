@@ -1332,15 +1332,95 @@ contiene las demás) se trajo por avance rápido.
   0,9 dB en la cueva y 4,8 dB en Apolo 13, donde el final es casi solo música (la voz acaba en «…de casa» y quedan 0,9 s de
   cola); es el contenido, no el tratamiento. Medido y mirado, no escuchado.
 
+## Sesión 9 — 3 de noviembre de 2026
+
+La misma clase de máquina que en la 8 (Xeon a 2,1 GHz con AMX), con la sesión reanudada: todo seguía instalado.
+
+### 1. La precarga y la red
+
+- **`./instalar.sh precargar`, 15 min 53 s.** Mientras ocupaba el disco, la API de YouTube se agotaba en el saludo TLS y
+  después respondía a 10 s por llamada: las mediciones se repitieron al terminar la precarga. Con la caché llena, cada voz
+  salió en 1 min.
+
+### 2. Las dos historias
+
+- **Pedido del usuario:** «Excelente trabajo, haz dos videos cortos más para el canal de supervivencia». Con la fórmula
+  normal (una con demanda probada en español y otra con hueco).
+- **Medido** (`rastreador/youtube.py buscar`, 10 años): «127 horas historia real», 75 Shorts en español, y 12 de los 20 con
+  más de 5.000 vistas pasan de 3× su canal (el mayor, 4,1 M); «el verdadero Robinson Crusoe», 36 Shorts y 7 de los 9 con
+  más de 5.000 vistas pasan de 3× su canal, pero casi todos cuentan a Pedro Serrano (el náufrago español, 383.000 vistas):
+  de Selkirk, uno solo, de 14.000. En inglés, Selkirk tenía 524.000 (sesión 8).
+- **Elegidas:** **Aron Ralston** (la demanda probada: la película «127 horas») y **Alexander Selkirk** (el hueco: el
+  Robinson Crusoe real, con un giro que toca a la audiencia: su barco se hundió frente a la actual Colombia). Cambian de
+  escenario: un cañón del desierto y una isla del Pacífico.
+- **Datos:** Wikipedia, Outside, CBS News, LA Daily Mirror y el libro de Ralston; Wikipedia, el Smithsonian, el relato de
+  Woodes Rogers de 1709, Britannica y World History Encyclopedia. Lo que varía según la fuente, en el `PUBLICACION.md` de
+  cada uno (la roca de 360 kg, «127 horas» frente a cinco días, quién lo encontró; dónde se hundió el barco, cuántos se
+  salvaron, el árbol y los disparos, Defoe «en parte»).
+
+### 3. Cómo están hechos
+
+- **«Cinco días bajo una roca»** (79,1 s, 18 escenas): el gancho 5 DÍAS · BAJO UNA ROCA; el secreto tachado, «su error · antes
+  de salir», que se lee al 60 % («No avisó a nadie»). Escena dibujada nueva, `escenas/canon.html`: el cañón en corte, con
+  la roca que cae y se encaja (+350 kg, la mano, «Ni un centímetro»), los intentos (las esquirlas al picar, la cuerda, «No se
+  mueve») y el rapel de 20 m con un solo brazo. El contador de días del 2 al 6, ARON · OCT 1975 · ABR 2003 a máquina y
+  «13 hombres y un gato hidráulico» con puntos. Ralston, nunca de cara; nada de sangre ni de la amputación en imagen.
+- **«El verdadero Robinson Crusoe»** (86,8 s, 19 escenas): el gancho 4 AÑOS · SOLO EN UNA ISLA; el secreto, «por qué se
+  quedó · lo que temía», que se lee al 75 % («Que el barco se hundiera»). Mapa nuevo con Natural Earth (`mapa.py` y
+  `escenas/mapa.html`, con la proyección azimutal de `geo.py`): del Pacífico a la isla frente a Chile, la regla de 670 km
+  (673 hasta Valparaíso), el rumbo del barco hacia el norte (en esquema) hasta Malpelo, Colombia que se enciende con la X
+  «Se hundió aquí» y el sello «Tenía razón», y el nombre de hoy: «Más a Tierra» tachado e «Isla Robinson Crusoe».
+- **Voz** M2: 78,5 y 86,2 s. La de Selkirk se rehízo: «Se hundió.» en una frase aparte y sin la edad (va en un rótulo).
+- **Música** («solo piano and high strings», dos candidatas por corto): 541 s las de Ralston (la 1, con el 48 % bajo
+  150 Hz, descartada; la 2, el 26 %) y 379 s las de Selkirk (1 % las dos; la 2 se apagaba de −18 a −38 dB). La de Selkirk
+  dejaba dos microhuecos de 0,05 s: una respiración de la pieza, 0,7 s a −34 dB; con `comprimir` 6 desaparecieron.
+- **Sonido** (BigSoundBank, CC0): la roca que cae, la navaja al picar y al tallar y el helicóptero; el balido, dos disparos
+  con sus destellos y la ola del naufragio. `revisar_mezcla.py`: 0 avisos y ningún hueco; la música a −16,9 y −16,7 LU.
+- **Imágenes:** 12 y 13 de FLUX.3 a 720 × 1280 (107–268 s cada una; 26 min 16 s y 32 min 23 s los lotes, el segundo
+  compartiendo la CPU con el render de Ralston). **Rehechas** las cinco de Selkirk en las que salía alguien de cara o sobraba
+  alguien: la discusión con el capitán (ahora, en silueta), Selkirk dormido entre los gatos, Selkirk en el árbol, el
+  encuentro con los marineros y el rescate (dos hombres en la playa cuando la voz dice «un hombre»): 13 min 5 s con la carga
+  y la ampliación. **El árbol costó cuatro intentos:** en el 2.º, soldados como de la Primera Guerra Mundial («early 1700s
+  uniforms» no basta: hay que describir el tricornio y la casaca) y un hombre que parecía un animal; en el 3.º, con la época
+  ya bien, Selkirk miraba a cámara; y de dos candidatas en una sola carga (4 min 38 s), la buena: los soldados al pie del
+  árbol y él trepando de espaldas, con la cara contra la corteza. La otra, por encima de su hombro, no dejaba ver que
+  estuviera en un árbol.
+
+### 4. Lo que encontró la revisión
+
+- **Ralston:** `check` con 0 errores; los avisos, tiempos de lectura («Ni un centímetro» y «No se mueve» entraban con la
+  palabra final, y el rótulo de la sangre, tarde) y uno de contraste falso en un subtítulo (el resaltado a medio pasar de una
+  palabra a otra: mirado en el fotograma). «13 hombres y un gato hidráulico» salía con «Después», dos segundos antes de que la
+  voz lo dijera: ahora va antes la foto del gato hidráulico («Para mover la roca») y la cifra con los trece puntos entra con
+  «trece».
+- **Selkirk:** «CHILE» y los rótulos pequeños del mapa, ilegibles de lejos y pisándose en la vista del Pacífico: ahora solo
+  salen con el mapa cerca. El nombre de la isla quedaba entre Más a Tierra y Más Afuera (hoy Alejandro Selkirk) y no se
+  sabía de cuál era: va encima de su punto, centrado. La costa cruzaba «Valparaíso»: los rótulos llevan un halo oscuro (con
+  relleno opaco; si es semitransparente, el halo se ve por dentro de la letra). En el último mapa los nombres se leían
+  pequeños en el móvil: la cámara se acerca más (de 2,6–3,0 a 3,2–3,6 aumentos) y la isla pasa a la izquierda para que
+  siga viéndose la costa de Chile. Y tres rótulos que entraban tarde. `check`: 0 errores y un solo aviso, el contraste falso
+  del subtítulo a medio pasar de «isla» a «se» (mirado en el fotograma).
+
+### 5. Render y entrega
+
+- **Ralston:** render en 4 min 9 s (con FLUX en paralelo); `salidas/supervivencia/cortos/13-ralston/entrega/ralston.mp4`
+  (79,1 s, −14,6 LUFS, −1,6 dBTP, 60 MB). El último fotograma es el primero (2,6 de diferencia media sobre 255) y no hay
+  ningún silencio; el final es 6,5 dB más bajo que el principio porque acaba en la cola de música (como en Apolo 13).
+- **Selkirk:** render en 3 min 47 s, con la CPU libre; `salidas/supervivencia/cortos/14-selkirk/entrega/selkirk.mp4` (86,8 s,
+  −14,5 LUFS, −1,7 dBTP, 76 MB). El último fotograma es el primero (2,7 sobre 255), ningún silencio, y el final, 3,1 dB por
+  debajo del principio (la misma cola de música). Las dos entregas, con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14
+  copiar` (27 y 26 s). Medido y mirado, no escuchado.
+
 ## Siguiente paso
 
 0. Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
-   Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia y Apolo 13 en supervivencia),
+   Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston y
+   Alexander Selkirk en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
-   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–12 (historias conocidas en todo el mundo, una con hueco
-   y otra con demanda probada en español, medidas en inglés y en español). Candidatas ya medidas: Aron Ralston (4,1 M y
-   2,1 M en español), Alexander Selkirk, el Robinson Crusoe real (524.000 en inglés, 11.000 en español), Shackleton (el
-   inglés, en alza) y Yossi Ghinsberg (2,3 M en español); Hugh Glass, solo contándolo como leyenda. Publicar y
+   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–14 (historias conocidas en todo el mundo, una con hueco
+   y otra con demanda probada en español, medidas en inglés y en español). Candidatas ya medidas: Shackleton (el
+   inglés, en alza) y Yossi Ghinsberg (2,3 M en español); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el
+   náufrago español (383.000 vistas en un Short, 18× su canal), salió al medir a Selkirk. Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.

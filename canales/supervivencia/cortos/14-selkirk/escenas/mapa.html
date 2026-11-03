@@ -22,8 +22,9 @@
     #{{ID}} .barco { fill: #f2ede4; stroke: #0b0a09; stroke-width: 1; }
     #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 4; stroke-linecap: round; }
     #{{ID}} .regla line { stroke: #f2ede4; stroke-width: 2; }
-    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: rgba(242, 237, 228, 0.88); }
-    #{{ID}} .nom.grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: rgba(242, 237, 228, 0.3); }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5;
+      paint-order: stroke; stroke: rgba(11, 10, 9, 0.8); stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #a39b8c; }
     #{{ID}} .nom.naranja { fill: #ff5e1a; }
     #{{ID}} .tachon { stroke: #ff5e1a; stroke-width: 1.6; }
     #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
@@ -79,8 +80,9 @@
       const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
       at(".valpo", { cx: VALPO[0], cy: VALPO[1] }); at(".p-isla", { cx: ISLA[0], cy: ISLA[1] }); at(".h-isla", { cx: ISLA[0], cy: ISLA[1] });
       at(".p-malpelo", { cx: MALPELO[0], cy: MALPELO[1] }); at(".h-malpelo", { cx: MALPELO[0], cy: MALPELO[1] });
-      at(".n-valpo", { x: VALPO[0] + 7, y: VALPO[1] + 4 }); at(".n-isla", { x: ISLA[0] - 74, y: ISLA[1] + 20 });
-      at(".n-isla2", { x: ISLA[0] - 64, y: ISLA[1] + 38 }); at(".tachon", { x1: ISLA[0] - 76, y1: ISLA[1] + 16, x2: ISLA[0] + 6, y2: ISLA[1] + 16 });
+      at(".n-valpo", { x: VALPO[0] + 7, y: VALPO[1] + 4 }); at(".n-isla", { x: ISLA[0], y: ISLA[1] - 11, "text-anchor": "middle" });
+      // El nombre de la isla, encima y centrado: debajo va la regla, y a la izquierda está Más Afuera (hoy Alejandro Selkirk).
+      at(".n-isla2", { x: ISLA[0], y: ISLA[1] + 22, "text-anchor": "middle" }); at(".tachon", { x1: ISLA[0] - 42, y1: ISLA[1] - 15, x2: ISLA[0] + 42, y2: ISLA[1] - 15 });
       at(".n-chile", { x: VALPO[0] + 18, y: VALPO[1] - 70 }); at(".n-malpelo", { x: MALPELO[0] + 10, y: MALPELO[1] + 5 });
       at(".n-colombia", { x: MALPELO[0] + 100, y: MALPELO[1] + 60 });
       // La cámara: el punto (px, py) del mapa en (sx, sy) de la pantalla, con escala k.
@@ -92,7 +94,8 @@
       const late = (sel, t) => tl.fromTo($(sel), { attr: { r: 4 }, opacity: 0.9 }, { attr: { r: 26 }, opacity: 0, duration: 0.9, ease: "power2.out", repeat: 2, immediateRender: false }, t);
       const enciende = (sel, t) => tl.to($(sel), { fill: "#4a3f2c", stroke: "#e0b77a", strokeWidth: 2, duration: 0.35 }, t);
       if (modo === "isla") {
-        // Del Pacífico entero a la isla, frente a Chile.
+        // Del Pacífico entero a la isla, frente a Chile. Sin los rótulos pequeños del mapa: de lejos no se leen.
+        gsap.set([$(".n-chile"), $(".n-valpo"), $(".n-isla")], { autoAlpha: 0 });
         const f = $(".fecha"); gsap.set(f, { left: 80, top: 190 });
         const txt = "SEP 1704"; f.style.visibility = "visible";
         const t0 = w("Septiembre") - 0.05;
@@ -115,7 +118,8 @@
         late(".h-isla", 0.2);
         et(".e1", '670 <i class="m">km</i> de la costa', 80, 290, tr + 0.2);
       } else if (modo === "hundido") {
-        // De la isla al norte por el rumbo (esquema) hasta Malpelo; Colombia; el barco se hunde.
+        // De la isla al norte por el rumbo (esquema) hasta Malpelo; Colombia; el barco se hunde. Sin los rótulos del sur.
+        gsap.set([$(".n-chile"), $(".n-valpo"), $(".n-isla")], { autoAlpha: 0 });
         const hecho = $(".hecho"), L0 = hecho.getTotalLength(), barco = $(".barco");
         hecho.setAttribute("stroke-dasharray", `${L0} ${L0}`);
         gsap.set([hecho, $(".rumbo")], { visibility: "visible" });
@@ -138,12 +142,13 @@
         et(".e1", "Se hundió aquí", 80, 290, t1 + 0.35);
         sello(".s1t", "Tenía razón", 80, 960, w("razón") - 0.05);
       } else {
-        // hoy: la isla cambia de nombre.
+        // hoy: la isla cambia de nombre. Valparaíso y Chile quedan fuera del encuadre.
+        gsap.set([$(".n-chile"), $(".n-valpo")], { autoAlpha: 0 });
         gsap.set($(".chile"), { fill: "#4a3f2c", stroke: "#e0b77a", strokeWidth: 2 });
-        tl.fromTo(mundo, cam(ISLA[0], ISLA[1], 2.6, 560, 860), Object.assign(cam(ISLA[0], ISLA[1], 3.0, 560, 860), { duration: DUR, ease: "none" }), 0);
+        tl.fromTo(mundo, cam(ISLA[0], ISLA[1], 3.2, 330, 860), Object.assign(cam(ISLA[0], ISLA[1], 3.6, 330, 860), { duration: DUR, ease: "none" }), 0);  // cerca (los nombres se leen en el móvil) y con la costa de Chile a la derecha
         const tn = w("Robinson", 3) - 0.05;
         tl.set($(".tachon"), { visibility: "visible" }, tn - 0.3);
-        tl.fromTo($(".tachon"), { attr: { x2: ISLA[0] - 76 } }, { attr: { x2: ISLA[0] + 6 }, duration: 0.25, ease: "power2.out" }, tn - 0.3);
+        tl.fromTo($(".tachon"), { attr: { x2: ISLA[0] - 42 } }, { attr: { x2: ISLA[0] + 42 }, duration: 0.25, ease: "power2.out" }, tn - 0.3);
         tl.set($(".n-isla2"), { visibility: "visible" }, tn);
         tl.fromTo($(".n-isla2"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, tn);
         late(".h-isla", tn);

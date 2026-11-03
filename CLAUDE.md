@@ -46,8 +46,9 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 1. Lee `README.md` y `docs/bitacora.md`.
 2. Ejecuta `./instalar.sh comprobar`. Si falta algo, lanza `./instalar.sh` en segundo plano
    (5–10 min en una máquina nueva) y avanza mientras con lo que no dependa de él. Si ya está todo (la
-   sesión se ha reanudado), lanza `./instalar.sh precargar` en segundo plano (unos 6 min): la primera
-   lectura de cada archivo va a 10–40 MB/s y, sin precargar, FLUX tardó 11 min en cargar.
+   sesión se ha reanudado), lanza `./instalar.sh precargar` en segundo plano (6–16 min): la primera
+   lectura de cada archivo va a 10–40 MB/s y, sin precargar, FLUX tardó 11 min en cargar. Mientras precarga, el disco
+   va tan lento que la voz tarda 10 veces más y hasta la API de YouTube se agota: medir y generar al terminar.
 3. Retoma por «Siguiente paso» de la bitácora, salvo que el usuario pida otra cosa. Si abre un chat
    nuevo para seguir, confirma en pocas líneas dónde lo dejamos antes de empezar.
 4. Al terminar algo importante, añádelo a la bitácora: fecha, qué se hizo, qué se midió, qué se decidió.
@@ -115,7 +116,9 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
   `python3 imagen/generar.py --parar` lo apaga.
 - Cambiar de modelo en el servidor obliga a cargarlo otra vez (8–95 s).
 - SDXS solo da buen resultado a 512 × 512. FLUX acepta cualquier múltiplo de 16.
-- FLUX toma los prompts al pie de la letra: «small gold rings» llenó un bolso de anillas.
+- FLUX toma los prompts al pie de la letra: «small gold rings» llenó un bolso de anillas. Y la época hay que describirla
+  prenda a prenda: «early 1700s uniforms» dio soldados de la Primera Guerra Mundial; «black tricorn hats, long blue coats»,
+  los de 1705.
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
 - Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`.
@@ -124,7 +127,8 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 - FLUX escribe letras inventadas si el prompt habla de «espacio para un título»: describir solo la zona
   vacía y añadir «no text».
 - HyperFrames: el desenfoque de movimiento se sale de las máscaras (`overflow: hidden`); `check` da falsos
-  avisos de contraste con fondos escalados o recortados; `media-treatment --apply` añade `data-hf-id` a todo
+  avisos de contraste con fondos escalados o recortados y con la palabra resaltada del subtítulo a medio pasar a la
+  siguiente (mirar el fotograma); `media-treatment --apply` añade `data-hf-id` a todo
   el HTML. Detalles en `estilos/README.md`.
 - Piper no da el mismo audio dos veces (tiene ruido aleatorio): los tiempos varían hasta 50 ms entre
   ejecuciones. Generar la narración una vez y cronometrar la composición sobre ese archivo.
@@ -199,6 +203,8 @@ en todo el mundo medidas en inglés y en español, una con hueco y otra con dema
 - En SVG, el CSS de la plantilla pisa los atributos `fill` y `stroke`: `setAttribute('fill', …)` o un tween de `attr: { stroke }`
   no cambian nada si una regla CSS ya los fija (la barra de CO₂ del corto 12 seguía verde). Usar `el.style.fill` o tweens de
   `fill`/`stroke` como propiedades CSS.
+- El halo oscuro de un rótulo SVG sobre un mapa (`paint-order: stroke`) pide un relleno opaco: con uno semitransparente el
+  trazo se ve por dentro de la letra y el rótulo sale perfilado.
 - Texto blanco sobre el naranja `#FF5E1A` da 2,6:1 y no se lee: texto oscuro (`#0b0a09`). Con amarillos y naranjas,
   medir el contraste antes de elegir el color del texto.
 - **Los efectos de sonido se miden antes de renderizar** (`python3 audio/revisar_mezcla.py <proyecto>`, 0 avisos): en

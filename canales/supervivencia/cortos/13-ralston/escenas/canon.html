@@ -124,7 +124,7 @@
         et(".e2", "Mano derecha", 80, 306, w("derecha") - 0.05);
         // Forcejea: el cuerpo tira hacia atrás tres veces y la roca no cede.
         [0, 0.35, 0.7].forEach((d) => tl.fromTo([$(".cabeza"), $(".cuerpo")], { x: 0 }, { keyframes: [{ x: -7, duration: 0.1 }, { x: 0, duration: 0.15 }], immediateRender: false }, w("moverla") + d));
-        sello(".s1t", "Ni un centímetro", 80, 420, w("centímetro") - 0.05);
+        sello(".s1t", "Ni un centímetro", 80, 420, w("Ni") - 0.05);
       } else if (modo === "intentos") {
         // Encajada: esquirlas al picar; la cuerda tira y la roca apenas tiembla.
         gsap.set($(".mano"), { opacity: 1 });
@@ -137,7 +137,7 @@
         traza($(".c-tira"), tq, 0.5, "power2.out");
         [0.6, 1.0].forEach((d) => tl.fromTo($(".roca-g"), { y: 0 }, { keyframes: [{ y: -3, duration: 0.08 }, { y: 0, duration: 0.12 }], immediateRender: false }, tq + d));
         et(".e2", "Levantarla con cuerdas", 80, 306, tq + 0.1);
-        sello(".s1t", "No se mueve", 80, 420, w("mueve") - 0.05);
+        sello(".s1t", "No se mueve", 80, 420, w("No", 2) - 0.35);          // «No se mueve» (la 1.ª, «No puede»)
       } else {
         // rapel: la salida, una pared de 20 m; baja con un solo brazo.
         gsap.set([$(".v-grieta"), $(".roca-g"), $(".mano")], { visibility: "hidden" });

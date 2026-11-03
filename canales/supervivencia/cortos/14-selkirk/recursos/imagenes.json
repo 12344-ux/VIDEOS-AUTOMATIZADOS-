@@ -14,8 +14,9 @@
   },
   {
    "nombre": "discusion",
-   "semilla": 1412,
-   "prompt": "On the deck of an early 1700s sailing ship in rough weather, a sailor arguing angrily with a young captain in a long coat and tricorn hat, seen from far away, no faces visible, grey stormy light, vertical composition"
+   "semilla": 1431,
+   "prompt": "Two men arguing on the deck of an early 1700s sailing ship at dusk, dark silhouettes against a bright stormy sky, one sailor pointing angrily at a young captain in a long coat and tricorn hat, seen from far away and from below, no faces visible, only dark shapes, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1413): los dos, de cara (Selkirk y Stradling son personas reales)."
   },
   {
    "nombre": "abandono",
@@ -29,8 +30,9 @@
   },
   {
    "nombre": "gatos",
-   "semilla": 1405,
-   "prompt": "Night inside a small rough wooden hut, a bearded man in goatskin clothes sleeping on a bed of branches with several wild cats curled around him, a rat in a corner, moonlight through the door, seen from far away, no face visible, vertical composition"
+   "semilla": 1432,
+   "prompt": "Night inside a small rough wooden hut, a man in goatskin clothes lying asleep on a bed of branches with his back to the camera and his face turned away towards the wall, several wild cats curled around him, a rat in a corner, moonlight through the door, no face visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1405): el hombre dormido, de cara."
   },
   {
    "nombre": "cabras",
@@ -39,8 +41,9 @@
   },
   {
    "nombre": "arbol",
-   "semilla": 1407,
-   "prompt": "A man in goatskin clothes hiding high in the branches of a big tree in a dense island forest, below him soldiers in early 1700s uniforms with muskets searching, seen from far away, no faces visible, vertical composition"
+   "semilla": 1438,
+   "prompt": "Spanish soldiers of the year 1705 in black tricorn hats, long blue coats and white breeches with long flintlock muskets search a dense island forest at the foot of a huge tree, seen from behind; high up in the tree a man in a ragged goatskin vest climbs away from them, his back to the viewer, hugging the trunk, his face hidden against the bark, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1407): Selkirk, sentado en el árbol y de cara. 2.ª (semilla 1433): soldados como de la Primera Guerra Mundial y un hombre que parecía un animal. 3.ª (semilla 1436, con la época descrita prenda a prenda): los soldados, bien, pero él, de cara. Después, dos candidatas: por encima de su hombro (1437, no se entendía que estuviera en un árbol) y esta."
   },
   {
    "nombre": "chozas",
@@ -49,13 +52,15 @@
   },
   {
    "nombre": "rescate",
-   "semilla": 1409,
-   "prompt": "Two large early 1700s English sailing ships anchored in the bay of a steep green volcanic island, a rowing boat with sailors landing on the beach, a wild-looking man in goatskin clothes waiting on the shore, seen from far away, no faces visible, vertical composition"
+   "semilla": 1435,
+   "prompt": "Two large early 1700s English sailing ships anchored in the bay of a steep green volcanic island, two rowing boats with sailors heading to the empty beach, seen from far away from the hillside, nobody on the beach, no faces visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1410): dos hombres con pieles en la playa (la voz dice «un hombre»)."
   },
   {
    "nombre": "encuentro",
-   "semilla": 1413,
-   "prompt": "On the beach of a green volcanic island, a few early 1700s English sailors meeting a wild bearded man dressed in goatskin clothes and a goatskin cap, seen from behind the sailors and from far away, no faces visible, vertical composition"
+   "semilla": 1434,
+   "prompt": "On the beach of a green volcanic island, a wild man with long hair dressed in goatskin clothes and a goatskin cap seen from behind, his back to the camera, no face visible, facing a small group of early 1700s English sailors who stand far away near their rowing boat, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1411): Selkirk, de frente."
   },
   {
    "nombre": "naufragio",

@@ -28,7 +28,7 @@ escena('s04', 'foto', w('Alexander', mas=-0.12), foto='barco',
            dict(html='Hace agua', clase='sello', x=80, y=960, en=['agua', 1, -0.05], modo='sello')]))
 escena('s04b', 'foto', w('Selkirk discute', mas=-0.12), foto='discusion',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, temblores=[['discute', 1, 0.1]], textos=[
-           dict(html='Contra el capitán', clase='etiqueta', x=80, y=330, en=['capitán', 1, -0.05])]))
+           dict(html='Contra el capitán', clase='etiqueta', x=80, y=330, en=0.1)]))
 escena('s05', 'mapa', w('pide', mas=-0.3), modo='distancia', **M)
 escena('s06', 'foto', w('El capitán', 2, mas=-0.12), foto='abandono',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
@@ -46,7 +46,7 @@ escena('s09', 'foto', w('Cuando se', mas=-0.12), foto='cabras',
        conf=dict(camara=[1.0, 1.14, 0, 40], techo=True, textos=[
            dict(html='Sin pólvora', clase='etiqueta', x=80, y=330, en=['pólvora', 2, -0.05]),
            dict(html='Las caza corriendo', clase='etiqueta', x=80, y=420, en=['corriendo', 1, -0.05]),
-           dict(html='Ropa de piel de cabra', clase='etiqueta', x=80, y=510, en=['pieles', 1, -0.05])]))
+           dict(html='Ropa de cabra', clase='etiqueta', x=80, y=510, en=['viste', 1, -0.1])]))
 escena('s10', 'foto', w('Un día', mas=-0.12), foto='arbol',
        conf=dict(camara=[1.0, 1.12, 0, -30], techo=True, destellos=[['disparan', 1, 0.05], ['disparan', 1, 0.35]], textos=[
            dict(html='Barcos españoles', clase='etiqueta', x=80, y=330, en=['españoles', 1, -0.05]),
@@ -58,7 +58,7 @@ escena('s11', 'foto', w('Pasan', mas=-0.12), foto='chozas',
 escena('s12', 'foto', w('Hasta que', mas=-0.12), foto='rescate',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='2 FEB 1709', clase='diario', x=80, y=236, en=['febrero', 1, -0.05], modo='escribe', duracion=1.0),
-           dict(html='Woodes Rogers · Duke y Duchess', clase='etiqueta', x=80, y=330, en=['ingleses', 1, -0.05])]))
+           dict(html='Woodes Rogers · Duke y Duchess', clase='etiqueta', x=80, y=330, en=['llegan', 2, -0.05])]))
 escena('s12b', 'foto', w('Encuentran', mas=-0.12), foto='encuentro',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='4 años y 4 meses solo', clase='etiqueta', x=80, y=330, en=['cabra', 1, -0.05]),

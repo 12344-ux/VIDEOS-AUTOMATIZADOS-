@@ -31,7 +31,7 @@ escena('s05', 'foto', w('Lleva', mas=-0.12), foto='inventario',
            dict(html='2 burritos', clase='diario', x=80, y=306, en=['burritos', 1, -0.1], modo='escribe', duracion=0.5),
            dict(html='1 navaja sin filo', clase='diario', x=80, y=376, en=['navaja', 1, -0.1], modo='escribe', duracion=0.7)]))
 escena('s06', 'canon', w('Intenta', mas=-0.12), modo='intentos')
-escena('s07', 'foto', w('Grita', mas=-0.12), foto='noche',
+escena('s07', 'foto', w('Grita', mas=0.0), foto='noche',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True,
                  cuenta=dict(etiqueta='DÍA', x=80, y=176, pasos=[[2, 0.0], [3, ['Nadie', 1, -0.05]], [4, ['oye', 1, 0.15]]])))
 escena('s08', 'foto', w('Día cinco', mas=-0.12), foto='botella',
@@ -57,21 +57,24 @@ escena('s12', 'foto', w('El sexto', mas=-0.12), foto='navaja',
 escena('s13', 'canon', w('Con un solo', mas=-0.12), modo='rapel')
 escena('s14', 'foto', w('Y camina', mas=-0.12), foto='caminata',
        conf=dict(camara=[1.0, 1.1, 0, 30], techo=True, textos=[
-           dict(html='Ha perdido el 25 % de su sangre', clase='etiqueta', x=80, y=330, en=['desangrándose', 1, -0.1])]))
+           dict(html='Pierde el 25 % de su sangre', clase='etiqueta', x=80, y=330, en=0.1)]))
 escena('s15', 'foto', w('Unos', mas=-0.12), foto='helicoptero',
        conf=dict(camara=[1.0, 1.12, 0, 30], techo=True, textos=[
            dict(html='4 horas después', clase='etiqueta', x=80, y=330, en=['helicóptero', 1, -0.05]),
            dict(html='Vivo', clase='sello', x=80, y=960, en=['rescata', 1, -0.05], modo='sello')]))
-escena('s16', 'puntos', w('Después', 2, mas=-0.12), fondo='gato',
+escena('s16', 'foto', w('Después', 2, mas=-0.12), foto='gato',
+       conf=dict(camara=[1.0, 1.1, 0, 40], techo=True, textos=[
+           dict(html='Para mover la roca', clase='etiqueta', x=80, y=330, en=['mover', 1, -0.05])]))
+escena('s16b', 'puntos', w('trece', mas=-0.25), fondo='gato',
        conf=dict(n=13, cols=7, tam=64, hueco=30, x=120, y=640, cifra=dict(html='13 hombres<small>y un gato hidráulico</small>', x=80, y=300),
-                 aparecen=[['trece', 1, -0.1], ['hombres', 1, 0.35]]))
+                 aparecen=[0.15, ['hombres', 1, 0.3]]))
 escena('s17', 'gancho', w('Cinco días', 2, mas=-0.12), foto='canon',
        conf=dict(GANCHO, modo='vuelta', en_cifra=['cinco', 3, -0.05], en_linea=['cinco', 3, 0.1]))
 DURACION = w('roca', 7, fin=True, mas=0.9)
 
 # Subtítulos, salvo donde la pantalla ya escribe en grande lo que dice la voz.
 sin_subtitulos(w('Ni un', mas=-0.1), w('Lleva', mas=-0.12))                 # NI UN CENTÍMETRO
-sin_subtitulos(w('No se mueve', mas=-0.1), w('Grita', mas=-0.12))           # NO SE MUEVE
+sin_subtitulos(w('No se mueve', mas=-0.1), w('Grita', mas=0.0))           # NO SE MUEVE
 sin_subtitulos(w('no le dijo', mas=-0.1), w('El sexto', mas=-0.12))         # el error, revelado en la ficha
 sin_subtitulos(w('Cinco días', 2, mas=-0.12), DURACION)                      # vuelve el gancho
 
