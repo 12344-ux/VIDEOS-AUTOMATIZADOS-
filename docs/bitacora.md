@@ -1513,6 +1513,77 @@ tardó 16 min 22 s, y durante ella la API de YouTube volvió a agotarse: se midi
   primero (2,9 sobre 255), ningún silencio, y el final, 3,8 dB por debajo del principio (la cola de música). Medido y
   mirado, no escuchado.
 
+## Sesión 11 — 3 de noviembre de 2026 (noche)
+
+La máquina se reinició dos veces seguidas al empezar (la segunda cortó la precarga): se trabajó sin precargar, con
+`preparar-corto.sh`, que retoma donde se quedó, y con los modelos cargando en frío.
+
+### 1. Las dos historias
+
+- **Pedido del usuario:** «Buen trabajo, crea dos vídeos cortos más para el canal de supervivencia». Con la fórmula normal.
+- **Medido** (`rastreador/youtube.py buscar`, 10 años, 8 búsquedas en español en 35 s y 7 en inglés en 44 s): los **Andes de
+  1972**, 14 M en un Short en español y 1,1 M y 868.000 en canales que se multiplican por 142 y 381, con 45 de los 53 vídeos
+  de más de 5.000 vistas por encima de 3 veces su canal (en inglés, 18,5 M): la demanda más grande medida en el canal.
+  **Yossi Ghinsberg** (Bolivia, 1981): 16 Shorts en español en diez años frente a 80 en inglés, y los que hay llegan a 2,3 M
+  (119 veces su canal) y 678.000: el hueco de oferta. También medidos: Poon Lim (4,1 M en español, pero el mar a la deriva
+  ya lo contó Alvarenga), Beck Weathers (770.000 con solo 7 Shorts, pero el Everest ya lo contó Lincoln Hall), Ricky Megee
+  (1,4 M con 9 Shorts, un relato discutido), Steven Callahan (200.000) y Shackleton (183.000 en español, poco hueco).
+- **Datos:** Wikipedia («Uruguayan Air Force Flight 571»: 45 a bordo, el glaciar a unos 3.600 m, la radio el día once, el
+  alud del día diecisiete, la caminata de unos 60 km en diez días, la nota de Parrado atada a la piedra de Sergio Catalán y
+  los 16 supervivientes) y, para Ghinsberg, Wikipedia y las entrevistas citadas (el lanzallamas con el spray y el mechero es
+  su relato). Lo que varía, en los `PUBLICACION.md`.
+
+### 2. Cómo están hechos
+
+- **«72 días en los Andes»** (73,6 s, 18 escenas): el gancho 72 DÍAS · EN LOS ANDES; el secreto, lo que escribió en el papel,
+  que se lee al 81 % («Vengo de un avión…»). Los 45 a bordo como puntos que al final se apagan hasta dejar 16, y el mapa
+  (`mapa.py`, Natural Earth: el vuelo de Montevideo a Mendoza y a la cordillera, con la fecha y el avión; y la caminata, en
+  esquema, con los días del 1 al 10, del Glaciar de las Lágrimas al valle del río Azufre). Lo que tuvieron que comer lo dice
+  la voz una vez y con respeto: ninguna imagen.
+- **«Tres semanas solo en el Amazonas»** (72,2 s, 20 escenas): el gancho 3 SEMANAS · SOLO EN EL AMAZONAS; el secreto, lo que
+  usó contra el jaguar, que se lee al 65 % («Un spray y un mechero»). El mapa de Bolivia y del río Tuichi en esquema (Natural
+  Earth no trae ríos), con la búsqueda en barca y los días del 1 al 3.
+- **Voz** M2: los guiones salían de unas 245 palabras (más de 90 s): se recortaron a 220 antes de generar (72,9 y 71,6 s).
+- **La revisión con provisionales:** el mapa de los Andes no se animaba entero porque definí una función `traza`, que ya
+  existe en `ayuda.js` (como `L` en el corto 1 de incidentes): renombrada. Rótulos que se salían por la derecha al acercar la
+  cámara («Glaciar de las Lágrimas», «Rurrenabaque») y «La Paz» gigante al acercarse a nueve aumentos.
+
+### 3. Las imágenes y lo que encontró la revisión
+
+- **Dos cortes más.** El proceso de la sesión se reinició a mitad del lote de los Andes (9 de 12 hechas) y, al relanzarlo,
+  la tarea en segundo plano se cortó a los 30 min, que es su plazo por defecto (Ghinsberg iba por 4 de 11). Desde ahora,
+  `preparar-corto.sh` se salta las planchas que ya tienen su PNG (antes solo miraba el JPG, que se hace al final del lote, y
+  habría rehecho las 9) y los lotes largos se lanzan con 2 h de plazo. El servidor de FLUX atiende las peticiones de una en
+  una (`una_a_una`): se pueden pedir candidatas sueltas mientras corre un lote, y se intercalan.
+- **Imágenes contra la voz** (FLUX.3, unos 130–150 s cada una en el Xeon con AMX):
+  - el choque salía con el avión entero bajo el rótulo «Sin alas», y la portada con sus hélices: «twin-engine turboprop…
+    without wings» dibuja las alas y los motores (FLUX no hace caso del «without»). Describiendo lo que se ve («a bare smooth
+    tube with only short jagged stubs where the wings were torn off») salieron bien;
+  - en el río, tres hombres bien vestidos (llegaron dos, en harapos): con «exactly two thin exhausted young men in ragged
+    layered clothes», dos;
+  - en Ghinsberg, el grupo de cuatro salía con cinco o seis aunque el prompt dijera «exactly four… in single file» (en
+    fila horizontal, cuatro); la balsa de la cascada parecía una escalera de pie sobre el agua («tipping over the edge»
+    la arregló); y en la orilla, el momento del sello «Vivo», salía boca arriba, con la cara a medias y una ropa que
+    parecía un vestido. Boca abajo y de espaldas se entiende, pero de las dos candidatas una tenía a los de la canoa (Kevin
+    y Tico, personas reales) de cara: la otra, de espaldas. Mirar también a los secundarios.
+- **El check** del corto 15: 0 errores y cuatro avisos de lectura, todos ciertos: «Santiago» a 22 px en el mapa (los tres
+  nombres, a 28), «Montevideo» que salía del cuadro al acercar la cámara (se funde con los países), el sello «Ya no los
+  buscan» 0,66 s en pantalla (entra con «radio»: 1,5 s) y «Mueren 8 más» 0,77 s (entra con el segundo «Mueren»). Y una
+  escena de 8,5 s con un solo rótulo (el pacto): «La decisión más difícil», con la voz. El del 16, uno: «Hongos en los
+  pies» 0,59 s, porque la voz dice «Los pies se le pudren por los hongos» y «hongos» es la última palabra (entra con
+  «pies»). Los dos, después, 0 avisos; la mezcla, 0 avisos en los dos (música a 15–22 LU bajo la voz).
+
+### 4. Render y entrega
+
+- **Andes:** render en 6 min 22 s, con FLUX cargando en frío a la vez; `salidas/supervivencia/cortos/15-andes/entrega/andes.mp4`
+  (73,6 s, −14,4 LUFS, −1,6 dBTP, 57 MB). El último fotograma es el primero (2,6 sobre 255), ningún silencio; el último
+  segundo y medio, 10,7 dB por debajo del principio, pero es la pausa final de la voz: la música llega al bucle a −18,2 dB
+  y empieza a −19,0 (medido en el lecho), sin salto.
+- **Ghinsberg:** render en 3 min 28 s, con la CPU libre; `salidas/supervivencia/cortos/16-ghinsberg/entrega/ghinsberg.mp4`
+  (72,2 s, −14,5 LUFS, −1,6 dBTP, 67 MB); bucle a 2,7 sobre 255, ningún silencio, el final 5,7 dB por debajo del principio.
+- Las dos entregas con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar` (27 y 24 s), y los fotogramas sacados
+  del MP4 coinciden con la revisión. Medido y mirado, no escuchado.
+
 ## Siguiente paso
 
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
@@ -1520,13 +1591,14 @@ tardó 16 min 22 s, y durante ella la API de YouTube volvió a agotarse: se midi
    (`canales/incidentes/CANAL.md`) y los publique; los siguientes, uno con demanda probada (el Mary Celeste: 635.000 en
    español) y otro con hueco (las luces de Phoenix: 2,4 M en inglés y 18.000 en español).
    Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
-   Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston y
-   Alexander Selkirk en supervivencia),
+   Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston,
+   Alexander Selkirk, los Andes y Yossi Ghinsberg en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
    funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–14 (historias conocidas en todo el mundo, una con hueco
    y otra con demanda probada en español, medidas en inglés y en español). Candidatas ya medidas: Shackleton (el
-   inglés, en alza) y Yossi Ghinsberg (2,3 M en español); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el
-   náufrago español (383.000 vistas en un Short, 18× su canal), salió al medir a Selkirk. Publicar y
+   inglés, en alza), Poon Lim (4,1 M en español, aunque el mar a la deriva ya lo contó Alvarenga) y Beck Weathers
+   (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln Hall); Hugh Glass, solo contándolo como leyenda; Pedro
+   Serrano, el náufrago español (383.000 vistas en un Short, 18× su canal), salió al medir a Selkirk. Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.

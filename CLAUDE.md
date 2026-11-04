@@ -112,7 +112,10 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   al vídeo; TikTok rechaza la petición. No se esquiva (cookies, proxys): el usuario guarda el vídeo y lo sube.
 - La API de YouTube con `order=viewCount` no hace caso de `relevanceLanguage` (devuelve lo más visto del mundo): buscar
   por relevancia y filtrar por el idioma declarado. La clave va como secreto del entorno en la cabecera
-  `X-Goog-Api-Key`; como `Authorization: Bearer` Google responde 401.
+  `X-Goog-Api-Key`; como `Authorization: Bearer` Google responde 401. Además de las 10.000 unidades, corta las búsquedas
+  por número al día (429 «Search Queries per day»; el 3-nov, tras unas 25 en una tarde más las del rastreador): las
+  búsquedas, lo primero. Leer vídeos, canales y comentarios (1 unidad) sigue funcionando; se renueva a medianoche de
+  California (las 8:00 UTC).
 - DuckDB baja sus extensiones por http sin proxy y falla: `instalar.sh rastreador` baja httpfs por https. DuckDB 2.0
   pide `lambda x: …` en vez de `x -> …`, y `con.execute(…).fetchone()` (las relaciones ya no tienen `fetchone`).
 - El dataset de TikTok mide cada mes en otro momento (agosto, más tarde y con menos vídeos recientes): no comparar
@@ -125,9 +128,13 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   prenda a prenda: «early 1700s uniforms» dio soldados de la Primera Guerra Mundial; «black tricorn hats, long blue coats»,
   los de 1705. Tampoco cuenta bien ni conoce los modelos: «four bright lights» salieron seis en dos columnas, y «Cessna 182»,
   un biplano o un ala baja (hay que decir «exactly four… in one horizontal row» y «high-wing, the wing on top of the cabin»).
+  «Exactly four… in single file» volvió a dar cinco o seis; en una fila horizontal, cuatro. Y no hace caso del «without»:
+  «turboprop airliner without wings» dibujó las alas y las hélices bajo el rótulo «Sin alas». Se describe lo que se ve («a
+  bare smooth tube with only short jagged stubs where the wings were torn off»).
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
-- Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`.
+- Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`. Una tarea en segundo plano sin
+  plazo se corta a los 30 min (cortó un lote de FLUX en la sesión 11): para lotes y renders largos, plazo de 2 h.
 - No cargar otro modelo (BiRefNet, MusicGen) con el servidor de imágenes encendido: se acaba la RAM y el
   sistema lo mata. Apagarlo antes.
 - FLUX escribe letras inventadas si el prompt habla de «espacio para un título»: describir solo la zona
@@ -186,7 +193,9 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   `mask-image: url(desgaste.png)`.
 - La etapa `musica` de `canales/preparar-corto.sh` empieza apagando el servidor de imágenes (para que quepa MusicGen): no
   lanzarla mientras otro proceso genera imágenes (en la sesión 7 cortó el lote de FLUX). Para rehacer solo un lecho,
-  `audio/lecho.py` directamente.
+  `audio/lecho.py` directamente. La etapa `imagenes` se salta las planchas que ya tienen PNG (retoma un lote cortado): para
+  rehacer una, borrar su `.png`, su `_1920.png` y su `.jpg`. El servidor atiende de una en una: unas candidatas sueltas
+  (`generar.py --lote`) se pueden pedir mientras corre un lote y se intercalan.
 - La unidad en minúscula dentro de un rótulo (`8.849 m`) va en `<i class="m">`: un `span` dentro del `span` del rótulo
   hereda su caja y su filete naranja, y la «m» sale en una cajita aparte.
 - Una imagen que falta sale en negro en el render: la avisa `montar.py` («faltan imágenes», desde la sesión 7) y, en la

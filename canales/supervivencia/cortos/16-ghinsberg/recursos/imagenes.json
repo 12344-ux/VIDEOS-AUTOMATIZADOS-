@@ -1,0 +1,64 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Yossi Ghinsberg, Kevin Gale y los demás son personas reales: nunca de cara. Bolivia, 1981: la selva del río Tuichi. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "selva",
+   "semilla": 1601,
+   "prompt": "A lone young backpacker with a bandana seen from behind standing at the edge of a vast dense Amazon rainforest river at dusk, mist over the water, giant trees, his back to the camera, no face visible, only one person in the whole image, the man small in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "grupo",
+   "semilla": 1616,
+   "prompt": "Exactly four young men with backpacks standing side by side in one horizontal row at the edge of a dense Bolivian jungle in 1981, seen from behind, their backs to the camera, no faces visible, only four people in the whole image, the jungle in front of them, humid misty light, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1602): seis personas por cuatro. «Exactly four… in single file» dio cinco o seis (1612 y 1613); «exactly four… side by side in one horizontal row», cuatro en las dos candidatas (1616 y 1617)."
+  },
+  {
+   "nombre": "balsa",
+   "semilla": 1603,
+   "prompt": "Two young men on a small handmade raft of logs tied together on a fast brown jungle river with rapids, seen from far behind, their backs to the camera, steep green canyon walls, vertical composition"
+  },
+  {
+   "nombre": "cascada",
+   "semilla": 1614,
+   "prompt": "A small raft of logs tied together tipping over the edge of a powerful waterfall in a narrow jungle canyon, about to fall into the white water below, seen from the side and from far away, no people visible, mist, dramatic light, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1604): la balsa de pie sobre la cascada, como una escalera. Describiéndola «tipping over the edge», se entiende en las dos candidatas (1614 y 1615)."
+  },
+  {
+   "nombre": "solo",
+   "semilla": 1605,
+   "prompt": "A lone exhausted young man in torn clothes seen from behind sitting on a rock by a jungle river under heavy rain, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "frutas",
+   "semilla": 1606,
+   "prompt": "Close-up of a dirty hand holding small wild jungle fruits picked from a branch in the dense rainforest, no face visible, soft green light, vertical composition"
+  },
+  {
+   "nombre": "pantano",
+   "semilla": 1607,
+   "prompt": "A young man seen from behind sinking up to his waist in a dark muddy jungle swamp, grabbing at roots and vines, his back to the camera, no face visible, only one person, heavy humid air, vertical composition"
+  },
+  {
+   "nombre": "noche",
+   "semilla": 1608,
+   "prompt": "A dark jungle at night with a small camp under a mosquito net between trees, two glowing eyes of a jaguar watching from the black undergrowth, eerie, no people visible, vertical composition"
+  },
+  {
+   "nombre": "fuego",
+   "semilla": 1609,
+   "prompt": "In a dark jungle at night, a burst of fire from an aerosol spray can lit with a lighter held in a man's hand, seen from behind his shoulder, his face not visible, a jaguar retreating into the shadows, vertical composition"
+  },
+  {
+   "nombre": "barca",
+   "semilla": 1610,
+   "prompt": "A long wooden motorized canoe on a wide brown Amazon river with two men aboard seen from far behind, their backs to the camera, dense jungle on both banks, morning mist, vertical composition"
+  },
+  {
+   "nombre": "orilla",
+   "semilla": 1619,
+   "prompt": "A very thin exhausted young man with long messy hair and a beard, in a torn shirt and torn trousers, lying face down on a sandy jungle river bank, seen from far away and from behind, a long wooden canoe with two men arriving on the brown river toward him, dense jungle, soft morning light, his face not visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1611): tumbado boca arriba, con la cara a medias y una ropa que parecía un vestido. Boca abajo, de espaldas y con la canoa llegando, se entiende; de las dos candidatas, la 1618 tenía a los dos de la canoa (Kevin y Tico, personas reales) de cara, y esta, de espaldas."
+  }
+ ]
+}

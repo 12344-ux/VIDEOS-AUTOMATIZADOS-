@@ -1,0 +1,69 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Los supervivientes y las víctimas son personas reales: nunca de cara; nada de cuerpos ni de lo que tuvieron que comer. Octubre–diciembre de 1972, la cordillera de los Andes. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "nieve",
+   "semilla": 1518,
+   "prompt": "The broken white fuselage of a 1970s airliner, a bare smooth tube with only short jagged stubs where the wings were torn off and its tail ripped away leaving the rear end open, half buried in deep snow on a vast glacier high in the Andes mountains, huge snowy peaks all around, tiny human figures in dark coats standing near it seen from far away, cold blue light, the fuselage in the lower half of the frame, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1501): «twin-engine turboprop… without wings» dio el avión con sus hélices (FLUX no hace caso del «without»). Describir el tubo «con muñones donde estaban las alas» lo arregló; la otra candidata (1517), con un motor de reactor."
+  },
+  {
+   "nombre": "vuelo",
+   "semilla": 1502,
+   "prompt": "A white 1970s twin-engine turboprop airliner with the Uruguayan Air Force markings flying between dark storm clouds over snowy Andes peaks, seen from the side and far away, the plane small in the middle of the frame, vertical composition"
+  },
+  {
+   "nombre": "equipo",
+   "semilla": 1503,
+   "prompt": "A group of young men in 1970s clothes and blazers boarding a white turboprop airliner on an airport tarmac in 1972, seen from behind and from far away, their backs to the camera, no faces visible, warm afternoon light, vertical composition"
+  },
+  {
+   "nombre": "choque",
+   "semilla": 1516,
+   "prompt": "A bare white airplane fuselage, a long smooth tube with only short jagged stubs where both wings were torn off and its tail ripped away leaving the rear end open, sliding fast down a steep snowy glacier in the Andes, throwing up a big plume of snow, broken pieces of wing lying far behind it on the slope, huge snowy peaks, stormy overcast light, seen from high above and far away, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1504): el avión entero, con alas, bajo el rótulo «Sin alas». Con el tubo descrito sin alas y los restos detrás, salió bien en las dos candidatas (1515 y 1516)."
+  },
+  {
+   "nombre": "noche",
+   "semilla": 1505,
+   "prompt": "The broken fuselage of an airliner half buried in snow on a glacier at night under a sky full of stars, a faint warm light inside through the windows, freezing blue night, snowy peaks around, no people visible, vertical composition"
+  },
+  {
+   "nombre": "radio",
+   "semilla": 1506,
+   "prompt": "Close-up of a small 1970s transistor radio held in gloved hands inside a dark cold airplane cabin, frost on the seats, a faint light from a window, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "alud",
+   "semilla": 1507,
+   "prompt": "A huge avalanche of snow rushing down a steep mountain slope at night toward a small broken airplane fuselage on a glacier in the Andes, seen from far away, vertical composition"
+  },
+  {
+   "nombre": "caminata",
+   "semilla": 1508,
+   "prompt": "Two tiny human figures in improvised clothes walking up a huge snowy mountain ridge in the Andes, seen from far behind, their backs to the camera, endless white peaks, clear cold blue sky, the figures small in the lower third of the frame, vertical composition"
+  },
+  {
+   "nombre": "valle",
+   "semilla": 1509,
+   "prompt": "Two exhausted tiny human figures walking down from the snow into a green valley with a river and grass at the foot of the Andes, seen from far behind, their backs to the camera, warm late light, vertical composition"
+  },
+  {
+   "nombre": "rio",
+   "semilla": 1513,
+   "prompt": "A fast mountain river in a green Andean valley. On the far bank, across the water, a Chilean horseman in a poncho and a wide hat sits on his horse, small in the distance. On the near bank, in the lower part of the frame, exactly two thin exhausted young men in ragged layered clothes, seen from behind, their backs to the camera, no faces visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1510): tres hombres de espaldas, bien vestidos (llegaron dos, en harapos). Con «exactly two» salieron dos; la otra candidata (1514), con dos jinetes en vez de uno."
+  },
+  {
+   "nombre": "nota",
+   "semilla": 1511,
+   "prompt": "Close-up of a hand-written note on a crumpled piece of paper tied with a string to a smooth river stone on the grass, a pencil next to it, the handwriting not readable, warm daylight, vertical composition"
+  },
+  {
+   "nombre": "helicoptero",
+   "semilla": 1512,
+   "prompt": "Two 1970s Bell UH-1 military helicopters flying low over a snowy glacier in the Andes toward a broken airplane fuselage, seen from far away, bright cold sunlight, vertical composition"
+  }
+ ]
+}

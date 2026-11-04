@@ -71,12 +71,14 @@ fi
 
 if etapa imagenes; then
   paso "Imágenes: FLUX.3, 720 × 1280, ampliadas con EDSR a 1080 × 1920"
+  # Se salta las planchas que ya tienen su PNG (o su JPG): si un reinicio corta el lote, al relanzar la etapa sigue por
+  # donde iba en vez de rehacerlas todas. Para rehacer una, borrar su .png, su _1920.png y su .jpg.
   python3 - "$AQUI/recursos/imagenes.json" "$T/img" > "$T/img/lote.json" <<'PY'
 import json, os, sys
 d, carpeta = json.load(open(sys.argv[1])), sys.argv[2]
 print(json.dumps([{"prompt": p["prompt"] + ", " + d["sufijo"], "salida": os.path.join(carpeta, p["nombre"] + ".png"), "ancho": 720,
                    "alto": 1280, "semilla": p["semilla"], "modelo": "flux3"} for p in d["planchas"]
-                  if not os.path.exists(os.path.join(carpeta, p["nombre"] + ".jpg"))]))
+                  if not any(os.path.exists(os.path.join(carpeta, p["nombre"] + e)) for e in (".jpg", ".png"))]))
 PY
   if [ "$(cat "$T/img/lote.json")" != "[]" ]; then
     python3 "$REPO/imagen/generar.py" --lote "$T/img/lote.json"

@@ -17,7 +17,9 @@ español) y otra con **la demanda probada en español**, cambiando de escenario 
 inglés en canales pequeños), y después el 13 (Aron Ralston, «127 horas»: 4,1 M en español, la demanda probada) y el 14
 (Alexander Selkirk, el Robinson Crusoe real: 524 k en inglés y, en español, un solo Short sobre él, de 14 k; los demás
 cuentan a Pedro Serrano). Si la historia toca a Colombia sin ser colombiana, se dice (el barco de Selkirk se hundió frente
-a la actual Colombia).
+a la actual Colombia). El 15 y el 16 (3-nov): los Andes de 1972 (la demanda más grande medida en español: 14 M en un Short,
+y 45 de 53 vídeos pasan de 3 veces su canal) y Yossi Ghinsberg en la Amazonía boliviana (el hueco de oferta: 16 Shorts en
+español en diez años frente a 80 en inglés, y los que hay llegan a 2,3 M).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

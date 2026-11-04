@@ -1,0 +1,132 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth): Uruguay, Argentina y Chile en una sola proyección. La cámara va en escala
+       logarítmica y con svgOrigin (en un <g> de SVG, transformOrigin cuenta desde la esquina de su dibujo).
+       Modos (conf.modo):
+         ruta      la fecha a máquina; el vuelo de Montevideo a Mendoza y a la cordillera, con el avión; «cordillera»: la
+                   cámara se acerca a los Andes
+         caminata  el lugar del accidente, junto a la frontera; «Caminan»: la caminata (en esquema) hasta el valle de Chile,
+                   con los días del 1 al 10 y «60 km» -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .pais { fill: #26241f; stroke: #5d584b; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .pais.uru { fill: #2f2a22; }
+    #{{ID}} .resto { fill: #201e1a; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .vuelo { fill: none; stroke: rgba(242, 237, 228, 0.5); stroke-width: 2.5px; stroke-dasharray: 8 8; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .avion { fill: #f2ede4; stroke: #0b0a09; stroke-width: 0.8; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.naranja { fill: #ff5e1a; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #a39b8c; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.et .m { font-style: normal; text-transform: none; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.dias { font: 400 150px/1 "Special Elite", monospace; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dias small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#14212a" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="resto" d="{{p:resto}}" />
+          <path class="pais" d="{{p:argentina}}" />
+          <path class="pais" d="{{p:chile}}" />
+          <path class="pais uru" d="{{p:uruguay}}" />
+          <text class="grande g-arg" font-size="56">ARGENTINA</text>
+          <text class="grande g-chi" font-size="40">CHILE</text>
+          <text class="grande g-chi2" font-size="2.6">CHILE</text>
+          <text class="grande g-arg2" font-size="2.2">ARGENTINA</text>
+          <path class="vuelo" d="{{p:vuelo}}" />
+          <path class="hecho h-vuelo" d="{{p:vuelo}}" />
+          <path class="hecho h-cam" d="{{p:caminata}}" />
+          <circle class="punto p-mvd" r="5" /><circle class="punto p-mza" r="5" /><circle class="punto p-scl" r="4" />
+          <g class="cruz-g" style="visibility: hidden"><line class="cruz" x1="-1" y1="-1" x2="1" y2="1" /><line class="cruz" x1="1" y1="-1" x2="-1" y2="1" /></g>
+          <circle class="meta" r="0.5" style="visibility: hidden" />
+          <path class="avion" d="M0,-15 L3,-6 L14,0 L14,3 L3,1 L2,10 L6,13 L6,15 L0,13 L-6,15 L-6,13 L-2,10 L-3,1 L-14,3 L-14,0 L-3,-6 Z" style="visibility: hidden" />
+          <text class="nom n-mvd" font-size="28">Montevideo</text>
+          <text class="nom n-mza" font-size="28">Mendoza</text>
+          <text class="nom n-scl" font-size="28">Santiago</text>
+          <text class="nom naranja n-gla" font-size="1.5" text-anchor="end">Glaciar de las Lágrimas</text>
+          <text class="nom n-val" font-size="1.4">valle del río Azufre</text>
+        </g>
+      </svg>
+      <div class="t fecha"></div>
+      <div class="t dias"><small>DÍA</small><span class="n">1</span></div>
+      <div class="t et e1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const MVD = {{p:montevideo}}, MZA = {{p:mendoza}}, SCL = {{p:santiago}}, GLA = {{p:glaciar}}, ENC = {{p:encuentro}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      at(".p-mvd", { cx: MVD[0], cy: MVD[1] }); at(".p-mza", { cx: MZA[0], cy: MZA[1] }); at(".p-scl", { cx: SCL[0], cy: SCL[1] });
+      at(".meta", { cx: ENC[0], cy: ENC[1] });
+      at(".n-mvd", { x: MVD[0] - 150, y: MVD[1] + 36 }); at(".n-mza", { x: MZA[0] + 12, y: MZA[1] - 12 }); at(".n-scl", { x: SCL[0] - 112, y: SCL[1] + 8 });
+      at(".n-gla", { x: GLA[0] - 0.8, y: GLA[1] - 1.3 }); at(".n-val", { x: ENC[0] - 2.5, y: ENC[1] + 2.4 });
+      at(".g-arg", { x: MZA[0] + 140, y: MZA[1] + 260 }); at(".g-chi", { x: SCL[0] - 150, y: SCL[1] + 150 });
+      at(".g-chi2", { x: GLA[0] - 9, y: GLA[1] - 5 }); at(".g-arg2", { x: GLA[0] + 1.5, y: GLA[1] + 5 });
+      gsap.set($(".cruz-g"), { x: GLA[0], y: GLA[1] });
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      const pon = (fx, fy, k) => gsap.set(mundo, { x: 540 - k * fx, y: 820 - k * fy, scale: k });
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const trazo = (sel, L, t0, d, ease) =>   // «traza» ya es de ayuda.js: redeclararla rompe todo el script
+        { const e = $(sel); e.setAttribute("stroke-dasharray", `${L} ${L}`);
+        return (x) => { const u = paso(x, t0, d, ease || "sine.inOut"); e.setAttribute("stroke-dashoffset", (L * (1 - u)).toFixed(2)); return u; }; };
+      if (modo === "ruta") {
+        // La fecha; el vuelo hasta la cordillera; la cámara se acerca a los Andes.
+        gsap.set([$(".n-gla"), $(".n-val"), $(".g-chi2"), $(".g-arg2")], { autoAlpha: 0 });
+        const f = $(".fecha"); gsap.set(f, { left: 80, top: 190 }); f.style.visibility = "visible";
+        const txt = "13 OCT 1972", t0 = w("Trece") - 0.05;
+        const hv = $(".h-vuelo"), Lv = hv.getTotalLength(), avion = $(".avion");
+        const dibuja = trazo(".h-vuelo", Lv, w("avión") - 0.1, 2.4);
+        tl.set([hv, avion], { visibility: "visible" }, w("avión") - 0.1);
+        const LEJOS = [560, 860, 1.0], CERCA = [GLA[0] + 40, GLA[1] - 20, 2.6], tz = w("cordillera") - 0.2;
+        alBuscar((x) => {
+          f.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / 1.0))));
+          const u = dibuja(x), p = hv.getPointAtLength(Lv * u), q = hv.getPointAtLength(Math.min(Lv, Lv * u + 2));
+          avion.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${(Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI + 90).toFixed(1)})`);
+          if (x < tz) pon(LEJOS[0], LEJOS[1], LEJOS[2]); else vuelo(LEJOS, CERCA, paso(x, tz, 1.6, "power2.inOut"));
+        });
+        et(".e1", "Uruguay → Chile", 80, 290, w("uruguayo") - 0.05);
+        tl.to([$(".g-arg"), $(".g-chi"), $(".n-mvd")], { autoAlpha: 0, duration: 0.3 }, tz + 0.2);   // de cerca se salen del cuadro
+      } else {
+        // caminata: el glaciar junto a la frontera; la caminata hacia el oeste y abajo hasta el valle de Chile.
+        gsap.set([$(".n-mvd"), $(".n-mza"), $(".n-scl"), $(".g-arg"), $(".g-chi"), $(".vuelo"), $(".h-vuelo"), $(".p-mvd"), $(".p-mza"), $(".p-scl")], { autoAlpha: 0 });
+        gsap.set($(".cruz-g"), { visibility: "visible" });
+        const hc = $(".h-cam"), Lc = hc.getTotalLength();
+        const tc = w("Caminan") - 0.1, dc = Math.max(1.5, w("verde") - tc);
+        const dibuja = trazo(".h-cam", Lc, tc, dc, "power1.inOut");
+        tl.set(hc, { visibility: "visible" }, tc);
+        const CERCA = [(GLA[0] + ENC[0]) / 2 + 3, (GLA[1] + ENC[1]) / 2 + 1, 28];   // corrida al este: que quepan el glaciar y Argentina
+        const d = $(".dias"); gsap.set(d, { left: 80, top: 176 });
+        aparece(d, tc - 0.1, 0.25);
+        alBuscar((x) => {
+          pon(CERCA[0], CERCA[1], CERCA[2] * (1 + 0.04 * paso(x, 0, DUR, "none")));
+          const u = dibuja(x); d.querySelector(".n").textContent = String(Math.max(1, Math.min(10, Math.ceil(u * 10))));
+        });
+        tl.set($(".meta"), { visibility: "visible" }, tc + dc - 0.1);
+        tl.fromTo($(".meta"), { attr: { r: 0 } }, { attr: { r: 0.6 }, duration: 0.3, ease: "back.out(2)" }, tc + dc - 0.1);
+        tl.fromTo($(".n-val"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, tc + dc);
+        et(".e1", "Unos 60 <i class=\"m\">km</i> · 10 días", 80, 400, w("sesenta") - 0.05);
+      }
+      fin();
+    })();
+  </script>
+</template>

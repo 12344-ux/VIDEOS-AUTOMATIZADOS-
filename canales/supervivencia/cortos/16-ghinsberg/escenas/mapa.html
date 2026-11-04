@@ -1,0 +1,119 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth): Bolivia y sus vecinos y, en esquema, el río Tuichi hasta el Beni. La
+       cámara va en escala logarítmica y con svgOrigin (ver el mapa del corto 15).
+       Modos (conf.modo):
+         zona      la fecha a máquina y BOLIVIA; «selva»: la cámara baja al norte de La Paz, a la selva del Tuichi
+         busqueda  el Tuichi de cerca; la barca sube desde Rurrenabaque; los días de búsqueda, del 1 al 3; «orilla» (la 2.ª):
+                   el punto donde lo encuentran -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .bol { fill: #262a1c; stroke: #8c8c5a; stroke-width: 1.6px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .resto { fill: #1f1e19; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .rio { fill: none; stroke: #5f8fa3; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+    #{{ID}} .rio.beni { stroke-width: 4px; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .cascada { fill: #ff5e1a; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .halo { fill: none; stroke: #ff5e1a; stroke-width: 2px; vector-effect: non-scaling-stroke; opacity: 0; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.naranja { fill: #ff5e1a; }
+    #{{ID}} .nom.azul { fill: #9cc4d4; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #a39b8c; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.dias { font: 400 150px/1 "Special Elite", monospace; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dias small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#16201a" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="resto" d="{{p:resto}}" />
+          <path class="bol" d="{{p:bolivia}}" />
+          <text class="grande g-bol" font-size="60">BOLIVIA</text>
+          <path class="rio beni" d="{{p:beni}}" />
+          <path class="rio tui" d="{{p:tuichi}}" />
+          <path class="hecho" d="{{p:busqueda}}" />
+          <circle class="punto p-lpz" r="5" /><circle class="punto p-rur" r="0.7" />
+          <circle class="cascada" r="0.6" style="visibility: hidden" />
+          <circle class="halo h-orilla" r="0.6" />
+          <circle class="meta" r="0.6" style="visibility: hidden" />
+          <text class="nom n-lpz" font-size="28">La Paz</text>
+          <text class="nom n-rur" font-size="3.2" text-anchor="middle">Rurrenabaque</text>
+          <text class="nom azul n-tui" font-size="3.4">río Tuichi</text>
+          <text class="nom naranja n-cas" font-size="3">la cascada</text>
+          <text class="nom naranja n-ori" font-size="3">lo encuentran</text>
+        </g>
+      </svg>
+      <div class="t fecha"></div>
+      <div class="t dias"><small>DÍA</small><span class="n">1</span></div>
+      <div class="t et e1"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const LPZ = {{p:la_paz}}, RUR = {{p:rurrenabaque}}, CAS = {{p:cascada}}, ORI = {{p:orilla}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      at(".p-lpz", { cx: LPZ[0], cy: LPZ[1] }); at(".p-rur", { cx: RUR[0], cy: RUR[1] });
+      at(".cascada", { cx: CAS[0], cy: CAS[1] }); at(".meta", { cx: ORI[0], cy: ORI[1] }); at(".h-orilla", { cx: ORI[0], cy: ORI[1] });
+      at(".n-lpz", { x: LPZ[0] + 12, y: LPZ[1] + 10 }); at(".n-rur", { x: RUR[0], y: RUR[1] + 5 });
+      at(".n-tui", { x: CAS[0] - 4, y: CAS[1] - 3.5 }); at(".n-cas", { x: CAS[0] - 6, y: CAS[1] + 5 }); at(".n-ori", { x: ORI[0] - 6, y: ORI[1] + 5 });
+      at(".g-bol", { x: LPZ[0] + 60, y: LPZ[1] + 170 });
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      const pon = (fx, fy, k) => gsap.set(mundo, { x: 540 - k * fx, y: 820 - k * fy, scale: k });
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      const RIO = [(CAS[0] + ORI[0]) / 2 + 4, (CAS[1] + ORI[1]) / 2 + 6, 9];
+      if (modo === "zona") {
+        // Bolivia de lejos con la fecha; «selva»: la cámara baja al Tuichi, al norte de La Paz.
+        gsap.set([$(".n-rur"), $(".n-tui"), $(".n-cas"), $(".n-ori"), $(".hecho")], { autoAlpha: 0 });
+        const f = $(".fecha"); gsap.set(f, { left: 80, top: 190 }); f.style.visibility = "visible";
+        const txt = "1981", t0 = w("Bolivia") - 0.05;
+        const LEJOS = [LPZ[0] + 40, LPZ[1] + 60, 1.0], tz = w("selva", 2) - 0.2;   // «entra en la selva» (la 1.ª, el gancho)
+        alBuscar((x) => {
+          f.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / 0.6))));
+          if (x < tz) pon(LEJOS[0], LEJOS[1], LEJOS[2]); else vuelo(LEJOS, RIO, paso(x, tz, 1.6, "power2.inOut"));
+        });
+        tl.to($(".g-bol"), { autoAlpha: 0, duration: 0.3 }, tz + 0.3);
+        tl.to([$(".n-lpz"), $(".p-lpz")], { autoAlpha: 0, duration: 0.25 }, tz + 0.2);   // de cerca, «La Paz» saldría gigante
+        tl.to([$(".n-rur"), $(".n-tui")], { autoAlpha: 1, duration: 0.3, stagger: 0.15 }, tz + 1.3);
+        et(".e1", "Yossi Ghinsberg · 22 años", 80, 290, w("israelí") - 0.05);
+      } else {
+        // busqueda: la barca sube por el Tuichi desde Rurrenabaque; los días de búsqueda; «orilla»: allí está.
+        gsap.set([$(".g-bol"), $(".n-lpz"), $(".p-lpz")], { autoAlpha: 0 });
+        gsap.set($(".cascada"), { visibility: "visible" });
+        const h = $(".hecho"), L = h.getTotalLength(); h.setAttribute("stroke-dasharray", `${L} ${L}`);
+        const tb = 0.1, to = w("orilla", 2) - 0.1;   // «lo encuentran en la orilla» (la 1.ª, la de Kevin)
+        tl.set(h, { visibility: "visible" }, tb);
+        const d = $(".dias"); gsap.set(d, { left: 80, top: 176 }); aparece(d, tb, 0.25);
+        alBuscar((x) => {
+          pon(RIO[0], RIO[1], RIO[2] * (1.05 + 0.05 * paso(x, 0, DUR, "none")));
+          const u = paso(x, tb, Math.max(0.8, to - tb), "power1.inOut");
+          h.setAttribute("stroke-dashoffset", (L * (1 - u)).toFixed(2));
+          d.querySelector(".n").textContent = String(Math.max(1, Math.min(3, Math.ceil(u * 3))));
+        });
+        tl.set($(".meta"), { visibility: "visible" }, to);
+        tl.fromTo($(".meta"), { attr: { r: 0 } }, { attr: { r: 0.9 }, duration: 0.3, ease: "back.out(2)" }, to);
+        tl.fromTo($(".h-orilla"), { attr: { r: 0.6 }, opacity: 0.9 }, { attr: { r: 5 }, opacity: 0, duration: 0.9, ease: "power2.out", repeat: 2, immediateRender: false }, to);
+        tl.fromTo($(".n-ori"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, to + 0.1);
+        et(".e1", "La búsqueda, en barca", 80, 400, 0.2);
+      }
+      fin();
+    })();
+  </script>
+</template>
