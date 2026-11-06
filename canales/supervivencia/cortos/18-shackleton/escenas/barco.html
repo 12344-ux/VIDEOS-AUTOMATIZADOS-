@@ -1,0 +1,98 @@
+<template>
+  <!-- El Endurance de perfil y dibujado (un esquema, no a escala): bergantín goleta de casco negro, con el trinquete de vergas
+       cuadradas y la mayor y la mesana con cangreja, metido en el hielo del mar de Weddell. Modo aplasta: la fecha a máquina
+       (OCT 1915: lo abandonaron el 27 de octubre); «hielo»: los témpanos se levantan contra el casco; «aplasta»: el casco se
+       escora y se raja, los palos se inclinan y todo tiembla. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .lejos { fill: #aab8bf; }
+    #{{ID}} .campo { fill: url(#campo-{{ID}}); }
+    #{{ID}} .grieta { fill: none; stroke: rgba(70, 92, 104, 0.55); stroke-width: 3; }
+    #{{ID}} .casco { fill: #121314; stroke: #050505; stroke-width: 3; }
+    #{{ID}} .franja { fill: none; stroke: #6e4e2e; stroke-width: 6; }
+    #{{ID}} .obra { fill: #2b2b2b; stroke: #0b0b0b; stroke-width: 2; }
+    #{{ID}} .palo { stroke: #2a2420; stroke-width: 10; stroke-linecap: round; }
+    #{{ID}} .verga { stroke: #2a2420; stroke-width: 6; stroke-linecap: round; }
+    #{{ID}} .jarcia { stroke: rgba(30, 30, 30, 0.75); stroke-width: 2; fill: none; }
+    #{{ID}} .tempano { fill: #dfe8ec; stroke: #8fa6b1; stroke-width: 3; stroke-linejoin: round; }
+    #{{ID}} .tempano.s { fill: #c6d4da; }
+    #{{ID}} .raja { fill: none; stroke: #ff5e1a; stroke-width: 6; stroke-linejoin: round; stroke-linecap: round; }
+    #{{ID}} .astilla { stroke: #b08a5a; stroke-width: 4; stroke-linecap: round; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151a1e" /><stop offset="0.5" stop-color="#3e4a52" /><stop offset="1" stop-color="#6d7b84" /></linearGradient>
+          <linearGradient id="campo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfdbe0" /><stop offset="1" stop-color="#7d919b" /></linearGradient>
+        </defs>
+        <g class="todo">
+          <rect class="cielo" x="-60" y="-60" width="1200" height="1100" />
+          <path class="lejos" d="M-60,968 L120,958 L260,964 L420,955 L600,962 L760,952 L930,960 L1140,954 L1140,990 L-60,990 Z" />
+          <rect class="campo" x="-60" y="980" width="1200" height="1000" />
+          <path class="grieta" d="M-20,1060 L180,1048 L300,1075 L470,1062 M620,1090 L780,1070 L930,1098 L1100,1080 M60,1180 L260,1160 L400,1190" />
+          <g class="barco">
+            <g class="aparejo">
+              <path class="jarcia" d="M720,402 L1006,824 M720,402 L520,382 M520,382 L330,472 M330,472 L205,890 M720,402 L655,886 M720,402 L785,880 M520,382 L462,892 M520,382 L578,893 M330,472 L280,895 M330,472 L380,896" />
+              <line class="palo" x1="720" y1="886" x2="720" y2="400" />
+              <line class="palo" x1="520" y1="892" x2="520" y2="380" />
+              <line class="palo" x1="330" y1="896" x2="330" y2="470" />
+              <line class="verga" x1="615" y1="470" x2="825" y2="470" /><line class="verga" x1="600" y1="545" x2="840" y2="545" />
+              <line class="verga" x1="585" y1="625" x2="855" y2="625" /><line class="verga" x1="570" y1="705" x2="870" y2="705" />
+              <line class="verga" x1="520" y1="430" x2="372" y2="478" /><line class="verga" x1="520" y1="818" x2="345" y2="832" />
+              <line class="verga" x1="330" y1="520" x2="214" y2="558" /><line class="verga" x1="330" y1="838" x2="198" y2="850" />
+              <line class="verga" x1="896" y1="864" x2="1010" y2="822" />
+            </g>
+            <path class="casco" d="M188,878 Q540,918 902,858 L874,968 Q540,1000 228,968 Z" />
+            <path class="franja" d="M196,896 Q540,934 893,876" />
+            <rect class="obra" x="458" y="866" width="112" height="34" rx="4" />
+            <path class="raja" d="M600,912 L586,936 L604,950 L588,972" pathLength="100" stroke-dasharray="100 100" style="visibility: hidden" />
+            <g class="astillas" style="visibility: hidden">
+              <line class="astilla" x1="596" y1="930" x2="560" y2="900" /><line class="astilla" x1="600" y1="944" x2="640" y2="910" />
+              <line class="astilla" x1="592" y1="960" x2="548" y2="950" /><line class="astilla" x1="598" y1="925" x2="620" y2="880" />
+            </g>
+          </g>
+          <g class="hielo-i">
+            <path class="tempano" d="M60,1010 L190,930 L262,958 L248,1040 L120,1068 Z" />
+            <path class="tempano s" d="M150,1000 L238,900 L300,930 L282,1010 L196,1036 Z" />
+            <path class="tempano" d="M-30,1060 L90,1000 L170,1030 L150,1110 L10,1120 Z" />
+          </g>
+          <g class="hielo-d">
+            <path class="tempano" d="M1000,1012 L888,930 L816,956 L828,1040 L950,1070 Z" />
+            <path class="tempano s" d="M918,1000 L838,898 L776,926 L792,1010 L872,1038 Z" />
+            <path class="tempano" d="M1100,1062 L990,1002 L912,1028 L930,1110 L1070,1120 Z" />
+          </g>
+          <path class="tempano" d="M300,1030 L460,1010 L540,1046 L470,1090 L320,1086 Z" />
+          <path class="tempano s" d="M560,1040 L700,1018 L780,1050 L720,1096 L590,1090 Z" />
+        </g>
+      </svg>
+      <div class="t fecha"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const fe = $(".fecha"); gsap.set(fe, { left: 80, top: 190 }); fe.style.visibility = "visible";
+      const txt = "OCT 1915", t0 = w("Nueve") + 0.03;
+      alBuscar((x) => { fe.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / 0.7)))); });
+      // La cámara se acerca despacio; los témpanos se levantan contra el casco con «hielo» y aprietan con «aplasta».
+      tl.fromTo($(".todo"), { scale: 1.0, svgOrigin: "540 960" }, { scale: 1.06, svgOrigin: "540 960", duration: DUR, ease: "none" }, 0);
+      const th = w("hielo", 3) - 0.1, ta = w("aplasta") - 0.04;
+      tl.fromTo($(".hielo-i"), { x: 0, y: 0, rotation: 0, svgOrigin: "160 1060" }, { x: 46, y: -36, rotation: 14, svgOrigin: "160 1060", duration: ta - th + 0.15, ease: "power2.in" }, th);
+      tl.fromTo($(".hielo-d"), { x: 0, y: 0, rotation: 0, svgOrigin: "920 1060" }, { x: -46, y: -40, rotation: -15, svgOrigin: "920 1060", duration: ta - th + 0.15, ease: "power2.in" }, th);
+      // «aplasta»: el casco se escora y baja, los palos se inclinan, la raja y las astillas; todo tiembla.
+      tl.fromTo($(".barco"), { rotation: 0, y: 0, svgOrigin: "540 960" }, { rotation: -6, y: 18, svgOrigin: "540 960", duration: 0.35, ease: "power3.out" }, ta);
+      tl.fromTo($(".aparejo"), { rotation: 0, svgOrigin: "540 900" }, { rotation: -4, svgOrigin: "540 900", duration: 0.5, ease: "power2.out" }, ta + 0.05);
+      traza($(".raja"), ta, 0.18, "power1.out");
+      tl.fromTo($(".astillas"), { autoAlpha: 0, scale: 0.6, svgOrigin: "596 940" }, { autoAlpha: 1, scale: 1.2, svgOrigin: "596 940", duration: 0.25, ease: "power2.out" }, ta);
+      tl.to($(".astillas"), { autoAlpha: 0, duration: 0.3 }, ta + 0.35);
+      tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10, y: 6, duration: 0.05 }, { x: 8, y: -5, duration: 0.05 }, { x: -4, y: 3, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, ta);
+      fin();
+    })();
+  </script>
+</template>

@@ -1,0 +1,66 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Shackleton y sus hombres son personas reales: nunca de cara. Mar de Weddell, isla Elefante y Georgia del Sur, 1915–1916: el Endurance era un bergantín goleta de tres palos y casco negro; ropa de lana, chaquetas cortavientos de gabardina y pasamontañas. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "hielo",
+   "semilla": 1801,
+   "prompt": "A three-masted wooden sailing ship with a black hull trapped and slightly tilted in vast frozen pack ice in Antarctica, seen from far away, endless white ice and pressure ridges under a pale grey sky, a few tiny dark figures of men standing on the ice beside it, the ship in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "cubierta",
+   "semilla": 1802,
+   "prompt": "An early 1900s polar explorer seen from behind standing on the snowy wooden deck of a sailing ship, wearing a heavy wool coat and a knitted wool cap, looking out at endless pack ice, ropes and rigging around him, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "hundido",
+   "semilla": 1803,
+   "prompt": "Only the broken tilted masts and tangled rigging of a black wooden sailing ship still sticking out of a crack in the Antarctic pack ice as it sinks, a group of tiny dark figures watching from far away on the ice, grey sky, vertical composition"
+  },
+  {
+   "nombre": "campamento",
+   "semilla": 1804,
+   "prompt": "A small camp of canvas tents and three wooden lifeboats on sledges on a flat ice floe in the frozen Weddell Sea, early 1900s polar explorers in heavy wool clothing walking between the tents, seen from far away, no faces visible, grey sky, vertical composition"
+  },
+  {
+   "nombre": "botes",
+   "semilla": 1805,
+   "prompt": "Exactly three small open wooden lifeboats in one horizontal row, men in wool balaclavas rowing among broken ice floes on a dark freezing sea, early 1900s, seen from far behind, no faces visible, grey stormy sky, vertical composition"
+  },
+  {
+   "nombre": "isla",
+   "semilla": 1806,
+   "prompt": "A narrow rocky shingle beach beneath steep black cliffs and glaciers on a desolate Antarctic island, three small wooden lifeboats pulled up on the stones, tiny figures of exhausted men in wool clothing, seen from far away, snow and mist, grey sky, vertical composition"
+  },
+  {
+   "nombre": "caird",
+   "semilla": 1807,
+   "prompt": "A small open wooden whaleboat with a makeshift canvas deck and a single short mast with a small sail, climbing a gigantic wave in the stormy Southern Ocean, spray and ice on the boat, six tiny figures aboard, seen from far away, dark sky, vertical composition"
+  },
+  {
+   "nombre": "montanas",
+   "semilla": 1808,
+   "prompt": "Exactly three tiny distant figures of early 1900s explorers in wool clothing, side by side in one horizontal row, crossing a vast snowfield between jagged snowy mountains and glaciers on a remote sub-Antarctic island under the moonlight, seen from far behind, their backs to the camera, no faces visible, only three people in the whole image, vertical composition"
+  },
+  {
+   "nombre": "ballenera",
+   "semilla": 1809,
+   "prompt": "An early 1900s whaling station with wooden sheds, round iron tanks and a tall chimney releasing white steam, on the shore of a calm bay surrounded by snowy mountains, seen from a snowy hillside above, morning light, no people visible, vertical composition"
+  },
+  {
+   "nombre": "refugio",
+   "semilla": 1810,
+   "prompt": "A crude hut made of two upturned wooden boats resting on low stone walls on a snowy rocky beach of an Antarctic island, a group of men in ragged wool clothing seen from far away and from behind, looking out to the icy sea, no faces visible, grey light, vertical composition"
+  },
+  {
+   "nombre": "yelcho",
+   "semilla": 1811,
+   "prompt": "A small steel-hulled steam tug with a single tall black funnel and two short masts emerging from thick fog near the icy coast of an Antarctic island, early 1900s, seen from the snowy beach, a small rowing boat heading toward it, cold pale light, vertical composition"
+  },
+  {
+   "nombre": "pecio",
+   "semilla": 1812,
+   "prompt": "The stern of an old wooden sailing ship with a large ship's wheel on its deck, resting upright on the dark sea floor three thousand meters deep, covered with small pale sea creatures, lit by the lamps of an underwater robot, deep blue darkness all around, vertical composition"
+  }
+ ]
+}

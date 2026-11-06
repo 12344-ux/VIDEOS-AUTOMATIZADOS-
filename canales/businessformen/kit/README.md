@@ -66,7 +66,7 @@ cd canales/businessformen/videos/<vídeo>/proyecto && ../../../../../video/hf.sh
   `traza()` lo oculta hasta que empieza.
 - Los años no llevan punto de miles: `cuenta(…, { crudo: true })`.
 - Un `tl.set(…, 0)` no se pinta en el primer fotograma de la escena: lo que nace oculto, con CSS o con `fromTo`.
-- El JS de la plantilla comparte ámbito con `ayuda.js`: no declarar `W`, `L`, `T0`, `DUR`, `RAIZ`, `tl`…
+- El JS de la plantilla comparte ámbito con `ayuda.js`: no declarar `W`, `L`, `T0`, `DUR`, `RAIZ`, `tl`, `f`, `w`, `traza`…
 - Con `.num` (cifras tabulares) un año grande deja un hueco junto al 1 («201 8»). Las cifras de Inter Tight son
   proporcionales si no se pide otra cosa; para un cuentakilómetros, cada columna va a su sitio con el avance medido de
   cada cifra (`videos/01-flujo-de-caja/escenas/salto.html`).

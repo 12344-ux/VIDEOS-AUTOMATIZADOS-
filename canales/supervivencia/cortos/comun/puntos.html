@@ -1,7 +1,7 @@
 <template>
   <!-- Plantilla común del canal: las personas como puntos (los que iban, los que no volvieron). Parámetros (conf):
        n, cols, tam (px), hueco (px), x, y, cifra {html, x, y} (arriba), aparecen [desde, hasta] (los puntos, uno tras
-       otro), apaga {en, menos: [índices]} (se apagan todos menos esos, que se encienden en naranja), nombres
+       otro), apaga {en, menos: [índices], ritmo} (se apagan todos menos esos, que se encienden en naranja; ritmo: s entre punto y punto), nombres
        [{i, texto}] (debajo de un punto), sello {html, en, x, y} y oscuro (el fondo: una foto en penumbra, opcional).
        Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
   <style>
@@ -50,10 +50,11 @@
       const [a0, a1] = C.aparecen.map(A);
       puntos.forEach((p, i) => tl.fromTo(p, { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.14, ease: "back.out(2)" }, a0 + (a1 - a0) * i / Math.max(1, C.n - 1)));
       if (C.apaga) {
-        const t = A(C.apaga.en), vivos = C.apaga.menos || [];
+        // ritmo: segundos entre punto y punto al apagarse (0,04 por defecto; con 53 que se apagan, 2,1 s: el corto 17 usa menos).
+        const t = A(C.apaga.en), vivos = C.apaga.menos || [], r = C.apaga.ritmo ?? 0.04;
         const muertos = puntos.filter((p, i) => !vivos.includes(i));
-        muertos.forEach((p, k) => tl.to(p, { backgroundColor: "#2b2723", duration: 0.3, ease: "power2.out" }, t + 0.04 * k));
-        vivos.forEach((i) => tl.to(puntos[i], { backgroundColor: "#ff5e1a", scale: 1.25, duration: 0.3, ease: "back.out(2)" }, t + 0.04 * muertos.length));
+        muertos.forEach((p, k) => tl.to(p, { backgroundColor: "#2b2723", duration: 0.3, ease: "power2.out" }, t + r * k));
+        vivos.forEach((i) => tl.to(puntos[i], { backgroundColor: "#ff5e1a", scale: 1.25, duration: 0.3, ease: "back.out(2)" }, t + r * muertos.length));
       }
       if (C.sello) {
         const s = $(".sello");

@@ -19,7 +19,10 @@ inglés en canales pequeños), y después el 13 (Aron Ralston, «127 horas»: 4,
 cuentan a Pedro Serrano). Si la historia toca a Colombia sin ser colombiana, se dice (el barco de Selkirk se hundió frente
 a la actual Colombia). El 15 y el 16 (3-nov): los Andes de 1972 (la demanda más grande medida en español: 14 M en un Short,
 y 45 de 53 vídeos pasan de 3 veces su canal) y Yossi Ghinsberg en la Amazonía boliviana (el hueco de oferta: 16 Shorts en
-español en diez años frente a 80 en inglés, y los que hay llegan a 2,3 M).
+español en diez años frente a 80 en inglés, y los que hay llegan a 2,3 M). El 17 y el 18 (6-nov), sin medir de nuevo (la
+sesión no tenía la clave de YouTube), de las candidatas que midió la sesión 11: Poon Lim, 133 días en una balsa en el
+Atlántico (la demanda: 4,1 M en un Short en español) y la expedición del Endurance de Shackleton (183.000 como mucho en
+español y el inglés en alza; la Antártida, y al final los salva un barco de la Armada de Chile).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

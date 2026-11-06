@@ -32,6 +32,27 @@ En **Network access → Allowed domains**:
 
 El resto (download.pytorch.org, código de GitHub) ya estaba accesible en la primera sesión.
 
+**Sesión 12 (6-nov-2026):** la sesión arrancó en el entorno «Default», con la red limitada y sin ningún dominio añadido:
+Hugging Face daba 403 en el proxy y `./instalar.sh` se paraba al empezar. Una sesión en marcha no se puede pasar a un entorno
+con red sin restricciones, así que se creó el entorno personal **«VIDEOS-AUTOMATIZADOS-»** (lo aprobó el usuario) con
+exactamente estos dominios, y con ellos se instaló todo y se hicieron los cortos 17 y 18:
+
+| Para qué | Dominios |
+| --- | --- |
+| Modelos y voces (Hugging Face y su CDN) | `huggingface.co`, `cdn-lfs.hf.co`, `cdn-lfs-us-1.hf.co`, `cdn-lfs-eu-1.hf.co`, `us.aws.cdn.hf.co`, `cas-bridge.xethub.hf.co`, `cas-server.xethub.hf.co`, `transfer.xethub.hf.co` |
+| torch para CPU (el índice redirige ahora a `download-r2`) | `download.pytorch.org`, `download-r2.pytorch.org` |
+| Fuentes (@fontsource) y mapas (world-atlas) | `cdn.jsdelivr.net` |
+| Efectos CC0 | `bigsoundbank.com` |
+| La extensión httpfs de DuckDB (rastreador) | `extensions.duckdb.org` |
+| Contrastar los datos de los guiones | `en.wikipedia.org`, `es.wikipedia.org` |
+
+PyPI, npm, `apt-get`, GitHub (git y `raw.githubusercontent.com`) entran con la casilla de gestores de paquetes o ya estaban.
+La API de Wikipedia limita el ritmo (429): pedir los artículos de uno en uno, con unos segundos entre petición y petición.
+
+**La clave de la API de YouTube** (para `rastreador/youtube.py`) no se puede guardar desde el formulario de credenciales de la
+sesión: solo admite `Authorization: Bearer`, y Google responde 401 con esa cabecera. Se añade a mano en la configuración del
+entorno (secretos de red) para `www.googleapis.com`, en la cabecera `X-Goog-Api-Key`. Sin ella el rastreador no puede medir.
+
 ## Para guardar cambios en GitHub
 
 Para que Claude pueda subir commits a este repositorio, la app de Claude para GitHub tiene que tener

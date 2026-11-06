@@ -1,6 +1,6 @@
 <template>
   <!-- Plantilla común del canal: el secreto tachado de cada historia (el bucle abierto), en una ficha a máquina.
-       Parámetros (conf): cab, linea, tapada (admite <br>), modo, fondo (imagen detrás, opcional) y las anclas:
+       Parámetros (conf): cab, linea, tapada (admite <br>), tam (px del secreto, 128 por defecto), modo, fondo y las anclas:
          oculta  en (entra la ficha), escribe [desde, hasta] (la línea, a máquina), barra (la tapa), late (la barra late)
          revela  en (vuelve la ficha, ya escrita y tapada), quita (la barra se va), fondo_en (aparece la imagen)
        Un ancla es un número (segundos desde que empieza la escena) o ["palabra", n, desfase]. -->
@@ -35,6 +35,7 @@
       const A = (a) => (typeof a === "number" ? a : (a[3] === "fin" ? f(a[0], a[1] || 1) : w(a[0], a[1] || 1)) + (a[2] || 0));
       $(".cab").textContent = C.cab;
       $(".tapada .txt").innerHTML = C.tapada;
+      if (C.tam) $(".tapada").style.fontSize = C.tam + "px";   // tam: el secreto más grande (una palabra corta); 128 por defecto
       const linea = $(".linea .t");
       if (C.modo === "oculta") {
         tl.fromTo($(".ficha"), { autoAlpha: 0, y: 60, rotation: -2 }, { autoAlpha: 1, y: 0, rotation: -1, duration: 0.45, ease: "expo.out" }, A(C.en));

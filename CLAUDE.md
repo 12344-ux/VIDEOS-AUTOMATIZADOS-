@@ -102,6 +102,11 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
 - Sonido: BigSoundBank (CC0) llega; Freesound y Pixabay dan 403, la API de Wikimedia 429 y la búsqueda
   de Openverse no responde. Node no usa el proxy por su cuenta: `NODE_USE_ENV_PROXY=1` (lo pone `video/hf.sh`).
 - Cada sesión es una máquina nueva: lo que no esté en este repositorio se pierde.
+- **La red depende del entorno en que arranca la sesión.** La 12 (6-nov) empezó en «Default», sin dominios: Hugging Face
+  daba 403 y no se instalaba nada. Se creó el entorno personal «VIDEOS-AUTOMATIZADOS-» con la lista exacta de dominios
+  (`docs/entorno.md`). Si `./instalar.sh` se para con «No llego a huggingface.co», mirar el entorno antes que nada. La clave
+  de YouTube no se puede guardar desde el formulario de credenciales (solo `Authorization: Bearer`, que Google rechaza): la
+  pone el usuario en los secretos de red del entorno, cabecera `X-Goog-Api-Key`.
 
 ## Trampas conocidas
 
@@ -216,6 +221,17 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
 - `tl.fromTo` pinta su origen al crearse (`immediateRender`): un segundo `fromTo` sobre el mismo elemento, o uno que
   empieza visible, lo enseña antes de tiempo. `immediateRender: false` o empezar oculto con CSS.
 - El lint de GSAP de HyperFrames rechaza animar `left`/`top` (`gsap_non_transform_motion`): mover con `x`/`y`.
+- **Un trazo que «se dibuja» en un mapa con `vector-effect: non-scaling-stroke`**: Chrome mide `stroke-dasharray` y
+  `stroke-dashoffset` en píxeles de pantalla, no en las unidades del dibujo. Con el largo de `getTotalLength()` tal cual, en
+  cuanto la cámara acerca el mapa el trazo sale a trozos y empieza por el otro extremo (en el corto 17 iba por delante del
+  barco). Multiplicar el largo por la escala de la cámara en cada fotograma: `trazo(x, k)` en los mapas de los cortos 17 y 18.
+  Los mapas anteriores (Andes, Ghinsberg…) usan el largo sin escalar: revisarlos si se rehacen.
+- En el JS de una plantilla no se puede llamar `f` a nada (`const f = $(".fecha")`): `f()` es de `ayuda.js`, la escena entera
+  deja de funcionar y el `check` lo da como `invalid_inline_script_syntax`. Lo mismo que `L`, `traza`, `W`, `tl`…
+- Los parámetros de `escena()` no pueden llamarse como los suyos: un camino del mapa llamado `entrada` se tomó por la
+  transición de entrada (`KeyError` en `montar.py`).
+- HyperFrames avisa (`composition_file_too_large`) de las composiciones de más de 300 líneas sin contar los estilos: con
+  `ayuda.js` dentro, una plantilla de mapa con cinco modos llegó a 305. Comentarios cortos y líneas juntas.
 - En un `<g>` de SVG, `transformOrigin: "0px 0px"` de GSAP cuenta desde la esquina de **su dibujo**, no desde el origen del
   SVG: con Australia entera (que llega a x −5.300) la cámara del mapa se desplazaba cientos de píxeles. Para una cámara
   sobre un mapa, `svgOrigin: "0 0"`. Y `vector-effect: non-scaling-stroke` en los trazos, si el zoom es grande.

@@ -1,0 +1,17 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–20 LU bajo la voz (CANAL.md).",
+ "semilla": 181,
+ "candidatas": [
+  "survival documentary music, solo piano and high strings, slow, frozen antarctic ice, epic endurance and hope, steady and continuous, no drums, 66 bpm",
+  "solo piano and high strings, polar expedition, cold wind and ice, emotional true story, steady and continuous, no drums, 72 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_2",
+  "duracion": 86,
+  "entrada": 0,
+  "recorte": 1.5,
+  "comprimir": 6,
+  "inicio": 4.5,
+  "_por_que": "pieza_2: 0 % de la energía bajo 150 Hz, pero crece de −20 a −7 dB en 30 s; sin sus primeros 4,5 s y con comprimir 6, el lecho va de −17 a −19 dB por tramos de 3 s. La 1, con el 31 % bajo 150 Hz, pasa del límite del canal."
+ }
+}

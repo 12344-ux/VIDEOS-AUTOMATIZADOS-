@@ -1,0 +1,228 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth), con la cámara en escala logarítmica y svgOrigin; los nombres y los puntos
+       guardan su tamaño en pantalla. Rutas y deriva, en esquema. Modos: atrapado (el plan y el barco que entra en el mar de
+       Weddell), caird (de la isla Elefante a Georgia del Sur), georgia (la llegada y Stromness al otro lado), intentos (los
+       tres barcos que paró el hielo) y yelcho (de Punta Arenas a la isla). El detalle, en montaje.py. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .ant { fill: #3b4148; stroke: #77838d; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .pais { fill: #26241f; stroke: #5d584b; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .resto { fill: #201e1a; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(242, 237, 228, 0.45); stroke-width: 2.5px; stroke-dasharray: 8 8; vector-effect: non-scaling-stroke; }
+    #{{ID}} .plan { fill: none; stroke: rgba(242, 237, 228, 0.7); stroke-width: 3px; stroke-dasharray: 14 10; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .intento { fill: none; stroke: #f2ede4; stroke-width: 3.5px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .camino { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-dasharray: 10 8; vector-effect: non-scaling-stroke; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 3px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 5px; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    #{{ID}} .tempano { fill: rgba(226, 236, 240, 0.78); stroke: rgba(160, 182, 192, 0.9); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .icono { fill: #f2ede4; stroke: #0b0a09; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.naranja { fill: #ff5e1a; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #b9c2c8; paint-order: stroke;
+      stroke: rgba(11, 10, 9, 0.6); stroke-width: 2px; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.et .m { font-style: normal; text-transform: none; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#15222b" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="ant" d="{{p:antartida}}" />
+          <path class="resto" d="{{p:resto}}" />
+          <path class="pais chile" d="{{p:chile}}" />
+          <path class="pais geo" d="{{p:georgia}}" />
+          <g class="hielo"></g>
+          <text class="grande g-ant" text-anchor="middle">ANTÁRTIDA</text>
+          <text class="grande g-wed" text-anchor="middle" style="visibility: hidden">MAR DE WEDDELL</text>
+          <path class="plan" d="{{p:plan}}" style="visibility: hidden" />
+          <path class="ruta r-ent" d="{{p:ruta_entrada}}" /><path class="hecho h-ent" d="{{p:ruta_entrada}}" />
+          <path class="ruta r-cai" d="{{p:caird}}" /><path class="hecho h-cai" d="{{p:caird}}" />
+          <path class="ruta r-yel" d="{{p:yelcho}}" /><path class="hecho h-yel" d="{{p:yelcho}}" />
+          <path class="intento i0" /><path class="intento i1" /><path class="intento i2" />
+          <path class="camino h-tra" d="{{p:travesia}}" style="visibility: hidden" />
+          <g class="cruces"></g>
+          <circle class="punto fijo p-pol" data-r="6" /><circle class="punto fijo p-pa" data-r="6" /><circle class="punto fijo p-sta" data-r="5" />
+          <circle class="punto fijo p-hak" data-r="7" /><circle class="punto fijo p-str" data-r="7" />
+          <circle class="onda" r="0" style="visibility: hidden" />
+          <circle class="meta fijo" data-r="9" style="visibility: hidden" />
+          <path class="icono barco" d="M-12,2 L12,2 L9,7 L-9,7 Z M-2,2 L-2,-12 M-7,-9 L3,-9 M-7,-4 L3,-4" style="visibility: hidden" />
+          <text class="nom fijo n-pol" data-px="30">Polo Sur</text>
+          <text class="nom fijo n-ele" data-px="30">isla Elefante</text>
+          <text class="nom fijo n-geo" data-px="30">Georgia del Sur</text>
+          <text class="nom fijo n-pa" data-px="30">Punta Arenas</text>
+          <text class="nom fijo n-sta" data-px="30">Malvinas</text>
+          <text class="nom fijo n-hak" data-px="30" text-anchor="end">bahía Rey Haakon</text>
+          <text class="nom fijo naranja n-str" data-px="30">Stromness</text>
+        </g>
+      </svg>
+      <div class="t fecha"></div>
+      <div class="t et e1"><span></span></div>
+      <div class="t et e2"><span></span></div>
+      <div class="t et e3"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const NS = "http://www.w3.org/2000/svg";
+      const ATR = {{p:atrapado}}, ELE = {{p:elefante}}, HAK = {{p:haakon}}, STR = {{p:stromness}}, PA = {{p:punta_arenas}};
+      const GRY = {{p:grytviken}}, STA = {{p:stanley}}, POL = {{p:polo}}, EW = {{p:et_weddell}}, EA = {{p:et_antartida}};
+      const INT = {{p:intentos}}, FIN = {{p:fin_intentos}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      [[".p-pol", POL], [".p-pa", PA], [".p-sta", STA], [".p-hak", HAK], [".p-str", STR], [".meta", ELE], [".onda", ELE]].forEach(([s, p]) => at(s, { cx: p[0], cy: p[1] }));
+      at(".g-wed", { x: EW[0], y: EW[1] }); at(".g-ant", { x: EA[0], y: EA[1] });
+      INT.forEach((d, i) => $(".i" + i).setAttribute("d", d));
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      // Nombres, puntos e iconos con su tamaño en pantalla, sea cual sea el acercamiento (k).
+      const nombres = [], fijos = $$(".fijo");
+      const nombre = (sel, p, dx, dy) => nombres.push([$(sel), p, dx, dy]);
+      const fija = (k) => {
+        fijos.forEach((e) => { if (e.dataset.px) e.setAttribute("font-size", (e.dataset.px / k).toFixed(3)); else e.setAttribute("r", (e.dataset.r / k).toFixed(3)); });
+        nombres.forEach(([e, p, dx, dy]) => { e.setAttribute("x", (p[0] + dx / k).toFixed(2)); e.setAttribute("y", (p[1] + dy / k).toFixed(2)); });
+      };
+      const pon = (fx, fy, k) => { gsap.set(mundo, { x: 540 - k * fx, y: 820 - k * fy, scale: k }); fija(k); return k; };
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        return pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t, hasta) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y });
+        tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08);
+        if (hasta != null) tl.to(e, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, hasta); };
+      // «traza» ya es de ayuda.js. Con vector-effect: non-scaling-stroke, Chrome mide el guion del trazo en píxeles de
+      // pantalla: el largo va multiplicado por la escala de la cámara (k).
+      const trazo = (sel, t0, d, ease) => { const e = $(sel), L = e.getTotalLength();
+        return (x, k) => { const u = paso(x, t0, d, ease || "sine.inOut"), s = L * k;
+          e.setAttribute("stroke-dasharray", `${s.toFixed(2)} ${s.toFixed(2)}`); e.setAttribute("stroke-dashoffset", (s * (1 - u)).toFixed(2)); return u; }; };
+      // El icono del barco sobre un camino, con su tamaño en pantalla.
+      const barco = $(".barco");
+      const sobre = (sel, u, k) => { const e = $(sel), L = e.getTotalLength(), p = e.getPointAtLength(L * u), q = e.getPointAtLength(Math.min(L, L * u + 1));
+        barco.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) scale(${((q.x < p.x ? -1 : 1) * 1.6 / k).toFixed(4)},${(1.6 / k).toFixed(4)})`); };
+      // Témpanos: polígonos irregulares (semilla fija) en un anillo alrededor de un punto.
+      let semilla = 7;
+      const rnd = () => { semilla = (semilla * 16807) % 2147483647; return semilla / 2147483647; };
+      const tempanos = (c, r0, r1, n, tam, ax = 1, ay = 0.8) => { const g = $(".hielo"), hechos = [];
+        for (let i = 0; i < n; i++) {
+          const a = rnd() * Math.PI * 2, r = r0 + (r1 - r0) * Math.sqrt(rnd()), cx = c[0] + Math.cos(a) * r * ax, cy = c[1] + Math.sin(a) * r * ay, s = tam * (0.5 + rnd());
+          const lados = 5 + Math.floor(rnd() * 3); let d = "";
+          for (let j = 0; j < lados; j++) { const b = (j / lados) * Math.PI * 2, q = s * (0.6 + 0.4 * rnd()); d += (j ? "L" : "M") + (cx + Math.cos(b) * q).toFixed(1) + "," + (cy + Math.sin(b) * q).toFixed(1); }
+          const e = document.createElementNS(NS, "path"); e.setAttribute("class", "tempano"); e.setAttribute("d", d + "Z"); g.appendChild(e); hechos.push(e);
+        }
+        return hechos; };
+      const oculta = (sels) => gsap.set(sels.map((s) => $(s)), { autoAlpha: 0 });
+      if (modo === "atrapado") {
+        oculta([".r-cai", ".r-yel", ".h-cai", ".h-yel", ".n-ele", ".n-pa", ".n-sta", ".n-hak", ".n-str", ".p-pa", ".p-sta", ".p-hak", ".p-str"]);
+        nombre(".n-pol", POL, 12, 10); gsap.set($(".n-geo"), { autoAlpha: 0 });
+        $(".g-ant").setAttribute("font-size", "90"); $(".g-wed").setAttribute("font-size", "34");
+        gsap.set($(".plan"), { visibility: "visible" });
+        const LEJOS = [600, 1820, 0.5], CERCA = [ATR[0] - 60, ATR[1] - 120, 1.5];
+        const tz = 0.5, te = w("atrapado") - 0.05;
+        const dibuja = trazo(".h-ent", 0.2, te - 0.2, "power1.inOut");
+        tl.set([$(".h-ent"), barco], { visibility: "visible" }, 0.2);
+        const hielo = tempanos([ATR[0] - 50, ATR[1] - 30], 0, 160, 260, 8, 1.5, 0.8);   // un campo de hielo hacia el mar, no sobre la costa
+        hielo.forEach((e, i) => tl.fromTo(e, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, te - 0.6 + 0.004 * i));
+        alBuscar((x) => {
+          const k = vuelo(LEJOS, CERCA, paso(x, tz, te - tz, "power2.inOut"));
+          const u = dibuja(x, k); sobre(".h-ent", u, k);
+        });
+        tl.to([$(".plan"), $(".g-ant"), $(".n-pol"), $(".p-pol")], { autoAlpha: 0, duration: 0.5 }, tz + 1.0);   // de cerca, detrás de los subtítulos
+        et(".e1", "El plan: cruzar a pie", 80, 300, 0.05, 1.75);
+        et(".e2", "Endurance", 80, 390, w("Endúrans") - 0.05);
+        et(".e3", "Atrapado · ene 1915", 80, 480, w("atrapado") - 0.05);
+        tl.fromTo($(".g-wed"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, w("hielo", 2) - 0.1);
+      } else if (modo === "caird") {
+        oculta([".r-ent", ".r-yel", ".h-ent", ".h-yel", ".plan", ".g-ant", ".g-wed", ".n-pol", ".p-pol", ".n-hak", ".n-str", ".p-hak", ".p-str"]);
+        nombre(".n-ele", ELE, -190, 46); nombre(".n-geo", GRY, -120, -30); nombre(".n-pa", PA, 14, -14); nombre(".n-sta", STA, 14, -10);
+        gsap.set($(".meta"), { visibility: "visible" });
+        const CERCA = [ELE[0], ELE[1] - 6, 5.0], LEJOS = [ELE[0] + 150, ELE[1] - 150, 0.85], tz = 0.35, dz = 1.6;
+        const tn = w("Navegan") - 0.1, dibuja = trazo(".h-cai", tn, 3.0, "power1.inOut");
+        tl.set($(".h-cai"), { visibility: "visible" }, tn);
+        tl.set(barco, { visibility: "visible" }, w("elige") - 0.1);
+        tl.fromTo(barco, { opacity: 0 }, { opacity: 1, duration: 0.3, immediateRender: false }, w("elige") - 0.1);
+        tl.set($(".onda"), { visibility: "visible" }, 0.4);
+        tl.fromTo($(".onda"), { attr: { r: 4 }, opacity: 1 }, { attr: { r: 30 }, opacity: 0, duration: 1.4, ease: "power2.out" }, 0.4);
+        tl.to($(".geo"), { fill: "#3a352c", stroke: "#ff5e1a", duration: 0.5 }, w("Georgia") - 0.1);
+        alBuscar((x) => {
+          const k = x < tz + dz ? vuelo(CERCA, LEJOS, paso(x, tz, dz, "power2.inOut")) : pon(LEJOS[0], LEJOS[1], LEJOS[2] * (1 + 0.06 * paso(x, tz + dz, DUR - tz - dz, "none")));
+          const u = dibuja(x, k); sobre(".h-cai", u, k);
+        });
+        et(".e1", "Él y 5 hombres", 80, 300, w("cinco", 2) - 0.05);
+        et(".e2", "Bote de 7 <i class=\"m\">m</i>", 80, 390, w("metros") - 0.05);
+        et(".e3", "1.300 <i class=\"m\">km</i>", 80, 480, w("kilómetros") - 0.05);
+      } else if (modo === "georgia") {
+        oculta([".r-ent", ".r-yel", ".h-ent", ".h-yel", ".r-cai", ".plan", ".g-ant", ".g-wed", ".n-pol", ".p-pol", ".n-ele", ".n-pa", ".n-sta", ".n-geo", ".p-pa", ".p-sta"]);
+        nombre(".n-hak", HAK, -16, 40); nombre(".n-str", STR, 14, -18);
+        gsap.set($(".h-cai"), { visibility: "visible" }); gsap.set(barco, { visibility: "visible" });
+        gsap.set($(".geo"), { fill: "#3a352c", stroke: "#ff5e1a" });
+        const CAM = [(HAK[0] + STR[0]) / 2, (HAK[1] + STR[1]) / 2 + 2, 12];
+        const dibuja = trazo(".h-cai", -2.0, 2.6, "power1.inOut");   // ya va por el 77 %: acaba con «Llegan»
+        oculta([".n-str", ".p-str"]);
+        tl.fromTo([$(".n-str"), $(".p-str")], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, w("estación") - 0.1);
+        tl.fromTo($(".n-hak"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.5);
+        alBuscar((x) => {
+          const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.08 * paso(x, 0, DUR, "none")));
+          const u = dibuja(x, k); sobre(".h-cai", u, k);
+        });
+        tl.fromTo($(".h-tra"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, w("otro") - 0.1);
+        et(".e1", "Georgia del Sur", 80, 300, 0.05);
+        et(".e2", "Estación ballenera", 80, 390, w("estación") - 0.05);
+      } else if (modo === "intentos") {
+        oculta([".r-ent", ".r-yel", ".r-cai", ".h-ent", ".h-yel", ".h-cai", ".plan", ".g-ant", ".g-wed", ".n-pol", ".p-pol", ".n-hak", ".n-str", ".p-hak", ".p-str"]);
+        nombre(".n-ele", ELE, -190, 46); nombre(".n-geo", GRY, -150, -34); nombre(".n-pa", PA, 14, -14); nombre(".n-sta", STA, 14, -10);
+        gsap.set($(".meta"), { visibility: "visible" });
+        const CAM = [560, 600, 0.9];
+        const ti = w("barcos") - 0.1, dibujos = [0, 1, 2].map((i) => trazo(".i" + i, ti, 1.4, "power1.out"));
+        tl.set($$(".intento"), { visibility: "visible" }, ti);
+        const hielo = tempanos(ELE, 26, 70, 70, 5);
+        hielo.forEach((e, i) => tl.fromTo(e, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power2.out" }, w("hielo", 6) - 0.15 + 0.005 * i));
+        FIN.forEach((p, i) => {
+          const g = document.createElementNS(NS, "g"); g.setAttribute("class", "cruz-i");
+          g.innerHTML = '<line class="cruz" x1="-6" y1="-6" x2="6" y2="6" /><line class="cruz" x1="6" y1="-6" x2="-6" y2="6" />';
+          $(".cruces").appendChild(g);
+          g.setAttribute("transform", `translate(${p[0]},${p[1]}) scale(${(1 / CAM[2]).toFixed(4)})`);
+          tl.fromTo(g, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, w("para") - 0.1 + 0.08 * i);
+        });
+        alBuscar((x) => {
+          const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.04 * paso(x, 0, DUR, "none")));
+          dibujos.forEach((dib) => dib(x, k));
+        });
+        et(".e1", "3 intentos", 80, 300, w("barcos") - 0.05);
+      } else {
+        // yelcho: de Punta Arenas a la isla Elefante, con la fecha; Chile encendido.
+        oculta([".r-ent", ".r-cai", ".h-ent", ".h-cai", ".plan", ".g-ant", ".g-wed", ".n-pol", ".p-pol", ".n-hak", ".n-str", ".p-hak", ".p-str", ".n-geo", ".n-sta", ".p-sta"]);
+        nombre(".n-ele", ELE, -190, 46); nombre(".n-pa", PA, 14, -14);
+        gsap.set($(".chile"), { fill: "#3a352c", stroke: "#ff5e1a" });
+        const fe = $(".fecha"); gsap.set(fe, { left: 80, top: 190 }); fe.style.visibility = "visible";
+        const txt = "30 AGO 1916", t0 = w("treinta", 2) - 0.05;
+        const CAM = [(PA[0] + ELE[0]) / 2 + 10, (PA[1] + ELE[1]) / 2 + 30, 1.3];
+        const ty = 0.3, dibuja = trazo(".h-yel", ty, w("llega") - 0.1 - ty, "power1.inOut");
+        tl.set([$(".h-yel"), barco], { visibility: "visible" }, ty);
+        const tm = w("llega") - 0.1;
+        tl.set([$(".meta"), $(".onda")], { visibility: "visible" }, tm);
+        tl.fromTo($(".meta"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, tm);
+        tl.fromTo($(".onda"), { attr: { r: 4 }, opacity: 1 }, { attr: { r: 60 }, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, tm);
+        alBuscar((x) => {
+          fe.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / 1.0))));
+          const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.05 * paso(x, 0, DUR, "none")));
+          const u = dibuja(x, k); sobre(".h-yel", u, k);
+        });
+        et(".e1", "Yelcho · Armada de Chile", 80, 300, 0.05);
+        et(".e2", "Piloto Luis Pardo", 80, 390, w("agosto") - 0.05);
+      }
+      fin();
+    })();
+  </script>
+</template>

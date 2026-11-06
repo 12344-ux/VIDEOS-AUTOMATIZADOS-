@@ -1,0 +1,74 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Poon Lim es una persona real: nunca de cara. Atlántico Sur, 1942–1943: la balsa de madera de 2,4 m con su toldo de lona sobre cuatro palos (Wikipedia en inglés). Arriba queda sitio para los rótulos. Nada de sangre en las imágenes: el tiburón, en silueta.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "balsa",
+   "semilla": 1701,
+   "prompt": "A lone thin young man seen from behind sitting on a small square wooden life raft with a canvas awning on four wooden poles, in the middle of the vast empty Atlantic Ocean, calm deep blue sea all the way to the horizon, harsh tropical sun, his back to the camera, no face visible, only one person in the whole image, the raft small in the lower half of the frame, a huge empty sky above, vertical composition"
+  },
+  {
+   "nombre": "carguero",
+   "semilla": 1702,
+   "prompt": "A 1920s steam cargo ship with a black hull, a white superstructure in the middle, a single black funnel and four cargo masts, sailing alone on the open Atlantic Ocean at dusk, seen from the side and from far away, grey sea, no other ships, the ship in the lower half of the frame, vertical composition"
+  },
+  {
+   "nombre": "torpedo",
+   "semilla": 1703,
+   "prompt": "A 1920s steam cargo ship hit by a torpedo at night on the open ocean, a huge column of white water and orange fire rising from its side, the ship breaking in two and sinking, seen from far away, black sea, no people visible, vertical composition"
+  },
+  {
+   "nombre": "anzuelo",
+   "semilla": 1704,
+   "prompt": "Close-up of thin weathered hands bending a rusty iron nail into a fish hook on the wooden planks of a raft, an opened old metal flashlight and a coil of frayed hemp rope beside them, the sea in the background, no face visible, harsh sunlight, vertical composition"
+  },
+  {
+   "nombre": "gaviota",
+   "semilla": 1716,
+   "prompt": "A thin young man in a torn white shirt seen from behind kneeling on a small square wooden raft, slowly reaching out with one hand toward a white seagull perched on the far edge of the raft, open ocean all around, bright sun, his back to the camera, no face visible, only one person in the whole image, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1705): dos manos desde lados opuestos, como si hubiera dos personas (la voz dice que estaba solo). De espaldas, con una sola mano hacia la gaviota: la 1716 (la 1715 tenía las manos en la balsa)."
+  },
+  {
+   "nombre": "lluvia",
+   "semilla": 1706,
+   "prompt": "A thin young man in a torn white shirt seen from behind on a small square wooden raft under heavy tropical rain, holding up a canvas sheet to catch the rainwater, grey stormy ocean, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "pasa",
+   "semilla": 1707,
+   "prompt": "A small square wooden raft in the foreground of the open ocean with a lone thin man standing on it and waving both arms, seen from behind, and far away on the horizon a 1940s steam cargo ship sailing past, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "avion",
+   "semilla": 1718,
+   "prompt": "A large grey 1940s navy patrol seaplane with a boat-shaped hull and one long straight wing mounted above it, two propeller engines on the wing, seen from the side and from far away, flying level and low over the open Atlantic Ocean, a tiny square wooden raft on the water far below it, a dark wall of storm clouds and rain on the horizon, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1708): un aparato raro, con un ala enorme y torcida encima. Describiendo el casco en forma de barco, el ala recta encima y los dos motores, las dos candidatas (1717 y 1718) se entienden; la 1718 deja ver mejor la balsa y algo a su lado, como la boya."
+  },
+  {
+   "nombre": "luna",
+   "semilla": 1709,
+   "prompt": "A small square wooden raft alone on a calm black ocean at night under a huge bright full moon, the moonlight reflecting on the water, a tiny thin figure sitting on the raft seen from behind, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "tiburon",
+   "semilla": 1710,
+   "prompt": "The dorsal fin of a shark circling close to a small wooden raft on clear blue ocean water, seen from slightly above, the raft's wooden planks at the bottom edge of the frame, the shark's dark shape visible under the surface, no people visible, vertical composition"
+  },
+  {
+   "nombre": "lucha",
+   "semilla": 1711,
+   "prompt": "Dark silhouettes against a huge orange sunset sky: a thin man standing on a small square wooden raft raising a metal water jug with both hands over a shark lying on the planks, seen from the side and from far away, pure black silhouettes with no details, calm sea, vertical composition"
+  },
+  {
+   "nombre": "color",
+   "semilla": 1712,
+   "prompt": "Aerial view of the open ocean where the deep dark blue water meets muddy green-brown water flowing from a great river, a sharp line between the two colors, a tiny square wooden raft on the line, vertical composition"
+  },
+  {
+   "nombre": "pescadores",
+   "semilla": 1720,
+   "prompt": "A small wooden fishing boat with a patched sail and exactly three fishermen in straw hats sitting side by side in one horizontal row, seen from behind, their backs to the camera, the boat coming alongside a small square wooden raft with a very thin exhausted man lying face down on it, his face not visible, near a low green tropical coastline with palm trees, seen from far away, soft morning light, no faces visible, vertical composition",
+   "_rehecha": "1.ª versión (semilla 1713): cuatro pescadores (la voz dice tres) y Poon Lim boca arriba, con la cara a la vista. Con «exactly three… side by side in one horizontal row» y «lying face down», tres en las dos candidatas; en la 1719 parecía asomar alguien más en la barca: la 1720."
+  }
+ ]
+}

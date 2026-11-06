@@ -1,0 +1,139 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth): el Atlántico ecuatorial entre el nordeste de Brasil y el oeste de África.
+       La cámara va en escala logarítmica y con svgOrigin (en un <g> de SVG, transformOrigin cuenta desde la esquina de su
+       dibujo). Modos (conf.modo):
+         hundido  el Atlántico entero y la fecha a máquina; «mil»: la cámara baja al punto donde lo hundieron; el carguero
+                  avanza por su ruta (en esquema); «Pun»: POON LIM · 24 AÑOS; «chino»: MARINERO CHINO
+         deriva   el punto del hundimiento y la deriva hacia el oeste (en esquema), con los días del 1 al 133; «tierra»: se
+                  enciende Brasil; el agua turbia de la costa; «rescatan»: el punto del rescate y la fecha -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .pais { fill: #26241f; stroke: #5d584b; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .resto { fill: #201e1a; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .pluma { fill: url(#pluma-{{ID}}); opacity: 0; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(242, 237, 228, 0.45); stroke-width: 2.5px; stroke-dasharray: 8 8; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .barco { fill: #f2ede4; stroke: #0b0a09; stroke-width: 0.6; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 3px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #a39b8c; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.fecha { font: 400 76px/1 "Special Elite", monospace; letter-spacing: 0.04em; text-shadow: 0 3px 20px rgba(0, 0, 0, 0.95); }
+    #{{ID}} .t.dias { font: 400 150px/1 "Special Elite", monospace; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); }
+    #{{ID}} .t.dias small { display: block; font-size: 0.3em; letter-spacing: 0.1em; color: #ff5e1a; margin-bottom: 8px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#14212a" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+          <radialGradient id="pluma-{{ID}}"><stop offset="0" stop-color="#6b6a3c" stop-opacity="0.9" /><stop offset="1" stop-color="#6b6a3c" stop-opacity="0" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <ellipse class="pluma" rx="80" ry="40" />
+          <path class="resto" d="{{p:resto}}" />
+          <path class="pais brasil" d="{{p:brasil}}" />
+          <text class="grande g-bra" font-size="56">BRASIL</text>
+          <text class="grande g-afr" font-size="56" text-anchor="middle">ÁFRICA</text>
+          <text class="grande g-oce" font-size="40" text-anchor="middle">OCÉANO ATLÁNTICO</text>
+          <path class="ruta r-ruta" d="{{p:ruta}}" />
+          <path class="hecho h-ruta" d="{{p:ruta}}" />
+          <path class="ruta r-der" d="{{p:deriva}}" />
+          <path class="hecho h-der" d="{{p:deriva}}" />
+          <circle class="punto p-bel" r="2.4" />
+          <g class="cruz-g" style="visibility: hidden"><line class="cruz" x1="-5" y1="-5" x2="5" y2="5" /><line class="cruz" x1="5" y1="-5" x2="-5" y2="5" /></g>
+          <circle class="onda" r="0" style="visibility: hidden" />
+          <circle class="meta" r="0" style="visibility: hidden" />
+          <path class="barco" d="M-6,1 L6,1 L4.4,3.6 L-4.4,3.6 Z M-1.6,1 L-1.6,-2.4 L1.2,-2.4 L1.2,1 Z" style="visibility: hidden" />
+          <text class="nom n-bra" font-size="11.5">Brasil</text>
+          <text class="nom n-bel" font-size="10" text-anchor="end">Belém</text>
+          <text class="nom n-hun" font-size="10" text-anchor="middle">aquí se hundió</text>
+        </g>
+      </svg>
+      <div class="t fecha"></div>
+      <div class="t dias"><small>DÍA</small><span class="n">1</span></div>
+      <div class="t et e1"><span></span></div>
+      <div class="t et e2"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const HUN = {{p:hundimiento}}, RES = {{p:rescate}}, BEL = {{p:belem}};
+      const EB = {{p:et_brasil}}, EA = {{p:et_africa}}, EO = {{p:et_oceano}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      at(".p-bel", { cx: BEL[0], cy: BEL[1] }); at(".n-bel", { x: BEL[0] - 5, y: BEL[1] + 14 });
+      at(".meta", { cx: RES[0], cy: RES[1] }); at(".onda", { cx: RES[0], cy: RES[1] });
+      at(".g-bra", { x: EB[0] - 60, y: EB[1] }); at(".g-afr", { x: EA[0], y: EA[1] }); at(".g-oce", { x: EO[0], y: EO[1] });
+      at(".n-bra", { x: HUN[0] - 70, y: HUN[1] + 118 }); at(".n-hun", { x: HUN[0] + 4, y: HUN[1] - 14 });
+      at(".pluma", { cx: RES[0] + 8, cy: RES[1] + 6 });
+      gsap.set($(".cruz-g"), { x: HUN[0], y: HUN[1] });
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      const pon = (fx, fy, k) => { gsap.set(mundo, { x: 540 - k * fx, y: 820 - k * fy, scale: k }); return k; };
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        return pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y }); tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); };
+      // «traza» ya es de ayuda.js: redeclararla rompe todo el script. Con vector-effect: non-scaling-stroke, Chrome mide el
+      // guion del trazo en píxeles de pantalla: el largo va multiplicado por la escala de la cámara (k), o el trazo
+      // «dibujado» sale a trozos y por el otro extremo en cuanto la cámara se acerca.
+      const trazo = (sel, L, t0, d, ease) => { const e = $(sel);
+        return (x, k) => { const u = paso(x, t0, d, ease || "sine.inOut"), s = L * k;
+          e.setAttribute("stroke-dasharray", `${s.toFixed(2)} ${s.toFixed(2)}`); e.setAttribute("stroke-dashoffset", (s * (1 - u)).toFixed(2)); return u; }; };
+      if (modo === "hundido") {
+        // El Atlántico entero; la fecha; la cámara baja al punto; el carguero avanza por su ruta.
+        gsap.set([$(".r-der"), $(".h-der"), $(".n-bel"), $(".p-bel"), $(".n-hun")], { autoAlpha: 0 });
+        const fe = $(".fecha"); gsap.set(fe, { left: 80, top: 190 }); fe.style.visibility = "visible";
+        const txt = "NOV 1942", t0 = w("Atlántico") + 0.1;
+        const hr = $(".h-ruta"), Lr = hr.getTotalLength(), barco = $(".barco");
+        const dibuja = trazo(".h-ruta", Lr, 0.2, DUR - 0.2, "power1.out");
+        tl.set([hr, barco], { visibility: "visible" }, 0.2);
+        const LEJOS = [540, 900, 1.0], CERCA = [HUN[0] + 30, HUN[1] + 70, 2.6], tz = w("mil") - 0.1;
+        alBuscar((x) => {
+          fe.textContent = txt.slice(0, Math.round(txt.length * Math.min(1, Math.max(0, (x - t0) / 0.8))));
+          const k = x < tz ? pon(LEJOS[0], LEJOS[1], LEJOS[2]) : vuelo(LEJOS, CERCA, paso(x, tz, 2.0, "power2.inOut"));
+          const u = dibuja(x, k), p = hr.getPointAtLength(Lr * u), q = hr.getPointAtLength(Math.min(Lr, Lr * u + 2));
+          barco.setAttribute("transform", `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) scale(${q.x < p.x ? 1 : -1},1)`);
+        });
+        tl.to([$(".g-bra"), $(".g-afr"), $(".g-oce")], { autoAlpha: 0, duration: 0.4 }, tz + 0.6);   // de cerca se salen del cuadro
+        tl.fromTo($(".n-bra"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, tz + 1.4);
+        et(".e1", "Poon Lim · 24 años", 80, 300, w("Pun") - 0.05);
+        et(".e2", "Marinero chino", 80, 390, w("chino") - 0.05);
+      } else {
+        // deriva: del punto del hundimiento hacia el oeste, con los días; Brasil se enciende; el rescate.
+        gsap.set([$(".g-bra"), $(".g-afr"), $(".g-oce"), $(".r-ruta"), $(".h-ruta")], { autoAlpha: 0 });
+        gsap.set($(".cruz-g"), { visibility: "visible" });
+        const hd = $(".h-der"), Ld = hd.getTotalLength();
+        const td = 0.05, dd = Math.max(1.6, w("pescadores") - 0.1 - td);
+        const dibuja = trazo(".h-der", Ld, td, dd, "power1.inOut");
+        tl.set(hd, { visibility: "visible" }, td);
+        const CAM = [(HUN[0] + RES[0]) / 2 - 6, 846, 3.0];
+        const d = $(".dias"); gsap.set(d, { left: 80, top: 176 });
+        aparece(d, 0, 0.25);
+        alBuscar((x) => {
+          const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.05 * paso(x, 0, DUR, "none")));
+          const u = dibuja(x, k); d.querySelector(".n").textContent = String(Math.max(1, Math.min(133, Math.ceil(u * 133))));
+        });
+        tl.fromTo($(".pluma"), { opacity: 0 }, { opacity: 0.7, duration: 1.0, ease: "power2.out" }, 0);
+        tl.to($(".brasil"), { fill: "#3a352c", stroke: "#ff5e1a", duration: 0.5, ease: "power2.out" }, w("tierra") - 0.1);
+        const tm = td + dd - 0.05;
+        tl.set([$(".meta"), $(".onda")], { visibility: "visible" }, tm);
+        tl.fromTo($(".meta"), { attr: { r: 0 } }, { attr: { r: 3.2 }, duration: 0.3, ease: "back.out(2)" }, tm);
+        tl.fromTo($(".onda"), { attr: { r: 3 }, opacity: 1 }, { attr: { r: 16 }, opacity: 0, duration: 0.9, ease: "power2.out" }, tm);
+        et(".e1", "Rescatado · 5 abr 1943", 80, 400, w("pescadores") - 0.05);
+      }
+      fin();
+    })();
+  </script>
+</template>

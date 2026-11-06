@@ -1584,6 +1584,127 @@ La máquina se reinició dos veces seguidas al empezar (la segunda cortó la pre
 - Las dos entregas con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar` (27 y 24 s), y los fotogramas sacados
   del MP4 coinciden con la revisión. Medido y mirado, no escuchado.
 
+## Sesión 12 — 6 de noviembre de 2026
+
+Máquina nueva (Xeon a 2,1 GHz con AMX). Mi rama (`claude/eloquent-newton-4i4ynf`) estaba en la sesión 1; el trabajo de la 11
+(`ccr-b5358caa-o686hm`, que ya contiene las demás) se trajo por avance rápido. La máquina se reinició una vez a mitad (el disco
+se conservó).
+
+### 1. La red del entorno y la instalación
+
+- **Pedido del usuario:** «Descarga las herramientas y crea dos vídeos más para el canal de supervivencia».
+- **La sesión arrancó en el entorno «Default», sin ningún dominio permitido:** Hugging Face daba 403 en el proxy y
+  `./instalar.sh` se paraba al empezar; tampoco llegaban jsDelivr, PyTorch, BigSoundBank ni Wikipedia. El entorno de las
+  sesiones anteriores («Predeterminado») tiene la red sin restricciones, y a una sesión en marcha no se la puede pasar a uno
+  así. Se creó, con la aprobación del usuario, el entorno personal **«VIDEOS-AUTOMATIZADOS-»** con la lista exacta de dominios
+  que piden los scripts del repositorio (la tabla, en `docs/entorno.md`), y al primer intento faltó uno más: el índice de
+  PyTorch redirige ahora a `download-r2.pytorch.org`.
+- **Instalación: 13 min 50 s** (`./instalar.sh` completo, con la descarga de FLUX.3 en 27 s): todo `ok` menos los dos
+  opcionales (FLUX.2 klein y stable-diffusion.cpp). Quedan 16 GB libres.
+- **La clave de YouTube no se pudo poner:** el formulario de credenciales de la sesión solo guarda claves en `Authorization:
+  Bearer`, y Google responde 401 con esa cabecera (`X-Goog-Api-Key` hay que ponerla a mano en los secretos de red del
+  entorno). Sin ella, el rastreador no midió: las historias salieron de las candidatas que midió la sesión 11.
+- La API de Wikipedia limita el ritmo (429 a la tercera petición seguida): se leyó artículo a artículo.
+
+### 2. Las dos historias
+
+- **Elegidas** (fórmula del canal: una con demanda probada en español y otra con hueco, cambiando de escenario respecto a
+  los Andes y la Amazonía): **Poon Lim** (133 días solo en una balsa en el Atlántico, 1942–1943: 4,1 M de vistas en un
+  Short en español, la demanda más grande de las candidatas que quedaban) y **la expedición del Endurance de Shackleton**
+  (1914–1916: en español, 183.000 como mucho y el inglés en alza; la Antártida, escenario nuevo, y un final que toca a
+  Latinoamérica: los rescató un barco de la Armada de Chile). Descartadas: Beck Weathers (repite el Everest de Lincoln Hall),
+  Pedro Serrano (repite la isla de Selkirk), Hugh Glass (casi todo leyenda), Ricky Megee (relato discutido) y Steven Callahan
+  (el mar otra vez, con menos demanda).
+- **Datos:** para Poon Lim, las dos Wikipedias, uboat.net (54 a bordo, 53 muertos, un superviviente), Hartlepool History y
+  Maritime Quest; para Shackleton, las dos Wikipedias de la expedición, la del Endurance y la de Luis Pardo, la Royal Navy, la
+  Revista de Marina de la Armada de Chile, Emol, el National Oceanography Centre (el pecio, a 3.008 m en 2022) y la
+  cronología de Cool Antarctica (497 días sin pisar tierra). Lo que varía, en el `PUBLICACION.md` de cada uno: el agua de la
+  balsa (45 o 40 litros), si el primer anzuelo era el muelle o un cable de la linterna (el vídeo dice «una pieza»), el
+  submarino que lo vio, la fecha en que llegó el Yelcho (una nota de Chilevisión da el 5 de agosto; las demás, el 30). Las
+  cuatro lunas llenas de la balsa de Poon Lim, calculadas con el mes sinódico medio.
+- **Guiones** de 239 y 233 palabras: voz M2 de 76,7 s (2 min 35 s con la carga en frío) y 81,2 s (1 min 23 s). Los nombres,
+  escritos como suenan («Pun Lim», «Shákleton», «Endúrans», «Uédel») y devueltos a su grafía en los subtítulos con
+  `pantalla.json`; comprobados con el propio alineador wav2vec2, que es un reconocedor de voz: oye «pun lim», «chakleton»,
+  «endurans», «weadle» y «yelco». Y «mil trescientos» va en `pantalla.json` como «1.300»: `subtitulos.py` toma los números
+  de 1000 a 2100 por años y lo escribía sin punto.
+
+### 3. Cómo están hechos
+
+- **«133 días solo en una balsa»** (Poon Lim, 77,4 s, 23 escenas): el gancho 133 DÍAS · SOLO EN UNA BALSA y, en el segundo 4,
+  el tiburón bajo la balsa con NO SABÍA NADAR; el secreto, «lo que bebió cuando se quedó sin agua», que se lee al 74 %
+  («Sangre de tiburón», sobre la lucha en silueta: nada de sangre en imagen). Dos escenas dibujadas nuevas: `mapa.html` con
+  `mapa.py` (Natural Earth: el Atlántico entre Brasil y África, la fecha a máquina, el carguero por su ruta y la cámara que
+  baja al punto del hundimiento, a 397 km de la costa; y la deriva hacia el oeste con los días del 1 al 133, el agua turbia
+  de la costa y el rescate frente a Pará) y `balsa.html` (la balsa vista desde arriba con sus 2,4 m, el agua, las galletas
+  y la linterna, la cuerda y los nudos de los días; y, sobre la foto de la noche, los nudos que se apagan y las cuatro lunas
+  llenas). Los 54 del Benlomond como puntos que se apagan hasta dejar uno («1 de 54»).
+- **«Atrapados en el hielo»** (Shackleton, 81,9 s, 23 escenas): el gancho 28 HOMBRES · ATRAPADOS EN EL HIELO; el secreto, de
+  dónde venía el barco que los salvó, que se lee al 78 % («Chile»). Escenas dibujadas nuevas: `barco.html` (el Endurance de
+  perfil, un bergantín goleta de casco negro metido en el hielo: los témpanos se levantan con «hielo», y con «aplasta» se
+  escora, se raja y todo tiembla) y un `mapa.html` con cinco modos sobre una sola proyección: la Antártida entera con el plan
+  de cruzarla por el polo y el barco que entra en el mar de Weddell y queda rodeado de témpanos; la isla Elefante y los
+  1.300 km del bote hasta Georgia del Sur; Georgia del Sur de cerca, con Stromness al otro lado; los tres intentos que paró
+  el hielo; y la ruta del Yelcho desde Punta Arenas con Chile encendido. Los nombres y los puntos del mapa guardan su tamaño
+  en pantalla aunque la cámara se acerque. Los 22 de la isla, como puntos que al final se encienden («Vivos»).
+- **Música** («solo piano and high strings»): las dos del Poon Lim con el 0 % de graves (la 1, de −13 a −20 dB; la 2, de −11
+  a −23: la 1); las del Shackleton, una con el 31 % bajo 150 Hz (fuera) y otra con el 0 % pero en crescendo de −20 a −7 dB:
+  sin sus primeros 4,5 s y con `comprimir` 6, el lecho va de −17 a −19 dB. 380 y 478 s cada par.
+- **Sonido** (BigSoundBank, CC0): el torpedo (1023) y el trueno (3113), con sus destellos, el avión que pasa (3008) y el golpe
+  de la jarra (2453); el hielo que aplasta el casco y el que se parte bajo el campamento (2206), la ola contra el bote (2570)
+  y el silbato de vapor de Stromness (0226, «Whistling train», un silbato de vapor de verdad con varios tonos de 390 a 640
+  Hz; los de foley eran un tono puro de 790 Hz). `revisar_mezcla.py`: 0 avisos y ningún hueco en los dos; la música, de 16 a
+  17 LU bajo la voz en el 17 y de 15 a 21 en el 18 (el silbato, a 0,12, quedaba 2,7 LU bajo la voz: a 0,065).
+- **Imágenes** (FLUX.3 a 720 × 1280 y EDSR): 13 y 12, unos 150 s cada una compartiendo la CPU. **Rehechas en el 17:** la gaviota
+  (dos manos desde lados opuestos, como si hubiera dos personas), el avión (un aparato raro con un ala enorme y torcida:
+  describiendo el casco en forma de barco y el ala recta encima, un hidroavión reconocible) y los pescadores (cuatro cuando la
+  voz dice tres, y Poon Lim boca arriba con la cara a la vista: con «exactly three… in one horizontal row» y «lying face
+  down», bien).
+
+### 4. Lo que encontró la revisión
+
+- **Un trazo que «se dibuja» en un mapa con `vector-effect: non-scaling-stroke`:** Chrome mide el guion del trazo en píxeles de
+  pantalla. En cuanto la cámara acercaba el mapa, el naranja de la ruta iba por delante del barco y la deriva no salía de la X.
+  Corregido multiplicando el largo por la escala de la cámara en cada fotograma; los mapas de los cortos anteriores usan el
+  largo sin escalar (anotado en `CLAUDE.md`).
+- **La escena del barco no se animaba:** `const f = $(".fecha")` choca con `f()` de `ayuda.js` (`invalid_inline_script_syntax`
+  en el `check`). Y un camino del mapa llamado `entrada` se tomó por la transición de `escena()` (`KeyError`).
+- **El mapa de cinco modos pasó de 300 líneas** (`composition_file_too_large`): con un comentario corto y líneas juntas, 295.
+- **Los puntos:** 53 que se apagan de 0,04 en 0,04 s tardaban 2,1 s y el superviviente no llegaba a encenderse antes de que
+  acabara la escena. `comun/puntos.html` acepta ahora `ritmo` (por defecto el de siempre, para que los cortos anteriores salgan
+  iguales); el 17 usa 0,012.
+- **Tiempos de lectura** (`check`, 14 avisos en el 17 y 3 en el 18, todos ciertos): rótulos que entraban con la última palabra
+  y salían enseguida; se adelantan a la palabra que los anuncia. «Brasil» a 25 px; «OCÉANO ATLÁNTICO» cortado por la derecha;
+  «ANTÁRTIDA» y «Polo Sur» medio visibles detrás de los subtítulos al acercarse la cámara; el hielo alrededor del Endurance,
+  una bola en vez de un mar de témpanos; «Punta Arenas» cortado.
+- **Contraste, uno cierto y uno falso:** la frase del récord («Espero que nadie tenga que batir este récord») caía sobre la
+  luna llena (2,45:1): va en una caja oscura. El de «cinco» en el 18 es el resaltado a medio pasar a «meses» (mirado en el
+  fotograma).
+- **Subtítulos que repetían lo que la pantalla ya escribe en grande** (NO SABÍA NADAR, 2 MINUTOS, VIVO, 497 DÍAS, el contador
+  de 36 horas, la ficha): fuera en esos tramos.
+
+- **Las lunas, encima de la luna:** en el MP4 del 17 (no en la hoja de revisión) las cuatro lunas dibujadas caían sobre la
+  luna enorme de la foto y una casi desaparecía. Van ahora entre la luna y el horizonte, con la foto más oscura: se rehízo
+  el render.
+- **La revelación del 18 duraba 0,7 s:** «Chile» se destapaba con la palabra y el mapa entraba enseguida. El mapa entra
+  ahora con «agosto» (1,2 s de «CHILE» a la vista) y `comun/ficha.html` acepta `tam` (por defecto, los 128 px de siempre):
+  «Chile», a 190.
+- `check` al final: 0 errores y 0 avisos en el 17; en el 18, el contraste falso de «cinco».
+
+### 5. Render y entrega
+
+- **Poon Lim:** render en 4 min 38 s (compartiendo la CPU con el lote de FLUX del 18; el primero, antes de corregir las lunas,
+  4 min 51 s); `salidas/supervivencia/cortos/17-poon-lim/entrega/poon-lim.mp4` (77,4 s, −14,4 LUFS, −1,4 dBTP, 61 MB). El
+  último fotograma es el primero (3,0 de diferencia media sobre 255), ningún silencio, y el final 4,9 dB por debajo del
+  principio: acaba en la cola de música.
+- **Shackleton:** render en 3 min 42 s, con la CPU libre; `salidas/supervivencia/cortos/18-shackleton/entrega/shackleton.mp4`
+  (81,9 s, −14,5 LUFS, −1,6 dBTP, 67 MB); bucle a 2,7 sobre 255, ningún silencio; el último segundo y medio, 9,9 dB por debajo
+  del primero, porque es la pausa final de la voz (la música, 1,4 dB más baja en el corte del bucle).
+- Las dos entregas con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar` (29 y 27 s), y los fotogramas sacados
+  del MP4 coinciden con la revisión. Medido y mirado, no escuchado.
+- **Tiempos de la sesión:** instalación 13 min 50 s; voces, 2 min 35 s y 1 min 23 s; música, 6 min 20 s y 8 min (dos
+  candidatas de 30 s cada vez); imágenes, 40 min y 41 min con la ampliación (más 6 candidatas rehechas, intercaladas en el
+  servidor); render, unos 4 min cada uno. Una copia de las dos entregas, en `/workspace/entregas/` para verlas desde la app.
+
 ## Siguiente paso
 
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
@@ -1592,13 +1713,15 @@ La máquina se reinició dos veces seguidas al empezar (la segunda cortó la pre
    español) y otro con hueco (las luces de Phoenix: 2,4 M en inglés y 18.000 en español).
    Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
    Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston,
-   Alexander Selkirk, los Andes y Yossi Ghinsberg en supervivencia),
+   Alexander Selkirk, los Andes, Yossi Ghinsberg, Poon Lim y Shackleton en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
-   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–14 (historias conocidas en todo el mundo, una con hueco
-   y otra con demanda probada en español, medidas en inglés y en español). Candidatas ya medidas: Shackleton (el
-   inglés, en alza), Poon Lim (4,1 M en español, aunque el mar a la deriva ya lo contó Alvarenga) y Beck Weathers
-   (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln Hall); Hugh Glass, solo contándolo como leyenda; Pedro
-   Serrano, el náufrago español (383.000 vistas en un Short, 18× su canal), salió al medir a Selkirk. Publicar y
+   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–18 (historias conocidas en todo el mundo, una con hueco
+   y otra con demanda probada en español, medidas en inglés y en español). **Antes de medir, la clave de YouTube en el
+   entorno** (secretos de red, `www.googleapis.com`, cabecera `X-Goog-Api-Key`): en la sesión 12 no estaba y el 17 y el 18
+   salieron de las candidatas ya medidas. Quedan: Beck Weathers (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln
+   Hall); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el náufrago español (383.000 vistas en un Short, 18× su
+   canal), salió al medir a Selkirk. Ideas sin medir: Jan Baalsrud (Noruega, 1943), Ada Blackjack (isla Wrangel, 1921–1923)
+   y el piloto del vuelo 5390 de British Airways (1990). Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.
