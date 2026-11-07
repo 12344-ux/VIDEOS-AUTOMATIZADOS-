@@ -220,6 +220,10 @@ def tema(con, mes, antes, idioma, palabras, minimo, top, texto):
     con.execute('CREATE OR REPLACE TEMP VIEW t_n AS SELECT video_id, views, likes, comments, shares, saves, duration_ms, ia, '
                 'unnest(nichos) AS nicho FROM t')
     n, med, exito = base(con, 't')
+    if not n:
+        # Un tema muy concreto (una historia) puede no tener ningún vídeo en el mes: antes fallaba al formatear la mediana.
+        print(f'## Tema «{" · ".join(palabras)}», TikTok en «{idioma}», {mes}: 0 vídeos (de {mil(n_tot)}).')
+        return
     g, c = con.execute('SELECT 1000.0 * sum(saves) / sum(views), 1000.0 * sum(shares) / sum(views) FROM t').fetchone()
     gt, ct = con.execute('SELECT 1000.0 * sum(saves) / sum(views), 1000.0 * sum(shares) / sum(views) FROM m').fetchone()
     print(f'## Tema «{" · ".join(palabras)}», TikTok en «{idioma}», {mes}\n')

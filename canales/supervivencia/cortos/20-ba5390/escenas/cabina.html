@@ -1,0 +1,156 @@
+<template>
+  <!-- El morro del BAC One-Eleven de perfil, por el lado del capitán (el izquierdo: la proa mira a la izquierda), dibujado y
+       sin logos: arriba gris claro y abajo azul oscuro, sobre las nubes. El capitán, en naranja y sin cara. Modos: sale (los
+       13 minutos; el parabrisas se enciende y sale volando, con la niebla de la descompresión), rodillas (medio cuerpo
+       fuera, tumbado sobre el techo; las piernas dentro, enganchadas en los mandos) y golpea (la cabeza contra el avión;
+       con «muerto», el capitán se apaga). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .cielo { fill: url(#cielo-{{ID}}); }
+    #{{ID}} .nube { fill: rgba(236, 240, 243, 0.92); }
+    #{{ID}} .nube.l { fill: rgba(214, 222, 228, 0.8); }
+    #{{ID}} .viento line { stroke: rgba(255, 255, 255, 0.55); stroke-width: 3; stroke-linecap: round; }
+    #{{ID}} .piel { fill: #cfd3d8; stroke: #6d737a; stroke-width: 3; }
+    #{{ID}} .panza { fill: #1f2a4d; }
+    #{{ID}} .filo { stroke: #b0122f; stroke-width: 7; fill: none; }
+    #{{ID}} .vent { fill: #1a2026; stroke: #4c535b; stroke-width: 3; }
+    #{{ID}} .hueco { fill: #0e1114; stroke: #2c3238; stroke-width: 3; }
+    #{{ID}} .parab { fill: #3a4a58; stroke: #4c535b; stroke-width: 3; }
+    #{{ID}} .parab.vuela { fill: #50616f; stroke: #c9d2da; }
+    #{{ID}} .brillo { fill: rgba(255, 94, 26, 0.35); stroke: #ff5e1a; stroke-width: 5; visibility: hidden; }
+    #{{ID}} .capi { stroke: #ff5e1a; stroke-linecap: round; fill: none; }
+    #{{ID}} .capi.cabeza { fill: #ff5e1a; stroke: none; }
+    #{{ID}} .papel { fill: #f4f1ea; stroke: rgba(11, 10, 9, 0.35); stroke-width: 1; visibility: hidden; }
+    #{{ID}} .destello { fill: rgba(250, 252, 255, 0.95); visibility: hidden; }
+    #{{ID}} .dentro { stroke: rgba(255, 94, 26, 0.85); stroke-width: 5; stroke-dasharray: 12 9; fill: none; stroke-linecap: round; }
+    #{{ID}} .mando { stroke: #2a2f35; stroke-width: 9; stroke-linecap: round; fill: none; }
+    #{{ID}} .aro { fill: none; stroke: #ff5e1a; stroke-width: 5; visibility: hidden; }
+    #{{ID}} .rot { font: 800 40px "Barlow Condensed", sans-serif; letter-spacing: 0.04em; fill: #ff5e1a; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 6px; stroke-linejoin: round; text-transform: uppercase; visibility: hidden; }
+    #{{ID}} .golpe-m { stroke: #ff5e1a; stroke-width: 5; stroke-linecap: round; visibility: hidden; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.cuenta { font: 800 150px/0.9 "Barlow Condensed", sans-serif; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); }
+    #{{ID}} .t.cuenta .m { font-size: 0.5em; margin-left: 0.12em; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs>
+          <linearGradient id="cielo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f5d78" /><stop offset="0.55" stop-color="#7f9cb3" /><stop offset="1" stop-color="#c9d6df" /></linearGradient>
+        </defs>
+        <rect class="cielo" x="-60" y="-60" width="1200" height="2040" />
+        <g class="nubes"></g>
+        <g class="todo"><g transform="translate(-165,-380) scale(1.5)">
+          <g class="avion">
+            <path class="piel" d="M1240,630 L520,630 C450,630 400,646 352,684 L262,756 C212,792 160,822 142,852 C128,878 150,906 214,918 L1240,936 Z" />
+            <path class="panza" d="M1240,842 L262,842 C200,842 156,858 146,872 C150,900 176,912 214,918 L1240,936 Z" />
+            <path class="filo" d="M1240,840 L262,840 C204,840 160,856 146,870" />
+            <path class="vent" d="M420,664 L470,650 L476,700 L428,708 Z" />
+            <path class="vent" d="M494,646 L548,640 L550,692 L498,698 Z" />
+            <path class="hueco" d="M356,688 L406,668 L414,712 L322,742 Z" />
+            <path class="mando" d="M330,880 L352,772 M334,770 L372,778" style="visibility: hidden" />
+            <path class="parab" d="M356,688 L406,668 L414,712 L322,742 Z" />
+            <path class="brillo" d="M356,688 L406,668 L414,712 L322,742 Z" />
+          </g>
+          <g class="capitan" style="visibility: hidden">
+            <path class="dentro" d="M372,716 L404,790 L350,846" />
+            <line class="capi tronco" x1="372" y1="712" x2="520" y2="606" stroke-width="46" />
+            <line class="capi brazo" x1="470" y1="636" x2="590" y2="590" stroke-width="18" />
+            <line class="capi brazo b2" x1="456" y1="650" x2="580" y2="640" stroke-width="18" />
+            <circle class="capi cabeza" cx="556" cy="586" r="27" />
+          </g>
+          <circle class="aro a-rod" cx="404" cy="790" r="34" />
+          <text class="rot r-rod" x="452" y="806">Rodillas</text>
+          <g class="golpe-g"><line class="golpe-m" x1="600" y1="640" x2="632" y2="626" /><line class="golpe-m" x1="602" y1="660" x2="640" y2="664" /><line class="golpe-m" x1="590" y1="676" x2="614" y2="702" /></g>
+          <path class="destello" d="M356,688 L406,668 L414,712 L322,742 Z" />
+          <path class="parab vuela" d="M-26,-30 L24,-50 L32,-6 L-60,24 Z" style="visibility: hidden" />
+          <g class="papeles"></g>
+        </g></g>
+        <g class="viento"></g>
+      </svg>
+      <div class="capa velo"></div>
+      <div class="t cuenta num"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo, NS = "http://www.w3.org/2000/svg";
+      // Nubes abajo y rayas de viento: van hacia la cola (a la derecha), en función del tiempo.
+      let sem = 11; const rnd = () => { sem = (sem * 16807) % 2147483647; return sem / 2147483647; };
+      const nubes = $(".nubes"), viento = $(".viento");
+      for (let i = 0; i < 16; i++) { const e = document.createElementNS(NS, "ellipse"); e.setAttribute("class", "nube" + (i % 3 ? "" : " l"));
+        e.setAttribute("cx", (rnd() * 1500 - 200).toFixed(0)); e.setAttribute("cy", (1420 + rnd() * 520).toFixed(0));
+        e.setAttribute("rx", (160 + rnd() * 220).toFixed(0)); e.setAttribute("ry", (50 + rnd() * 70).toFixed(0)); nubes.appendChild(e); }
+      for (let i = 0; i < 14; i++) { const e = document.createElementNS(NS, "line"), y = 380 + rnd() * 760, x = rnd() * 2200 - 600, l = 90 + rnd() * 160;
+        e.setAttribute("x1", x.toFixed(0)); e.setAttribute("x2", (x + l).toFixed(0)); e.setAttribute("y1", y.toFixed(0)); e.setAttribute("y2", y.toFixed(0));
+        e.setAttribute("opacity", (0.35 + rnd() * 0.5).toFixed(2)); viento.appendChild(e); }
+      const rafaga = modo !== "sale";   // con el parabrisas fuera, el viento se ve
+      gsap.set(viento, { autoAlpha: rafaga ? 1 : 0.35 });
+      alBuscar((x) => {
+        nubes.setAttribute("transform", `translate(${(((x + T0) * 260) % 600).toFixed(1)},0)`);
+        viento.setAttribute("transform", `translate(${(((x + T0) * (rafaga ? 2600 : 900)) % 2200).toFixed(1)},0)`);
+      });
+      // El avión se mece un poco, como en el aire.
+      tl.fromTo($(".todo"), { y: 0 }, { keyframes: [{ y: -6, duration: 1.1, ease: "sine.inOut" }, { y: 4, duration: 1.2, ease: "sine.inOut" }, { y: 0, duration: 1.0, ease: "sine.inOut" }], repeat: 3 }, 0);
+      const tiembla = (t, f = 1) => tl.fromTo(RAIZ, { x: 0, y: 0 }, { keyframes: [{ x: -10 * f, y: 6 * f, duration: 0.05 }, { x: 8 * f, y: -5 * f, duration: 0.05 }, { x: -4 * f, y: 3 * f, duration: 0.05 }, { x: 0, y: 0, duration: 0.08 }] }, t);
+      if (modo === "sale") {
+        // 13 minutos después del despegue: el contador; el parabrisas se enciende y sale volando hacia delante y arriba.
+        const c = $(".cuenta"); gsap.set(c, { left: 80, top: 230 }); c.style.visibility = "visible";
+        const t0 = w("trece") - 0.1, n = { v: 0 };
+        const pinta = () => { c.innerHTML = `${Math.round(n.v)}<span class="m">min</span>`; }; pinta();
+        tl.fromTo(n, { v: 0 }, { v: 13, duration: 0.8, ease: "power2.out", onUpdate: pinta }, t0);
+        tl.fromTo(c, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, t0 - 0.1);
+        const tp = w("parabrisas") - 0.05, tv = w("volando") - 0.08;
+        tl.set($(".brillo"), { visibility: "visible" }, tp);
+        tl.fromTo($(".brillo"), { opacity: 0 }, { keyframes: [{ opacity: 1, duration: 0.2 }, { opacity: 0.35, duration: 0.3 }, { opacity: 1, duration: 0.3 }, { opacity: 0.5, duration: 0.3 }, { opacity: 1, duration: 0.3 }] }, tp);
+        tl.set([$(".parab:not(.vuela)"), $(".brillo")], { visibility: "hidden" }, tv);
+        const v = $(".parab.vuela"); tl.set(v, { visibility: "visible" }, tv);
+        tl.fromTo(v, { x: 370, y: 712, rotation: 0, transformOrigin: "50% 50%" }, { x: 80, y: 470, rotation: -300, duration: 0.6, ease: "power2.out" }, tv);
+        tl.to(v, { opacity: 0, duration: 0.2 }, tv + 0.45);
+        tl.set($(".destello"), { visibility: "visible" }, tv);
+        tl.fromTo($(".destello"), { opacity: 1 }, { opacity: 0, duration: 0.35, ease: "power2.out" }, tv);
+        // Los papeles de la cabina salen por el hueco y el aire se los lleva hacia la cola, girando.
+        const pg = $(".papeles");
+        for (let i = 0; i < 9; i++) { const e = document.createElementNS(NS, "rect"); e.setAttribute("class", "papel");
+          e.setAttribute("x", "-9"); e.setAttribute("y", "-12"); e.setAttribute("width", "18"); e.setAttribute("height", "24"); pg.appendChild(e);
+          const dx = 160 + rnd() * 420, dy = -60 - rnd() * 260, giro = (rnd() - 0.5) * 900, t = tv + 0.04 * i;
+          tl.set(e, { visibility: "visible" }, t);
+          tl.fromTo(e, { x: 368, y: 704, rotation: 0, opacity: 1, transformOrigin: "50% 50%" }, { x: 368 + dx, y: 704 + dy, rotation: giro, opacity: 0, duration: 0.8 + rnd() * 0.4, ease: "power1.out" }, t); }
+        tiembla(tv); tl.to(viento, { autoAlpha: 1, duration: 0.3 }, tv);
+        tl.to(c, { autoAlpha: 0, duration: 0.25 }, tv + 0.1);
+      } else {
+        // Medio cuerpo fuera: tumbado hacia atrás sobre el techo, los brazos al viento; las piernas, dentro (a trazos).
+        gsap.set([$(".capitan"), $(".mando")], { visibility: "visible" });
+        gsap.set([$(".parab:not(.vuela)")], { visibility: "hidden" });
+        const brazos = $$(".brazo");
+        alBuscar((x) => { const a = Math.sin((x + T0) * 9) * 6, b = Math.sin((x + T0) * 11 + 1) * 7;
+          brazos[0].setAttribute("y2", (590 + a).toFixed(1)); brazos[1].setAttribute("y2", (640 + b).toFixed(1)); });
+        if (modo === "rodillas") {
+          const tr = w("rodillas") - 0.1;
+          tl.set([$(".a-rod"), $(".r-rod")], { visibility: "visible" }, tr);
+          tl.fromTo($(".a-rod"), { scale: 1.6, opacity: 0, svgOrigin: "404 790" }, { scale: 1, opacity: 1, svgOrigin: "404 790", duration: 0.35, ease: "back.out(2)" }, tr);
+          tl.fromTo($(".r-rod"), { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, tr + 0.1);
+          tl.fromTo($(".tronco"), { attr: { "stroke-width": 46 } }, { keyframes: [{ attr: { "stroke-width": 54 }, duration: 0.2 }, { attr: { "stroke-width": 46 }, duration: 0.3 }] }, w("medio") - 0.05);
+          tiembla(0.15, 0.5);
+        } else {
+          // golpea: el cuerpo se ha corrido hacia fuera; la cabeza da contra el avión dos veces; con «muerto», se apaga.
+          gsap.set($(".capitan"), { x: 30, y: 36, rotation: 8, svgOrigin: "372 712" });
+          const tg = w("golpea") - 0.05;
+          [tg, tg + 0.55].forEach((t, i) => {
+            tl.fromTo($(".capitan"), { rotation: 8 }, { keyframes: [{ rotation: 18, duration: 0.12, ease: "power2.in" }, { rotation: 8, duration: 0.3, ease: "power2.out" }] }, t - 0.12);
+            tl.set($$(".golpe-m"), { visibility: "visible" }, t);
+            tl.fromTo($(".golpe-g"), { opacity: 1, scale: 0.6, svgOrigin: "600 666" }, { opacity: 0, scale: 1.3, svgOrigin: "600 666", duration: 0.4, ease: "power2.out" }, t);
+            tiembla(t, i ? 0.6 : 1);
+          });
+          tl.to($$(".capitan .capi"), { stroke: "#8b8f94", duration: 0.6, ease: "power2.inOut" }, w("muerto") - 0.15);
+          tl.to($(".cabeza"), { fill: "#8b8f94", duration: 0.6, ease: "power2.inOut" }, w("muerto") - 0.15);
+          tl.to($(".dentro"), { stroke: "rgba(139, 143, 148, 0.85)", duration: 0.6 }, w("muerto") - 0.15);
+        }
+      }
+      fin();
+    })();
+  </script>
+</template>

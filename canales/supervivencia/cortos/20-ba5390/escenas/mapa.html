@@ -1,0 +1,144 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth), con la cámara en escala logarítmica y svgOrigin; los nombres, los puntos y
+       el avión guardan su tamaño en pantalla. La ruta prevista y el desvío, en esquema. Modos: ruta (despega de Birmingham
+       hacia Málaga) y desvio (de Didcot, donde se soltó el parabrisas, a Southampton, con los minutos). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .pais { fill: #26241f; stroke: #5d584b; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .resto { fill: #201e1a; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(242, 237, 228, 0.6); stroke-width: 3px; stroke-dasharray: 10 9; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 3px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .cruz { stroke: #ff5e1a; stroke-width: 5px; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    #{{ID}} .avion { fill: #f2ede4; stroke: #0b0a09; stroke-width: 1.5px; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.naranja { fill: #ff5e1a; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #8f8a80; paint-order: stroke;
+      stroke: rgba(11, 10, 9, 0.6); stroke-width: 2px; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+    #{{ID}} .t.et .m { font-style: normal; text-transform: none; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#15222b" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="resto" d="{{p:resto}}" />
+          <path class="pais" d="{{p:francia}}" />
+          <path class="pais" d="{{p:espana}}" />
+          <path class="pais uk" d="{{p:uk}}" />
+          <text class="grande g-ing" text-anchor="middle" font-size="30">INGLATERRA</text>
+          <text class="grande g-fra" text-anchor="middle" font-size="40">FRANCIA</text>
+          <text class="grande g-esp" text-anchor="middle" font-size="40">ESPAÑA</text>
+          <path class="ruta r-ruta" d="{{p:ruta}}" />
+          <path class="hecho h-vuelo" d="{{p:vuelo}}" />
+          <path class="hecho h-desvio" d="{{p:desvio}}" />
+          <g class="cruz-d" style="visibility: hidden"><line class="cruz" x1="-13" y1="-13" x2="13" y2="13" /><line class="cruz" x1="13" y1="-13" x2="-13" y2="13" /></g>
+          <circle class="punto fijo p-bir" data-r="7" /><circle class="punto fijo p-mal" data-r="7" />
+          <circle class="onda" r="0" style="visibility: hidden" />
+          <circle class="meta fijo p-sou" data-r="9" style="visibility: hidden" />
+          <path class="avion" d="M0,-12 L2,-6 L2,-2 L11,3 L11,5 L2,2 L2,8 L5,11 L5,12 L0,11 L-5,12 L-5,11 L-2,8 L-2,2 L-11,5 L-11,3 L-2,-2 L-2,-6 Z" />
+          <text class="nom fijo n-bir" data-px="34">Birmingham</text>
+          <text class="nom fijo n-mal" data-px="34">Málaga</text>
+          <text class="nom fijo n-did" data-px="32" text-anchor="end">Didcot</text>
+          <text class="nom fijo naranja n-sou" data-px="34">Southampton</text>
+        </g>
+      </svg>
+      <div class="t et e1"><span></span></div>
+      <div class="t et e2"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const BIR = {{p:birmingham}}, DID = {{p:didcot}}, SOU = {{p:southampton}}, MAL = {{p:malaga}};
+      const EI = {{p:et_inglaterra}}, EF = {{p:et_francia}}, EE = {{p:et_espana}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      [[".p-bir", BIR], [".p-mal", MAL], [".p-sou", SOU], [".onda", SOU]].forEach(([s, p]) => at(s, { cx: p[0], cy: p[1] }));
+      at(".g-ing", { x: EI[0], y: EI[1] }); at(".g-fra", { x: EF[0], y: EF[1] }); at(".g-esp", { x: EE[0], y: EE[1] });
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      // Nombres, puntos y el avión con su tamaño en pantalla, sea cual sea el acercamiento (k).
+      const nombres = [], fijos = $$(".fijo");
+      const nombre = (sel, p, dx, dy) => nombres.push([$(sel), p, dx, dy]);
+      let kAhora = 1;
+      const fija = (k) => {
+        fijos.forEach((e) => { if (e.dataset.px) e.setAttribute("font-size", (e.dataset.px / k).toFixed(3)); else e.setAttribute("r", (e.dataset.r / k).toFixed(3)); });
+        nombres.forEach(([e, p, dx, dy]) => { e.setAttribute("x", (p[0] + dx / k).toFixed(2)); e.setAttribute("y", (p[1] + dy / k).toFixed(2)); });
+        $(".cruz-d").setAttribute("transform", `translate(${DID[0]},${DID[1]}) scale(${(1 / k).toFixed(4)})`);
+      };
+      const pon = (fx, fy, k) => { gsap.set(mundo, { x: 540 - k * fx, y: 760 - k * fy, scale: k }); fija(k); kAhora = k; return k; };
+      const vuelo = (a, b, u) => {
+        const k = Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2])) * u), v = (k - a[2]) / (b[2] - a[2]);
+        return pon(a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, k);
+      };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y });
+        tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); return e; };
+      // Con vector-effect: non-scaling-stroke, Chrome mide el guion en píxeles de pantalla: el largo, por la escala (k).
+      const trazo = (sel, t0, d, ease) => { const e = $(sel), L = e.getTotalLength();
+        return (x, k) => { const u = paso(x, t0, d, ease || "sine.inOut"), s = L * k;
+          e.setAttribute("stroke-dasharray", `${s.toFixed(2)} ${s.toFixed(2)}`); e.setAttribute("stroke-dashoffset", (s * (1 - u)).toFixed(2)); return u; }; };
+      // El avión sobre un camino, de cara a donde va y con su tamaño en pantalla.
+      const avion = $(".avion");
+      const sobre = (sel, u, k) => { const e = $(sel), L = e.getTotalLength(), p = e.getPointAtLength(L * u), q = e.getPointAtLength(Math.min(L, L * u + 0.5)),
+        r = e.getPointAtLength(Math.max(0, L * u - 0.5)), a = Math.atan2(q.y - r.y, q.x - r.x) * 180 / Math.PI + 90;
+        avion.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) rotate(${a.toFixed(1)}) scale(${(1.7 / k).toFixed(4)})`); };
+      // La ruta prevista, a guiones, se dibuja de Birmingham a Málaga: los guiones hasta donde va y un hueco del largo entero
+      // (en estilo: el CSS de la plantilla pisa el atributo).
+      const guiones = (sel, u, k) => { const e = $(sel), s = e.getTotalLength() * k, d = s * u, n = Math.floor(d / 19), a = [];
+        for (let i = 0; i < n; i++) a.push(10, 9);
+        a.push(Math.max(0.01, Math.min(10, d - 19 * n)).toFixed(2), (s + 40).toFixed(2)); e.style.strokeDasharray = a.join(" "); };
+      if (modo === "ruta") {
+        gsap.set($(".h-desvio"), { autoAlpha: 0 }); gsap.set([$(".n-did"), $(".n-sou")], { autoAlpha: 0 });
+        nombre(".n-bir", BIR, 16, -14); nombre(".n-mal", MAL, 16, 12);
+        // De lejos, Birmingham hacia y 330 y Málaga hacia y 1050: por encima de los subtítulos.
+        const CERCA = [BIR[0], BIR[1] + 30, 4.0], LEJOS = [(BIR[0] + MAL[0]) / 2, BIR[1] + 430 / 0.82, 0.82];
+        const tz = w("hacia") - 0.3, dz = 1.4, tr = tz + 0.1;
+        const td = w("despega") - 0.05, sube = trazo(".h-vuelo", td, DUR - td, "none");
+        tl.set([$(".h-vuelo"), avion], { visibility: "visible" }, td);
+        gsap.set([$(".n-mal"), $(".p-mal")], { autoAlpha: 0 });
+        tl.to([$(".n-mal"), $(".p-mal")], { autoAlpha: 1, duration: 0.3 }, w("Málaga") - 0.1);
+        tl.to($(".g-ing"), { autoAlpha: 0, duration: 0.4 }, tz + 0.2);   // de lejos pisaba «Birmingham»
+        alBuscar((x) => {
+          const k = vuelo(CERCA, LEJOS, paso(x, tz, dz, "power2.inOut"));
+          guiones(".r-ruta", paso(x, tr, 1.2, "power1.inOut"), k);
+          // El avión despega: avanza un poco por lo que voló de verdad (hacia Didcot), un tercio en la escena.
+          const v = sube(x, k) * 0.35, e = $(".h-vuelo"), s = e.getTotalLength() * k;
+          e.setAttribute("stroke-dashoffset", (s * (1 - v)).toFixed(2)); sobre(".h-vuelo", v, k);
+        });
+        et(".e1", "Vuelo 5390", 80, 300, w("avión", 2) - 0.05);
+        et(".e2", "87 a bordo", 80, 390, w("ochenta") - 0.05);
+      } else {
+        // desvio: lo que voló, ya hecho; de Didcot a Southampton, con los minutos.
+        nombre(".n-bir", BIR, 14, -12); nombre(".n-did", DID, -14, 6); nombre(".n-sou", SOU, 14, 30);
+        gsap.set([$(".n-mal"), $(".p-mal")], { autoAlpha: 0 });
+        gsap.set([$(".h-vuelo"), $(".cruz-d"), avion], { visibility: "visible" });
+        const CAM = [(BIR[0] + SOU[0]) / 2 + 2, (DID[1] + SOU[1]) / 2 + 4, 9.0];
+        const ta = w("Veintidós") - 0.05, tb = w("Sauzámpton") - 0.1;
+        const vue = trazo(".h-vuelo", -1, 0.5, "none"), des = trazo(".h-desvio", ta, tb - ta, "power1.inOut");
+        tl.set($(".h-desvio"), { visibility: "visible" }, ta);
+        gsap.set([$(".n-sou"), $(".p-sou")], { autoAlpha: 0 });
+        tl.set([$(".p-sou"), $(".onda")], { visibility: "visible" }, tb);
+        tl.fromTo([$(".n-sou"), $(".p-sou")], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, tb);
+        tl.fromTo($(".onda"), { attr: { r: 0.5 }, opacity: 1 }, { attr: { r: 5 }, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, tb);
+        const mins = et(".e1", "", 80, 300, ta).querySelector("span");
+        alBuscar((x) => {
+          const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.05 * paso(x, 0, DUR, "none")));
+          vue(x, k); guiones(".r-ruta", 1, k); const u = des(x, k); sobre(".h-desvio", u, k);
+          mins.innerHTML = `${Math.round(22 * u)} <i class="m">min</i>`;
+        });
+      }
+      fin();
+    })();
+  </script>
+</template>

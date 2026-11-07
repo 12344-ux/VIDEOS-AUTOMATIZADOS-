@@ -1,0 +1,16 @@
+{
+ "_nota": "MusicGen estéreo small (CC BY-NC: solo uso no comercial). «solo piano and high strings», lo que sale limpio de graves; se mide con audio/graves.py. Irá unos 16–20 LU bajo la voz (CANAL.md).",
+ "semilla": 191,
+ "candidatas": [
+  "survival documentary music, solo piano and high strings, slow, ocean liner at night, elegance and tragedy, steady and continuous, no drums, 66 bpm",
+  "solo piano and high strings, early twentieth century, the sea at night, emotional true story, steady and continuous, no drums, 70 bpm"
+ ],
+ "lecho": {
+  "pieza": "pieza_1",
+  "duracion": 80,
+  "entrada": 0,
+  "recorte": 1.5,
+  "comprimir": 3,
+  "_por_que": "pieza_1: 0 % de la energía bajo 150 Hz, de −17 a −24 dB en tramos de 1,5 s salvo un valle de −28 (de 7,5 a 9 s), que suaviza comprimir 3; la 2 tenía el 46 % bajo 150 Hz."
+ }
+}

@@ -18,7 +18,7 @@ más»; la llevan también las versiones m2 de Coca-Cola y Kodak (`montar.py --v
 
 **Dos canales nuevos en prueba, elegidos con el rastreador:** geografía con mapas animados y historias reales de
 supervivencia, cada uno con su marca y su voz, para Shorts y Reels. Su primer corto de cada uno está hecho:
-«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y, en supervivencia, dieciocho: «La chica que
+«¿Por qué Chile es tan largo?» (60 s, `canales/geografia/cortos/01-chile/`) y, en supervivencia, veinte: «La chica que
 cayó del cielo» (69 s), «60 horas bajo el mar» (69 s), «438 días a la deriva» (67 s), «Dado por muerto en el Everest»
 (Lincoln Hall, 78 s), «69 días bajo tierra» (los 33 de Chile, 80 s), «9 días en el Sahara» (Mauro Prosperi, 73 s),
 «80 minutos bajo el hielo» (Anna Bågenholm, 66 s), «Cortó la cuerda» (Joe Simpson, 72 s) y, para la audiencia
@@ -26,7 +26,8 @@ colombiana (que no funcionaron), «40 días en la selva» (los cuatro niños del
 Alejandro Velasco, 85 s); y, de vuelta a la fórmula normal, «La cueva» (los niños de Tailandia, 85 s), «Apolo 13»
 (87 s), «Cinco días bajo una roca» (Aron Ralston, 79 s), «El verdadero Robinson Crusoe» (Alexander Selkirk, 87 s), «72 días
 en los Andes» (74 s), «Tres semanas solo en el Amazonas» (Yossi Ghinsberg, 72 s), «133 días solo en una balsa» (Poon Lim,
-77 s) y «Atrapados en el hielo» (la expedición del Endurance de Shackleton, 82 s), en
+77 s), «Atrapados en el hielo» (la expedición del Endurance de Shackleton, 82 s), «Insumergible» (Violet Jessop, la
+camarera de los tres gemelos del Titanic, 78 s) y «Fuera del avión» (el vuelo 5390 de British Airways, 80 s), en
 `canales/supervivencia/cortos/`,
 con la estrategia de retención de [canales/RETENCION.md](canales/RETENCION.md) y el sonido medido antes de renderizar.
 

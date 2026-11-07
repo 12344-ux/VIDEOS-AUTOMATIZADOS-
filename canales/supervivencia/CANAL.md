@@ -22,7 +22,12 @@ y 45 de 53 vídeos pasan de 3 veces su canal) y Yossi Ghinsberg en la Amazonía 
 español en diez años frente a 80 en inglés, y los que hay llegan a 2,3 M). El 17 y el 18 (6-nov), sin medir de nuevo (la
 sesión no tenía la clave de YouTube), de las candidatas que midió la sesión 11: Poon Lim, 133 días en una balsa en el
 Atlántico (la demanda: 4,1 M en un Short en español) y la expedición del Endurance de Shackleton (183.000 como mucho en
-español y el inglés en alza; la Antártida, y al final los salva un barco de la Armada de Chile).
+español y el inglés en alza; la Antártida, y al final los salva un barco de la Armada de Chile). El 19 y el 20 (7-nov),
+tampoco con la clave: el dataset de TikTok no sirve para una historia concreta (0 vídeos en español en un mes para
+Jessop, Shackleton o Poon Lim), pero sí para un tema, y el Titanic mide bien (117 vídeos en español en septiembre,
+compartidos tres veces más que la media del idioma). De ahí Violet Jessop, la camarera nacida en Argentina que iba en el
+Olympic, el Titanic y el Britannic (la demanda), y el vuelo 5390 de British Airways, el capitán que salió por el
+parabrisas (el hueco, y un escenario nuevo: el aire).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

@@ -136,6 +136,9 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   «Exactly four… in single file» volvió a dar cinco o seis; en una fila horizontal, cuatro. Y no hace caso del «without»:
   «turboprop airliner without wings» dibujó las alas y las hélices bajo el rótulo «Sin alas». Se describe lo que se ve («a
   bare smooth tube with only short jagged stubs where the wings were torn off»).
+  «Seen from behind» no basta con una mujer sentada con un bebé en brazos (la sacó de cara dos veces de dos): de lejos y en
+  silueta. Un barco que se hunde no lo dibuja («listing and sinking», ni «its bow already under the water»: navega o evacúa).
+  Y «buff funnels» dio las chimeneas rojas de la Cunard: «pale buff yellow funnels with black tops».
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
 - Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`. Una tarea en segundo plano sin
@@ -235,6 +238,10 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
 - En un `<g>` de SVG, `transformOrigin: "0px 0px"` de GSAP cuenta desde la esquina de **su dibujo**, no desde el origen del
   SVG: con Australia entera (que llega a x −5.300) la cámara del mapa se desplazaba cientos de píxeles. Para una cámara
   sobre un mapa, `svgOrigin: "0 0"`. Y `vector-effect: non-scaling-stroke` en los trazos, si el zoom es grande.
+  `svgOrigin` cuenta en el espacio del **padre** del elemento: un grupo colocado con `x`/`y` y escalado desde `"0 0"` entra
+  volando desde la esquina del lienzo (el punto de Violet, corto 19); se le da su posición (`svgOrigin: "654 459"`).
+- En las escenas dibujadas, nada de clases que ya use la marca del canal: `.prota` es de los mapas de `marca.css` de
+  supervivencia (`stroke-width: 3`) y dejó al capitán del corto 20, dibujado con trazos de 46 px, como un palito.
 - En SVG, el CSS de la plantilla pisa los atributos `fill` y `stroke`: `setAttribute('fill', …)` o un tween de `attr: { stroke }`
   no cambian nada si una regla CSS ya los fija (la barra de CO₂ del corto 12 seguía verde). Usar `el.style.fill` o tweens de
   `fill`/`stroke` como propiedades CSS.

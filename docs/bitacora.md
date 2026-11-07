@@ -1705,6 +1705,105 @@ se conservó).
   candidatas de 30 s cada vez); imágenes, 40 min y 41 min con la ampliación (más 6 candidatas rehechas, intercaladas en el
   servidor); render, unos 4 min cada uno. Una copia de las dos entregas, en `/workspace/entregas/` para verlas desde la app.
 
+## Sesión 13 — 7 de noviembre de 2026
+
+Misma máquina que la 12 (Xeon a 2,1 GHz con AMX), reiniciada antes de empezar: las herramientas seguían instaladas y bastó
+precargar (5 min 3 s). La sesión sigue en el entorno «VIDEOS-AUTOMATIZADOS-»; la clave de YouTube sigue sin estar.
+
+### 1. Las dos historias
+
+- **Pedido del usuario:** «Crea dos vídeos más para el canal de supervivencia».
+- **Sin la clave de YouTube, se probó el dataset de TikTok** (`rastreador/tiktok.py`): octubre de 2026 está a medias (94.532
+  vídeos en español), así que se extrajo septiembre entero (5.066.308 en español y 31.333.695 en inglés, 275 s). Para una
+  historia concreta es demasiado escaso (Jessop, Shackleton, Poon Lim o Zamperini: 0 vídeos en español en el mes); para un
+  tema sí da algo: el Titanic, 117 vídeos en español, compartidos 25,2 veces por cada mil vistas (3 veces la media del
+  idioma, 7,8), y 860 en inglés (el mayor, 3,8 M). `tema()` fallaba con 0 vídeos (formateaba una mediana vacía): ahora lo
+  dice y sigue.
+- **Elegidas:** **Violet Jessop** (la demanda: el Titanic, y una protagonista nacida en Argentina) y **el vuelo 5390 de
+  British Airways** (el hueco, y un escenario nuevo: el aire). Descartadas: Hugh Glass (casi todo leyenda), Beck Weathers
+  (repite el Everest) y Pedro Serrano (repite la isla).
+- **Datos:** las dos Wikipedias de cada historia y, para lo que solo cuentan las memorias de Violet Jessop (el cepillo de
+  dientes, el cráneo roto), National Geographic, Mental Floss y Gizmodo. Lo que varía, en el `PUBLICACION.md` de cada uno.
+  Dos cambios por las fuentes: «cogió» pasó a «se llevó» («coger» es vulgar en Argentina y México) y «Cinco meses después»,
+  a «Menos de cinco meses después» (las dos Wikipedias: «fewer than five months»), con la voz rehecha (58 s).
+- **Guiones** de 238 y 213 palabras: voz M2 de 77,0 s y 78,8 s. Nombres como suenan («Váiolet Yésop», «Titánic», «Olímpic»,
+  «Británic», «Carpatia», «Brítish Érweis», «Bírmingam», «Lánkaster», «Náiyel Ógden», «Sauzámpton») y devueltos a su grafía
+  con `pantalla.json`; el alineador oye «titanic», «olympic», «calpatia», «britanic» y «baiolet».
+
+### 2. Cómo están hechos
+
+- **«Insumergible»** (Violet Jessop, 77,7 s, 22 escenas): el gancho 3 BARCOS · SOBREVIVIÓ A LOS TRES sobre el Titanic de
+  noche; el secreto, «lo que se llevó del Britannic», que se lee al 86 % («Su cepillo de dientes»: en el Titanic lo había
+  perdido todo). Escena dibujada nueva, `gemelos.html`: los tres gemelos de la White Star de perfil (el Olympic y el Titanic,
+  de casco negro y cuatro chimeneas color ante con la punta negra; el Britannic, barco hospital, blanco con la franja verde y
+  las cruces rojas), uno encima de otro, con el año y el nombre a la vez que la voz; Violet es un punto naranja que baja de
+  un barco al siguiente («la mandan a su gemelo»), y cada barco que deja atrás se queda con su sello (CHOQUE, HUNDIDO). Al
+  final, los tres con Violet en cada uno. Sale cuatro veces: el Olympic, el paso al Titanic, el paso al Britannic y el
+  repaso final («Volvió a trabajar en barcos»).
+- **«Fuera del avión»** (el vuelo 5390, 79,5 s, 21 escenas): el gancho 5.000 METROS · FUERA DEL AVIÓN y, con «Y
+  sobrevivió», el mismo plano más cerca con el sello; el secreto, el error «de menos de un milímetro», que se lee al 84 %
+  («84 tornillos más finos»), y después 0,66 mm en grande. Tres escenas dibujadas nuevas: `cabina.html` (el morro del BAC
+  One-Eleven de perfil por el lado del capitán, gris y azul sin logos, sobre las nubes: el contador de 13 minutos, el
+  parabrisas que se enciende y sale volando con los papeles de la cabina; el capitán en naranja, medio cuerpo fuera y
+  tumbado sobre el techo, con las piernas dentro a trazos y las rodillas enganchadas en los mandos; la cabeza que golpea el
+  avión y, con «muerto», el capitán que se apaga a gris), `planta.html` (el avión desde arriba: si lo sueltan, el aire se lo
+  lleva contra el ala o el motor de su lado, que se encienden con cada palabra) y un `mapa.html` con `mapa.py` (Natural
+  Earth: la ruta prevista de Birmingham a Málaga, que se dibuja a guiones mientras la cámara se aleja, y el desvío de Didcot
+  a Southampton con los minutos de 0 a 22). −17 °C y +600 km/h, en grande sobre la foto del capitán fuera del avión.
+- **Música** («solo piano and high strings»): en el 19, la 1 con el 0 % de graves y de −17 a −24 dB por tramos de 1,5 s (con
+  un valle de −28 que suaviza `comprimir` 3: el lecho va de −20 a −23 por tramos de 3 s); la 2, con el 46 % bajo 150 Hz,
+  fuera. En el 20 no valió ninguna de la primera tanda (semilla 201: una con el 87 % bajo 150 Hz y la otra se apagaba de −21
+  a −47 dB a mitad) y se pidió otra (semilla 202).
+- **Sonido** (BigSoundBank, CC0): en el 19, el Hawke contra el Olympic y la mina (1023, con su temblor), el iceberg que raspa
+  el casco (0303), la sirena del Carpathia al amanecer (0226) y Violet que cae al agua (1521); en el 20, el viento a 5.000 m
+  al principio y al final del bucle (0154), el avión que despega y aterriza en el mapa (3008), el parabrisas que sale volando
+  (1023, con el temblor), el viento por el hueco (0154) y la cabeza contra el avión (2453). La primera mezcla dejaba la mitad
+  de los efectos entre 13 y 26 LU bajo la voz («casi no se oye»): subidos hasta 8,6–13,7 LU bajo ella. `revisar_mezcla.py`:
+  0 avisos y ningún hueco en los dos.
+
+### 3. Lo que encontró la revisión
+
+- **En los dibujos, antes de tener las imágenes** (`snapshot --at`): el capitán salía como un palito y los dos círculos
+  de las «manos» junto al parabrisas negro, vistos desde arriba, parecían un ojo: **`.prota` es una clase de `marca.css`** (la
+  de los mapas, con `stroke-width: 3`) y pisaba el grosor de los trazos; el capitán va ahora con su clase. Los subtítulos
+  blancos caían sobre nubes blancas: nubes más abajo y el velo del canal. La niebla de la descompresión, en círculos,
+  parecían burbujas: ahora salen los papeles de la cabina y el aire se los lleva hacia la cola. «Málaga» quedaba detrás de
+  los subtítulos y «INGLATERRA», de lejos, encima de «Birmingham». Y el punto de Violet entraba volando desde la esquina:
+  **`svgOrigin` cuenta en el espacio del padre del elemento** (el lienzo, para un grupo suelto), no en el suyo; para escalar
+  un grupo movido con `x`/`y` desde su sitio, `svgOrigin` con su posición.
+- **`check`** (con imágenes provisionales en `proyecto/assets/img/`): 0 errores; avisos ciertos, dos rótulos que se leían
+  menos de lo debido («El más grande del mundo», 1 s; «Vuelve a volar», 0,7 s) y un efecto que pasaba del final del vídeo.
+- **Imágenes** (FLUX.3 a 720 × 1280 y EDSR): 15 y 10, de 122 a 250 s cada una según lo que compartía la CPU. **Rehechas en
+  el 19:** el Titanic del gancho (un iceberg flotaba encima de las chimeneas), el bote (se le veía la cara a la joven del
+  bebé, que es Violet: ahora el bote baja por el casco visto desde el agua, con siluetas), la noche en el bote (otra vez la
+  cara: ahora el bote solo en el mar, de lejos), el choque (chimeneas rojas de la Cunard y un destructor moderno: con
+  «four pale buff yellow funnels with black tops» y «an old grey 1890s naval cruiser with two tall funnels», bien) y el
+  Britannic (navegaba tranquilo y parecía un ferri; con «sinking: its bow already under the water» sigue sin hundirse, pero
+  ya es un barco hospital grande, con su franja y sus cruces, y los botes alejándose: el hundimiento lo cuentan la voz y
+  los 55 MINUTOS). **Rehecha en el 20:** «agarra» (un hombre sentado de cara, que sería el capitán): ahora, de cerca, las
+  manos que sujetan el cinturón del capitán, que sale por el parabrisas.
+- **Con las imágenes buenas** (`snapshot --review`, 44 fotogramas en el 19): todo en su sitio. `check` del 19: 0 errores y un
+  aviso, el contraste falso del subtítulo «años» a medio resaltar (mirado en el fotograma).
+
+### 4. Render y entrega
+
+- **Violet Jessop:** render en 4 min 17 s (compartiendo la CPU con el lote de FLUX del 20);
+  `salidas/supervivencia/cortos/19-jessop/entrega/jessop.mp4` (77,7 s, −14,4 LUFS, −1,7 dBTP, 52 MB). El último fotograma es el
+  primero (1,9 de diferencia media sobre 255), ningún silencio, y el último segundo y medio 5,5 dB por debajo del primero
+  (la pausa final de la voz y la cola de la música). Los fotogramas sacados del MP4 coinciden con la revisión.
+- **El vuelo 5390:** render en 3 min 33 s, con la CPU libre; `salidas/supervivencia/cortos/20-ba5390/entrega/ba5390.mp4`
+  (79,6 s, −14,4 LUFS, −1,6 dBTP, 42 MB); bucle a 2,3 sobre 255, ningún silencio; el último segundo y medio, 7,6 dB por debajo
+  del primero (la cola tras la última palabra, con el viento del principio para que el bucle no empiece en silencio).
+  Antes del render, `check` con 0 errores y 0 avisos, y el sello «VIVO» adelantado (duraba 0,8 s). La música nueva, la 2 de
+  la semilla 202: el 1 % bajo 150 Hz y de −18 a −23 dB por tramos de 1,5 s; a 0,1 quedaba a −14 LU de la voz al principio, y
+  a 0,085, de 16 a 22 LU bajo ella.
+- Las dos entregas con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar` (29 y 26 s). Medido y mirado, no
+  escuchado.
+- **Tiempos de la sesión:** precarga, 5 min; voces, 62 y 55 s (la del 20 rehecha, 58 s); música, 419 y 377 s, y 503 s la
+  segunda tanda del 20; imágenes, 59 min el lote del 19 y 37 min el del 20 con la ampliación (más 12 candidatas intercaladas
+  en el servidor); render, 4 min 17 s y 3 min 33 s. En el `imagenes.json` de cada corto quedan el prompt y la semilla
+  buenos (los de las rehechas, nuevos), y la primera tanda de música del 20, en el `_descartadas` de su `musica.json`.
+
 ## Siguiente paso
 
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
@@ -1713,15 +1812,16 @@ se conservó).
    español) y otro con hueco (las luces de Phoenix: 2,4 M en inglés y 18.000 en español).
    Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
    Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston,
-   Alexander Selkirk, los Andes, Yossi Ghinsberg, Poon Lim y Shackleton en supervivencia),
+   Alexander Selkirk, los Andes, Yossi Ghinsberg, Poon Lim, Shackleton, Violet Jessop y el vuelo 5390 en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
-   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–18 (historias conocidas en todo el mundo, una con hueco
+   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–20 (historias conocidas en todo el mundo, una con hueco
    y otra con demanda probada en español, medidas en inglés y en español). **Antes de medir, la clave de YouTube en el
-   entorno** (secretos de red, `www.googleapis.com`, cabecera `X-Goog-Api-Key`): en la sesión 12 no estaba y el 17 y el 18
-   salieron de las candidatas ya medidas. Quedan: Beck Weathers (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln
+   entorno** (secretos de red, `www.googleapis.com`, cabecera `X-Goog-Api-Key`): en las sesiones 12 y 13 no estaba; el 17 y
+   el 18 salieron de las candidatas ya medidas, y el 19 y el 20, del dataset de TikTok por tema (el Titanic: para una
+   historia concreta, el dataset da 0 vídeos). Quedan: Beck Weathers (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln
    Hall); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el náufrago español (383.000 vistas en un Short, 18× su
    canal), salió al medir a Selkirk. Ideas sin medir: Jan Baalsrud (Noruega, 1943), Ada Blackjack (isla Wrangel, 1921–1923)
-   y el piloto del vuelo 5390 de British Airways (1990). Publicar y
+   y Louis Zamperini (47 días en una balsa en el Pacífico, 1943; la película «Invencible»). Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.

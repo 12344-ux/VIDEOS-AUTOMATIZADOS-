@@ -1,0 +1,99 @@
+<template>
+  <!-- El BAC One-Eleven visto desde arriba (un esquema, no a escala), con el morro arriba: alas en flecha, los dos motores a
+       los lados de la cola y el estabilizador de la cola en T. El capitán, en naranja, tumbado sobre el techo junto al
+       parabrisas izquierdo. Modo riesgo: si lo sueltan, el aire lo lleva hacia atrás, contra el ala o el motor de su lado. -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo-d { fill: url(#f-{{ID}}); }
+    #{{ID}} .piel { fill: #cfd3d8; stroke: #5d636a; stroke-width: 3; stroke-linejoin: round; }
+    #{{ID}} .motor { fill: #b9bec4; stroke: #5d636a; stroke-width: 3; }
+    #{{ID}} .toma { fill: #2a2f35; }
+    #{{ID}} .lomo { stroke: #8d939a; stroke-width: 4; fill: none; }
+    #{{ID}} .cab { fill: #1a2026; }
+    #{{ID}} .riesgo { fill: #ff5e1a; opacity: 0; }
+    #{{ID}} .flecha { fill: none; stroke: #ff5e1a; stroke-width: 6; stroke-dasharray: 16 12; stroke-linecap: round; visibility: hidden; }
+    #{{ID}} .punta { fill: #ff5e1a; visibility: hidden; }
+    #{{ID}} .capi { stroke: #ff5e1a; stroke-linecap: round; }
+    #{{ID}} .nube { fill: rgba(220, 230, 236, 0.07); }
+    #{{ID}} .cabeza { fill: #ff5e1a; }
+    #{{ID}} .rot { font: 800 52px "Barlow Condensed", sans-serif; letter-spacing: 0.04em; fill: #ff5e1a; paint-order: stroke; stroke: rgba(11, 10, 9, 0.9);
+      stroke-width: 8px; stroke-linejoin: round; text-transform: uppercase; visibility: hidden; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs><radialGradient id="f-{{ID}}" cx="50%" cy="38%" r="80%"><stop offset="0" stop-color="#2a3a44" /><stop offset="1" stop-color="#0e1417" /></radialGradient></defs>
+        <rect class="fondo-d" x="0" y="0" width="1080" height="1920" />
+        <g class="nubes"></g>
+        <g class="todo">
+          <!-- Alas y estabilizador, debajo del fuselaje. -->
+          <path class="piel ala-i" d="M494,520 L120,700 L112,742 L494,640 Z" />
+          <path class="piel ala-d" d="M586,520 L960,700 L968,742 L586,640 Z" />
+          <path class="riesgo r-ala" d="M494,520 L120,700 L112,742 L494,640 Z" />
+          <path class="piel" d="M528,1010 L360,1084 L362,1106 L540,1080 L718,1106 L720,1084 L552,1010 Z" />
+          <!-- Fuselaje, con el morro arriba. -->
+          <path class="piel" d="M540,210 C512,214 494,250 492,300 L492,960 C492,1010 516,1060 540,1092 C564,1060 588,1010 588,960 L588,300 C586,250 568,214 540,210 Z" />
+          <line class="lomo" x1="540" y1="930" x2="540" y2="1090" />
+          <path class="cab" d="M514,262 C522,250 532,246 540,246 L540,282 L512,290 Z" />
+          <path class="cab" d="M566,262 C558,250 548,246 540,246 L540,282 L568,290 Z" />
+          <!-- Los motores, a los lados de la cola. -->
+          <rect class="motor m-i" x="430" y="860" width="56" height="130" rx="24" /><rect class="toma" x="436" y="860" width="44" height="14" rx="6" />
+          <rect class="motor m-d" x="594" y="860" width="56" height="130" rx="24" /><rect class="toma" x="600" y="860" width="44" height="14" rx="6" />
+          <rect class="riesgo r-mot" x="430" y="860" width="56" height="130" rx="24" />
+          <!-- El capitán: medio cuerpo fuera por el parabrisas izquierdo, tumbado hacia atrás sobre el techo. -->
+          <g class="capitan">
+            <line class="capi" x1="516" y1="290" x2="504" y2="372" stroke-width="30" />
+            <line class="capi" x1="508" y1="320" x2="478" y2="380" stroke-width="12" />
+            <line class="capi" x1="510" y1="322" x2="534" y2="384" stroke-width="12" />
+            <circle class="cabeza" cx="502" cy="392" r="18" />
+          </g>
+          <!-- Por dónde se lo llevaría el aire. -->
+          <path class="flecha f-ala" d="M496,400 C470,450 440,500 400,580" />
+          <path class="punta p-ala" d="M0,0 L-14,-26 L14,-26 Z" />
+          <path class="flecha f-mot" d="M500,410 C486,560 470,700 462,838" />
+          <path class="punta p-mot" d="M0,0 L-14,-26 L14,-26 Z" />
+          <text class="rot t-ala" x="150" y="660">Ala</text>
+          <text class="rot t-mot" x="300" y="940">Motor</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      // La cámara se acerca despacio al morro.
+      tl.fromTo($(".todo"), { scale: 1.0, svgOrigin: "540 600" }, { scale: 1.05, svgOrigin: "540 600", duration: DUR, ease: "none" }, 0);
+      // Nubes tenues muy abajo que pasan hacia la cola: el avión vuela hacia arriba de la pantalla.
+      let sem = 5; const rnd = () => { sem = (sem * 16807) % 2147483647; return sem / 2147483647; };
+      const NS = "http://www.w3.org/2000/svg", nubes = $(".nubes");
+      for (let i = 0; i < 12; i++) { const e = document.createElementNS(NS, "ellipse"); e.setAttribute("class", "nube");
+        e.setAttribute("cx", (rnd() * 1080).toFixed(0)); e.setAttribute("cy", (rnd() * 2600 - 700).toFixed(0));
+        e.setAttribute("rx", (120 + rnd() * 200).toFixed(0)); e.setAttribute("ry", (60 + rnd() * 90).toFixed(0)); nubes.appendChild(e); }
+      tl.fromTo(nubes, { y: 0 }, { y: 520, duration: DUR, ease: "none" }, 0);
+      // Las dos trayectorias: al ala y al motor, cada una con su palabra.
+      // Una flecha a trazos que avanza: los guiones hasta donde va y un hueco del largo entero (en estilo, que pisa al CSS).
+      const flechas = [];
+      const flecha = (f, p, t, ang) => {
+        const e = $(f), L = e.getTotalLength(), q = e.getPointAtLength(L);
+        tl.set(e, { visibility: "visible" }, t);
+        $(p).setAttribute("transform", `translate(${q.x.toFixed(1)},${q.y.toFixed(1)}) rotate(${ang})`);
+        tl.set($(p), { visibility: "visible" }, t + 0.42);
+        flechas.push((x) => { const d = L * paso(x, t, 0.45, "power2.out"), n = Math.floor(d / 28), a = [];
+          for (let i = 0; i < n; i++) a.push(16, 12);
+          a.push(Math.max(0.01, Math.min(16, d - 28 * n)).toFixed(2), (L + 40).toFixed(2)); e.style.strokeDasharray = a.join(" "); });
+      };
+      const ta = w("ala") - 0.35, tm = w("motor") - 0.35;
+      flecha(".f-ala", ".p-ala", ta, 40); flecha(".f-mot", ".p-mot", tm, 4);
+      const enciende = (sel, txt, t) => {
+        tl.fromTo($(sel), { opacity: 0 }, { keyframes: [{ opacity: 0.85, duration: 0.15 }, { opacity: 0.35, duration: 0.2 }, { opacity: 0.75, duration: 0.2 }, { opacity: 0.55, duration: 0.3 }] }, t);
+        tl.set($(txt), { visibility: "visible" }, t);
+        tl.fromTo($(txt), { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.3, ease: "expo.out" }, t);
+      };
+      enciende(".r-ala", ".t-ala", w("ala") - 0.05); enciende(".r-mot", ".t-mot", w("motor") - 0.05);
+      alBuscar((x) => flechas.forEach((g) => g(x)));
+      fin();
+    })();
+  </script>
+</template>

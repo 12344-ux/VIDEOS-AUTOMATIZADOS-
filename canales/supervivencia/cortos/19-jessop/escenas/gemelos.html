@@ -1,0 +1,123 @@
+<template>
+  <!-- Los tres gemelos de la White Star, dibujados de perfil (un esquema, no a escala): el Olympic (1911) y el Titanic (1912),
+       de casco negro y cuatro chimeneas color ante con la punta negra; el Britannic (1916), barco hospital, blanco con la
+       franja verde y las cruces rojas. El punto naranja es Violet: pasa de un barco a otro. Modos: olympic (se enciende el
+       primero), titanic (el Olympic ya con su choque; Violet baja al Titanic), britannic (Violet baja al tercero) y tres
+       (los tres con lo que les pasó y Violet en cada uno). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} svg.dib { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #{{ID}} .fondo-d { fill: url(#fondo-{{ID}}); }
+    #{{ID}} .mar { fill: rgba(8, 12, 15, 0.55); }
+    #{{ID}} .orilla { stroke: rgba(242, 237, 228, 0.16); stroke-width: 2; }
+    #{{ID}} .casco { fill: #0d0e0f; stroke: rgba(242, 237, 228, 0.3); stroke-width: 2; }
+    #{{ID}} .b3 .casco { fill: #ebe7de; stroke: rgba(11, 10, 9, 0.5); }
+    #{{ID}} .quilla { fill: #6b2318; }
+    #{{ID}} .sup { fill: #e9e5dc; }
+    #{{ID}} .chim { fill: #c99f60; }
+    #{{ID}} .tope { fill: #111; }
+    #{{ID}} .palo { stroke: #c8c2b5; stroke-width: 4; stroke-linecap: round; }
+    #{{ID}} .cable { stroke: rgba(200, 194, 181, 0.55); stroke-width: 1.6; fill: none; }
+    #{{ID}} .bote { fill: #f2ede4; }
+    #{{ID}} .ojo { fill: rgba(235, 212, 160, 0.6); }
+    #{{ID}} .b3 .ojo { fill: rgba(40, 48, 50, 0.5); }
+    #{{ID}} .banda { stroke: #2f7d4a; stroke-width: 9; }
+    #{{ID}} .cruz { fill: #c8202a; }
+    #{{ID}} .ola { fill: none; stroke: rgba(242, 237, 228, 0.09); stroke-width: 3; stroke-linecap: round; }
+    #{{ID}} .violet { visibility: hidden; }
+    #{{ID}} .violet .aro { fill: none; stroke: #ff5e1a; stroke-width: 4; }
+    #{{ID}} .violet .punto { fill: #ff5e1a; stroke: #0b0a09; stroke-width: 3; }
+    #{{ID}} .violet .pil { fill: rgba(11, 10, 9, 0.88); }
+    #{{ID}} .violet .tv { font: 800 30px "Barlow Condensed", sans-serif; letter-spacing: 0.04em; fill: #ff5e1a; text-transform: uppercase; }
+    #{{ID}} .nombre { position: absolute; left: 80px; display: flex; align-items: baseline; gap: 20px; white-space: nowrap; }
+    #{{ID}} .nombre b, #{{ID}} .nombre i, #{{ID}} .nombre .sub { visibility: hidden; }
+    #{{ID}} .nombre b { font: 800 70px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.01em; color: #f2ede4; }
+    #{{ID}} .nombre i { font: 400 46px/1 "Special Elite", monospace; font-style: normal; color: rgba(242, 237, 228, 0.85); }
+    #{{ID}} .nombre .sub { font: 500 36px/1 "Barlow", sans-serif; color: rgba(242, 237, 228, 0.8); }
+    #{{ID}} .sello-b { position: absolute; right: 140px; visibility: hidden; font: 800 46px/1 "Barlow Condensed", sans-serif;
+      text-transform: uppercase; letter-spacing: 0.05em; color: #f2ede4; border: 4px solid #f2ede4; padding: 8px 16px 4px; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="dib" viewBox="0 0 1080 1920">
+        <defs><linearGradient id="fondo-{{ID}}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25343c" /><stop offset="0.6" stop-color="#1a252b" /><stop offset="1" stop-color="#0e1417" /></linearGradient></defs>
+        <rect class="fondo-d" x="0" y="0" width="1080" height="1920" />
+        <g class="filas"></g>
+        <g class="olas"></g>
+        <g class="violet v1"><circle class="aro" r="22" /><circle class="punto" r="12" /><rect class="pil" x="26" y="-21" width="118" height="42" rx="21" /><text class="tv" x="85" y="11" text-anchor="middle">Violet</text></g>
+        <g class="violet v2"><circle class="aro" r="22" /><circle class="punto" r="12" /><rect class="pil" x="26" y="-21" width="118" height="42" rx="21" /><text class="tv" x="85" y="11" text-anchor="middle">Violet</text></g>
+        <g class="violet v3"><circle class="aro" r="22" /><circle class="punto" r="12" /><rect class="pil" x="26" y="-21" width="118" height="42" rx="21" /><text class="tv" x="85" y="11" text-anchor="middle">Violet</text></g>
+      </svg>
+      <div class="nombre n1"><i>1911</i><b>Olympic</b><span class="sub">El más grande del mundo</span></div>
+      <div class="nombre n2"><i>1912</i><b>Titanic</b></div>
+      <div class="nombre n3"><i>1916</i><b>Britannic</b><span class="sub">Barco hospital</span></div>
+      <div class="sello-b s1">Choque</div>
+      <div class="sello-b s2">Hundido</div>
+      <div class="sello-b s3">Hundido</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo, ARR = [205, 505, 805], AGUA = 283, X0 = 150, K = 0.9;
+      // Un gemelo de perfil, con la proa a la derecha: casco, superestructura, cuatro chimeneas inclinadas hacia popa y dos palos.
+      const barco = (i) => {
+        const chim = [640, 530, 420, 310].map((x) => `<path class="chim" d="M${x - 20},-96 L${x + 20},-96 L${x + 8},-186 L${x - 32},-186 Z"/>` +
+          `<path class="tope" d="M${x - 29.6},-168 L${x + 10.4},-168 L${x + 8},-186 L${x - 32},-186 Z"/>`).join("");
+        const botes = [160, 184, 208, 232, 676, 700, 724].map((x) => `<rect class="bote" x="${x}" y="-108" width="18" height="8" rx="3"/>`).join("");
+        let ojos = ""; for (let x = 70; x <= 820; x += 18) ojos += `<circle class="ojo" cx="${x}" cy="-40" r="2.3"/>`;
+        const hosp = i === 2 ? `<line class="banda" x1="46" y1="-28" x2="846" y2="-28"/>` + [250, 430, 790].map((x) => `<path class="cruz" d="M${x - 6},-48 L${x + 6},-48 L${x + 6},-34 L${x + 20},-34 L${x + 20},-22 L${x + 6},-22 L${x + 6},-8 L${x - 6},-8 L${x - 6},-22 L${x - 20},-22 L${x - 20},-34 L${x - 6},-34 Z"/>`).join("") : "";
+        return `<line class="palo" x1="780" y1="-68" x2="772" y2="-228"/><line class="palo" x1="120" y1="-62" x2="112" y2="-212"/>` +
+          `<path class="cable" d="M772,-226 L112,-210"/>${chim}<rect class="sup" x="150" y="-98" width="590" height="40"/>${botes}` +
+          `<path class="casco" d="M14,-62 C4,-46 12,-20 44,0 L836,0 L866,-70 Q440,-55 14,-62 Z"/><path class="quilla" d="M44,0 L836,0 L830,11 L58,11 Z"/>${ojos}${hosp}`;
+      };
+      $(".filas").innerHTML = ARR.map((y, i) => `<g class="fila b${i + 1}"><rect class="mar" x="0" y="${y + AGUA}" width="1080" height="16"/>` +
+        `<line class="orilla" x1="0" x2="1080" y1="${y + AGUA}" y2="${y + AGUA}"/><g class="nave"><g transform="translate(${X0},${y + AGUA}) scale(${K})">${barco(i)}</g></g></g>`).join("");
+      const naves = $$(".nave"), nom = $$(".nombre"), sel = $$(".sello-b"), vio = $$(".violet");
+      const PV = ARR.map((y) => [X0 + K * 560, y + AGUA - K * 34]);
+      ARR.forEach((y, i) => { gsap.set(nom[i], { top: y }); gsap.set(sel[i], { top: y + 4, rotation: -4 }); gsap.set(vio[i], { x: PV[i][0], y: PV[i][1] }); });
+      // Olas abajo (y de 1360 a 1880), a la deriva hacia la izquierda.
+      let ol = ""; for (let i = 0; i < 7; i++) { const y = 1360 + i * 82, x0 = -200 + (i % 2) * 90; let d = `M${x0},${y}`;
+        for (let x = x0; x < 1300; x += 180) d += ` q45,-14 90,0 q45,14 90,0`; ol += `<path class="ola" d="${d}" opacity="${(1 - i * 0.09).toFixed(2)}"/>`; }
+      $(".olas").innerHTML = ol; tl.fromTo($(".olas"), { x: 0 }, { x: -60, duration: DUR, ease: "none" }, 0);
+      // Encendido (1), apagado (sin nadie aún) y hecho (ya pasó lo suyo, con su sello).
+      const ON = 1, OFF = 0.16, HECHO = 0.45;
+      const est = { olympic: [OFF, OFF, OFF], titanic: [HECHO, OFF, OFF], britannic: [HECHO, HECHO, OFF], tres: [HECHO, HECHO, HECHO] }[modo];
+      naves.forEach((n, i) => gsap.set(n, { opacity: est[i] }));
+      const ve = (el) => { el.style.visibility = "visible"; };
+      const hechos = est.filter((e) => e === HECHO).length;
+      for (let i = 0; i < hechos; i++) { ve($(`.n${i + 1} b`)); ve($(`.n${i + 1} i`)); ve(sel[i]); gsap.set(nom[i], { opacity: 0.7 }); }
+      // Los barcos navegan despacio hacia la proa.
+      tl.fromTo(naves, { x: 0 }, { x: 10, duration: DUR, ease: "none" }, 0);
+      const enciende = (i, t) => tl.to(naves[i], { opacity: ON, duration: 0.35, ease: "power2.out" }, t);
+      const late = (v, t) => tl.fromTo(v.querySelector(".aro"), { scale: 1, opacity: 1, svgOrigin: "0 0" }, { scale: 2.2, opacity: 0, svgOrigin: "0 0", duration: 0.7, ease: "power2.out" }, t);
+      const baja = (v, t) => { tl.to(v, { y: "+=300", duration: 0.6, ease: "power2.inOut" }, t); late(v, t + 0.6); };
+      if (modo === "olympic") {
+        entra($(".n1 i"), w("mil", 2) - 0.05);
+        enciende(0, w("Olímpic") - 0.1); entra($(".n1 b"), w("Olímpic") - 0.05);
+        tl.fromTo(vio[0], { autoAlpha: 0, scale: 0.4, svgOrigin: PV[0].join(" ") }, { autoAlpha: 1, scale: 1, svgOrigin: PV[0].join(" "), duration: 0.35, ease: "back.out(2)" }, w("Olímpic") + 0.3);
+        late(vio[0], w("Olímpic") + 0.6);
+        entra($(".n1 .sub"), w("Olímpic") + 0.6);   // la voz lo dice enseguida; así se lee casi 2 s
+      } else if (modo === "titanic") {
+        ve(vio[0]); baja(vio[0], w("mandan") - 0.05);
+        enciende(1, w("gemelo") - 0.1); entra($(".n2 i"), w("gemelo"));
+        entra($(".n2 b"), w("Titánic", 2) - 0.05);
+      } else if (modo === "britannic") {
+        ve(vio[1]); baja(vio[1], w("tercer") - 0.1);
+        enciende(2, w("gemelo", 2) - 0.1); entra($(".n3 i"), w("gemelo", 2));
+        entra($(".n3 b"), w("Británic") - 0.05);
+        entra($(".n3 .sub"), w("hospital") - 0.1);
+      } else {
+        // Los tres con lo suyo; Violet aparece en cada uno, uno tras otro.
+        vio.forEach((v, i) => {
+          const t = w("Volvió") + 0.15 + 0.3 * i;
+          tl.fromTo(v, { autoAlpha: 0, scale: 0.4, svgOrigin: PV[i].join(" ") }, { autoAlpha: 1, scale: 1, svgOrigin: PV[i].join(" "), duration: 0.3, ease: "back.out(2)" }, t);
+          late(v, t + 0.25);
+          tl.to(naves[i], { opacity: 0.8, duration: 0.3 }, t);
+        });
+      }
+      fin();
+    })();
+  </script>
+</template>

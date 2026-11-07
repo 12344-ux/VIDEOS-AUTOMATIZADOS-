@@ -1,0 +1,56 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Tim Lancaster, Nigel Ogden y el resto de la tripulación son personas reales: nunca de cara. 10 de junio de 1990: un BAC One-Eleven (bimotor pequeño, con los dos motores atrás, a los lados del fuselaje, y la cola en T), sin logos ni letras. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "fuera",
+   "semilla": 2001,
+   "prompt": "A small white and dark blue twin-engine passenger jet with its two engines at the rear of the fuselage and a high T-shaped tail, flying above white clouds in the morning sun, its left cockpit windscreen missing, a pilot in a white short-sleeved shirt stuck halfway out of the empty cockpit window frame, his upper body bent backwards flat over the top of the fuselage, his arms flung back by the wind, seen from the side and from far away, his face not visible, the plane in the lower half of the frame, open sky above, no logos, no lettering, vertical composition"
+  },
+  {
+   "nombre": "despegue",
+   "semilla": 2002,
+   "prompt": "A small white and dark blue twin-engine passenger jet with its two engines at the rear of the fuselage and a high T-shaped tail, climbing just after take-off from a runway on a sunny summer morning, green English fields and hedges below, seen from the side and from far away, the plane in the lower half of the frame, no logos, no lettering, vertical composition"
+  },
+  {
+   "nombre": "cabina",
+   "semilla": 2003,
+   "prompt": "Inside the small cockpit of an old 1970s passenger jet, the left windscreen has just blown out, a blizzard of papers and white mist rushing out through the empty window frame into the bright sky, the left pilot seat empty, seen from behind the two seats, no people visible, vertical composition"
+  },
+  {
+   "nombre": "agarra",
+   "semilla": 2012,
+   "prompt": "Close-up of two hands in white shirt sleeves gripping tightly the brown leather belt at the waist of a man in a white shirt and dark trousers, the man's body leaning out through a broken aircraft windscreen, inside a small airliner cockpit, papers flying in a violent wind, bright sky beyond the broken window, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "descenso",
+   "semilla": 2005,
+   "prompt": "A small white and dark blue twin-engine passenger jet with its two engines at the rear of the fuselage and a high T-shaped tail, diving steeply down through white clouds toward the green English countryside, seen from the side and from far away, no logos, no lettering, vertical composition"
+  },
+  {
+   "nombre": "relevo",
+   "semilla": 2006,
+   "prompt": "Close-up of two pairs of hands in white shirt sleeves firmly gripping the dark trouser legs and the ankles of a man inside an aircraft cockpit, the flight control column beside them, papers flying in a strong wind, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "aterrizaje",
+   "semilla": 2007,
+   "prompt": "A small white and dark blue twin-engine passenger jet with its two engines at the rear of the fuselage and a high T-shaped tail, landing on the runway of a small English airport on a summer morning, airport fire trucks with flashing lights waiting beside the runway, seen from the side and from far away, no logos, no lettering, vertical composition"
+  },
+  {
+   "nombre": "hangar",
+   "semilla": 2008,
+   "prompt": "At night inside a dim aircraft hangar, a mechanic in dark blue overalls seen from behind standing on a work platform in front of the nose of a small passenger jet, fitting a new cockpit windscreen panel with a screwdriver, a single work lamp, cold and dark, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "tornillos",
+   "semilla": 2009,
+   "prompt": "Close-up of a mechanic's open hand holding a few small steel screws in the palm, a cockpit windscreen frame with a row of screw holes behind it, cold workshop light at night, no face visible, vertical composition"
+  },
+  {
+   "nombre": "vuelve",
+   "semilla": 2010,
+   "prompt": "A pilot in a white shirt with black and gold epaulettes and dark trousers seen from behind, walking across the tarmac toward a small passenger jet at sunrise, carrying a black flight bag, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  }
+ ]
+}

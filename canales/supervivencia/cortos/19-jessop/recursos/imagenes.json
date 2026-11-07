@@ -1,0 +1,81 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Violet Jessop es una persona real: nunca de cara. 1887–1916: los transatlánticos de la White Star (casco negro, cubierta blanca y cuatro chimeneas color ante con la punta negra) y el Britannic como barco hospital (blanco, con una franja verde y cruces rojas). Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "titanic",
+   "semilla": 1921,
+   "prompt": "A huge 1912 ocean liner with a black hull, a white superstructure and four tall buff funnels with black tops, all its portholes lit, sailing on a calm black ocean at night under the stars, seen from far away and slightly from the side, the ship in the lower half of the frame, a dark starry sky above, no lettering on the hull, vertical composition"
+  },
+  {
+   "nombre": "pampa",
+   "semilla": 1902,
+   "prompt": "A small girl in an 1890s dress seen from behind standing in the vast flat grassland of the Argentine pampas at sunset, a few sheep and a lonely farmhouse with a windmill in the distance, her back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "camarera",
+   "semilla": 1903,
+   "prompt": "A young woman in an early 1910s ocean liner stewardess uniform, a long dark dress with a white apron and a small white cap, seen from behind walking along a long elegant first-class corridor of a luxury liner with wood panels and warm lamps, her back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "choque",
+   "semilla": 1925,
+   "prompt": "An old grey 1890s naval cruiser with two tall funnels and a pointed ram bow crashing into the stern of a huge ocean liner with a black hull, a white superstructure and four pale buff yellow funnels with black tops, a large torn hole in the liner's hull near the stern, calm sea near the coast in daylight, seen from far away, no people visible, no lettering, vertical composition"
+  },
+  {
+   "nombre": "iceberg",
+   "semilla": 1905,
+   "prompt": "The bow of a giant black ocean liner scraping past a huge white iceberg at night on a flat black sea, chunks of ice falling on the deck, seen from the side and from above, cold moonlight, no people visible, no lettering, vertical composition"
+  },
+  {
+   "nombre": "bote",
+   "semilla": 1923,
+   "prompt": "A wooden lifeboat full of people in long coats being lowered by ropes down the tall black side of a giant ocean liner at night, seen from far away from the dark water below, the lifeboat small in the middle of the frame, rows of lit portholes on the hull above it, the people only small dark silhouettes, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "noche",
+   "semilla": 1928,
+   "prompt": "A crowded wooden lifeboat drifting alone on a black calm ocean under a sky full of stars, seen from far away, the lifeboat small in the lower half of the frame, the people in it only tiny dark silhouettes huddled together, no faces visible, freezing night air, faint mist on the water, vertical composition"
+  },
+  {
+   "nombre": "carpathia",
+   "semilla": 1908,
+   "prompt": "At dawn on a calm cold ocean with floating pieces of ice, a single black steamship with one tall red funnel with a black top arriving to pick up small wooden lifeboats rowing toward it, seen from far away, soft pink light, no lettering, vertical composition"
+  },
+  {
+   "nombre": "cubierta",
+   "semilla": 1914,
+   "prompt": "On the crowded deck of an old steamship at dawn, survivors of a shipwreck wrapped in grey blankets sitting along the rail, a woman in a long dark 1912 coat and hat seen from behind hurrying away along the deck carrying a baby wrapped in a white blanket, no faces visible, soft pink light, vertical composition"
+  },
+  {
+   "nombre": "enfermera",
+   "semilla": 1909,
+   "prompt": "A young woman in a 1916 First World War nurse uniform with a long white apron and a white veil, seen from behind standing at the rail of a white hospital ship, the blue Aegean Sea and rocky Greek islands in the distance, her back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "britannic",
+   "semilla": 1930,
+   "prompt": "A huge white hospital ship with four tall buff funnels with black tops, a long green stripe and large red crosses along its white hull, sinking: its bow already under the water and the whole ship tilted steeply forward, its stern and propellers lifting out of the sea, small lifeboats rowing away around it, a calm blue sea with rocky islands in the distance, seen from far away from the side, no lettering, vertical composition"
+  },
+  {
+   "nombre": "helices",
+   "semilla": 1911,
+   "prompt": "The stern of a huge white ship sinking by the bow, its stern rising out of the sea and its giant bronze propellers turning above the churning water, a small wooden lifeboat full of people drifting toward the propellers, seen from far away, no faces visible, dramatic sunlight, vertical composition"
+  },
+  {
+   "nombre": "agua",
+   "semilla": 1912,
+   "prompt": "Underwater view of a young woman in a long white nurse dress sinking in green-blue sea water, the dark hull of a ship above her, rays of sunlight from the surface, bubbles, seen from below and from behind, her face not visible, vertical composition"
+  },
+  {
+   "nombre": "craneo",
+   "semilla": 1915,
+   "prompt": "An old 1920s X-ray film of a human skull seen from the side, with a thin dark crack across the back of the skull, pinned on a glowing lightbox in a dim doctor's office, an old stethoscope on the desk below, no people visible, vertical composition"
+  },
+  {
+   "nombre": "cepillo",
+   "semilla": 1913,
+   "prompt": "Close-up of an old 1910s toothbrush with a carved bone handle held in a wet hand, on the wooden bench of a lifeboat, drops of sea water, warm light, no face visible, vertical composition"
+  }
+ ]
+}
