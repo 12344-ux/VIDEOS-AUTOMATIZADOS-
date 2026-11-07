@@ -1,0 +1,76 @@
+{
+  "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. Jan Baalsrud y quienes lo ayudaron son personas reales: nunca de cara. Norte de Noruega, de marzo a junio de 1943: nieve, fiordos y uniformes de los años cuarenta. Arriba queda sitio para los rótulos.",
+  "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+  "planchas": [
+    {
+      "nombre": "nieve",
+      "semilla": 2201,
+      "prompt": "A lone man in a dark 1940s wool coat seen from behind struggling uphill through deep snow in the Arctic mountains of northern Norway, one foot wrapped in a rag instead of a boot, a line of footprints behind him, grey stormy sky, the man small in the lower half of the frame, his face not visible, vertical composition"
+    },
+    {
+      "nombre": "ocupacion",
+      "semilla": 2202,
+      "prompt": "German soldiers in 1940s grey uniforms and steel helmets seen from behind marching along a snowy road of a small Norwegian fishing village with red and white wooden houses by a fjord, snowy mountains, no faces visible, vertical composition"
+    },
+    {
+      "nombre": "pesquero",
+      "semilla": 2203,
+      "prompt": "A small old wooden Norwegian fishing boat with one mast sailing into a narrow Arctic fjord at dawn, snowy mountains, dark water, no people visible, no lettering, vertical composition"
+    },
+    {
+      "nombre": "ataque",
+      "semilla": 2204,
+      "prompt": "A small wooden fishing boat exploding in a huge fireball in a snowy Arctic fjord, a grey 1940s German patrol boat nearby, seen from far away, no people visible, no lettering, vertical composition"
+    },
+    {
+      "nombre": "nado",
+      "semilla": 2205,
+      "prompt": "A man swimming in icy black water toward the snowy rocky shore of an Arctic fjord at dawn, seen from behind and from far away, floating chunks of ice, only his head and shoulders above the water, no face visible, vertical composition"
+    },
+    {
+      "nombre": "caceria",
+      "semilla": 2206,
+      "prompt": "German soldiers with rifles and dogs searching a snowy valley in Arctic Norway, seen from far away and from behind, tiny dark figures in the snow, vertical composition"
+    },
+    {
+      "nombre": "avalancha",
+      "semilla": 2207,
+      "prompt": "A huge avalanche of snow rushing down a steep mountain slope in Arctic Norway, a tiny dark figure of a man at the bottom of the slope, seen from far away, vertical composition"
+    },
+    {
+      "nombre": "ventisca",
+      "semilla": 2208,
+      "prompt": "A man seen from behind walking blindly through a white blizzard on a snowy mountain plateau, one arm raised over his eyes, everything white and grey, no face visible, vertical composition"
+    },
+    {
+      "nombre": "camilla",
+      "semilla": 2222,
+      "prompt": "Seen from far away and from behind: four tiny Norwegian villagers in 1940s winter clothes carrying a wooden stretcher up a vast snowy mountain slope at night under the stars, the man on the stretcher a small bundle completely wrapped in dark blankets, a line of footprints behind them, no faces visible, vertical composition"
+    },
+    {
+      "nombre": "muro",
+      "semilla": 2210,
+      "prompt": "A man wrapped in grey blankets lying on a wooden stretcher in the snow behind a low curved wall of snow blocks on a high mountain plateau, seen from far away and from above, his face hidden under the blankets, Arctic twilight, vertical composition"
+    },
+    {
+      "nombre": "navaja",
+      "semilla": 2211,
+      "prompt": "Close-up of an old 1940s folding pocket knife with a wooden handle lying open on a grey wool blanket in the snow, cold blue light, no people, vertical composition"
+    },
+    {
+      "nombre": "renos",
+      "semilla": 2230,
+      "prompt": "Seen from high above and far away: a vast snowy plain at sunset with a long herd of reindeer walking in a line, among them one small wooden sled carrying a bundle wrapped in furs, two tiny Sami herders walking beside it, everything tiny in the landscape, no faces visible, vertical composition"
+    },
+    {
+      "nombre": "hospital",
+      "semilla": 2228,
+      "prompt": "A quiet 1943 hospital room in winter: an empty white iron bed with folded grey blankets by a tall window with snow falling outside, a pair of old wooden crutches leaning against the bed, soft cold light, no people, vertical composition"
+    },
+    {
+      "nombre": "tumba",
+      "semilla": 2214,
+      "prompt": "A small old cemetery with simple wooden crosses and a stone grave by a fjord surrounded by snowy mountains, calm evening light, no people, vertical composition"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+<template>
+  <!-- El mapa del corto (mapa.py, Natural Earth): el mar del Norte y la costa de Noruega hasta Troms, con Suecia y Finlandia;
+       cámara en escala logarítmica y svgOrigin; nombres, puntos y el barco guardan su tamaño en pantalla. Rutas en esquema.
+       Modos: mision (el pesquero, de las Shetland a Toftefjord) y huida (de Toftefjord por los fiordos hasta Finlandia y
+       Suecia, en unos dos meses; Suecia se enciende). -->
+  <style>
+/*MARCA*/
+/*CORTO*/
+    #{{ID}} .mar { fill: url(#mar-{{ID}}); }
+    #{{ID}} .pais { fill: #26241f; stroke: #5d584b; stroke-width: 1.4px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .resto { fill: #201e1a; stroke: #4a463d; stroke-width: 1.2px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .ruta { fill: none; stroke: rgba(242, 237, 228, 0.45); stroke-width: 2.5px; stroke-dasharray: 8 8; vector-effect: non-scaling-stroke; }
+    #{{ID}} .hecho { fill: none; stroke: #ff5e1a; stroke-width: 4px; stroke-linecap: round; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .punto { fill: #f2ede4; }
+    #{{ID}} .meta { fill: #ff5e1a; }
+    #{{ID}} .onda { fill: none; stroke: #ff5e1a; stroke-width: 3px; vector-effect: non-scaling-stroke; }
+    #{{ID}} .icono { fill: #f2ede4; stroke: #0b0a09; stroke-width: 1.5px; vector-effect: non-scaling-stroke; visibility: hidden; }
+    #{{ID}} .nom { font-family: "Special Elite", monospace; fill: #e3ded5; paint-order: stroke; stroke: rgba(11, 10, 9, 0.85);
+      stroke-width: 3px; stroke-linejoin: round; }
+    #{{ID}} .nom.naranja { fill: #ff5e1a; }
+    #{{ID}} .grande { font-family: "Barlow Condensed", sans-serif; font-weight: 800; letter-spacing: 0.14em; fill: #8f8a80; paint-order: stroke;
+      stroke: rgba(11, 10, 9, 0.6); stroke-width: 2px; }
+    #{{ID}} .t { position: absolute; visibility: hidden; white-space: nowrap; }
+    #{{ID}} .t.et { font: 800 56px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+    #{{ID}} .t.et span { display: inline-block; background: rgba(11, 10, 9, 0.88); padding: 0.1em 0.3em 0.04em; border-left: 6px solid #ff5e1a; }
+  </style>
+  <div data-composition-id="{{ID}}" data-width="{{ANCHO}}" data-height="{{ALTO}}">
+    <div id="{{ID}}" class="esc" data-modo="{{p:modo}}">
+      <svg class="mapa" viewBox="0 0 1080 1920">
+        <defs>
+          <radialGradient id="mar-{{ID}}" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#15222b" /><stop offset="1" stop-color="#0b0a09" /></radialGradient>
+        </defs>
+        <rect class="mar" x="0" y="0" width="1080" height="1920" />
+        <g class="mundo">
+          <path class="resto" d="{{p:resto}}" />
+          <path class="pais sue" d="{{p:suecia}}" />
+          <path class="pais nor" d="{{p:noruega}}" />
+          <text class="grande g-nor" text-anchor="middle">NORUEGA</text>
+          <text class="grande g-sue" text-anchor="middle">SUECIA</text>
+          <text class="grande g-fin" text-anchor="middle">FINLANDIA</text>
+          <path class="ruta r-mis" d="{{p:mision}}" /><path class="hecho h-mis" d="{{p:mision}}" />
+          <path class="hecho h-hui" d="{{p:huida}}" />
+          <circle class="punto fijo p-she" data-r="7" /><circle class="punto fijo p-tof" data-r="7" />
+          <circle class="onda" r="0" style="visibility: hidden" />
+          <circle class="meta fijo p-kil" data-r="9" style="visibility: hidden" />
+          <path class="icono barco" d="M-12,2 L12,2 L9,7 L-9,7 Z M-2,2 L-2,-12 M-7,-9 L3,-9 M-7,-4 L3,-4" />
+          <text class="nom fijo n-she" data-px="32">Shetland</text>
+          <text class="nom fijo n-tof" data-px="32" text-anchor="end">Toftefjord</text>
+          <text class="nom fijo naranja n-kil" data-px="32" style="visibility: hidden">Frontera</text>
+        </g>
+      </svg>
+      <div class="t et e1"><span></span></div>
+      <div class="t et e2"><span></span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+/*AYUDA*/
+      const modo = RAIZ.dataset.modo;
+      const SHE = {{p:shetland}}, TOF = {{p:toftefjord}}, KIL = {{p:kilpisjarvi}};
+      const EN = {{p:et_noruega}}, ES = {{p:et_suecia}}, EF = {{p:et_finlandia}}, ENn = {{p:et_noruega_n}}, ESn = {{p:et_suecia_n}}, EFn = {{p:et_finlandia_n}};
+      const at = (sel, o) => Object.entries(o).forEach(([k, v]) => $(sel).setAttribute(k, v));
+      [[".p-she", SHE], [".p-tof", TOF], [".p-kil", KIL], [".onda", KIL]].forEach(([s, p]) => at(s, { cx: p[0], cy: p[1] }));
+      const mundo = $(".mundo"); gsap.set(mundo, { svgOrigin: "0 0" });
+      const nombres = [], fijos = $$(".fijo");
+      const nombre = (sel, p, dx, dy) => nombres.push([$(sel), p, dx, dy]);
+      const grandes = [];   // los rótulos de país también guardan su tamaño en pantalla
+      const fija = (k) => {
+        fijos.forEach((e) => { if (e.dataset.px) e.setAttribute("font-size", (e.dataset.px / k).toFixed(3)); else e.setAttribute("r", (e.dataset.r / k).toFixed(3)); });
+        nombres.forEach(([e, p, dx, dy]) => { e.setAttribute("x", (p[0] + dx / k).toFixed(2)); e.setAttribute("y", (p[1] + dy / k).toFixed(2)); });
+        grandes.forEach(([e, px]) => e.setAttribute("font-size", (px / k).toFixed(3)));
+      };
+      const pon = (fx, fy, k) => { gsap.set(mundo, { x: 540 - k * fx, y: 760 - k * fy, scale: k }); fija(k); return k; };
+      const et = (sel, html, x, y, t) => { const e = $(sel); e.querySelector("span").innerHTML = html; gsap.set(e, { left: x, top: y });
+        tl.fromTo(e, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.3, ease: "expo.out" }, t - 0.08); return e; };
+      // Con vector-effect: non-scaling-stroke, Chrome mide el guion en píxeles de pantalla: el largo, por la escala (k).
+      const trazo = (sel, t0, d, ease) => { const e = $(sel), L = e.getTotalLength();
+        return (x, k) => { const u = paso(x, t0, d, ease || "sine.inOut"), s = L * k;
+          e.setAttribute("stroke-dasharray", `${s.toFixed(2)} ${s.toFixed(2)}`); e.setAttribute("stroke-dashoffset", (s * (1 - u)).toFixed(2)); return u; }; };
+      const barco = $(".barco");
+      const sobre = (sel, u, k) => { const e = $(sel), L = e.getTotalLength(), p = e.getPointAtLength(L * u), q = e.getPointAtLength(Math.min(L, L * u + 1));
+        barco.setAttribute("transform", `translate(${p.x.toFixed(2)},${p.y.toFixed(2)}) scale(${((q.x < p.x ? -1 : 1) * 1.8 / k).toFixed(4)},${(1.8 / k).toFixed(4)})`); };
+      if (modo === "mision") {
+        // El pesquero sale de las Shetland y sube por la costa noruega hasta Toftefjord; Noruega, encendida.
+        at(".g-nor", { x: EN[0], y: EN[1] }); at(".g-sue", { x: ES[0], y: ES[1] }); at(".g-fin", { x: EF[0], y: EF[1] });
+        grandes.push([$(".g-nor"), 40], [$(".g-sue"), 30], [$(".g-fin"), 30]);
+        nombre(".n-she", SHE, 16, 34); nombre(".n-tof", TOF, -16, -14);
+        gsap.set($(".nor"), { fill: "#3a352c", stroke: "#ff5e1a" });
+        const CAM = [(SHE[0] + TOF[0]) / 2 + 20, (SHE[1] + TOF[1]) / 2 - 10, 1.05];
+        const ti = 0.3, tf = DUR - 0.6, dibuja = trazo(".h-mis", ti, tf - ti, "power1.inOut");
+        tl.set([$(".h-mis"), barco], { visibility: "visible" }, ti);
+        alBuscar((x) => { const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.05 * paso(x, 0, DUR, "none"))); const u = dibuja(x, k); sobre(".h-mis", u, k); });
+        et(".e1", "12 hombres", 80, 300, w("Doce") - 0.05);
+        et(".e2", "Explosivos", 80, 390, w("explosivos") - 0.05);
+      } else {
+        // huida: de cerca, de Toftefjord a la frontera de Finlandia y Suecia; al final, Suecia se enciende.
+        gsap.set($(".r-mis"), { autoAlpha: 0 });
+        at(".g-nor", { x: ENn[0], y: ENn[1] }); at(".g-sue", { x: ESn[0], y: ESn[1] }); at(".g-fin", { x: EFn[0], y: EFn[1] });
+        grandes.push([$(".g-nor"), 40], [$(".g-sue"), 40], [$(".g-fin"), 40]);
+        nombre(".n-tof", TOF, -16, -16); nombre(".n-kil", KIL, 18, 34);
+        gsap.set($(".h-mis"), { visibility: "visible" });
+        const CAM = [(TOF[0] + KIL[0]) / 2 + 6, (TOF[1] + KIL[1]) / 2 + 8, 7.0];
+        const vieja = trazo(".h-mis", -1, 0.5, "none"), ti = 0.15, tf = w("salvo") - 0.3, dibuja = trazo(".h-hui", ti, tf - ti, "power1.inOut");
+        tl.set($(".h-hui"), { visibility: "visible" }, ti);
+        tl.set([$(".p-kil"), $(".n-kil"), $(".onda")], { visibility: "visible" }, tf);
+        tl.fromTo($(".onda"), { attr: { r: 0.3 }, opacity: 1 }, { attr: { r: 6 }, opacity: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, tf);
+        tl.to($(".sue"), { fill: "#3a352c", stroke: "#ff5e1a", duration: 0.5 }, w("salvo") - 0.1);
+        alBuscar((x) => { const k = pon(CAM[0], CAM[1], CAM[2] * (1 + 0.05 * paso(x, 0, DUR, "none"))); vieja(x, k); dibuja(x, k); });
+        et(".e1", "2 meses de huida", 80, 300, w("meses") - 0.05);
+      }
+      fin();
+    })();
+  </script>
+</template>

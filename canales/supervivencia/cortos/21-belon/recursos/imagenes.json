@@ -1,0 +1,61 @@
+{
+ "_nota": "FLUX.3 Image Klein a 720 × 1280, ampliadas con EDSR a 1080 × 1920. María Belón, su marido y sus tres hijos son personas reales: nunca de cara (de espaldas y de lejos; con una mujer o un niño, de lejos y en silueta, que «seen from behind» no basta). Khao Lak (Tailandia), 26 de diciembre de 2004. Arriba queda sitio para los rótulos.",
+ "sufijo": "cinematic semi-realistic digital painting, dramatic lighting, muted colors with warm highlights, film grain, no text, no watermark",
+ "planchas": [
+  {
+   "nombre": "ola",
+   "semilla": 2101,
+   "prompt": "A gigantic dark muddy wave about to crash over a tropical beach resort with palm trees, wooden bungalows and a swimming pool, seen from far away and slightly from above, tiny figures running, the wave and the resort in the lower half of the frame, a pale hazy sky above, vertical composition"
+  },
+  {
+   "nombre": "piscina",
+   "semilla": 2102,
+   "prompt": "A woman in a white sun hat seen from behind lying on a sunbed by a turquoise hotel swimming pool at a tropical resort, reading a book, palm trees, far away in the pool a man and three small boys playing in the water as small distant figures, bright morning light, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "resaca",
+   "semilla": 2103,
+   "prompt": "A tropical beach with palm trees where the sea has suddenly pulled back far from the shore, leaving wet sand and stranded fishing boats, a dark wall of water rising on the horizon, no people visible, vertical composition"
+  },
+  {
+   "nombre": "arrastre",
+   "semilla": 2104,
+   "prompt": "A churning brown torrent of muddy water full of broken wood, palm fronds, mattresses and debris rushing between palm trees and destroyed bungalows, seen from far away and from above, one tiny figure being swept away by the water, vertical composition"
+  },
+  {
+   "nombre": "arbol",
+   "semilla": 2105,
+   "prompt": "Seen from far away: two tiny figures, a woman and a boy, clinging to the trunk of a palm tree above brown floodwater full of debris, the wreckage of a beach resort all around, their faces not visible, vertical composition"
+  },
+  {
+   "nombre": "rescate",
+   "semilla": 2122,
+   "prompt": "Seen from far away and from behind: a group of Thai villagers walking away down a muddy village street full of debris, carrying a wooden door like a stretcher with an injured person lying on it, completely covered by a grey blanket, only the shape under the blanket visible, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "hospital",
+   "semilla": 2107,
+   "prompt": "A crowded provincial hospital corridor in Thailand in 2004 full of injured people on beds and stretchers, walls covered with paper notes and photos of missing people, a ten-year-old boy in a dirty t-shirt seen from behind walking between the beds, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "padre",
+   "semilla": 2108,
+   "prompt": "A man in a torn shirt seen from behind walking alone through a devastated tropical coastal town full of wreckage, collapsed bungalows and uprooted palm trees, his back to the camera, no face visible, only one person in the whole image, vertical composition"
+  },
+  {
+   "nombre": "coche",
+   "semilla": 2109,
+   "prompt": "A white pickup truck with a group of small children sitting in the open back, driving away along a damaged road with debris and palm trees, seen from behind and from far away, no faces visible, vertical composition"
+  },
+  {
+   "nombre": "avion",
+   "semilla": 2111,
+   "prompt": "A white medical evacuation jet on an airport runway at dusk, medics seen from behind loading a stretcher through its open door, no faces visible, no lettering, vertical composition"
+  },
+  {
+   "nombre": "cine",
+   "semilla": 2112,
+   "prompt": "An empty dark cinema auditorium with red seats seen from the back rows, the big screen showing a huge ocean wave, no people, no text, vertical composition"
+  }
+ ]
+}

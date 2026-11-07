@@ -1804,6 +1804,93 @@ precargar (5 min 3 s). La sesión sigue en el entorno «VIDEOS-AUTOMATIZADOS-»;
   en el servidor); render, 4 min 17 s y 3 min 33 s. En el `imagenes.json` de cada corto quedan el prompt y la semilla
   buenos (los de las rehechas, nuevos), y la primera tanda de música del 20, en el `_descartadas` de su `musica.json`.
 
+## Sesión 14 — 7 de noviembre de 2026 (tarde)
+
+La misma máquina, reiniciada otra vez (Xeon a 2,1 GHz con AMX; el disco se conservó): todo instalado, precarga en 5 min
+40 s. La clave de YouTube sigue sin estar (Google responde 403).
+
+### 1. Las dos historias
+
+- **Pedido del usuario:** «Crea dos vídeos más para el canal de supervivencia».
+- **Medida, con el dataset de TikTok** (septiembre; sin la clave de YouTube): «The Impossible» en inglés, 82 vídeos con un
+  acierto del 29,3 % (más de 100.000 vistas; el idioma, el 2,4 %); el tsunami en español, 51 vídeos, compartidos 12,3 veces
+  por cada mil vistas (el idioma, 7,8). Jan Baalsrud: un solo vídeo en español (1.100 vistas, de una cuenta de historias
+  reales de supervivencia) y ninguno en inglés. Para las demás candidatas el dataset no da para decidir (Zamperini 0,
+  Onoda 31 en inglés y 12 en español, Vulović 1, Bethany Hamilton 2, Mawson 5, Ada Blackjack 4).
+- **Elegidas:** **la familia de María Belón en el tsunami de 2004** (la demanda: la película «Lo imposible», española, y
+  un escenario nuevo: el tsunami) y **Jan Baalsrud** (el hueco, y otro escenario nuevo: la guerra en la nieve del Ártico).
+- **Fuentes:** la API de Wikipedia limita el ritmo (429 casi seguidos: hubo que esperar 25–40 s entre peticiones), y los
+  agentes de lectura web no llegan a Wikipedia (su red no la resuelve) ni a The Guardian. Se leyeron la Wikipedia en español
+  de María Belón, la inglesa de los efectos del tsunami en Tailandia (Khao Lak: 3.950 muertos confirmados, quizá más de
+  4.500), las dos de Jan Baalsrud y la de la Operación Martin; lo demás, con búsquedas (Mamamia, CinéSérie, Ara, HistoryNet,
+  Explorersweb). Lo que varía, en el `PUBLICACION.md` de cada uno.
+- **Guiones** de 241 y 236 palabras: voz M2 de 82,0 s y 77,0 s («Kao Lak», «Quique», «Yan Bálsrud», «samis»; el
+  alineador oye «kao lak», «kike», «yamvals rud», «samis»).
+
+### 2. Cómo están hechos
+
+- **«Lo imposible»** (la familia Belón, 82,7 s, 19 escenas): el gancho 5 DE 5 · VIVOS TRAS EL TSUNAMI sobre la ola que llega
+  al hotel; el secreto, «adónde llegó su historia», que se lee al 88 % (EL CINE: «LO IMPOSIBLE»), con la sala de cine y
+  Naomi Watts, a la que eligió la propia María. Escenas dibujadas nuevas: `familia.html`, los cinco como figuras sin cara
+  con su nombre y su edad, en tres modos (juntos, con Quique y los niños en la piscina; separados por la ola, María y Lucas
+  en un hospital y Quique encontrando a Tomás y a Simón; y otra vez los cinco: Simón baja en el hospital de su madre,
+  después llegan el padre y Tomás, y con «Vivos» las cinco figuras se vuelven naranjas: 5 DE 5 · VIVOS), y un `mapa.html`
+  con `mapa.py` (Tailandia se enciende y la cámara baja a Khao Lak con la fecha a máquina; y el terremoto frente a Sumatra
+  con tres ondas que llegan a Khao Lak con la palabra: casi 4.000 muertos).
+- **«El duodécimo hombre»** (Jan Baalsrud, 77,8 s, 21 escenas): el gancho 9 DEDOS · SE LOS CORTÓ ÉL MISMO sobre un hombre
+  que sube por la nieve con un pie envuelto, y con «Y aun así escapó» el mismo plano más cerca con el sello ESCAPÓ; el
+  secreto, «cómo cruzó la frontera», que se lee al 74 % (EN UN TRINEO DE RENOS, con pastores sami). Un `mapa.html` con
+  `mapa.py` (el pesquero desde las Shetland hasta Toftefjord, con Noruega encendida; y, de cerca, la huida por los fiordos
+  hasta la frontera, donde Suecia se enciende con «a salvo»), los doce como puntos (`comun/puntos.html`: SOLO ÉL, y los
+  otros once se apagan), los 27 días en la camilla con un contador y 9 DEDOS en grande sobre la navaja (nada de heridas en
+  imagen).
+- **Música** («solo piano and high strings»): en el 21, la 2 (el 20 % bajo 150 Hz, por debajo del límite del canal, y de −16
+  a −21 dB); la 1 tenía el 64 %. En el 22, la 1 (el 13 %, de −20 a −26 dB). 451 y 415 s cada par.
+- **Sonido** (BigSoundBank, CC0): en el 21, el estruendo de la ola y el agua que lo arrastra todo (2570, con su temblor); en
+  el 22, el viento del principio y del final del bucle y la ventisca (0154), el pesquero que vuelan (1023, con destello y
+  temblor) y el alud (2570). `revisar_mezcla.py`: 0 avisos y ningún hueco; en el 22 la música quedaba a −14 LU de la voz al
+  final: a 0,085, y 0,075 después de la revelación (de 16 a 22 LU bajo la voz).
+
+### 3. Lo que encontró la revisión
+
+- **La familia:** `const aparece` habría chocado con el `aparece` de `ayuda.js` (la escena entera se queda sin animar): se
+  llama `asoma` (la lista de nombres prohibidos, ampliada en `CLAUDE.md`). Las figuras eran pequeñas y dejaban media
+  pantalla vacía (un 30 % más grandes); la piscina parecía una barra (con olas dibujadas, se lee como agua); y el sello VIVOS
+  tapaba la cruz del hospital (va al lado del 5 DE 5).
+- **Textos que no cabían:** «SOBREVIVIERON AL TSUNAMI» (24 letras) no habría cabido en la línea naranja del gancho, donde
+  caben unas 21 (medido en el 19): VIVOS TRAS EL TSUNAMI. «Manndalen, Noruega» (18 letras) rozaba el borde: «Manndalen».
+  Y «TAILANDIA» salía a 27 px en el mapa (el `check` pide 28): a 54 en el dibujo.
+- **Imágenes** (FLUX.3 a 720 × 1280 y EDSR): 11 y 14, de 158 a 354 s cada una según lo que compartía la CPU. **Rehecha en el
+  21:** el rescate (se le veía la cara a la mujer de la camilla, que sería María): ahora los tailandeses se alejan con la
+  camilla y ella va tapada hasta los hombros (la otra candidata, tapada entera, parecía un muerto). **Rehechas en el 22:**
+  la camilla (se le veía la cara al hombre envuelto: ahora, de lejos y por detrás, cuatro campesinos diminutos la suben por
+  la ladera de noche), el trineo («completely wrapped in furs with his head covered» le dejó la cara al aire tres veces de
+  tres: ahora, desde lo alto, la fila de renos con el trineo y dos pastores diminutos) y el hospital (la primera le enseñaba
+  la cara y los pies desnudos; con los pies vendados asomando, FLUX pintó los diez dedos de quien se cortó nueve, dos veces
+  de dos: una cama vacía con muletas junto a la ventana). 13 candidatas en total, intercaladas en el servidor.
+- **El trineo, bajo el subtítulo:** con la imagen nueva, en la escena de los pastores el subtítulo tapaba el trineo. El plano
+  corta más cerca al quitarse la ficha (de 1,18 a 1,26, con el origen abajo) y el trineo y los pastores quedan encima.
+- **`check`:** 0 errores en los dos; en el 22, un aviso, el contraste falso de «deja» (el subtítulo a medio resaltar, mirado
+  en el fotograma). Con las imágenes buenas, `snapshot --review` de los dos (y las escenas del trineo y del hospital, otra
+  vez tras cambiarlas): todo en su sitio y ninguna cara.
+
+### 4. Render y entrega
+
+- **La familia Belón:** render en 5 min 14 s (compartiendo la CPU con el lote de FLUX del 22);
+  `salidas/supervivencia/cortos/21-belon/entrega/belon.mp4` (82,7 s, −14,5 LUFS, −1,7 dBTP, 65 MB). El último fotograma es
+  el primero (2,5 de diferencia media sobre 255), ningún silencio, y el último segundo y medio 4,9 dB por debajo del primero
+  (la pausa final de la voz y la cola de la música). Los fotogramas sacados del MP4 coinciden con la revisión.
+- **Jan Baalsrud:** render en 3 min 48 s, con la CPU libre; `salidas/supervivencia/cortos/22-baalsrud/entrega/baalsrud.mp4`
+  (77,8 s, −14,4 LUFS, −1,6 dBTP, 68 MB); bucle a 2,4 sobre 255, ningún silencio; el último segundo y medio, 6,2 dB por
+  debajo del primero (la cola tras la última palabra, con el viento del principio para que el bucle no empiece en
+  silencio). Los fotogramas sacados del MP4 coinciden con la revisión.
+- Las dos entregas con `BUCLE=1 GRAVES=-20 PICO=-2 video/entregar.sh … -14 copiar` (35 y 28 s). Medido y
+  mirado, no escuchado.
+- **Tiempos de la sesión:** precarga, 5 min 40 s; voces, 59 y 55 s; música, 451 y 415 s; imágenes, 41 min el lote del 21 y
+  55 min el del 22 con la ampliación (más 13 candidatas intercaladas en el servidor, de 122 a 214 s cada una); render, 5 min
+  14 s y 3 min 48 s. En el `imagenes.json` de cada corto quedan el prompt y la semilla buenos (los de las rehechas,
+  nuevos).
+
 ## Siguiente paso
 
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
@@ -1812,16 +1899,18 @@ precargar (5 min 3 s). La sesión sigue en el entorno «VIDEOS-AUTOMATIZADOS-»;
    español) y otro con hueco (las luces de Phoenix: 2,4 M en inglés y 18.000 en español).
    Canales nuevos: que el usuario vea los cortos (Chile en geografía; Juliane, Okene, Alvarenga, Lincoln Hall, los 33,
    Prosperi, Bågenholm, Simpson, los niños de la selva, el náufrago, la cueva de Tailandia, Apolo 13, Aron Ralston,
-   Alexander Selkirk, los Andes, Yossi Ghinsberg, Poon Lim, Shackleton, Violet Jessop y el vuelo 5390 en supervivencia),
+   Alexander Selkirk, los Andes, Yossi Ghinsberg, Poon Lim, Shackleton, Violet Jessop, el vuelo 5390, la familia Belón y Jan
+   Baalsrud en supervivencia),
    elija los nombres y cree los dos canales de YouTube y las dos páginas de Facebook. Supervivencia: los dos colombianos no
-   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–20 (historias conocidas en todo el mundo, una con hueco
+   funcionaron (2-nov); seguir con la fórmula de los cortos 1–8 y 11–22 (historias conocidas en todo el mundo, una con hueco
    y otra con demanda probada en español, medidas en inglés y en español). **Antes de medir, la clave de YouTube en el
-   entorno** (secretos de red, `www.googleapis.com`, cabecera `X-Goog-Api-Key`): en las sesiones 12 y 13 no estaba; el 17 y
-   el 18 salieron de las candidatas ya medidas, y el 19 y el 20, del dataset de TikTok por tema (el Titanic: para una
-   historia concreta, el dataset da 0 vídeos). Quedan: Beck Weathers (770.000 con solo 7 Shorts; el Everest ya lo contó Lincoln
-   Hall); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el náufrago español (383.000 vistas en un Short, 18× su
-   canal), salió al medir a Selkirk. Ideas sin medir: Jan Baalsrud (Noruega, 1943), Ada Blackjack (isla Wrangel, 1921–1923)
-   y Louis Zamperini (47 días en una balsa en el Pacífico, 1943; la película «Invencible»). Publicar y
+   entorno** (secretos de red, `www.googleapis.com`, cabecera `X-Goog-Api-Key`): en las sesiones 12 a 14 no estaba; el 17 y
+   el 18 salieron de las candidatas ya medidas, y del 19 al 22, del dataset de TikTok por tema (el Titanic, «The
+   Impossible», el tsunami: para una historia concreta, el dataset da 0 vídeos o casi). Quedan: Beck Weathers (770.000 con
+   solo 7 Shorts; el Everest ya lo contó Lincoln Hall); Hugh Glass, solo contándolo como leyenda; Pedro Serrano, el
+   náufrago español (383.000 vistas en un Short, 18× su canal), salió al medir a Selkirk. Ideas sin medir (el dataset de
+   TikTok da de 0 a 4 vídeos de cada una; con la clave): Ada Blackjack (isla Wrangel, 1921–1923), Louis Zamperini (47 días
+   en una balsa en el Pacífico, 1943; la película «Invencible») y Bethany Hamilton (el tiburón, 2003; «Soul Surfer»). Publicar y
    medir a las 48 h y a los 7 días (en YouTube, «visto frente a deslizado» y el porcentaje medio visto; las vistas,
    también con `rastreador/youtube.py canal`). Mientras, producir la semana con el mismo kit, y en cada corto
    `audio/revisar_mezcla.py` con 0 avisos antes de renderizar.

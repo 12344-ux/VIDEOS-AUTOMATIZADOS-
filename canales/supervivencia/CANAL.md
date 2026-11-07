@@ -27,7 +27,11 @@ tampoco con la clave: el dataset de TikTok no sirve para una historia concreta (
 Jessop, Shackleton o Poon Lim), pero sí para un tema, y el Titanic mide bien (117 vídeos en español en septiembre,
 compartidos tres veces más que la media del idioma). De ahí Violet Jessop, la camarera nacida en Argentina que iba en el
 Olympic, el Titanic y el Britannic (la demanda), y el vuelo 5390 de British Airways, el capitán que salió por el
-parabrisas (el hueco, y un escenario nuevo: el aire).
+parabrisas (el hueco, y un escenario nuevo: el aire). El 21 y el 22 (7-nov, tarde), con la misma medida por tema: «The
+Impossible» en inglés pasa de 100.000 vistas en el 29 % de sus vídeos (el idioma, en el 2,4 %), y el tsunami en español se
+comparte más que la media; de ahí la familia de María Belón en el tsunami de 2004, la historia de «Lo imposible» (la
+demanda), y Jan Baalsrud, el comando noruego que escapó de los nazis por la nieve en 1943 (el hueco: un solo vídeo en
+español en el mes, de 1.100 vistas).
 
 ## Nombre (a elegir; comprobar que está libre en YouTube y Facebook)
 

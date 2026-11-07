@@ -98,7 +98,8 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
 - El control de seguridad bloquea descargar y ejecutar código de terceros que el usuario no haya
   pedido explícitamente. Autorizó FastSD CPU, stable-diffusion.cpp y Piper, y para las pruebas de estilo
   «instalar lo que necesites»: HyperFrames y los modelos de apoyo, que es lo que instala `instalar.sh`.
-  Para cualquier herramienta nueva, pedirle permiso antes.
+  Para cualquier herramienta nueva, pedirle permiso antes. El mismo control para un `rm` con la ruta hecha de variables
+  (`"$I/$n.jpg"`): se escribe `"${I:?}/${n:?}.jpg"` o la ruta entera.
 - Sonido: BigSoundBank (CC0) llega; Freesound y Pixabay dan 403, la API de Wikimedia 429 y la búsqueda
   de Openverse no responde. Node no usa el proxy por su cuenta: `NODE_USE_ENV_PROXY=1` (lo pone `video/hf.sh`).
 - Cada sesión es una máquina nueva: lo que no esté en este repositorio se pierde.
@@ -139,6 +140,9 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   «Seen from behind» no basta con una mujer sentada con un bebé en brazos (la sacó de cara dos veces de dos): de lejos y en
   silueta. Un barco que se hunde no lo dibuja («listing and sinking», ni «its bow already under the water»: navega o evacúa).
   Y «buff funnels» dio las chimeneas rojas de la Cunard: «pale buff yellow funnels with black tops».
+  A un hombre tumbado en una camilla, un trineo o una cama le pone cara aunque el prompt la tape («completely wrapped in furs
+  with his head covered», tres veces de tres): desde lo alto y de lejos, o la escena vacía (la cama con muletas). Y lo que
+  pinta del cuerpo puede contradecir la historia: los pies vendados de quien se cortó nueve dedos salieron con los diez.
 - Mover un entorno virtual rompe sus ejecutables (las rutas van escritas dentro); usar `env/bin/python -m ...`.
 - La CPU tiene 4 núcleos: no medir tiempos mientras corre otra cosa pesada.
 - Para esperar a procesos largos, usar tareas en segundo plano y Monitor, no `sleep`. Una tarea en segundo plano sin
@@ -230,7 +234,8 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   barco). Multiplicar el largo por la escala de la cámara en cada fotograma: `trazo(x, k)` en los mapas de los cortos 17 y 18.
   Los mapas anteriores (Andes, Ghinsberg…) usan el largo sin escalar: revisarlos si se rehacen.
 - En el JS de una plantilla no se puede llamar `f` a nada (`const f = $(".fecha")`): `f()` es de `ayuda.js`, la escena entera
-  deja de funcionar y el `check` lo da como `invalid_inline_script_syntax`. Lo mismo que `L`, `traza`, `W`, `tl`…
+  deja de funcionar y el `check` lo da como `invalid_inline_script_syntax`. Lo mismo que `L`, `traza`, `W`, `tl`, `aparece`,
+  `entra`, `sale`, `sube`, `cuenta`, `paso`, `fin`… (todo lo que declara `ayuda.js`: mirarlo antes de nombrar una función).
 - Los parámetros de `escena()` no pueden llamarse como los suyos: un camino del mapa llamado `entrada` se tomó por la
   transición de entrada (`KeyError` en `montar.py`).
 - HyperFrames avisa (`composition_file_too_large`) de las composiciones de más de 300 líneas sin contar los estilos: con
