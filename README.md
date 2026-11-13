@@ -56,6 +56,7 @@ idea difícil (engranajes, órbita, espirales, mapa, línea de tiempo). Todo se 
 | Ampliación ×2 | EDSR de FastSD (ONNX) | ✅ `imagen/ampliar.py` |
 | Tiempo de cada palabra | Alineación forzada en español (wav2vec2), o la de fonemas de Piper | ✅ `voz/alinear.py` |
 | Música de fondo | MusicGen estéreo (uso no comercial); antes, síntesis con numpy | ✅ `audio/musica_ia.py` |
+| Música para uso comercial | ACE-Step 1.5 (MIT) en C++ para la CPU (acestep.cpp), opcional | ✅ `./instalar.sh musica` |
 | Efectos de sonido | Grabaciones CC0 de BigSoundBank y la biblioteca de HyperFrames | ✅ `audio/efectos.py`, `audio/tecleo.py` |
 | Mezcla de audio | Agache de la música bajo la voz, −14 LUFS | ✅ `audio/mezclar.py` |
 | Animaciones en canvas | Canvas en Chromium → MP4 con desenfoque de movimiento | ✅ `video/renderizar_canvas.mjs` |
@@ -145,6 +146,7 @@ Xeon con AMX y en la 2 un Cascade Lake a 2,8 GHz sin AMX.
 | Voz Supertonic-3 con tiempos de palabras | 7 s en 14 s | 58 s en 61 s (síntesis 41 s) | 8 min 26 s en 8 min 33 s (con FLUX a la vez) | 2 GB |
 | Música sintetizada: 14 s | 1,9 s | — | — | — |
 | Música MusicGen estéreo | 12 s en 50–55 s | 12 s en 69–96 s; en lote de 4, 31 s por cada 10 s | 4 piezas de 30 s en 410 s | 3 GB |
+| Música ACE-Step 1.5 (turbo Q8, LM 1.7B): 34 s | 4 min 38 s (LM 47 s + síntesis 231 s); 3 piezas juntas, 151 s + 656 s | — | — | 5,8 GB |
 | Título animado: 4 s a 720p30 | 14 s | — | — | — |
 | Profundidad (Depth Anything V2 Small) | 3 s por imagen | 5 s | — | — |
 | Recorte (BiRefNet lite), 768 × 768 | 27 s | — | — | — |
@@ -216,7 +218,8 @@ uno con su licencia:
 - HyperFrames: Apache 2.0. GSAP: licencia gratuita de GreenSock. Fuentes de las pruebas: OFL
   (Special Elite: Apache 2.0).
 - Depth Anything V2 Small: Apache 2.0. BiRefNet lite: MIT. MusicGen: CC BY-NC 4.0, **solo uso no
-  comercial**; para uso comercial habría que cambiar de modelo de música.
+  comercial**. Para uso comercial (anuncios, vídeos que se moneticen): ACE-Step 1.5, MIT; su ficha dice que se
+  entrenó con música licenciada y libre de derechos y que lo generado se puede usar comercialmente.
 - Efectos: BigSoundBank, CC0; biblioteca de HyperFrames, licencia de Pixabay.
 - Supertonic-3: Open RAIL-M. Permite uso comercial, pero obliga a avisar de que el contenido está
   generado por máquina y prohíbe suplantar a personas. Alineador wav2vec2 en español: Apache 2.0.

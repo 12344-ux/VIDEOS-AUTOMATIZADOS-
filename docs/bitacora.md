@@ -1891,8 +1891,57 @@ La misma máquina, reiniciada otra vez (Xeon a 2,1 GHz con AMX; el disco se cons
   14 s y 3 min 48 s. En el `imagenes.json` de cada corto quedan el prompt y la semilla buenos (los de las rehechas,
   nuevos).
 
+## Sesión 15 — 13 de noviembre de 2026
+
+La misma máquina (Xeon a 2,1 GHz con AMX; el disco se conservó): precarga en 6 min 23 s.
+
+### 1. Una prueba de anuncio con clips de un generador externo
+
+- **El encargo:** probar anuncios de producto. Un generador de vídeo externo hace clips de 10 s (720 × 1280, 24 fps, con
+  efectos de sonido) y aquí se hace la posproducción. El material del cliente (fotos, clips, guiones y entregas) va en
+  `salidas/anuncios/`, fuera del repositorio.
+- **Cómo se pidieron los clips:** una instrucción para el agente del generador y un paquete de prompts en inglés con los
+  mismos bloques fijos copiados palabra por palabra en cada uno (personajes con casco y visera oscura, la moto sin marca,
+  el estilo); una acción y un movimiento de cámara por clip, y la cámara a la velocidad de la moto con los cascos en la
+  mitad de arriba, para poner textos junto a ellos sin seguimiento.
+- **Lo que llegó (8 clips):** consistencia buena. Pero el generador puso emblemas de marcas reales (el diapasón de Yamaha en
+  el depósito, un ala tipo Honda, un logo tipo AGV en un casco), una visera clara con la cara visible y el aparato dibujado
+  a su manera, sin pantalla.
+- **Lo que se hizo aquí:**
+  - Los emblemas, borrados con seguimiento fotograma a fotograma (plantilla de OpenCV desde anclas medidas a mano, hacia
+    delante y hacia atrás) e inpainting; interpolando entre anclas, el parche se perdía a mitad de tramo. Sobre un casco
+    blanco, máscara y relleno más anchos y un poco de desenfoque, o queda una mancha gris.
+  - La visera clara, oscurecida con una elipse difuminada que sigue la cabeza: parece ahumada.
+  - El producto real: la foto del cliente recortada con BiRefNet (75 s) y ampliada con EDSR; las pantallas LCD
+    redibujadas encima con una homografía (CSS `matrix3d`), para que muestren lo que pida cada plano, y los anillos RGB con
+    un `conic-gradient` en `mix-blend-mode: color` que gira.
+  - Las palabras que se lleva el viento: las letras de un bocadillo salen girando y desenfocadas, con un generador de
+    números con semilla (con `Math.random`, cada proceso del render dibujaría otra cosa).
+  - HyperFrames monta vídeo a 24 fps, como los clips (`data-media-start`, `data-volume`): render de 30 s en 73–85 s. El
+    `check` avisa (`duplicate_audio_track`) de dos sonidos solapados en la misma pista: cada sonido, en una pista libre.
+
+### 2. Música para uso comercial: ACE-Step 1.5
+
+- Sin música, el anuncio parecía una demostración, y MusicGen no vale para esto (CC BY-NC). Lo que hay al día: ACE-Step 1.5
+  (MIT; su ficha dice que se entrenó con música licenciada y libre de derechos y que lo generado se puede usar
+  comercialmente), con una versión en C++ con GGML para la CPU (acestep.cpp). El usuario autorizó instalarlo:
+  `./instalar.sh musica` (se compila con `-march=native` en unos 2 min; 5,4 GB de modelos: codificador de texto Q8, DiT
+  turbo Q8, VAE y LM 1.7B Q8). Para que cupieran se borraron 6 renders intermedios de cortos ya entregados (338 MB).
+- **Medido:** una pieza instrumental de 34 s en 4 min 38 s (el LM, 47 s y 3,9 GB; la síntesis, 231 s y 5,8 GB, 91 s de
+  ellos el VAE). Tres juntas, 151 s + 656 s: el lote no gana tiempo.
+- **Cómo salen:** bucles de frases de 8 s, sin entrada ni final, con pulso claro a los 120 BPM pedidos y el 65–85 % de la
+  energía bajo 150 Hz. La estructura se hace en la edición: un primer tiempo de compás (el flujo espectral del bombo, de 40
+  a 120 Hz) cae en el corte al producto; antes suena tapada (paso bajo a 380 Hz) y el filtro se abre en 1,4 s, con 0,12 s
+  de corte justo antes del golpe; y se ecualiza para el móvil (paso alto a 40 Hz, −4 dB bajo 150 Hz, +2,5 dB a 3 kHz).
+- **La mezcla:** el viento del gancho sonaba más que la música tras el golpe, que así parecía una bajada. Con −4 dB en los
+  clips del gancho y la música a −15 LUFS, lo que va tras el golpe queda 1,5–2,5 LU por encima. Cuatro versiones (electrónica
+  pop, rock indie, electrónica tecnológica y pop latino), entregadas a −14 LUFS para que el usuario elija de oído: medidas,
+  no escuchadas.
+
 ## Siguiente paso
 
+- **Anuncio de producto** (fuera del repositorio, `salidas/anuncios/`): que el usuario elija la música (A–D) y pase la oferta,
+  el logo y el clip 9 (la llegada al café, que cierra la historia); después, las versiones de 15 y 6 s, tres ganchos y el 4:5.
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
    y «El ovni Tic Tac» (`salidas/incidentes/cortos/02-tictac/entrega/tictac.mp4`), elija el nombre
    (`canales/incidentes/CANAL.md`) y los publique; los siguientes, uno con demanda probada (el Mary Celeste: 635.000 en

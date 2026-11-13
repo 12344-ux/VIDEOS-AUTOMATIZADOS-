@@ -76,7 +76,8 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
   voz: Piper `es_AR-daniela-high` (femenina, acento argentino). Más adelante quiere varios canales de
   nichos distintos, cada uno con su voz: el sistema debe dejar elegir la voz por canal.
 - **Todo vídeo con voz de Supertonic avisa de que está generada por máquina** (descripción o rótulo):
-  lo exige su licencia Open RAIL-M. MusicGen, además, solo vale para uso no comercial.
+  lo exige su licencia Open RAIL-M. MusicGen, además, solo vale para uso no comercial. **Para anuncios y todo lo que se
+  monetice, la música sale de ACE-Step 1.5** (MIT, `./instalar.sh musica`; el usuario lo autorizó el 13-nov-2026).
 - Le gustó descubrir herramientas investigando repositorios públicos de GitHub y Hugging Face.
   Ante un problema nuevo, buscar primero qué existe y qué está al día.
 
@@ -201,6 +202,12 @@ Mismas reglas de retención y de sonido; las hipótesis se cuentan como pregunta
 - Medir los graves de cada pieza de MusicGen antes de usarla (`audio/graves.py`): dos salieron con el 65–98 % de la
   energía bajo 150 Hz, que en un móvil no suena (ver la bitácora, sesión 3). La misma descripción con otra semilla
   puede salir con el 0 % o con el 85 %. Y mirar su energía por tramos: algunas se apagan a los 15–25 s.
+- ACE-Step 1.5 (`~/herramientas-videos/acestep.cpp`): `ace-lm` acepta una sola petición (`--request` con varias falla sin
+  decir por qué); `ace-synth` sí acepta varias, pero en lote no gana tiempo (3 piezas de 34 s en 656 s). Con `lm_model` o
+  `synth_model` puestos por nombre no encuentra el modelo: dejarlos vacíos (coge el único que hay). Instrumental:
+  `"lyrics": "[Instrumental]"` con bpm, duración, tonalidad y compás puestos (así el LM no rellena nada). Salen bucles de
+  frases de 8 s sin estructura propia y con el 65–85 % de la energía bajo 150 Hz: ecualizar, y la estructura (entrada,
+  golpe, final) se hace en la edición, cuadrando un primer tiempo de compás con el corte.
 - `mix-blend-mode: destination-out` no existe en CSS (el sello salía rosado): el desgaste de un sello va con
   `mask-image: url(desgaste.png)`.
 - La etapa `musica` de `canales/preparar-corto.sh` empieza apagando el servidor de imágenes (para que quepa MusicGen): no

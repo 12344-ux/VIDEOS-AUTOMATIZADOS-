@@ -12,6 +12,8 @@
 #   ./instalar.sh rastreador     DuckDB (con httpfs) y yt-dlp: el rastreador de nichos de rastreador/
 #   ./instalar.sh imagen-extra   además FLUX.2 klein 4B (licencia Apache 2.0)
 #   ./instalar.sh sdcpp          stable-diffusion.cpp y sus modelos (opcional; aquí es lento)
+#   ./instalar.sh musica         ACE-Step 1.5 (acestep.cpp, licencia MIT): música que se puede usar en anuncios
+#                                y vídeos que se moneticen (MusicGen solo vale para uso no comercial). 5,4 GB
 #   ./instalar.sh comprobar      dice qué hay y qué falta, sin instalar nada
 #   ./instalar.sh precargar      lee todas las herramientas una vez (en segundo plano al reanudar una sesión)
 #
@@ -48,6 +50,12 @@ VOCES=(es/es_AR/daniela/high/es_AR-daniela-high es/es_MX/claude/high/es_MX-claud
 MODELOS_IMAGEN=(rupeshs/flux3-image-klein-int4-ov:6 rupeshs/sdxs-512-0.9-openvino:3 rupeshs/taesd-ov:1 rupeshs/edsr-onnx:1)
 MODELO_EXTRA=rupeshs/flux2-klein-4b-int4-ov:5
 FLUX2_GGUF=manishdashsharma/flux2-klein-4b-gguf
+# Música con licencia comercial: ACE-Step 1.5 (MIT; su ficha dice que se entrenó con música licenciada y libre de
+# derechos y que lo generado se puede usar comercialmente), en C++ con GGML para la CPU. Instalado el 13-nov-2026.
+ACESTEP_REPO=https://github.com/ServeurpersoCom/acestep.cpp
+ACESTEP_COMMIT=dc8c99432f38f58c403e02fb642fec269f1242f9
+ACESTEP_GGUF=Serveurperso/ACE-Step-1.5-GGUF
+ACESTEP_MODELOS=(vae-BF16.gguf Qwen3-Embedding-0.6B-Q8_0.gguf acestep-v15-turbo-Q8_0.gguf acestep-5Hz-lm-1.7B-Q8_0.gguf)
 
 paso() { printf '\n== %s\n' "$*"; }
 falla() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
@@ -175,6 +183,20 @@ instalar_sdcpp() {
   bajar "$HF/akleine/sdxs-512/resolve/main/sdxs.safetensors" "$H/modelos/sdxs/sdxs.safetensors"
 }
 
+instalar_musica() {
+  paso "Música: ACE-Step 1.5 (acestep.cpp, CPU)"
+  if [ ! -x "$H/acestep.cpp/build/ace-synth" ]; then
+    comprobar_disco 1
+    clonar_en "$H/acestep.cpp" "$ACESTEP_REPO" "$ACESTEP_COMMIT"
+    git -C "$H/acestep.cpp" submodule update -q --init --recursive --depth 1
+    cmake -S "$H/acestep.cpp" -B "$H/acestep.cpp/build" -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=ON >/dev/null
+    cmake --build "$H/acestep.cpp/build" --config Release -j "$(nproc)" >/dev/null
+  fi
+  local f
+  [ -s "$H/acestep.cpp/models/acestep-v15-turbo-Q8_0.gguf" ] || comprobar_disco 6
+  for f in "${ACESTEP_MODELOS[@]}"; do bajar "$HF/$ACESTEP_GGUF/resolve/main/$f" "$H/acestep.cpp/models/$f"; done
+}
+
 instalar_edicion() {
   paso "Edición: HyperFrames $HYPERFRAMES_VERSION (vídeo hecho con HTML y GSAP)"
   if [ ! -x "$H/hyperframes/node_modules/.bin/hyperframes" ]; then
@@ -244,6 +266,7 @@ comprobar() {
   estado "MusicGen estéreo small (música)" "test -s '$H/extra/musicgen-stereo-small/model.safetensors'"
   estado "onnx en Piper (tiempo de cada palabra)" "'$H/piper/bin/python' -c 'import onnx'"
   estado "stable-diffusion.cpp (opcional)" "test -x '$H/sdcpp/build/bin/sd-cli'"
+  estado "ACE-Step 1.5 (música para uso comercial, opcional)" "test -x '$H/acestep.cpp/build/ace-synth' && test -s '$H/acestep.cpp/models/acestep-v15-turbo-Q8_0.gguf'"
   estado "Rastreador: DuckDB con httpfs y yt-dlp" "'$H/rastreador/bin/python' -c 'import duckdb, yt_dlp, pytz' && test -s '$H/rastreador/httpfs.duckdb_extension'"
   estado "Chromium de Playwright (vídeo)" "node -e \"require('playwright')\""
   estado "ffmpeg (vídeo)" "command -v ffmpeg"
@@ -257,7 +280,7 @@ comprobar() {
 precargar() {
   local d
   for d in "$H/hf/hub" "$H/extra" "$H/supertonic-3" "$H/voces" "$H/fastsdcpu" "$H/supertonic" "$H/piper" \
-           "$H/hyperframes"; do
+           "$H/hyperframes" "$H/acestep.cpp/models"; do
     [ -d "$d" ] || continue
     find "$d" -type f -size +64k -print0 | xargs -0 -r -P 4 -I{} dd if={} of=/dev/null bs=16M status=none
   done
@@ -276,8 +299,9 @@ for c in "${componentes[@]}"; do
     imagen-extra) comprobar_red; [ -x "$H/fastsdcpu/env/bin/python" ] || instalar_imagen; instalar_imagen_extra ;;
     edicion) comprobar_red; instalar_edicion ;;
     sdcpp) comprobar_red; instalar_sdcpp ;;
+    musica) comprobar_red; instalar_musica ;;
     rastreador) instalar_rastreador ;;
-    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, rastreador, imagen-extra, sdcpp, comprobar o precargar)" ;;
+    *) falla "Componente desconocido: $c (usa voz, imagen, edicion, rastreador, imagen-extra, sdcpp, musica, comprobar o precargar)" ;;
   esac
 done
 printf '\nListo en %d min %d s.\n' $((SECONDS / 60)) $((SECONDS % 60))
