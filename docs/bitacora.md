@@ -1938,10 +1938,23 @@ La misma máquina (Xeon a 2,1 GHz con AMX; el disco se conservó): precarga en 6
   pop, rock indie, electrónica tecnológica y pop latino), entregadas a −14 LUFS para que el usuario elija de oído: medidas,
   no escuchadas.
 
+### 3. La versión final del anuncio (14-nov)
+
+- El usuario eligió la música C (electrónica de anuncio tecnológico) y pasó la página del producto y la animación de su
+  marca (4,5 s, sin sonido). La frase del concepto pasa a la escena de la conversación, que es donde se cumple.
+- **El cierre:** una hoja con el estilo de la página de la tienda (sus colores, su tipografía, Poppins, y sus etiquetas),
+  para que quien pulse encuentre lo mismo que acaba de ver. El precio baja contando hasta el de la oferta, con el valor por
+  casco; el botón se pulsa (el dedo sobre la flecha: sobre el texto tapaba la dirección), el carrito marca «1» y una cortina
+  del rojo exacto de la marca enlaza con su animación.
+- **La música** para en seco en el primer tiempo del compás en que entra la marca y deja una cola de reverberación de unos
+  2,5 s (ruido que decae, convolucionado con el último medio segundo).
+- Entregado: 34 s, −13,9 LUFS, −1,1 dBTP, ningún silencio; render en 95 s. Medido y mirado fotograma a fotograma, no
+  escuchado. Si cambian el precio o la oferta, se cambian en el montaje y se renderiza otra vez.
+
 ## Siguiente paso
 
-- **Anuncio de producto** (fuera del repositorio, `salidas/anuncios/`): que el usuario elija la música (A–D) y pase la oferta,
-  el logo y el clip 9 (la llegada al café, que cierra la historia); después, las versiones de 15 y 6 s, tres ganchos y el 4:5.
+- **Anuncio de producto** (fuera del repositorio, `salidas/anuncios/`): la versión final de 34 s está entregada. Siguen las
+  versiones de 15 y 6 s, tres ganchos para probar y el 4:5; y, si el usuario las pasa, las fotos reales del contenido del pack.
 0. **Incidentes:** que el usuario vea «No es un avión» (`salidas/incidentes/cortos/01-valentich/entrega/valentich.mp4`),
    y «El ovni Tic Tac» (`salidas/incidentes/cortos/02-tictac/entrega/tictac.mp4`), elija el nombre
    (`canales/incidentes/CANAL.md`) y los publique; los siguientes, uno con demanda probada (el Mary Celeste: 635.000 en
